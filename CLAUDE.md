@@ -106,7 +106,7 @@ Efter hver lampe skriver du resultatet med `python3 scripts/db.py gem-resultat <
 
 Når alle lamper er gemt, spejler du databasen tilbage. Databasen vinder over det, der står i artefakterne.
 
-1. **Lampelisten:** `python3 scripts/db.py eksport-lamper <fil>`. Læs samlingen `lamper` med `ArtifactData` `action: "list"` for at få versionerne. Skriv derefter hvert dokument fra filen med `batch` og `op: "set"`. Brug `if_version` for dokumenter, der findes i forvejen, og udelad det for nye. Slet intet.
+1. **Lampelisten:** Læs listen igen og synk den (trin 1), så ændringer, familien har lavet under kørslen, først kommer ind i databasen. Derefter `python3 scripts/db.py eksport-lamper <fil>`. Læs samlingen `lamper` med `ArtifactData` `action: "list"` for at få versionerne. Skriv derefter hvert dokument fra filen med `batch` og `op: "set"`. Brug `if_version` for dokumenter, der findes i forvejen, og udelad det for nye. Slet intet.
 2. **Siden:** `python3 scripts/db.py eksport-side <fil>`. Skriv samlingerne `categories`, `targets` og `finds` på samme måde. Læs først samlingerne for versioner. Skriv ikke `feedback`.
 
 Skriv kun de dokumenter, eksporten laver. Ret aldrig i artefakterne i hånden.
