@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS targets_rev (
 CREATE INDEX IF NOT EXISTS idx_targets_rev ON targets_rev(target_id, rev_at);
 CREATE TABLE IF NOT EXISTS ads_rev (
   rev_id INTEGER PRIMARY KEY,
-  find_id TEXT NOT NULL REFERENCES finds(id) ON DELETE CASCADE,      -- fundet
+  find_id TEXT NOT NULL REFERENCES ads(find_id) ON DELETE CASCADE,   -- fundet (den aktuelle række i ads)
   rev_at TEXT NOT NULL,                 -- hvornår hændelsen skete (ændring eller tjek)
   "insert" TEXT,                        -- hvornår den version, rækken viser, blev indsat
   kind TEXT NOT NULL DEFAULT 'tjek' CHECK (kind IN ('ændring', 'tjek')),
@@ -136,9 +136,9 @@ REV_DDL = {
         tilstand TEXT NOT NULL)""",
         "INSERT INTO targets_rev_ny (rev_id, target_id, rev_at, tilstand) SELECT rev_id, target_id, rev_at, tilstand FROM targets_rev",
         "CREATE INDEX IF NOT EXISTS idx_targets_rev ON targets_rev(target_id, rev_at)"),
-    "ads_rev": ("find_id", "finds", """CREATE TABLE ads_rev_ny (
+    "ads_rev": ("find_id", "ads", """CREATE TABLE ads_rev_ny (
         rev_id INTEGER PRIMARY KEY,
-        find_id TEXT NOT NULL REFERENCES finds(id) ON DELETE CASCADE,
+        find_id TEXT NOT NULL REFERENCES ads(find_id) ON DELETE CASCADE,
         rev_at TEXT NOT NULL,
         "insert" TEXT,
         kind TEXT NOT NULL DEFAULT 'tjek' CHECK (kind IN ('ændring', 'tjek')),

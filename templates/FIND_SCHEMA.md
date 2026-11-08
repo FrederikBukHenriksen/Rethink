@@ -41,7 +41,7 @@ Cutoff gælder for én lampe (target) på én platform. Det er tidspunktet for d
 | `targets_rev` | Historik for targets: hver gang en target ændrer sig ved synk, gemmes den gamle tilstand her med tidspunkt. |
 | `ads_rev` | Historik for fund: hver ændring (`kind` = `ændring`) og hvert tjek (`kind` = `tjek`). Prishistorik, første gang set og `lastChecked` læses herfra. |
 
-De to historiktabeller har en fremmednøgle til deres hovedtabel (`targets_rev` til `targets`, `ads_rev` til `finds`). Når hovedrækken slettes, slettes historikken med den.
+De to historiktabeller har en fremmednøgle til deres hovedtabel (`targets_rev` til `targets`, `ads_rev` til `ads`). Når hovedrækken slettes, slettes historikken med den.
 | `user_action_type` | De handlinger, der findes: `favorit` og `skjult`. Skjult gælder både fund og lamper. |
 | `user_actions` | Brugerens handlinger, som den nuværende tilstand: på et fund (favorit, skjult) eller på en lampe (skjult = arkiveret). |
 
