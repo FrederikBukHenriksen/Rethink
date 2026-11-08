@@ -44,7 +44,7 @@ En tom liste er gyldig, men kun hvis læsningen lykkedes. En fejl er ikke en tom
 
 ### 3. Hent søgeplanen
 
-Kør `python3 scripts/db.py soegeplan`. Det er JSON med hver aktiv lampe, dens platforme og cutoff pr. platform. Det er den eneste liste over, hvad der skal søges. Lamper, der ikke står der, søges ikke. Skriv i svaret, hvilke der blev sprunget over, og hvorfor. Det er som regel fordi `aktiv` er falsk eller mangler på listen, eller fordi lampen er arkiveret (handlingen `arkiveret`). En platform uden cutoff-post har cutoff `ingen`.
+Kør `python3 scripts/db.py soegeplan`. Det er JSON med hver aktiv lampe, dens platforme og cutoff pr. platform. Det er den eneste liste over, hvad der skal søges. Lamper, der ikke står der, søges ikke. Skriv i svaret, hvilke der blev sprunget over, og hvorfor. Det er som regel fordi `aktiv` er falsk eller mangler på listen, eller fordi lampen er arkiveret (`skjult` på lampen). En platform uden cutoff-post har cutoff `ingen`.
 
 Spørg aldrig om tidsvinduet. Annoncer, der er publiceret før cutoff, tælles i svaret og gemmes ikke.
 

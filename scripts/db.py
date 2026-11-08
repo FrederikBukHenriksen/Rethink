@@ -45,27 +45,37 @@ def connect():
 
 
 def migrate_user_actions(db):
-    """user_actions kan både pege på et fund (favorit, skjult) og på en target (arkiveret).
-    user_action_type viser, hvilke handlinger der findes, og hvilket niveau de hører til."""
-    db.execute("""CREATE TABLE IF NOT EXISTS user_action_type (
+    """Handlinger på brugerne: 'favorit' og 'skjult' (på et fund eller en lampe).
+    user_action_type viser, hvilke handlinger der findes. Skjul og arkivér er samme handling: 'skjult'."""
+    cols_t = [r[1] for r in db.execute("PRAGMA table_info(user_action_type)")]
+    cols_a = [r[1] for r in db.execute("PRAGMA table_info(user_actions)")]
+    if "beskrivelse" in cols_t and "niveau" not in cols_t and "target_id" in cols_a:
+        return  # allerede på den nye form
+    db.execute("""CREATE TABLE user_action_type_ny (
         name TEXT PRIMARY KEY,
-        niveau TEXT NOT NULL CHECK (niveau IN ('find', 'lampe')))""")
-    db.executemany("INSERT OR IGNORE INTO user_action_type (name, niveau) VALUES (?, ?)",
-                   [("favorit", "find"), ("skjult", "find"), ("arkiveret", "lampe")])
-    if "target_id" in [r[1] for r in db.execute("PRAGMA table_info(user_actions)")]:
-        return
+        beskrivelse TEXT NOT NULL)""")
+    db.executemany("INSERT INTO user_action_type_ny (name, beskrivelse) VALUES (?, ?)",
+                   [("favorit", "Godt fund, på et fund"),
+                    ("skjult", "Skjult: ikke interessant, på et fund, eller arkiveret, på en lampe")])
     db.execute("""CREATE TABLE user_actions_ny (
         id INTEGER PRIMARY KEY,
         find_id TEXT REFERENCES finds(id) ON DELETE CASCADE,
         target_id TEXT REFERENCES targets(id) ON DELETE CASCADE,
-        action TEXT NOT NULL REFERENCES user_action_type(name),
+        action TEXT NOT NULL REFERENCES user_action_type_ny(name),
         at DATETIME NOT NULL CHECK (datetime(at) IS NOT NULL),
         CHECK ((find_id IS NULL) <> (target_id IS NULL)))""")
-    db.execute("INSERT INTO user_actions_ny (find_id, action, at) SELECT find_id, action, at FROM user_actions")
+    if "target_id" in cols_a:
+        db.execute("""INSERT INTO user_actions_ny (id, find_id, target_id, action, at)
+                      SELECT id, find_id, target_id, CASE action WHEN 'arkiveret' THEN 'skjult' ELSE action END, at
+                      FROM user_actions""")
+    else:
+        db.execute("INSERT INTO user_actions_ny (find_id, action, at) SELECT find_id, action, at FROM user_actions")
     db.execute("DROP TABLE user_actions")
+    db.execute("DROP TABLE IF EXISTS user_action_type")
+    db.execute("ALTER TABLE user_action_type_ny RENAME TO user_action_type")
     db.execute("ALTER TABLE user_actions_ny RENAME TO user_actions")
-    db.execute("CREATE UNIQUE INDEX ux_user_actions_find ON user_actions(find_id, action) WHERE find_id IS NOT NULL")
-    db.execute("CREATE UNIQUE INDEX ux_user_actions_target ON user_actions(target_id, action) WHERE target_id IS NOT NULL")
+    db.execute("CREATE UNIQUE INDEX IF NOT EXISTS ux_user_actions_find ON user_actions(find_id, action) WHERE find_id IS NOT NULL")
+    db.execute("CREATE UNIQUE INDEX IF NOT EXISTS ux_user_actions_target ON user_actions(target_id, action) WHERE target_id IS NOT NULL")
 
 
 def init(db):
@@ -105,10 +115,10 @@ def sync_lampe(db, path):
         arkiveret = data.get("archived") is True
         aktiv = 1 if data.get("aktiv") is True and not arkiveret else 0
         if arkiveret:
-            db.execute("INSERT OR IGNORE INTO user_actions (target_id, action, at) VALUES (?, 'arkiveret', ?)",
+            db.execute("INSERT OR IGNORE INTO user_actions (target_id, action, at) VALUES (?, 'skjult', ?)",
                        (tid, now()))
         else:
-            db.execute("DELETE FROM user_actions WHERE target_id = ? AND action = 'arkiveret'", (tid,))
+            db.execute("DELETE FROM user_actions WHERE target_id = ? AND action = 'skjult'", (tid,))
         maks = data.get("maksPris")
         maks = int(maks) if isinstance(maks, (int, float)) and not isinstance(maks, bool) else None
         db.execute("""
@@ -332,7 +342,7 @@ def eksport_lamper(db, path):
     docs = []
     for tid, list_id, order, model, designer, producer, maks, aktiv, billede, arkiveret in db.execute(
             """SELECT id, list_id, sort_order, model, designer, producer, max_price, aktiv, image_url,
-                      EXISTS (SELECT 1 FROM user_actions u WHERE u.target_id = targets.id AND u.action = 'arkiveret')
+                      EXISTS (SELECT 1 FROM user_actions u WHERE u.target_id = targets.id AND u.action = 'skjult')
                FROM targets ORDER BY sort_order"""):
         types = [r[0].lower() for r in db.execute("SELECT type FROM target_types WHERE target_id = ? ORDER BY type", (tid,))]
         def cols(kind):
