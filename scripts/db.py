@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
-"""Databasen database.db: skema og synkronisering.
+"""database.db: skriver til den datamodel, der står i templates/FIND_SCHEMA.md.
 
 Kommandoer:
-  python3 scripts/db.py init                    opret tabeller, hvis de mangler
-  python3 scripts/db.py sync-lampe FIL          læs lampelisten (JSON fra ArtifactData) ind i tabellen lampe
+  python3 scripts/db.py init                    tjek at tabellerne findes
+  python3 scripts/db.py sync-lampe FIL          læs lampelisten (JSON fra ArtifactData) ind i targets
   python3 scripts/db.py import-feedback FIL     læs brugerens vurderinger fra siden (JSON) ind i user_actions
-  python3 scripts/db.py gem-resultat FIL        gem resultatet af søgningen på én lampe (JSON, se templates/FIND_SCHEMA.md)
-  python3 scripts/db.py slet-fund FUND_ID       slet ét fund med alt, der hører til det (fx dba-26284641)
-  python3 scripts/db.py ny-koersel KATEGORI     start en kørsel; udskriver kørslens id
+  python3 scripts/db.py gem-resultat FIL        gem fund, versioner og gennemførte søgninger (JSON)
   python3 scripts/db.py cutoff LAMPE PLATFORM   cutoff for en lampe på en platform; 'ingen' hvis ingen
-  python3 scripts/db.py status                  vis antal rækker
+  python3 scripts/db.py slet-fund FUND_ID       slet ét fund; annonceversioner og brugerhandlinger slettes med
+  python3 scripts/db.py status                  antal rækker pr. tabel
 
 FIL er en JSON-liste med objekter som {"id": "...", "data": {...}}, som ArtifactData returnerer dem.
-Alle skrivninger sker i én transaktion: fejler noget, skrives intet.
+Alle kommandoer kører i én transaktion. Fejler noget, skrives intet.
 """
 import json
 import os
@@ -25,59 +24,11 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB = os.path.join(ROOT, "database.db")
 TZ = ZoneInfo("Europe/Copenhagen")
 
-SCHEMA = """
-CREATE TABLE IF NOT EXISTS lampe (
-  id TEXT PRIMARY KEY,                  -- id fra lampelisten, fx 'l01'
-  listen_order INTEGER,                 -- 'order' på listen
-  model TEXT, type TEXT, designer TEXT, producent TEXT,
-  soegeord TEXT, fravalgte_soegeord TEXT,
-  tilladte_farver TEXT, fravalgte_farver TEXT,
-  maks_pris INTEGER,                    -- NULL = ingen grænse
-  billede TEXT,
-  sites TEXT,                           -- platforme, adskilt med '; '
-  aktiv INTEGER NOT NULL DEFAULT 0 CHECK (aktiv IN (0,1)),
-  archived INTEGER NOT NULL DEFAULT 0 CHECK (archived IN (0,1)),
-  i_listen INTEGER NOT NULL DEFAULT 1 CHECK (i_listen IN (0,1)),  -- 0 = findes ikke længere på listen
-  listen_opdateret TEXT,                -- 'updatedAt' fra listen
-  synket TEXT NOT NULL                  -- hvornår rækken sidst blev læst fra listen
-);
-
-CREATE TABLE IF NOT EXISTS user_actions (
-  id INTEGER PRIMARY KEY,
-  feedback_id TEXT NOT NULL,            -- fundets id på siden, fx 'dba-26284641'
-  annonce_id INTEGER REFERENCES annonce(id),   -- NULL, hvis annoncen ikke findes i databasen
-  handling TEXT NOT NULL CHECK (handling IN ('godt','nej','koebt','fjernet')),
-  aarsager TEXT,                        -- årsager, adskilt med '; '
-  tidspunkt TEXT,                       -- hvornår brugeren gjorde det (ISO-tid)
-  snapshot TEXT,                        -- JSON-kopi af fundet på vurderingstidspunktet
-  importeret TEXT NOT NULL              -- hvornår det blev læst ind i databasen
-);
-CREATE INDEX IF NOT EXISTS idx_user_actions_feedback ON user_actions(feedback_id, id);
-
-CREATE TABLE IF NOT EXISTS koersel (
-  id INTEGER PRIMARY KEY,
-  tidspunkt TEXT NOT NULL,              -- hvornår kørslen startede
-  kategori_id INTEGER REFERENCES produkt_kategori(id)
-);
-
--- Én række pr. lampe og platform i en kørsel. Cutoff gælder kun for den lampe og den platform.
-CREATE TABLE IF NOT EXISTS soegning (
-  id INTEGER PRIMARY KEY,
-  koersel_id INTEGER REFERENCES koersel(id),
-  lampe_id TEXT REFERENCES lampe(id),           -- NULL ved ad hoc-søgninger
-  platform_id INTEGER REFERENCES platform(id),  -- NULL, hvis lampen blev sprunget over uden platform
-  tidspunkt TEXT NOT NULL,                      -- hvornår denne søgning startede
-  cutoff TEXT,                                  -- kun annoncer publiceret efter denne tid; NULL = ingen grænse
-  status TEXT NOT NULL CHECK (status IN ('gennemfoert','fejlet','sprunget_over')),
-  daekning TEXT                                 -- hvad der blev søgt, gennemgået og ikke gjort
-);
-CREATE INDEX IF NOT EXISTS idx_soegning_lampe_platform ON soegning(lampe_id, platform_id, status, tidspunkt);
-
-CREATE TABLE IF NOT EXISTS slettede_fund (
-  fund_id TEXT PRIMARY KEY,             -- fundets id, fx 'dba-26284641'
-  slettet TEXT NOT NULL                 -- hvornår det blev slettet
-);
-"""
+REQUIRED = ("platforms", "lamp_types", "color_type", "targets", "target_types", "target_colors",
+            "target_terms", "target_platforms", "runs", "finds", "ads", "user_actions")
+TARGET_PREFIX = "lamper-"          # listens id 'l07' bliver target 'lamper-l07'
+FEEDBACK_MAP = {"godt": "favorit", "nej": "skjult"}   # 'koebt' findes ikke i modellen og springes over
+AD_FIELDS = ("title", "type", "description", "note", "city", "direct", "price", "available", "color")
 
 
 def now():
@@ -91,295 +42,242 @@ def connect():
 
 
 def init(db):
-    db.executescript(SCHEMA)
-    cols = [r[1] for r in db.execute("PRAGMA table_info(produkt)")]
-    if "lampe_id" not in cols:
-        db.execute("ALTER TABLE produkt ADD COLUMN lampe_id TEXT REFERENCES lampe(id)")
-    db.execute("INSERT OR IGNORE INTO platform (navn, base_url, note) VALUES "
-               "('Facebook', 'https://www.facebook.com/marketplace', 'Ingen platformsfil endnu')")
-    # Den gamle koersel-tabel havde cutoff, platforme og dækning på kørslen. Det ligger nu i soegning.
-    kol = [r[1] for r in db.execute("PRAGMA table_info(koersel)")]
-    if "daekning" in kol:
-        db.execute("""INSERT INTO soegning (koersel_id, lampe_id, platform_id, tidspunkt, cutoff, status, daekning)
-                      SELECT k.id, NULL, (SELECT id FROM platform WHERE navn = k.platforme), k.tidspunkt, NULL,
-                             'gennemfoert', k.daekning
-                      FROM koersel k WHERE k.daekning IS NOT NULL""")
-    for col in ("cutoff", "platforme", "daekning"):
-        if col in kol:
-            db.execute(f"ALTER TABLE koersel DROP COLUMN {col}")
+    have = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type = 'table'")}
+    missing = [t for t in REQUIRED if t not in have]
+    if missing:
+        raise ValueError(f"databasen mangler tabeller: {', '.join(missing)}")
+    db.execute("INSERT OR IGNORE INTO platforms (name) VALUES ('Facebook')")
 
 
-def link_produkt_to_lampe(db):
-    """Kobl fundne lamper til listen via modelnavn, hvor der ikke allerede er en kobling."""
-    db.execute("""
-        UPDATE produkt SET lampe_id = (
-            SELECT l.id FROM lampe l
-            WHERE lower(l.model) = lower(produkt.model) AND l.i_listen = 1
-            LIMIT 1)
-        WHERE lampe_id IS NULL AND model IS NOT NULL AND model <> ''""")
+def split(value):
+    """Tekst med '; ' eller en liste. Tomt giver en tom liste."""
+    if isinstance(value, list):
+        return [str(x).strip() for x in value if str(x).strip()]
+    return [x.strip() for x in str(value or "").split(";") if x.strip()]
+
+
+def lookup(db, table, col, value, label):
+    """Find den kanoniske skrivemåde (uden hensyn til store/små bogstaver). Ukendt = fejl."""
+    row = db.execute(f"SELECT {col} FROM {table} WHERE lower({col}) = lower(?)", (value,)).fetchone()
+    if row is None:
+        raise ValueError(f"ukendt {label}: {value}")
+    return row[0]
 
 
 def sync_lampe(db, path):
     with open(path, encoding="utf-8") as f:
         docs = json.load(f)
-    ts = now()
     ids = []
     for d in docs:
         data = d.get("data") or {}
-        sites = data.get("sites") or []
-        if isinstance(sites, str):
-            sites = [s.strip() for s in sites.split(";") if s.strip()]
+        if not any(data.get(k) for k in ("model", "designer", "producent")):
+            print(f"springer tom række over: {d['id']}")
+            continue
+        tid = TARGET_PREFIX + d["id"]
+        aktiv = 1 if data.get("aktiv") is True and data.get("archived") is not True else 0
         maks = data.get("maksPris")
-        values = (
-            d["id"], data.get("order"), data.get("model") or "", data.get("type") or "",
-            data.get("designer") or "", data.get("producent") or "",
-            data.get("soegeord") or "", data.get("fravalgteSoegeord") or "",
-            data.get("tilladteFarver") or "", data.get("fravalgteFarver") or "",
-            maks if isinstance(maks, (int, float)) and not isinstance(maks, bool) else None,
-            data.get("billede") or "", "; ".join(sites),
-            1 if data.get("aktiv") is True else 0,
-            1 if data.get("archived") is True else 0,
-            1, data.get("updatedAt"), ts,
-        )
+        maks = int(maks) if isinstance(maks, (int, float)) and not isinstance(maks, bool) else None
         db.execute("""
-            INSERT INTO lampe (id, listen_order, model, type, designer, producent, soegeord,
-                               fravalgte_soegeord, tilladte_farver, fravalgte_farver, maks_pris,
-                               billede, sites, aktiv, archived, i_listen, listen_opdateret, synket)
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-            ON CONFLICT(id) DO UPDATE SET
-              listen_order=excluded.listen_order, model=excluded.model, type=excluded.type,
-              designer=excluded.designer, producent=excluded.producent, soegeord=excluded.soegeord,
-              fravalgte_soegeord=excluded.fravalgte_soegeord, tilladte_farver=excluded.tilladte_farver,
-              fravalgte_farver=excluded.fravalgte_farver, maks_pris=excluded.maks_pris,
-              billede=excluded.billede, sites=excluded.sites, aktiv=excluded.aktiv,
-              archived=excluded.archived, i_listen=1, listen_opdateret=excluded.listen_opdateret,
-              synket=excluded.synket""", values)
-        ids.append(d["id"])
-    # Rækker, der ikke længere er på listen, slettes ikke. De markeres.
-    db.execute("UPDATE lampe SET i_listen = 0 WHERE i_listen = 1 AND id NOT IN (SELECT value FROM json_each(?))",
-               (json.dumps(ids),))
-    link_produkt_to_lampe(db)
-    print(f"lampe: {len(ids)} rækker synket fra listen")
-
-
-def find_annonce(db, feedback_id):
-    row = db.execute("""
-        SELECT a.id FROM annonce a JOIN platform p ON p.id = a.platform_id
-        WHERE lower(p.navn) || '-' || a.ekstern_id = ?""", (feedback_id,)).fetchone()
-    return row[0] if row else None
+            INSERT INTO targets (id, list_id, sort_order, model, designer, producer, max_price, aktiv, image_url)
+            VALUES (?,?,?,?,?,?,?,?,?)
+            ON CONFLICT(id) DO UPDATE SET list_id = excluded.list_id, sort_order = excluded.sort_order,
+              model = excluded.model, designer = excluded.designer, producer = excluded.producer,
+              max_price = excluded.max_price, aktiv = excluded.aktiv, image_url = excluded.image_url""",
+                   (tid, d["id"], data.get("order") or 0, data.get("model") or None,
+                    data.get("designer") or None, data.get("producent") or None, maks, aktiv,
+                    data.get("billede") or None))
+        ids.append(tid)
+        # Underrækkerne erstattes helt med listens værdier.
+        for t in ("target_types", "target_colors", "target_terms", "target_platforms"):
+            db.execute(f"DELETE FROM {t} WHERE target_id = ?", (tid,))
+        for typ in split(data.get("type")):
+            db.execute("INSERT INTO target_types (target_id, type) VALUES (?, ?)",
+                       (tid, lookup(db, "lamp_types", "name", typ, "lampetype")))
+        for kind, key in (("tilladt", "tilladteFarver"), ("fravalg", "fravalgteFarver")):
+            for c in split(data.get(key)):
+                db.execute("INSERT INTO target_colors (target_id, color, kind) VALUES (?,?,?)",
+                           (tid, lookup(db, "color_type", "name", c, "farve"), kind))
+        for kind, key in (("tilvalg", "soegeord"), ("fravalg", "fravalgteSoegeord")):
+            for term in split(data.get(key)):
+                db.execute("INSERT OR IGNORE INTO target_terms (target_id, term, kind) VALUES (?,?,?)",
+                           (tid, term, kind))
+        for p in split(data.get("sites")):
+            db.execute("INSERT INTO target_platforms (target_id, platform) VALUES (?, ?)",
+                       (tid, lookup(db, "platforms", "name", p, "platform")))
+    # Targets, der ikke længere står på listen, bliver inaktive. Ingen slettes.
+    db.execute("UPDATE targets SET aktiv = 0 WHERE id LIKE ? AND id NOT IN (SELECT value FROM json_each(?))",
+               (TARGET_PREFIX + "%", json.dumps(ids)))
+    print(f"targets: {len(ids)} rækker synket fra listen")
 
 
 def import_feedback(db, path):
     with open(path, encoding="utf-8") as f:
         docs = json.load(f)
     ts = now()
-    slettede = {r[0] for r in db.execute("SELECT fund_id FROM slettede_fund")}
-    current = {d["id"]: d.get("data") or {} for d in docs if d["id"] not in slettede}
-    last = {r[0]: (r[1], r[2], r[3]) for r in db.execute("""
-        SELECT feedback_id, handling, aarsager, tidspunkt FROM user_actions u
-        WHERE id = (SELECT MAX(id) FROM user_actions WHERE feedback_id = u.feedback_id)""")}
-    new = 0
-    for fid, data in current.items():
-        verdict = data.get("verdict")
-        if verdict not in ("godt", "nej", "koebt"):
+    n_sat = n_ikke = 0
+    for d in docs:
+        data = d.get("data") or {}
+        fid = data.get("findId") or d["id"]
+        action = FEEDBACK_MAP.get(data.get("verdict"))
+        if not db.execute("SELECT 1 FROM finds WHERE id = ?", (fid,)).fetchone():
+            print(f"springer over, fundet findes ikke: {fid}")
             continue
-        aarsager = "; ".join(data.get("reasons") or [])
-        at = data.get("at")
-        if last.get(fid) == (verdict, aarsager, at):
+        if action is None:
+            print(f"springer over, ingen tilsvarende handling: {fid} ({data.get('verdict')})")
+            n_ikke += 1
             continue
-        snap = json.dumps(data.get("snapshot"), ensure_ascii=False) if data.get("snapshot") else None
-        db.execute("""INSERT INTO user_actions (feedback_id, annonce_id, handling, aarsager, tidspunkt, snapshot, importeret)
-                      VALUES (?,?,?,?,?,?,?)""", (fid, find_annonce(db, fid), verdict, aarsager, at, snap, ts))
-        new += 1
-    # En vurdering, der er fjernet på siden, skrives som 'fjernet'. Historikken bliver liggende.
-    for fid, (handling, _, _) in last.items():
-        if fid not in current and handling != "fjernet":
-            db.execute("""INSERT INTO user_actions (feedback_id, annonce_id, handling, tidspunkt, importeret)
-                          VALUES (?,?,?,?,?)""", (fid, find_annonce(db, fid), "fjernet", ts, ts))
-            new += 1
-    print(f"user_actions: {new} nye hændelser")
+        other = "skjult" if action == "favorit" else "favorit"
+        db.execute("DELETE FROM user_actions WHERE find_id = ? AND action = ?", (fid, other))
+        db.execute("""INSERT INTO user_actions (find_id, action, at) VALUES (?,?,?)
+                      ON CONFLICT(find_id, action) DO UPDATE SET at = excluded.at""",
+                   (fid, action, data.get("at") or ts))
+        n_sat += 1
+    print(f"user_actions: {n_sat} sat, {n_ikke} ikke mappet")
 
 
-CONTENT_FIELDS = ("titel", "beskrivelse", "pris", "pris_note", "by", "kan_koebes_direkte", "tilgaengelig",
-                  "listet_tid", "dato_type", "dato_omtrentlig", "tjek", "side_tekst")
+def latest_ad(db, fid):
+    row = db.execute(f"""SELECT {", ".join(AD_FIELDS)} FROM ads WHERE find_id = ?
+                         ORDER BY seen_at DESC LIMIT 1""", (fid,)).fetchone()
+    return dict(zip(AD_FIELDS, row)) if row else None
 
 
-def latest_content(db, annonce_id):
-    cur = db.execute(f"""SELECT id, {", ".join(CONTENT_FIELDS)} FROM annonce_content
-                         WHERE annonce_id = ? ORDER BY observeret DESC, id DESC LIMIT 1""", (annonce_id,))
-    row = cur.fetchone()
-    if row is None:
-        return None, None
-    return row[0], dict(zip(CONTENT_FIELDS, row[1:]))
-
-
-def write_content(db, annonce_id, values, ts):
-    """Ny version kun, når indholdet ændrer sig. Ellers opdateres sidst_set på den seneste version."""
-    latest_id, latest = latest_content(db, annonce_id)
-    if latest is not None and all(latest[k] == values.get(k) for k in CONTENT_FIELDS):
-        db.execute("UPDATE annonce_content SET sidst_set = ? WHERE id = ?", (ts, latest_id))
+def write_ad(db, fid, values, ts):
+    """Ny version kun, når indholdet ændrer sig."""
+    latest = latest_ad(db, fid)
+    if latest is not None and all(latest[k] == values.get(k) for k in AD_FIELDS):
         return False
-    cols = ", ".join(CONTENT_FIELDS)
-    marks = ", ".join("?" for _ in CONTENT_FIELDS)
-    db.execute(f"""INSERT INTO annonce_content (annonce_id, observeret, sidst_set, {cols})
-                   VALUES (?, ?, ?, {marks})""",
-               (annonce_id, ts, ts, *[values.get(k) for k in CONTENT_FIELDS]))
+    cols = ", ".join(AD_FIELDS)
+    marks = ", ".join("?" for _ in AD_FIELDS)
+    db.execute(f"INSERT INTO ads (find_id, seen_at, {cols}) VALUES (?, ?, {marks})",
+               (fid, ts, *[values.get(k) for k in AD_FIELDS]))
     return True
 
 
-def annonce_id_for(db, platform, ekstern_id):
-    row = db.execute("""SELECT a.id FROM annonce a JOIN platform p ON p.id = a.platform_id
-                        WHERE p.navn = ? AND a.ekstern_id = ?""", (platform, ekstern_id)).fetchone()
-    return row[0] if row else None
+def ad_values(db, f, partial):
+    """Oversæt en fund-post fra søgeagenten til felterne i ads. Ved en ny annonce skal de nødvendige felter være der."""
+    m = {}
+    if "navn" in f or "titel" in f:
+        m["title"] = f.get("titel") or f.get("navn")
+    if "lampetype" in f:
+        m["type"] = f["lampetype"]
+    if "beskrivelse" in f:
+        m["description"] = f["beskrivelse"]
+    if "note" in f:
+        m["note"] = f["note"]
+    if "by" in f:
+        m["city"] = f["by"]
+    if "kan_koebes_direkte" in f:
+        m["direct"] = f["kan_koebes_direkte"]
+    if "pris" in f:
+        m["price"] = int(f["pris"])
+    if "tilgaengelig" in f:
+        m["available"] = f["tilgaengelig"]
+    if "farver" in f:
+        first = split(f["farver"])[:1]
+        row = db.execute("SELECT name FROM color_type WHERE lower(name) = lower(?)", (first[0],)).fetchone() if first else None
+        m["color"] = row[0] if row else None
+    if not partial:
+        for k in ("title", "type", "direct", "price", "available"):
+            if m.get(k) in (None, ""):
+                raise ValueError(f"nyt fund {f.get('platform')}-{f.get('ekstern_id')} mangler {k}")
+        m.setdefault("description", None)
+        m.setdefault("note", None)
+        m.setdefault("city", None)
+        m.setdefault("color", None)
+        # Status og annoncedato har ingen egen kolonne i modellen. De står i note.
+        extra = [f"Status: {f['status']}" if f.get("status") else None,
+                 f"Farver: {f['farver']}" if f.get("farver") else None,
+                 f"Annonceret: {f['listet_tid']}" if f.get("listet_tid") else None,
+                 f.get("note")]
+        m["note"] = " · ".join(x for x in extra if x) or None
+    return m
 
 
 def gem_resultat(db, path):
-    """Gem resultatet af søgningen på én lampe. Fil: se templates/FIND_SCHEMA.md."""
     with open(path, encoding="utf-8") as f:
         data = json.load(f)
     ts = now()
-    slug = data.get("kategori", "lamper")
-    row = db.execute("SELECT id FROM produkt_kategori WHERE slug = ?", (slug,)).fetchone()
-    if row is None:
-        raise ValueError(f"ukendt kategori: {slug}")
-    kat = row[0]
-    lampe_id = data.get("lampe_id")
-    if lampe_id and not db.execute("SELECT 1 FROM lampe WHERE id = ?", (lampe_id,)).fetchone():
-        raise ValueError(f"ukendt lampe_id: {lampe_id}")
-    nye = versioner = sprunget = 0
-    slettede = {r[0] for r in db.execute("SELECT fund_id FROM slettede_fund")}
+    lampe = data.get("lampe_id")
+    tid = TARGET_PREFIX + lampe if lampe else None
+    if tid and not db.execute("SELECT 1 FROM targets WHERE id = ?", (tid,)).fetchone():
+        raise ValueError(f"ukendt lampe_id: {lampe}")
+    nye = versioner = 0
     for f in data.get("fund", []):
-        plat = db.execute("SELECT id FROM platform WHERE navn = ?", (f["platform"],)).fetchone()
-        if plat is None:
-            raise ValueError(f"ukendt platform: {f['platform']}")
-        if f"{f['platform'].lower()}-{f['ekstern_id']}" in slettede:
-            sprunget += 1
-            continue
-        aid = annonce_id_for(db, f["platform"], f["ekstern_id"])
-        if aid is None:
-            cur = db.execute("""INSERT INTO produkt (kategori_id, navn, model, designer, producent, farver,
-                                                     status, note, lampe_id)
-                                VALUES (?,?,?,?,?,?,?,?,?)""",
-                             (kat, f["navn"], f.get("model"), f.get("designer"), f.get("producent"),
-                              f.get("farver"), f["status"], f.get("note"), lampe_id))
-            pid = cur.lastrowid
-            db.execute("INSERT INTO produkt_lampe (produkt_id, lampetype) VALUES (?, ?)", (pid, f["lampetype"]))
-            cur = db.execute("INSERT INTO annonce (produkt_id, platform_id, ekstern_id, link) VALUES (?,?,?,?)",
-                             (pid, plat[0], f["ekstern_id"], f["link"]))
-            write_content(db, cur.lastrowid, f, ts)
+        plat = lookup(db, "platforms", "name", f["platform"], "platform")
+        fid = f"{plat.lower()}-{f['ekstern_id']}"
+        exists = db.execute("SELECT 1 FROM finds WHERE id = ?", (fid,)).fetchone()
+        if exists is None:
+            if tid is None:
+                raise ValueError(f"nyt fund {fid} kræver lampe_id")
+            if not f.get("link"):
+                raise ValueError(f"nyt fund {fid} mangler link")
+            db.execute("INSERT INTO finds (id, plat, target_id, link) VALUES (?,?,?,?)",
+                       (fid, plat, tid, f["link"]))
+            write_ad(db, fid, ad_values(db, f, partial=False), ts)
             nye += 1
         else:
-            # Kendt annonce: felter, der ikke er med i filen, beholdes fra den seneste version.
-            _, latest = latest_content(db, aid)
-            values = dict(latest or {}, **{k: f[k] for k in CONTENT_FIELDS if k in f})
-            if write_content(db, aid, values, ts):
+            latest = latest_ad(db, fid) or {}
+            values = dict(latest, **ad_values(db, f, partial=True))
+            if write_ad(db, fid, values, ts):
                 versioner += 1
     for r in data.get("fjernet", []):
-        aid = annonce_id_for(db, r["platform"], r["ekstern_id"])
-        if aid is None:
+        plat = lookup(db, "platforms", "name", r["platform"], "platform")
+        fid = f"{plat.lower()}-{r['ekstern_id']}"
+        latest = latest_ad(db, fid)
+        if latest and latest["available"] != "nej":
+            if write_ad(db, fid, dict(latest, available="nej"), ts):
+                versioner += 1
+    runs = 0
+    for s in data.get("soegninger", []):
+        if s.get("status") != "gennemfoert":
+            print(f"ikke gemt som kørt ({s.get('status')}): {s.get('platform')} {s.get('daekning', '')}")
             continue
-        _, latest = latest_content(db, aid)
-        if latest is None or latest["tilgaengelig"] == "nej":
+        if tid is None or not s.get("platform"):
+            print("springer søgning over: kræver lampe_id og platform")
             continue
-        values = dict(latest, tilgaengelig="nej")
-        if write_content(db, aid, values, ts):
-            versioner += 1
-    soegninger = data.get("soegninger", [])
-    if soegninger and data.get("koersel_id") is None:
-        raise ValueError("koersel_id mangler")
-    for s in soegninger:
-        status = s["status"]
-        if status not in ("gennemfoert", "fejlet", "sprunget_over"):
-            raise ValueError(f"ukendt status: {status}")
-        plat_id = None
-        if s.get("platform"):
-            row = db.execute("SELECT id FROM platform WHERE navn = ?", (s["platform"],)).fetchone()
-            if row is None:
-                raise ValueError(f"ukendt platform: {s['platform']}")
-            plat_id = row[0]
-        # Cutoff er starttidspunktet for den seneste gennemførte søgning på netop denne lampe og platform.
-        cut = None
-        if status == "gennemfoert" and lampe_id and plat_id:
-            cut = last_search_start(db, lampe_id, plat_id)
-        db.execute("""INSERT INTO soegning (koersel_id, lampe_id, platform_id, tidspunkt, cutoff, status, daekning)
-                      VALUES (?,?,?,?,?,?,?)""",
-                   (data["koersel_id"], lampe_id, plat_id, s.get("tidspunkt", ts), cut, status, s.get("daekning")))
-    print(f"gemt: {nye} nye annoncer, {versioner} nye versioner, {sprunget} sprunget over (slettet før), "
-          f"{len(soegninger)} søgninger")
+        plat = lookup(db, "platforms", "name", s["platform"], "platform")
+        db.execute("INSERT OR IGNORE INTO runs (target_id, platform, completed_at) VALUES (?,?,?)",
+                   (tid, plat, s.get("tidspunkt", ts)))
+        runs += 1
+    print(f"gemt: {nye} nye fund, {versioner} nye versioner, {runs} gennemførte søgninger")
 
 
-def last_search_start(db, lampe_id, platform_id):
-    row = db.execute("""SELECT MAX(tidspunkt) FROM soegning
-                        WHERE lampe_id = ? AND platform_id = ? AND status = 'gennemfoert'""",
-                     (lampe_id, platform_id)).fetchone()
-    return row[0]
+def cutoff(db, lampe, platform):
+    """Cutoff er tidspunktet for den seneste gennemførte søgning på netop denne lampe og platform."""
+    plat = lookup(db, "platforms", "name", platform, "platform")
+    row = db.execute("SELECT MAX(completed_at) FROM runs WHERE target_id = ? AND platform = ?",
+                     (TARGET_PREFIX + lampe, plat)).fetchone()
+    print(row[0] or "ingen")
 
 
-def cutoff(db, lampe_id, platform):
-    """Den cutoff, der gælder for en lampe på en platform nu. 'ingen' = ingen grænse."""
-    row = db.execute("SELECT id FROM platform WHERE navn = ?", (platform,)).fetchone()
-    if row is None:
-        raise ValueError(f"ukendt platform: {platform}")
-    print(last_search_start(db, lampe_id, row[0]) or "ingen")
-
-
-def ny_koersel(db, slug):
-    row = db.execute("SELECT id FROM produkt_kategori WHERE slug = ?", (slug,)).fetchone()
-    if row is None:
-        raise ValueError(f"ukendt kategori: {slug}")
-    cur = db.execute("INSERT INTO koersel (tidspunkt, kategori_id) VALUES (?, ?)", (now(), row[0]))
-    print(cur.lastrowid)
-
-
-def slet_fund(db, fund_id):
-    """Slet ét fund og alt, der hører til netop det: annoncen, dens versioner, brugerhandlinger
-    og produktet, hvis intet andet bruger det. Lampelisten, platforme og kørsler røres ikke.
-    Fund-id'et gemmes i slettede_fund, så det ikke bliver gemt igen ved næste søgning eller import."""
-    row = db.execute("""SELECT a.id, a.produkt_id, p.navn FROM annonce a
-                        JOIN platform p ON p.id = a.platform_id
-                        WHERE lower(p.navn) || '-' || a.ekstern_id = ?""", (fund_id,)).fetchone()
-    if row is None:
-        raise ValueError(f"fandt ikke fund: {fund_id}")
-    aid, pid, _ = row
-    ts = now()
-    n_versioner = db.execute("DELETE FROM annonce_content WHERE annonce_id = ?", (aid,)).rowcount
-    n_handlinger = db.execute("DELETE FROM user_actions WHERE annonce_id = ? OR feedback_id = ?",
-                              (aid, fund_id)).rowcount
-    db.execute("DELETE FROM annonce WHERE id = ?", (aid,))
-    n_produkt = 0
-    if not db.execute("SELECT 1 FROM annonce WHERE produkt_id = ?", (pid,)).fetchone():
-        db.execute("DELETE FROM produkt_lampe WHERE produkt_id = ?", (pid,))
-        n_produkt = db.execute("DELETE FROM produkt WHERE id = ?", (pid,)).rowcount
-    db.execute("INSERT OR REPLACE INTO slettede_fund (fund_id, slettet) VALUES (?, ?)", (fund_id, ts))
-    print(f"slettet {fund_id}: 1 annonce, {n_versioner} versioner, {n_handlinger} brugerhandlinger, "
-          f"{n_produkt} produkt")
+def slet_fund(db, fid):
+    if not db.execute("SELECT 1 FROM finds WHERE id = ?", (fid,)).fetchone():
+        raise ValueError(f"fandt ikke fund: {fid}")
+    n_ads = db.execute("SELECT COUNT(*) FROM ads WHERE find_id = ?", (fid,)).fetchone()[0]
+    n_act = db.execute("SELECT COUNT(*) FROM user_actions WHERE find_id = ?", (fid,)).fetchone()[0]
+    db.execute("DELETE FROM finds WHERE id = ?", (fid,))   # ads og user_actions slettes via ON DELETE CASCADE
+    print(f"slettet {fid}: {n_ads} annonceversioner, {n_act} brugerhandlinger")
 
 
 def status(db):
-    for t in ("produkt_kategori", "platform", "lampe", "produkt", "annonce", "annonce_content", "user_actions",
-              "koersel", "soegning", "slettede_fund"):
-        n = db.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0]
-        print(f"{t}: {n}")
+    for t in ("platforms", "lamp_types", "color_type", "targets", "target_types", "target_colors",
+              "target_terms", "target_platforms", "runs", "finds", "ads", "user_actions"):
+        print(f"{t}: {db.execute(f'SELECT COUNT(*) FROM {t}').fetchone()[0]}")
 
 
 def main(argv):
-    commands = ("init", "sync-lampe", "import-feedback", "gem-resultat", "slet-fund", "ny-koersel", "cutoff", "status")
+    commands = {"init": 2, "sync-lampe": 3, "import-feedback": 3, "gem-resultat": 3,
+                "cutoff": 4, "slet-fund": 3, "status": 2}
     if len(argv) < 2 or argv[1] not in commands:
         print(__doc__)
         return 2
     cmd = argv[1]
-    usage = {
-        "sync-lampe": "sync-lampe FIL", "import-feedback": "import-feedback FIL", "gem-resultat": "gem-resultat FIL",
-        "slet-fund": "slet-fund FUND_ID", "ny-koersel": "ny-koersel KATEGORI", "cutoff": "cutoff LAMPE_ID PLATFORM",
-    }
-    expected = {"sync-lampe": 3, "import-feedback": 3, "gem-resultat": 3, "slet-fund": 3,
-                "ny-koersel": 3, "cutoff": 4, "init": 2, "status": 2}
-    if len(argv) != expected[cmd]:
-        print(f"Brug: python3 scripts/db.py {usage.get(cmd, cmd)}")
+    if len(argv) != commands[cmd]:
+        print(f"Forkert brug af {cmd}. Se: python3 scripts/db.py")
         return 2
     db = connect()
     try:
-        with db:  # én transaktion
+        with db:
             init(db)
             if cmd == "sync-lampe":
                 sync_lampe(db, argv[2])
@@ -387,12 +285,10 @@ def main(argv):
                 import_feedback(db, argv[2])
             elif cmd == "gem-resultat":
                 gem_resultat(db, argv[2])
-            elif cmd == "slet-fund":
-                slet_fund(db, argv[2])
-            elif cmd == "ny-koersel":
-                ny_koersel(db, argv[2])
             elif cmd == "cutoff":
                 cutoff(db, argv[2], argv[3])
+            elif cmd == "slet-fund":
+                slet_fund(db, argv[2])
             elif cmd == "status":
                 status(db)
     except (ValueError, sqlite3.Error) as e:
