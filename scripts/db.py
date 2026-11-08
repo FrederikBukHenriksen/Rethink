@@ -80,14 +80,14 @@ def migrate_user_actions(db):
 REV_SCHEMA = """
 CREATE TABLE IF NOT EXISTS targets_rev (
   rev_id INTEGER PRIMARY KEY,
-  target_id TEXT NOT NULL,              -- targetet, som det var FØR ændringen
+  target_id TEXT NOT NULL REFERENCES targets(id) ON DELETE CASCADE,  -- targetet, som det var FØR ændringen
   rev_at TEXT NOT NULL,                 -- hvornår ændringen blev synket ind
   tilstand TEXT NOT NULL                -- JSON: felterne og underrækkerne før ændringen
 );
 CREATE INDEX IF NOT EXISTS idx_targets_rev ON targets_rev(target_id, rev_at);
 CREATE TABLE IF NOT EXISTS ads_rev (
   rev_id INTEGER PRIMARY KEY,
-  find_id TEXT NOT NULL,                -- fundet
+  find_id TEXT NOT NULL REFERENCES finds(id) ON DELETE CASCADE,      -- fundet
   rev_at TEXT NOT NULL,                 -- hvornår hændelsen skete (ændring eller tjek)
   "insert" TEXT,                        -- hvornår den version, rækken viser, blev indsat
   kind TEXT NOT NULL DEFAULT 'tjek' CHECK (kind IN ('ændring', 'tjek')),
@@ -128,6 +128,41 @@ def migrate_ads(db):
     db.execute("ALTER TABLE ads_ny RENAME TO ads")
 
 
+REV_DDL = {
+    "targets_rev": ("target_id", "targets", """CREATE TABLE targets_rev_ny (
+        rev_id INTEGER PRIMARY KEY,
+        target_id TEXT NOT NULL REFERENCES targets(id) ON DELETE CASCADE,
+        rev_at TEXT NOT NULL,
+        tilstand TEXT NOT NULL)""",
+        "INSERT INTO targets_rev_ny (rev_id, target_id, rev_at, tilstand) SELECT rev_id, target_id, rev_at, tilstand FROM targets_rev",
+        "CREATE INDEX IF NOT EXISTS idx_targets_rev ON targets_rev(target_id, rev_at)"),
+    "ads_rev": ("find_id", "finds", """CREATE TABLE ads_rev_ny (
+        rev_id INTEGER PRIMARY KEY,
+        find_id TEXT NOT NULL REFERENCES finds(id) ON DELETE CASCADE,
+        rev_at TEXT NOT NULL,
+        "insert" TEXT,
+        kind TEXT NOT NULL DEFAULT 'tjek' CHECK (kind IN ('ændring', 'tjek')),
+        title TEXT, type TEXT, description TEXT, note TEXT, city TEXT, direct TEXT,
+        price INTEGER, available TEXT, color TEXT)""",
+        """INSERT INTO ads_rev_ny (rev_id, find_id, rev_at, "insert", kind, title, type, description, note, city, direct, price, available, color)
+           SELECT rev_id, find_id, rev_at, "insert", kind, title, type, description, note, city, direct, price, available, color FROM ads_rev""",
+        "CREATE INDEX IF NOT EXISTS idx_ads_rev ON ads_rev(find_id, rev_at)"),
+}
+
+
+def migrate_rev_fk(db):
+    """Historiktabellerne peger på deres hovedtabel med en fremmednøgle. Ældre databaser bygges om."""
+    for tbl, (col, parent, ddl, copy_sql, index_sql) in REV_DDL.items():
+        fks = db.execute(f"PRAGMA foreign_key_list({tbl})").fetchall()
+        if any(fk[2] == parent and fk[3] == col for fk in fks):
+            continue
+        db.execute(ddl)
+        db.execute(copy_sql)
+        db.execute(f"DROP TABLE {tbl}")
+        db.execute(f"ALTER TABLE {tbl}_ny RENAME TO {tbl}")
+        db.execute(index_sql)
+
+
 def init(db):
     db.executescript(REV_SCHEMA)
     for tbl in ("ads", "ads_rev"):
@@ -138,6 +173,7 @@ def init(db):
         db.execute("ALTER TABLE ads_rev ADD COLUMN kind TEXT NOT NULL DEFAULT 'tjek' CHECK (kind IN ('ændring', 'tjek'))")
         db.execute("UPDATE ads_rev SET kind = 'ændring'")
     migrate_ads(db)
+    migrate_rev_fk(db)
     have = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type = 'table'")}
     missing = [t for t in REQUIRED if t not in have]
     if missing:
