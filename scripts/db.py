@@ -44,12 +44,37 @@ def connect():
     return db
 
 
+def migrate_user_actions(db):
+    """user_actions kan både pege på et fund (favorit, skjult) og på en target (arkiveret).
+    user_action_type viser, hvilke handlinger der findes, og hvilket niveau de hører til."""
+    db.execute("""CREATE TABLE IF NOT EXISTS user_action_type (
+        name TEXT PRIMARY KEY,
+        niveau TEXT NOT NULL CHECK (niveau IN ('find', 'lampe')))""")
+    db.executemany("INSERT OR IGNORE INTO user_action_type (name, niveau) VALUES (?, ?)",
+                   [("favorit", "find"), ("skjult", "find"), ("arkiveret", "lampe")])
+    if "target_id" in [r[1] for r in db.execute("PRAGMA table_info(user_actions)")]:
+        return
+    db.execute("""CREATE TABLE user_actions_ny (
+        id INTEGER PRIMARY KEY,
+        find_id TEXT REFERENCES finds(id) ON DELETE CASCADE,
+        target_id TEXT REFERENCES targets(id) ON DELETE CASCADE,
+        action TEXT NOT NULL REFERENCES user_action_type(name),
+        at DATETIME NOT NULL CHECK (datetime(at) IS NOT NULL),
+        CHECK ((find_id IS NULL) <> (target_id IS NULL)))""")
+    db.execute("INSERT INTO user_actions_ny (find_id, action, at) SELECT find_id, action, at FROM user_actions")
+    db.execute("DROP TABLE user_actions")
+    db.execute("ALTER TABLE user_actions_ny RENAME TO user_actions")
+    db.execute("CREATE UNIQUE INDEX ux_user_actions_find ON user_actions(find_id, action) WHERE find_id IS NOT NULL")
+    db.execute("CREATE UNIQUE INDEX ux_user_actions_target ON user_actions(target_id, action) WHERE target_id IS NOT NULL")
+
+
 def init(db):
     have = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type = 'table'")}
     missing = [t for t in REQUIRED if t not in have]
     if missing:
         raise ValueError(f"databasen mangler tabeller: {', '.join(missing)}")
     db.execute("INSERT OR IGNORE INTO platforms (name) VALUES ('Facebook')")
+    migrate_user_actions(db)
 
 
 def split(value):
@@ -77,7 +102,13 @@ def sync_lampe(db, path):
             print(f"springer tom række over: {d['id']}")
             continue
         tid = TARGET_PREFIX + d["id"]
-        aktiv = 1 if data.get("aktiv") is True and data.get("archived") is not True else 0
+        arkiveret = data.get("archived") is True
+        aktiv = 1 if data.get("aktiv") is True and not arkiveret else 0
+        if arkiveret:
+            db.execute("INSERT OR IGNORE INTO user_actions (target_id, action, at) VALUES (?, 'arkiveret', ?)",
+                       (tid, now()))
+        else:
+            db.execute("DELETE FROM user_actions WHERE target_id = ? AND action = 'arkiveret'", (tid,))
         maks = data.get("maksPris")
         maks = int(maks) if isinstance(maks, (int, float)) and not isinstance(maks, bool) else None
         db.execute("""
@@ -130,9 +161,8 @@ def import_feedback(db, path):
             n_ikke += 1
             continue
         other = "skjult" if action == "favorit" else "favorit"
-        db.execute("DELETE FROM user_actions WHERE find_id = ? AND action = ?", (fid, other))
-        db.execute("""INSERT INTO user_actions (find_id, action, at) VALUES (?,?,?)
-                      ON CONFLICT(find_id, action) DO UPDATE SET at = excluded.at""",
+        db.execute("DELETE FROM user_actions WHERE find_id = ? AND action IN (?, ?)", (fid, other, action))
+        db.execute("INSERT INTO user_actions (find_id, action, at) VALUES (?, ?, ?)",
                    (fid, action, data.get("at") or ts))
         n_sat += 1
     print(f"user_actions: {n_sat} sat, {n_ikke} ikke mappet")
@@ -300,8 +330,9 @@ def soegeplan(db):
 def eksport_lamper(db, path):
     """Lamper fra databasen i samme form som listen. Bruges til at opdatere lampelisten fra databasen."""
     docs = []
-    for tid, list_id, order, model, designer, producer, maks, aktiv, billede in db.execute(
-            """SELECT id, list_id, sort_order, model, designer, producer, max_price, aktiv, image_url
+    for tid, list_id, order, model, designer, producer, maks, aktiv, billede, arkiveret in db.execute(
+            """SELECT id, list_id, sort_order, model, designer, producer, max_price, aktiv, image_url,
+                      EXISTS (SELECT 1 FROM user_actions u WHERE u.target_id = targets.id AND u.action = 'arkiveret')
                FROM targets ORDER BY sort_order"""):
         types = [r[0].lower() for r in db.execute("SELECT type FROM target_types WHERE target_id = ? ORDER BY type", (tid,))]
         def cols(kind):
@@ -316,7 +347,7 @@ def eksport_lamper(db, path):
             "producent": producer or "", "soegeord": terms("tilvalg"), "fravalgteSoegeord": terms("fravalg"),
             "tilladteFarver": cols("tilladt"), "fravalgteFarver": cols("fravalg"),
             "maksPris": maks, "billede": billede or "", "sites": sites,
-            "aktiv": bool(aktiv), "archived": False, "order": order}})
+            "aktiv": bool(aktiv), "archived": bool(arkiveret), "order": order}})
     with open(path, "w", encoding="utf-8") as f:
         json.dump(docs, f, ensure_ascii=False, indent=2)
     print(f"lamper: {len(docs)} dokumenter skrevet til {path}")
@@ -379,7 +410,7 @@ def eksport_side(db, path):
 
 def status(db):
     for t in ("platforms", "lamp_types", "color_type", "targets", "target_types", "target_colors",
-              "target_terms", "target_platforms", "runs", "finds", "ads", "user_actions"):
+              "target_terms", "target_platforms", "runs", "finds", "ads", "user_action_type", "user_actions"):
         print(f"{t}: {db.execute(f'SELECT COUNT(*) FROM {t}').fetchone()[0]}")
 
 

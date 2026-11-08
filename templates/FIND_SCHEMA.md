@@ -38,7 +38,8 @@ Cutoff gælder for én lampe (target) på én platform. Det er tidspunktet for d
 | `runs` | En gennemført søgning på en target og en platform, med tidspunktet hvor den blev afsluttet. Bruges til cutoff. |
 | `finds` | Et fund: id, platform, target og link. Id'et er `<platform med småt>-<annonce-id>`. |
 | `ads` | En version af et fund. En ny række, når indholdet ændrer sig. |
-| `user_actions` | Brugerens vurdering af et fund: `favorit` eller `skjult`. |
+| `user_action_type` | De handlinger, der findes: `favorit` og `skjult` (fund), `arkiveret` (lampe). |
+| `user_actions` | En handling brugeren har lavet: på et fund (`favorit`, `skjult`) eller på en lampe (`arkiveret`). |
 
 Et fund har altid én target og én platform. Det fund, der kommer tilbage af en søgning, kobles til den target, der blev søgt for.
 
@@ -46,7 +47,7 @@ Et fund har altid én target og én platform. Det fund, der kommer tilbage af en
 
 Databasen er den eneste sandhed. Lampelisten og siden er spejlinger af den.
 
-- **Lampelisten** (`lamper`) læses ind før hver kørsel med `sync-lampe`. Efter kørslen skrives den fra `eksport-lamper`. Familiens ændringer i listen går dermed først ind i databasen, og derefter tilbage i listen i den form databasen har. `archived` findes ikke i databasen, så den skrives altid som falsk.
+- **Lampelisten** (`lamper`) læses ind før hver kørsel med `sync-lampe`. Efter kørslen skrives den fra `eksport-lamper`. Familiens ændringer i listen går dermed først ind i databasen, og derefter tilbage i listen i den form databasen har. `archived` gemmes som handlingen `arkiveret` i `user_actions`, og eksporten skriver feltet ud fra den.
 - **Siden** skriver `categories`, `targets` og `finds` fra `eksport-side`. `feedback` skrives af siden og læses ind med `import-feedback`. Siden kender ikke `status` og `listedAt` for ældre fund, fordi de ikke står i databasen. Det vises som "Uklar identitet" og "Dato ukendt".
 - Eksporten skriver ikke `runs`, så siden viser ikke søgedækningen. Den står i svaret til brugeren.
 
@@ -57,7 +58,7 @@ Databasen er den eneste sandhed. Lampelisten og siden er spejlinger af den.
 - `list_id`: listens id, fx `l07`. `sort_order`: listens `order`.
 - `model`, `designer`, `producer`: tekst fra listen. `producer` er listens `producent`.
 - `max_price`: heltal i kr., eller tom, hvis der ingen grænse er.
-- `aktiv`: 1 kun, når listen har `aktiv` = sand og `archived` ikke er sand. Targets, der ikke står på listen, bliver 0. De slettes ikke.
+- `aktiv`: 1 kun, når listen har `aktiv` = sand, og targetet ikke har handlingen `arkiveret`. Targets, der ikke står på listen, bliver 0. De slettes ikke.
 - `image_url`: listens `billede`.
 
 **`finds`**
@@ -80,8 +81,10 @@ Databasen er den eneste sandhed. Lampelisten og siden er spejlinger af den.
 
 **`user_actions`**
 
-- `action`: `favorit` (fra brugerens Godt fund) eller `skjult` (fra Ikke interessant). Købt og årsager findes ikke i modellen og springes over.
-- `at`: hvornår brugeren gjorde det.
+- Hver række har enten `find_id` (for `favorit` og `skjult`) eller `target_id` (for `arkiveret`), aldrig begge.
+- `action`: en af `user_action_type`. `favorit` kommer fra brugerens Godt fund, og `skjult` fra Ikke interessant. Købt og årsager findes ikke i modellen og springes over.
+- `arkiveret` sættes, når familien arkiverer en række på listen. Den fjernes igen, hvis de fortryder. Derfor er den synkronisert begge veje via listen.
+- `at`: hvornår handlingen blev lavet.
 
 ## JSON-filer
 
