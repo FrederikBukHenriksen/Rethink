@@ -178,7 +178,6 @@ select option { color: var(--fg); background: var(--surface); }
         <label class="check" for="f-direct"><input id="f-direct" type="checkbox"> Kan købes direkte</label>
         <label class="check" for="f-drop"><input id="f-drop" type="checkbox"> Kun prisfald</label>
         <label class="check" for="f-gone"><input id="f-gone" type="checkbox"> Vis fjernede</label>
-        <label class="check" for="f-hidden"><input id="f-hidden" type="checkbox"> Vis skjulte</label>
       </div>
     </div>
   </section>
@@ -202,7 +201,7 @@ select option { color: var(--fg); background: var(--surface); }
 (function () {
   var $ = function (id) { return document.getElementById(id); };
   var els = {
-    q: $("q"), time: $("f-time"), direct: $("f-direct"), drop: $("f-drop"), gone: $("f-gone"), hidden: $("f-hidden"),
+    q: $("q"), time: $("f-time"), direct: $("f-direct"), drop: $("f-drop"), gone: $("f-gone"),
     max: $("f-max"), sort: $("f-sort"), liste: $("liste"), count: $("count"), reset: $("reset"),
     sub: $("sub"), runs: $("runs"), tabs: $("tabs")
   };
@@ -506,8 +505,6 @@ select option { color: var(--fg); background: var(--surface); }
     var out = state.finds.filter(function (f) {
       var t = targetOf(f);
       if (f.available === "nej" && !els.gone.checked) return false;
-      var fvh = state.feedback[f.id];
-      if (fvh && fvh.action === "skjult" && !els.hidden.checked) return false;
       if (m.model.length && m.model.indexOf(t.model) === -1) return false;
       if (m.designer.length && !anyIn(t.designers, m.designer)) return false;
       if (m.producer.length && !anyIn(t.producers, m.producer)) return false;
@@ -609,7 +606,7 @@ select option { color: var(--fg); background: var(--surface); }
   [els.time, els.sort].forEach(function (e) {
     e.addEventListener("change", function () { syncPlaceholder(e); draw(); });
   });
-  [els.direct, els.drop, els.gone, els.hidden].forEach(function (e) { e.addEventListener("change", draw); });
+  [els.direct, els.drop, els.gone].forEach(function (e) { e.addEventListener("change", draw); });
   function resetFilters() {
     els.q.value = ""; els.max.value = "";
     els.direct.checked = false; els.drop.checked = false; els.gone.checked = false;

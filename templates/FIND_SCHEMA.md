@@ -112,7 +112,7 @@ Samlingen `feedback` på siden. Hvert dokument er et fund med en handling. Et fu
                                   "at": "2026-11-08T17:01:00+01:00"}}]
 ```
 
-`action` er `favorit` (stjernen) eller `skjult` (skraldespanden). Skjulte fund vises ikke på siden, før brugeren vælger "Vis skjulte". Fjernes en handling på siden, mangler dokumentet, og handlingen fjernes også i databasen. En tom liste er gyldig, men kun hvis læsningen lykkedes.
+`action` er `favorit` (stjernen) eller `skjult` (skraldespanden). Skjulte fund vises stadig på siden, og Handling-filteret kan vise dem alene. Fjernes en handling på siden, mangler dokumentet, og handlingen fjernes også i databasen. En tom liste er gyldig, men kun hvis læsningen lykkedes.
 
 ### `gem-resultat`
 
