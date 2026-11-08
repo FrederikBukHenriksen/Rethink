@@ -37,9 +37,9 @@ Cutoff gælder for én lampe (target) på én platform. Det er tidspunktet for d
 | `target_platforms` | De platforme, en target søges på. |
 | `runs` | En gennemført søgning på en target og en platform, med tidspunktet hvor den blev afsluttet. Bruges til cutoff. |
 | `finds` | Et fund: id, platform, target og link. Id'et er `<platform med småt>-<annonce-id>`. |
-| `ads` | En version af et fund. En ny række, når indholdet ændrer sig. |
+| `ads` | Fundets aktuelle tilstand: én række pr. fund. |
 | `targets_rev` | Historik for targets: hver gang en target ændrer sig ved synk, gemmes den gamle tilstand her med tidspunkt. |
-| `ads_rev` | Tjek-log for fund: hvert tjek af et fund, også når intet har ændret sig. Bruges til `lastChecked`. |
+| `ads_rev` | Historik for fund: hver ændring (`kind` = `ændring`) og hvert tjek (`kind` = `tjek`). Prishistorik, første gang set og `lastChecked` læses herfra. |
 | `user_action_type` | De handlinger, der findes: `favorit` og `skjult`. Skjult gælder både fund og lamper. |
 | `user_actions` | Brugerens handlinger, som den nuværende tilstand: på et fund (favorit, skjult) eller på en lampe (skjult = arkiveret). |
 
@@ -67,9 +67,9 @@ Databasen er den eneste sandhed. Lampelisten og siden er spejlinger af den.
 
 - `plat`: platformens navn. `target_id`: den target, fundet blev fundet for. `link`: annoncens link.
 
-**`ads`** (versioner, nøglen er `find_id` + `insert`)
+**`ads`** (aktuel tilstand, nøglen er `find_id`)
 
-- `insert`: hvornår denne version blev indsat, som ISO-tid med offset. Kolonnen hedder `insert`, og i SQL skal den skrives i anførselstegn: `"insert"`.
+- Tidligere versioner ligger i `ads_rev`. Der er ingen tidskolonne i `ads`.
 - `title`, `description`, `city`: tekst fra annoncen. `city` er `by ukendt`, hvis byen ikke står der.
 - `type`: en af lamp_types. `color`: den vigtigste farve, eller tom.
 - `direct`: `Ja`, `Nej` eller `Tjek`.

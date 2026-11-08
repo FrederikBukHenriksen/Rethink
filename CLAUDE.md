@@ -50,7 +50,7 @@ Spørg aldrig om tidsvinduet. Annoncer, der er publiceret før cutoff, tælles i
 
 ### 4. Tjek de eksisterende fund
 
-Hent de fund, der står i databasen med en seneste version, hvor `available` ikke er `nej`. Gruppér dem efter platform. Det kan ske med `sqlite3` eller Python mod `database.db`, og du bruger `finds` og den seneste række i `ads` pr. fund.
+Hent de fund, der står i databasen med en seneste version, hvor `available` ikke er `nej`. Gruppér dem efter platform. Det kan ske med `sqlite3` eller Python mod `database.db`, og du bruger `finds` og `ads` pr. fund. `ads` har én række pr. fund, med den aktuelle tilstand.
 
 For hver platform startes en frisk tilgængelighedsagent. Prompten består af `agents/availability-checker.md`, platformens afsnit fra `agents/platforms.md` og listen over links. Intet andet, især ikke tidligere priser eller datoer.
 

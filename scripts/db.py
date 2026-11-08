@@ -87,14 +87,45 @@ CREATE TABLE IF NOT EXISTS targets_rev (
 CREATE INDEX IF NOT EXISTS idx_targets_rev ON targets_rev(target_id, rev_at);
 CREATE TABLE IF NOT EXISTS ads_rev (
   rev_id INTEGER PRIMARY KEY,
-  find_id TEXT NOT NULL,                -- fundet, som det blev tjekket
-  rev_at TEXT NOT NULL,                 -- hvornår fundet blev tjekket
-  "insert" TEXT,                        -- den version i ads, der var den seneste på tjektidspunktet
+  find_id TEXT NOT NULL,                -- fundet
+  rev_at TEXT NOT NULL,                 -- hvornår hændelsen skete (ændring eller tjek)
+  "insert" TEXT,                        -- hvornår den version, rækken viser, blev indsat
+  kind TEXT NOT NULL DEFAULT 'tjek' CHECK (kind IN ('ændring', 'tjek')),
   title TEXT, type TEXT, description TEXT, note TEXT, city TEXT, direct TEXT,
   price INTEGER, available TEXT, color TEXT
 );
 CREATE INDEX IF NOT EXISTS idx_ads_rev ON ads_rev(find_id, rev_at);
 """
+
+
+ADS_FIELDS = ("title", "type", "description", "note", "city", "direct", "price", "available", "color")
+
+
+def migrate_ads(db):
+    """ads holder den aktuelle tilstand pr. fund. Alle tidligere versioner flyttes til ads_rev,
+    så historikken bevares."""
+    cols = [r[1] for r in db.execute("PRAGMA table_info(ads)")]
+    if "insert" not in cols:
+        return
+    cols_rev = " , ".join(ADS_FIELDS)
+    db.execute(f"""INSERT INTO ads_rev (find_id, rev_at, "insert", kind, {", ".join(ADS_FIELDS)})
+                   SELECT find_id, "insert", "insert", 'ændring', {cols_rev} FROM ads""")
+    db.execute("""CREATE TABLE ads_ny (
+        find_id TEXT PRIMARY KEY NOT NULL REFERENCES finds(id) ON DELETE CASCADE,
+        title TEXT NOT NULL,
+        type TEXT REFERENCES lamp_types(name),
+        description TEXT,
+        note TEXT,
+        city TEXT,
+        direct TEXT NOT NULL,
+        price INTEGER NOT NULL,
+        available TEXT NOT NULL DEFAULT 'ukendt',
+        color TEXT REFERENCES color_type(name))""")
+    db.execute(f"""INSERT INTO ads_ny (find_id, {cols_rev})
+                   SELECT a.find_id, {", ".join("a." + f for f in ADS_FIELDS)} FROM ads a
+                   WHERE a."insert" = (SELECT MAX(b."insert") FROM ads b WHERE b.find_id = a.find_id)""")
+    db.execute("DROP TABLE ads")
+    db.execute("ALTER TABLE ads_ny RENAME TO ads")
 
 
 def init(db):
@@ -103,6 +134,10 @@ def init(db):
         cols = [r[1] for r in db.execute(f"PRAGMA table_info({tbl})")]
         if "seen_at" in cols:
             db.execute(f'ALTER TABLE {tbl} RENAME COLUMN seen_at TO "insert"')
+    if "kind" not in [r[1] for r in db.execute("PRAGMA table_info(ads_rev)")]:
+        db.execute("ALTER TABLE ads_rev ADD COLUMN kind TEXT NOT NULL DEFAULT 'tjek' CHECK (kind IN ('ændring', 'tjek'))")
+        db.execute("UPDATE ads_rev SET kind = 'ændring'")
+    migrate_ads(db)
     have = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type = 'table'")}
     missing = [t for t in REQUIRED if t not in have]
     if missing:
@@ -235,30 +270,38 @@ def import_feedback(db, path):
 
 
 def latest_ad(db, fid):
-    row = db.execute(f"""SELECT {", ".join(AD_FIELDS)} FROM ads WHERE find_id = ?
-                         ORDER BY "insert" DESC LIMIT 1""", (fid,)).fetchone()
+    row = db.execute(f"SELECT {', '.join(AD_FIELDS)} FROM ads WHERE find_id = ?", (fid,)).fetchone()
     return dict(zip(AD_FIELDS, row)) if row else None
 
 
 def log_check(db, fid, ts):
     """Hvert tjek af et fund logges, også når intet har ændret sig. Så kender vi sidst tjekket."""
-    latest = db.execute('SELECT "insert" FROM ads WHERE find_id = ? ORDER BY "insert" DESC LIMIT 1', (fid,)).fetchone()
-    values = latest_ad(db, fid) or {}
+    values = latest_ad(db, fid)
+    if values is None:
+        return
+    since = db.execute("""SELECT "insert" FROM ads_rev WHERE find_id = ? AND kind = 'ændring'
+                          ORDER BY rev_at DESC LIMIT 1""", (fid,)).fetchone()
     cols = ", ".join(AD_FIELDS)
     marks = ", ".join("?" for _ in AD_FIELDS)
-    db.execute(f'INSERT INTO ads_rev (find_id, rev_at, "insert", {cols}) VALUES (?, ?, ?, {marks})',
-               (fid, ts, latest[0] if latest else None, *[values.get(k) for k in AD_FIELDS]))
+    db.execute(f"""INSERT INTO ads_rev (find_id, rev_at, "insert", kind, {cols})
+                   VALUES (?, ?, ?, 'tjek', {marks})""",
+               (fid, ts, since[0] if since else ts, *[values.get(k) for k in AD_FIELDS]))
 
 
 def write_ad(db, fid, values, ts):
-    """Ny version kun, når indholdet ændrer sig."""
+    """Skriv den aktuelle tilstand. Ændres indholdet, gemmes den nye tilstand også i ads_rev."""
     latest = latest_ad(db, fid)
     if latest is not None and all(latest[k] == values.get(k) for k in AD_FIELDS):
         return False
     cols = ", ".join(AD_FIELDS)
     marks = ", ".join("?" for _ in AD_FIELDS)
-    db.execute(f'INSERT INTO ads (find_id, "insert", {cols}) VALUES (?, ?, {marks})',
-               (fid, ts, *[values.get(k) for k in AD_FIELDS]))
+    row = [values.get(k) for k in AD_FIELDS]
+    if latest is None:
+        db.execute(f"INSERT INTO ads (find_id, {cols}) VALUES (?, {marks})", (fid, *row))
+    else:
+        db.execute(f"UPDATE ads SET {', '.join(k + ' = ?' for k in AD_FIELDS)} WHERE find_id = ?", (*row, fid))
+    db.execute(f"""INSERT INTO ads_rev (find_id, rev_at, "insert", kind, {cols})
+                   VALUES (?, ?, ?, 'ændring', {marks})""", (fid, ts, ts, *row))
     return True
 
 
@@ -366,11 +409,11 @@ def cutoff(db, lampe, platform):
 def slet_fund(db, fid):
     if not db.execute("SELECT 1 FROM finds WHERE id = ?", (fid,)).fetchone():
         raise ValueError(f"fandt ikke fund: {fid}")
-    n_ads = db.execute("SELECT COUNT(*) FROM ads WHERE find_id = ?", (fid,)).fetchone()[0]
+    n_ads = db.execute("SELECT COUNT(*) FROM ads_rev WHERE find_id = ? AND kind = 'ændring'", (fid,)).fetchone()[0]
     n_act = db.execute("SELECT COUNT(*) FROM user_actions WHERE find_id = ?", (fid,)).fetchone()[0]
     db.execute("DELETE FROM ads_rev WHERE find_id = ?", (fid,))
     db.execute("DELETE FROM finds WHERE id = ?", (fid,))   # ads og user_actions slettes via ON DELETE CASCADE
-    print(f"slettet {fid}: {n_ads} annonceversioner, {n_act} brugerhandlinger")
+    print(f"slettet {fid}: {n_ads} ændringer i historikken, {n_act} brugerhandlinger")
 
 
 def _cutoff_for(db, tid, plat_name):
@@ -457,7 +500,7 @@ def eksport_side(db, path):
             """SELECT f.id, f.plat, f.target_id, f.link, t.sort_order FROM finds f
                JOIN targets t ON t.id = f.target_id"""):
         versions = db.execute('SELECT "insert", title, type, description, note, city, direct, price, available, color '
-                              'FROM ads WHERE find_id = ? ORDER BY "insert"', (fid,)).fetchall()
+                              "FROM ads_rev WHERE find_id = ? AND kind = 'ændring' ORDER BY \"insert\"", (fid,)).fetchall()
         if not versions:
             continue
         seen, title, typ, desc, note, city, direct, price, avail, color = versions[-1]
