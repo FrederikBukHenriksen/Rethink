@@ -37,9 +37,9 @@ Cutoff gælder for én lampe (target) på én platform. Det er tidspunktet for d
 | `target_platforms` | De platforme, en target søges på. |
 | `runs` | En gennemført søgning på en target og en platform, med tidspunktet hvor den blev afsluttet. Bruges til cutoff. |
 | `finds` | Et fund: id, platform, target og link. Id'et er `<platform med småt>-<annonce-id>`. |
-| `ads` | Fundets aktuelle tilstand: én række pr. fund. |
+| `ads` | Fundets aktuelle tilstand: én række pr. fund. Hver ændring går automatisk til `ads_rev` via triggere. |
 | `targets_rev` | Historik for targets: hver gang en target ændrer sig ved synk, gemmes den gamle tilstand her med tidspunkt. |
-| `ads_rev` | Historik for fund: hver ændring (`kind` = `ændring`) og hvert tjek (`kind` = `tjek`). Prishistorik, første gang set og `lastChecked` læses herfra. |
+| `ads_rev` | Historik for fund: hver ændring (`kind` = `ændring`, skrevet af triggere på `ads`) og hvert tjek (`kind` = `tjek`, skrevet af `gem-resultat`). Prishistorik, første gang set og `lastChecked` læses herfra. |
 
 De to historiktabeller har en fremmednøgle til deres hovedtabel (`targets_rev` til `targets`, `ads_rev` til `ads`). Når hovedrækken slettes, slettes historikken med den.
 | `user_action_type` | De handlinger, der findes: `favorit` og `skjult`. Skjult gælder både fund og lamper. |
@@ -72,6 +72,7 @@ Databasen er den eneste sandhed. Lampelisten og siden er spejlinger af den.
 **`ads`** (aktuel tilstand, nøglen er `find_id`)
 
 - Tidligere versioner ligger i `ads_rev`. Der er ingen tidskolonne i `ads`.
+- Lampetype og farver gemmes i `note` (som "Type: …" og "Farver: …"). De er ikke kolonner i `ads`.
 - `title`, `description`, `city`: tekst fra annoncen. `city` er `by ukendt`, hvis byen ikke står der.
 - `type`: en af lamp_types. `color`: den vigtigste farve, eller tom.
 - `direct`: `Ja`, `Nej` eller `Tjek`.

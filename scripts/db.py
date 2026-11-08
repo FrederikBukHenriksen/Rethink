@@ -30,7 +30,7 @@ TZ = ZoneInfo("Europe/Copenhagen")
 REQUIRED = ("platforms", "lamp_types", "color_type", "targets", "target_types", "target_colors",
             "target_terms", "target_platforms", "runs", "finds", "ads", "user_actions")
 TARGET_PREFIX = "lamper-"          # listens id 'l07' bliver target 'lamper-l07'
-AD_FIELDS = ("title", "type", "description", "note", "city", "direct", "price", "available", "color")
+AD_FIELDS = ("title", "description", "note", "city", "direct", "price", "available")
 
 
 def now():
@@ -91,14 +91,14 @@ CREATE TABLE IF NOT EXISTS ads_rev (
   rev_at TEXT NOT NULL,                 -- hvornår hændelsen skete (ændring eller tjek)
   "insert" TEXT,                        -- hvornår den version, rækken viser, blev indsat
   kind TEXT NOT NULL DEFAULT 'tjek' CHECK (kind IN ('ændring', 'tjek')),
-  title TEXT, type TEXT, description TEXT, note TEXT, city TEXT, direct TEXT,
-  price INTEGER, available TEXT, color TEXT
+  title TEXT, description TEXT, note TEXT, city TEXT, direct TEXT,
+  price INTEGER, available TEXT
 );
 CREATE INDEX IF NOT EXISTS idx_ads_rev ON ads_rev(find_id, rev_at);
 """
 
 
-ADS_FIELDS = ("title", "type", "description", "note", "city", "direct", "price", "available", "color")
+ADS_FIELDS = ("title", "description", "note", "city", "direct", "price", "available")
 
 
 def migrate_ads(db):
@@ -113,14 +113,13 @@ def migrate_ads(db):
     db.execute("""CREATE TABLE ads_ny (
         find_id TEXT PRIMARY KEY NOT NULL REFERENCES finds(id) ON DELETE CASCADE,
         title TEXT NOT NULL,
-        type TEXT REFERENCES lamp_types(name),
         description TEXT,
         note TEXT,
         city TEXT,
         direct TEXT NOT NULL,
         price INTEGER NOT NULL,
         available TEXT NOT NULL DEFAULT 'ukendt',
-        color TEXT REFERENCES color_type(name))""")
+        )""")
     db.execute(f"""INSERT INTO ads_ny (find_id, {cols_rev})
                    SELECT a.find_id, {", ".join("a." + f for f in ADS_FIELDS)} FROM ads a
                    WHERE a."insert" = (SELECT MAX(b."insert") FROM ads b WHERE b.find_id = a.find_id)""")
@@ -142,12 +141,44 @@ REV_DDL = {
         rev_at TEXT NOT NULL,
         "insert" TEXT,
         kind TEXT NOT NULL DEFAULT 'tjek' CHECK (kind IN ('ændring', 'tjek')),
-        title TEXT, type TEXT, description TEXT, note TEXT, city TEXT, direct TEXT,
-        price INTEGER, available TEXT, color TEXT)""",
-        """INSERT INTO ads_rev_ny (rev_id, find_id, rev_at, "insert", kind, title, type, description, note, city, direct, price, available, color)
-           SELECT rev_id, find_id, rev_at, "insert", kind, title, type, description, note, city, direct, price, available, color FROM ads_rev""",
+        title TEXT, description TEXT, note TEXT, city TEXT, direct TEXT,
+        price INTEGER, available TEXT)""",
+        """INSERT INTO ads_rev_ny (rev_id, find_id, rev_at, "insert", kind, title, description, note, city, direct, price, available)
+           SELECT rev_id, find_id, rev_at, "insert", kind, title, description, note, city, direct, price, available FROM ads_rev""",
         "CREATE INDEX IF NOT EXISTS idx_ads_rev ON ads_rev(find_id, rev_at)"),
 }
+
+
+def drop_ads_legacy(db):
+    """Farve og type er fjernet fra ads. Tabellerne bygges om, og historikken i ads_rev følger med."""
+    legacy = {"color", "type"}
+    if not legacy & set(r[1] for r in db.execute("PRAGMA table_info(ads)")):
+        return
+    cols = ", ".join(AD_FIELDS)
+    db.execute("""CREATE TABLE ads_ny2 (
+        find_id TEXT PRIMARY KEY NOT NULL REFERENCES finds(id) ON DELETE CASCADE,
+        title TEXT NOT NULL,
+        description TEXT,
+        note TEXT,
+        city TEXT,
+        direct TEXT NOT NULL,
+        price INTEGER NOT NULL,
+        available TEXT NOT NULL DEFAULT 'ukendt')""")
+    db.execute(f"INSERT INTO ads_ny2 (find_id, {cols}) SELECT find_id, {cols} FROM ads")
+    db.execute(f"""CREATE TABLE ads_rev_ny2 (
+        rev_id INTEGER PRIMARY KEY,
+        find_id TEXT NOT NULL REFERENCES ads_ny2(find_id) ON DELETE CASCADE,
+        rev_at TEXT NOT NULL,
+        "insert" TEXT,
+        kind TEXT NOT NULL DEFAULT 'tjek' CHECK (kind IN ('ændring', 'tjek')),
+        {", ".join(f + " " + ("INTEGER" if f == "price" else "TEXT") for f in AD_FIELDS)})""")
+    db.execute(f'INSERT INTO ads_rev_ny2 (rev_id, find_id, rev_at, "insert", kind, {cols}) '
+               f'SELECT rev_id, find_id, rev_at, "insert", kind, {cols} FROM ads_rev')
+    db.execute("DROP TABLE ads_rev")
+    db.execute("DROP TABLE ads")
+    db.execute("ALTER TABLE ads_ny2 RENAME TO ads")
+    db.execute("ALTER TABLE ads_rev_ny2 RENAME TO ads_rev")
+    db.execute("CREATE INDEX IF NOT EXISTS idx_ads_rev ON ads_rev(find_id, rev_at)")
 
 
 def migrate_rev_fk(db):
@@ -163,6 +194,32 @@ def migrate_rev_fk(db):
         db.execute(index_sql)
 
 
+KONTEKST_TS = "COALESCE((SELECT ts FROM _kontekst WHERE id = 1), strftime('%Y-%m-%dT%H:%M:%S+00:00', 'now'))"
+
+
+def set_kontekst(db):
+    """Triggerne skal stemple med den samme tid som resten af kørslen. Den sættes i starten af hver kommando."""
+    db.execute("CREATE TABLE IF NOT EXISTS _kontekst (id INTEGER PRIMARY KEY CHECK (id = 1), ts TEXT)")
+    db.execute("INSERT OR REPLACE INTO _kontekst (id, ts) VALUES (1, ?)", (now(),))
+
+
+def create_triggers(db):
+    """ads_rev opdateres automatisk af ads: hver ny version og hver ændring af ads gemmes i ads_rev."""
+    cols = ", ".join(AD_FIELDS)
+    new_vals = ", ".join(f"NEW.{f}" for f in AD_FIELDS)
+    changed = " OR ".join(f"OLD.{f} IS NOT NEW.{f}" for f in AD_FIELDS)
+    db.execute("DROP TRIGGER IF EXISTS ads_rev_ny")
+    db.execute("DROP TRIGGER IF EXISTS ads_rev_aendret")
+    db.execute(f"""CREATE TRIGGER ads_rev_ny AFTER INSERT ON ads BEGIN
+        INSERT INTO ads_rev (find_id, rev_at, "insert", kind, {cols})
+        VALUES (NEW.find_id, {KONTEKST_TS}, {KONTEKST_TS}, 'ændring', {new_vals});
+    END""")
+    db.execute(f"""CREATE TRIGGER ads_rev_aendret AFTER UPDATE ON ads WHEN {changed} BEGIN
+        INSERT INTO ads_rev (find_id, rev_at, "insert", kind, {cols})
+        VALUES (NEW.find_id, {KONTEKST_TS}, {KONTEKST_TS}, 'ændring', {new_vals});
+    END""")
+
+
 def init(db):
     db.executescript(REV_SCHEMA)
     for tbl in ("ads", "ads_rev"):
@@ -173,7 +230,9 @@ def init(db):
         db.execute("ALTER TABLE ads_rev ADD COLUMN kind TEXT NOT NULL DEFAULT 'tjek' CHECK (kind IN ('ændring', 'tjek'))")
         db.execute("UPDATE ads_rev SET kind = 'ændring'")
     migrate_ads(db)
+    drop_ads_legacy(db)
     migrate_rev_fk(db)
+    create_triggers(db)
     have = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type = 'table'")}
     missing = [t for t in REQUIRED if t not in have]
     if missing:
@@ -325,7 +384,7 @@ def log_check(db, fid, ts):
 
 
 def write_ad(db, fid, values, ts):
-    """Skriv den aktuelle tilstand. Ændres indholdet, gemmes den nye tilstand også i ads_rev."""
+    """Skriv den aktuelle tilstand i ads. Triggeren ads_rev_ny/ads_rev_aendret skriver historikken."""
     latest = latest_ad(db, fid)
     if latest is not None and all(latest[k] == values.get(k) for k in AD_FIELDS):
         return False
@@ -336,8 +395,6 @@ def write_ad(db, fid, values, ts):
         db.execute(f"INSERT INTO ads (find_id, {cols}) VALUES (?, {marks})", (fid, *row))
     else:
         db.execute(f"UPDATE ads SET {', '.join(k + ' = ?' for k in AD_FIELDS)} WHERE find_id = ?", (*row, fid))
-    db.execute(f"""INSERT INTO ads_rev (find_id, rev_at, "insert", kind, {cols})
-                   VALUES (?, ?, ?, 'ændring', {marks})""", (fid, ts, ts, *row))
     return True
 
 
@@ -346,8 +403,6 @@ def ad_values(db, f, partial):
     m = {}
     if "navn" in f or "titel" in f:
         m["title"] = f.get("titel") or f.get("navn")
-    if "lampetype" in f:
-        m["type"] = f["lampetype"]
     if "beskrivelse" in f:
         m["description"] = f["beskrivelse"]
     if "note" in f:
@@ -360,20 +415,18 @@ def ad_values(db, f, partial):
         m["price"] = int(f["pris"])
     if "tilgaengelig" in f:
         m["available"] = f["tilgaengelig"]
-    if "farver" in f:
-        first = split(f["farver"])[:1]
-        row = db.execute("SELECT name FROM color_type WHERE lower(name) = lower(?)", (first[0],)).fetchone() if first else None
-        m["color"] = row[0] if row else None
     if not partial:
-        for k in ("title", "type", "direct", "price", "available"):
+        if not f.get("lampetype"):
+            raise ValueError(f"nyt fund {f.get('platform')}-{f.get('ekstern_id')} mangler lampetype")
+        for k in ("title", "direct", "price", "available"):
             if m.get(k) in (None, ""):
                 raise ValueError(f"nyt fund {f.get('platform')}-{f.get('ekstern_id')} mangler {k}")
         m.setdefault("description", None)
         m.setdefault("note", None)
         m.setdefault("city", None)
-        m.setdefault("color", None)
         # Status og annoncedato har ingen egen kolonne i modellen. De står i note.
-        extra = [f"Status: {f['status']}" if f.get("status") else None,
+        extra = [f"Type: {f['lampetype']}",
+                 f"Status: {f['status']}" if f.get("status") else None,
                  f"Farver: {f['farver']}" if f.get("farver") else None,
                  f"Annonceret: {f['listet_tid']}" if f.get("listet_tid") else None,
                  f.get("note")]
@@ -535,23 +588,24 @@ def eksport_side(db, path):
     for fid, plat, tid, link, order in db.execute(
             """SELECT f.id, f.plat, f.target_id, f.link, t.sort_order FROM finds f
                JOIN targets t ON t.id = f.target_id"""):
-        versions = db.execute('SELECT "insert", title, type, description, note, city, direct, price, available, color '
+        versions = db.execute('SELECT "insert", title, description, note, city, direct, price, available '
                               "FROM ads_rev WHERE find_id = ? AND kind = 'ændring' ORDER BY \"insert\"", (fid,)).fetchall()
         if not versions:
             continue
-        seen, title, typ, desc, note, city, direct, price, avail, color = versions[-1]
+        seen, title, desc, note, city, direct, price, avail = versions[-1]
         first_seen = versions[0][0]
         history = []
         last_price = None
         for v in versions:
-            if v[7] != last_price:
-                history.append({"d": v[0][8:10] + "." + v[0][5:7], "p": v[7]})
-                last_price = v[7]
+            if v[6] != last_price:
+                history.append({"d": v[0][8:10] + "." + v[0][5:7], "p": v[6]})
+                last_price = v[6]
         status = _parse_note(note, "Status: ") or "Uklar identitet"
         listed = _parse_note(note, "Annonceret: ")
-        gone = next((v[0] for v in versions if v[8] == "nej"), None)
-        doc = {"category": "lamper", "row": order, "name": title, "type": typ, "plat": plat,
-               "colors": [color] if color else [], "city": city or "by ukendt", "direct": direct,
+        gone = next((v[0] for v in versions if v[7] == "nej"), None)
+        doc = {"category": "lamper", "row": order, "name": title, "type": _parse_note(note, "Type: ") or "", "plat": plat,
+               "colors": [c.strip() for c in (_parse_note(note, "Farver: ") or "").split(",") if c.strip()],
+               "city": city or "by ukendt", "direct": direct,
                "status": status, "link": link, "price": price, "priceHistory": history,
                "available": avail, "firstSeen": first_seen, "lastChecked": versions[-1][0]}
         if note:
@@ -592,6 +646,7 @@ def main(argv):
     db = connect()
     try:
         with db:
+            set_kontekst(db)
             init(db)
             if cmd == "sync-lampe":
                 sync_lampe(db, argv[2])
