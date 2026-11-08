@@ -1,74 +1,74 @@
-# Data schema for the living page
+# Datastruktur for sidens database
 
-The page `https://claude.ai/artifact/WRGmgJnVgvKhDegpB6q5x8` reads three collections from its database. Write them with the `ArtifactData` tool (`url` = the page URL). Never publish the page again to add finds. Only change the page file for design changes.
+Siden `https://claude.ai/artifact/WRGmgJnVgvKhDegpB6q5x8` læser fire samlinger fra sin database: `categories`, `targets`, `finds` og `runs`. `feedback` skrives af siden. Agenterne læser den kun. Skriv med `ArtifactData` og `url` = sidens URL. Publicér aldrig siden igen for at tilføje fund. Ret kun sidens fil ved designændringer.
 
-All text shown on the page is Danish.
+Al tekst på siden er dansk.
 
-## `categories/<slug>` — one document per search area (a tab on the page)
+## `categories/<slug>`: en søgeområde-fane
 
-`{ "name": "Lamper", "order": 1, "workbook": "DBA-lampesøgning.xlsx", "sheet": "Søgeliste" }`
+`{ "name": "Lamper", "order": 1 }`
 
-The slug is lower case ASCII letters, digits and hyphens only, for example `lamper`, `keramik`, `kommoder`, `stole`. It is also the tab's address on the page (`#keramik`). Create a category document when a new search area is set up, with the sheet that holds its search list. The page shows one tab per category document. Never delete one that has finds.
+Slugs er små bogstaver, tal og bindestreger, fx `lamper`. Slugen er fanens adresse (`#lamper`). Slet aldrig en kategori, der har fund.
 
-Every `finds`, `targets` and `runs` document has a `category` field with the slug. A document without it counts as `lamper`.
+Alle `finds`, `targets` og `runs` har feltet `category` med slugen. Mangler det, tæller dokumentet som `lamper`.
 
-## `finds/<id>` — one document per listing
+## `finds/<id>`: ét fund pr. annonce
 
-The id is `<platform lowercase>-<listing id>`, for example `dba-26284641` or `vinted-10582416262`. Never delete a find. A removed listing stays, with `available: "nej"`.
+Id'et er `<platform med småt>-<annonce-id>`, fx `dba-26284641`. Slet aldrig et fund. En fjernet annonce bliver liggende med `available: "nej"`.
 
-| Field | Meaning |
+| Felt | Betydning |
 |---|---|
-| `category` | Category slug, for example `lamper` |
-| `row` | Excel row number in the category's sheet |
-| `name` | Short lamp name, for example `Flowerpot VP3, mat hvid` |
-| `type` | One lamp type in Danish, for example `Bordlampe`, `Loftlampe`, `Standerlampe`, `Væglampe` |
-| `colors` | List of colours in Danish with a capital letter, main colour first, for example `["Hvid", "Orange"]`. Use plain names: Hvid, Sort, Grå, Beige, Brun, Rød, Orange, Gul, Grøn, Blå, Lilla, Pink, Guld, Sølv, Messing, Krom, Træ |
-| `plat` | `DBA`, `Vinted` or `Tradera` |
-| `city` | City, or `by ukendt` |
-| `direct` | `Ja`, `Nej` or `Tjek` |
-| `status` | `Bekræftet`, `Sandsynlig med forbehold` or `Uklar identitet` |
-| `link` | Direct listing URL |
-| `listedAt` | ISO time with offset, for example `2026-10-30T09:39:00+01:00`. If only a relative age is shown ("22 t. siden"), compute it and set `dateApprox: true` |
-| `dateKind` | `redigeret` (DBA shows only last edited) or `uploadet` |
-| `dateApprox` | `true` or `false` |
-| `note` | What supports the identification and what is missing. Short |
-| `check` | Only when something must be verified by the user. Say what differs. Leave the field out otherwise |
-| `price` | Current price as a number in DKK |
-| `priceNote` | Optional, for example `for begge` |
-| `priceHistory` | `[{"d":"30.10","p":900}, ...]`. One entry per run where the price changed. The first entry is the price when first found |
-| `firstSeen` | ISO time of the run that first found it |
-| `lastChecked` | ISO time of the latest availability check |
-| `available` | `ja`, `nej` or `ukendt` |
-| `goneAt` | ISO time of the run that found it removed. Only when `available` is `nej` |
+| `category` | Kategoriens slug, fx `lamper` |
+| `row` | Lampens `order` på listen (1, 2, 3 …). Siden bruger den til at knytte fund til `targets` |
+| `name` | Kort navn, fx `Flowerpot VP3, mat hvid` |
+| `type` | Én dansk type: `Bordlampe`, `Loftlampe`, `Standerlampe`, `Gulvlampe` eller `Væglampe` |
+| `colors` | Liste med danske farver med stort begyndelsesbogstav, hovedfarven først, fx `["Hvid", "Orange"]`. Brug disse navne: Hvid, Sort, Grå, Beige, Brun, Rød, Orange, Gul, Grøn, Blå, Lilla, Pink, Guld, Sølv, Messing, Krom, Træ |
+| `plat` | `DBA`, `Vinted` eller `Tradera`. Andre platforme tilføjes her, når de bruges |
+| `city` | By, eller `by ukendt` |
+| `direct` | `Ja`, `Nej` eller `Tjek` |
+| `status` | `Bekræftet`, `Sandsynlig med forbehold` eller `Uklar identitet` |
+| `link` | Direkte link til annoncen |
+| `listedAt` | ISO-tid med offset, fx `2026-10-30T09:39:00+01:00`. Vises kun en relativ alder ("22 t. siden"), beregnes tiden, og `dateApprox` sættes til `true` |
+| `dateKind` | `redigeret` (DBA viser kun sidst redigeret) eller `uploadet` |
+| `dateApprox` | `true` eller `false` |
+| `note` | Hvad der understøtter identifikationen, og hvad der mangler. Kort |
+| `check` | Kun når brugeren skal verificere noget. Skriv hvad der afviger. Udelad feltet ellers |
+| `price` | Aktuel pris i kr. som tal |
+| `priceNote` | Valgfrit, fx `for begge` |
+| `priceHistory` | `[{"d":"30.10","p":900}, ...]`. Én post pr. kørsel, hvor prisen ændrede sig. Første post er prisen, da fundet blev set første gang |
+| `firstSeen` | ISO-tid for kørslen, der fandt fundet første gang |
+| `lastChecked` | ISO-tid for seneste tilgængelighedstjek |
+| `available` | `ja`, `nej` eller `ukendt` |
+| `goneAt` | ISO-tid for kørslen, der fandt fundet fjernet. Kun når `available` er `nej` |
 
-## `targets/<slug>-row-<N>` — one document per Excel row
+## `targets/<slug>-row-<N>`: én pr. række på listen
 
-For example `lamper-row-5`. `{ "category": "lamper", "row": N, "model": "...", "designers": ["..."], "producers": ["..."] }`. `model` is an empty string when the row has no model. Keep in sync with `Søgeliste`. The filters on the page are built from these.
+Fx `lamper-row-5`, hvor `N` er listens `order`. `{ "category": "lamper", "row": N, "model": "...", "designers": ["..."], "producers": ["..."] }`. `model` er en tom streng, når rækken ikke har model. Synkronisér med lampelisten. Sidens filtre bygges ud fra disse.
 
-## `runs/<YYYY-MM-DD-HHMM>` — one document per run
+## `runs/<YYYY-MM-DD-HHMM>`: én pr. kørsel
 
 ```
-{ "category": "lamper", "date": "<ISO time>", "platforms": ["DBA", "Vinted"],
+{ "category": "lamper", "date": "<ISO-tid>", "platforms": ["DBA", "Vinted"],
   "sections": [ { "title": "Gennemført", "items": ["..."] }, ... ] }
 ```
 
-Suggested section titles: `Gennemført`, `Ikke gennemført`, `Begrænsninger`, `Tilgængelighed`, `Prisændringer`, `Fravalgt`, `Sælgere`. Each item is one plain sentence.
+Foreslåede sektionstitler: `Gennemført`, `Ikke gennemført`, `Begrænsninger`, `Tilgængelighed`, `Prisændringer`, `Fravalgt`, `Sælgere`. Hvert punkt er én almindelig sætning.
 
-## `feedback/<find id>` — the user's rating of a find
+## `feedback/<find-id>`: brugerens vurdering af et fund
 
-Written by the page when the user taps a rating. The id is the same as the find's id. The agents only read this collection. They never write it.
+Skrives af siden, når brugeren trykker på en vurdering. Id'et er fundets id. Agenterne læser kun.
 
 ```
 { "findId": "dba-26284641",
   "verdict": "godt" | "nej" | "koebt",
   "reasons": ["For dyrt", "For langt væk"],
-  "at": "<ISO time of the rating>",
+  "at": "<ISO-tid for vurderingen>",
   "snapshot": { name, type, plat, city, row, link, model, designers, producers,
                 price, firstPrice, direct, status, available, listedAt, ageHours } }
 ```
 
 - `verdict`: `godt` = Godt fund, `nej` = Ikke interessant, `koebt` = Købt.
-- Reasons for `nej`: `For dyrt`, `Dårlig stand`, `For langt væk`, `Forkert model`, `Forkert farve`, `Mistanke om kopi`, `Ikke vores stil`. For `godt`: `God pris`, `Sjælden model`, `Flot stand`. Several can be set. `koebt` has none.
-- `snapshot` is a copy of the find when it was rated, so later price changes do not change what the rating was about.
-- A find with no document here is not rated. Treat it as unknown, never as a "no".
-- `Forkert model`, `Forkert farve`, `Dårlig stand` and `Mistanke om kopi` say the search missed. `For dyrt`, `For langt væk` and `Ikke vores stil` say the lamp was right but not a good deal for the shop.
+- Årsager ved `nej`: `For dyrt`, `Dårlig stand`, `For langt væk`, `Forkert model`, `Forkert farve`, `Mistanke om kopi`, `Ikke vores stil`. Ved `godt`: `God pris`, `Sjælden model`, `Flot stand`. Flere kan vælges. `koebt` har ingen årsager.
+- `snapshot` er en kopi af fundet på vurderingstidspunktet. Senere prisændringer ændrer ikke, hvad vurderingen handlede om.
+- Et fund uden dokument her er ikke vurderet. Behandl det som ukendt, aldrig som et "nej".
+- `Forkert model`, `Forkert farve`, `Dårlig stand` og `Mistanke om kopi` betyder, at søgningen missede. `For dyrt`, `For langt væk` og `Ikke vores stil` betyder, at lampen var rigtig, men ikke en god handel for butikken.
