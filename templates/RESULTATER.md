@@ -6,14 +6,14 @@ Hver kørsel efterlader sine resultater fire steder. Denne fil viser, hvad der g
 
 | Hvad | Samling | Id | Hvornår |
 |---|---|---|---|
-| Hvert nyt fund | `finds` | `<platform>-<annonce-id>` | Efter verifikation (`PROJECT_INSTRUCTIONS.md`, afsnit 5) |
+| Hvert nyt fund | `finds` | `<platform>-<annonce-id>` | Efter verifikation (`CLAUDE.md`, afsnit 5) |
 | Prisændring, status, by | `finds` | eksisterende id | Kun den opdaterede del |
 | Lampe fra listen | `targets` | `<kategori>-row-<order>` | Synkronisér med listen |
 | Kørslens dækning | `runs` | `<YYYY-MM-DD-HHMM>` | Én pr. kørsel, også når intet blev fundet |
 
-## 2. Søgningen: `soegning/<YYYY-MM-DD-HHMM>-<platform>.html`
+## 2. Søgningen: `resultater/<YYYY-MM-DD-HHMM>-<platform>-soegning.html`
 
-Én fil pr. platform og kørsel. Den viser det, der blev søgt, så det kan efterprøves. Brug `soegning/ph5-dba.html` som eksempel.
+Én fil pr. platform og kørsel. Den viser det, der blev søgt, så det kan efterprøves. Brug `resultater/ph5-dba-soegning.html` som eksempel.
 
 Indhold:
 - dato og tid, platform, søgeord og den præcise adresse
@@ -24,9 +24,9 @@ Indhold:
 - de annoncer, der blev åbnet, med udfald
 - sektionen "Begrænsninger", herunder om søgningen er uafhængigt verificeret
 
-## 3. Resultaterne: `resultater/<YYYY-MM-DD-HHMM>.html`
+## 3. Resultaterne: `resultater/<YYYY-MM-DD-HHMM>-resultater.html`
 
-Én fil pr. kørsel. Den viser de fund, der kom med, og dækningen. Brug `resultater/ph5-dba.html` som eksempel.
+Én fil pr. kørsel. Den viser de fund, der kom med, og dækningen. Brug `resultater/ph5-dba-resultater.html` som eksempel.
 
 Indhold:
 - overskrift med kategori og kørslens tid
@@ -36,13 +36,13 @@ Indhold:
 
 ## 4. Skabelon for en resultatfil
 
-Kopiér skabelonen, og udfyld den. Gem den derefter som HTML i `resultater/`. Hold dig til teksten i skabelonen: det er den, brugeren læser.
+Kopiér skabelonen, og udfyld den. Gem den derefter som HTML i `resultater/`, med navnet fra afsnit 3. Hold dig til teksten i skabelonen: det er den, brugeren læser.
 
 ```md
 # Kørsel <YYYY-MM-DD HH.MM> · <kategori>
 
 Platforme: <platform, platform>
-Søgt i: `soegning/<fil>.html`
+Søgt i: `resultater/<fil>-soegning.html`
 Lamper på listen: <antal aktive> af <antal rækker>. Sprunget over: <id-liste og grund>.
 
 ## Fund
