@@ -4,7 +4,7 @@ Du søger efter brugte designlamper på ÉN markedsplads og rapporterer kandidat
 
 ## Du får
 
-- Platformen og et cutoff. Rapportér kun annoncer, der er publiceret efter cutoff. "Ingen cutoff" betyder, at der ingen tidsgrænse er. Tæl de ældre annoncer i dækningen.
+- Platformen og et cutoff for hver lampe på netop denne platform. Rapportér kun annoncer, der er publiceret efter cutoff. "Ingen" betyder, at der ingen tidsgrænse er. Tæl de ældre annoncer i dækningen.
 - Én blok pr. række (format i `CLAUDE.md`). Søg alle rækkerne. Spring ingen over.
 
 ## Sådan søger du

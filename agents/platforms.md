@@ -40,3 +40,7 @@ Skriv byen præcis, som den vises. Gæt den ikke ud fra sælgerens navn, billede
 **Direkte køb:** `Ja`, hvor den normale Vinted-betaling og forsendelse er tilgængelig. Er det uklart eller ikke synligt, er det `Tjek`.
 
 **Faldgruber:** Ikke udfyldt endnu. Skriv kendte problemer her, fx cookie-banner, login-mur, paginering eller genopslåede annoncer, der ser nye ud.
+
+## Facebook
+
+Ingen afsnit endnu. Sådan bliver den søgt, indtil der skrives et afsnit: brug de givne søgninger, sortér efter nyeste, og skriv datoen fra annoncen. Er den ikke synlig, skriver du `ikke synlig`. Kan købes direkte: skriv `Tjek`, medmindre annoncen tydeligt viser det. Skriv i dækningen, at platformen ikke har et afsnit.

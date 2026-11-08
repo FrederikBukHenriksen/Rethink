@@ -14,7 +14,7 @@ Der er ingen Excel-fil.
 
 1. Synk lampelisten til databasen.
 2. Importér brugerens vurderinger fra siden.
-3. Vælg lamper og cutoff fra databasen.
+3. Vælg lamper, platforme og cutoff fra databasen. Start kørslen med `ny-koersel`.
 4. Tjek de eksisterende fund.
 5. Søg og verificér pr. lampe.
 6. Gem resultatet pr. lampe.
@@ -45,7 +45,8 @@ En tom liste er gyldig, men kun hvis læsningen lykkedes. En fejl er ikke en tom
 - **Lamper:** `SELECT * FROM lampe WHERE i_listen = 1 AND archived = 0 AND aktiv = 1 AND sites <> ''`. Lamper, der ikke står i resultatet, søges ikke. Skriv i dækningen, hvilke der blev sprunget over, og hvorfor. Det er en af grundene: `aktiv` er falsk eller mangler, `sites` er tom, eller `archived` er sand.
 - **Platforme:** kun dem, der står i `sites` (adskilt med `; `).
 - **Kategori:** `SELECT id, slug FROM produkt_kategori`. Er der flere, spørger du hvilken. Er der én, bruger du den og siger hvilken.
-- **Cutoff:** `SELECT MAX(tidspunkt) FROM koersel WHERE kategori_id = ?`. Findes der ingen række, er der ingen cutoff. Spørg aldrig om tidsvinduet. Annoncer publiceret før cutoff tælles i dækningen og rapporteres ikke. Tidsvinduet gælder kun nye annoncer.
+- **Cutoff gælder kun for den lampe og den platform, det er.** Hent den med `python3 scripts/db.py cutoff <lampe-id> <platform>`. Svaret er et tidspunkt, eller `ingen`, hvis lampen aldrig er søgt på platformen. Cutoff for Jo Hammerborg på DBA påvirker aldrig Jo Hammerborg på Vinted, og det påvirker aldrig en anden lampe. Spørg aldrig om tidsvinduet. Annoncer publiceret før cutoff tælles i dækningen og rapporteres ikke. Tidsvinduet gælder kun nye annoncer.
+- **Kørslen:** start den med `python3 scripts/db.py ny-koersel lamper`. Kommandoen udskriver kørslens id, som du bruger i trin 6.
 
 ### 4. Tjek de eksisterende fund
 
@@ -77,9 +78,10 @@ Tilladte farver: <... eller "alle">
 Fravalgte farver: <... eller "ingen">
 Maks pris: <... eller "ingen">
 Billede: <link eller "ingen">
+Cutoff: <tidspunkt fra `cutoff`-kommandoen for denne lampe på denne platform, eller "ingen">
 ```
 
-Cutoff og kravet om at rapportere annoncens dato står i prompten. Søgeagenter skriver aldrig til databasen. Kan de ikke startes, gør du arbejdet selv, platform for platform, efter de samme filer.
+Cutoff og kravet om at rapportere annoncens dato står i prompten. Hver platform får sin egen cutoff for hver lampe. Søgeagenter skriver aldrig til databasen. Kan de ikke startes, gør du arbejdet selv, platform for platform, efter de samme filer.
 
 Når søgningen er færdig, startes en frisk verifikationsagent pr. platform med kandidater. Prompten består af `agents/verifier.md`, `agents/qualification-rules.md`, platformens afsnit og, for hver kandidat, KUN linket, rækkens `listen_order` og rækkens mål. Giv den ikke søgeagentens navn, pris, by, dato, status eller begrundelse. Kan verifikationsagenten ikke startes, gemmer du fundet, men skriver "Ikke uafhængigt verificeret." i `tjek`.
 
@@ -110,13 +112,14 @@ Efter hver lampe skriver du resultatet med `python3 scripts/db.py gem-resultat <
 - Dubletter findes automatisk på platform og `ekstern_id`. Passer et opslag til flere lamper, hører det under den bedst passende.
 - Felter, der ikke står i filen, beholdes fra den seneste version. Du behøver kun sende det, der ændrer sig.
 - En annonce, der er væk, sendes under `fjernet`. Den slettes ikke.
-- `koersel` sendes kun i den sidste fil i kørslen. Ellers bliver kørslen gemt flere gange.
+- `koersel_id`: id fra `ny-koersel` i starten af kørslen. Skal med i hver fil.
+- `soegninger`: én post pr. platform, som lampen er søgt på, og én post med `"platform": null` og status `sprunget_over`, når lampen ikke søges. Hver post har `status` (`gennemfoert`, `fejlet` eller `sprunget_over`), `daekning` og evt. `tidspunkt` (starten af søgningen). Cutoff udregnes af databasen, så du sender den ikke.
 
 Gem hver lampe, så en fejl midt i kørslen kun rammer den lampe. Hver fil går i én transaktion: fejler den, skrives den ikke.
 
 ### 7. Kørsel og besked
 
-Skriv kørslen i `koersel` med dækningen: hvad der blev søgt og tjekket, hvilke lamper der blev sprunget over og hvorfor, hvad der ikke kunne gøres, hvor mange fund der kom til, hvilke priser der ændrede sig, hvilke annoncer der forsvandt, og hvad der blev fravalgt og hvorfor. Dækningen står i `daekning`.
+Dækningen står i `soegning.daekning` for hver lampe og platform: hvad der blev søgt og tjekket, hvad der ikke kunne gøres, hvor mange fund der kom til, hvilke priser der ændrede sig, hvilke annoncer der forsvandt, og hvad der blev fravalgt og hvorfor.
 
 Afslut med en kort besked til brugeren: antal nye fund, prisændringer, fjernede annoncer, brugerens vurderinger der blev importeret, og hvad der ikke blev gjort. Gentag ikke listen over fund.
 
