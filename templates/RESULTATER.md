@@ -1,42 +1,17 @@
 # Hvor resultaterne placeres
 
-Hver kørsel efterlader sine resultater fire steder. Denne fil viser, hvad der går hvor. Fundene og kørslen skrives til sidens database med `ArtifactData`, og felterne står i `templates/FIND_SCHEMA.md`. Søgningen og resultaterne gemmes som HTML i mappen, så de kan læses uden at åbne claude.ai.
+Hver kørsel skriver til to steder. Hvad der skrives til databasen, står i `CLAUDE.md`, afsnit 6, og felterne i `templates/FIND_SCHEMA.md`. Denne fil viser de HTML-filer, der ligger i `resultater/`.
 
-## 1. Databasen (siden)
+| Fil | Indhold | Eksempel |
+|---|---|---|
+| `resultater/<YYYY-MM-DD-HHMM>-<platform>-soegning.html` | Det der blev søgt: adresse, søgeord, sortering, antal resultater, cutoff, trin, åbnede annoncer med udfald og begrænsninger | `resultater/ph5-dba-soegning.html` |
+| `resultater/<YYYY-MM-DD-HHMM>-resultater.html` | Fund, prisændringer, fjernede annoncer, fravalgte annoncer med årsag og søgedækning | `resultater/ph5-dba-resultater.html` |
 
-| Hvad | Samling | Id | Hvornår |
-|---|---|---|---|
-| Hvert nyt fund | `finds` | `<platform>-<annonce-id>` | Efter verifikation (`CLAUDE.md`, afsnit 5) |
-| Prisændring, status, by | `finds` | eksisterende id | Kun den opdaterede del |
-| Lampe fra listen | `targets` | `<kategori>-row-<order>` | Synkronisér med listen |
-| Kørslens dækning | `runs` | `<YYYY-MM-DD-HHMM>` | Én pr. kørsel, også når intet blev fundet |
+Skriv begge filer også ved en kørsel uden fund. Under "Fund" står der så `Ingen nye fund`, og dækningen udfyldes altid. En tom kørsel er ikke det samme som en, der ikke blev kørt.
 
-## 2. Søgningen: `resultater/<YYYY-MM-DD-HHMM>-<platform>-soegning.html`
+## Skabelon for resultatfilen
 
-Én fil pr. platform og kørsel. Den viser det, der blev søgt, så det kan efterprøves. Brug `resultater/ph5-dba-soegning.html` som eksempel.
-
-Indhold:
-- dato og tid, platform, søgeord og den præcise adresse
-- sortering, filtre og antal resultater
-- cutoff, og om det blev tjekket
-- browser og eventuelle begrænsninger
-- trin i den rækkefølge, de blev udført
-- de annoncer, der blev åbnet, med udfald
-- sektionen "Begrænsninger", herunder om søgningen er uafhængigt verificeret
-
-## 3. Resultaterne: `resultater/<YYYY-MM-DD-HHMM>-resultater.html`
-
-Én fil pr. kørsel. Den viser de fund, der kom med, og dækningen. Brug `resultater/ph5-dba-resultater.html` som eksempel.
-
-Indhold:
-- overskrift med kategori og kørslens tid
-- fund: navn, pris, by, platform, status, "Kan købes direkte", link og note
-- fravalgte annoncer med årsag, så det kan ses, hvorfor de ikke kom med
-- sektionen "Søgedækning og begrænsninger"
-
-## 4. Skabelon for en resultatfil
-
-Kopiér skabelonen, og udfyld den. Gem den derefter som HTML i `resultater/`, med navnet fra afsnit 3. Hold dig til teksten i skabelonen: det er den, brugeren læser.
+Kopiér skabelonen, udfyld den, og gem den som HTML under navnet i tabellen. Teksten er den, brugeren læser.
 
 ```md
 # Kørsel <YYYY-MM-DD HH.MM> · <kategori>
@@ -46,9 +21,8 @@ Søgt i: `resultater/<fil>-soegning.html`
 Lamper på listen: <antal aktive> af <antal rækker>. Sprunget over: <id-liste og grund>.
 
 ## Fund
-Hvert fund: navn, pris, by, platform, status, Kan købes direkte, link og note.
 - <Navn> · <pris> kr. · <by> · <platform> · <status> · Kan købes direkte: <Ja/Nej/Tjek> · <link>
-  Note: <én linje, hvad der understøtter identifikationen, og hvad der mangler>
+  Note: <én linje om identifikation og det der mangler>
   Tjek: <kun hvis noget skal verificeres>
 
 ## Prisændringer
@@ -58,7 +32,7 @@ Hvert fund: navn, pris, by, platform, status, Kan købes direkte, link og note.
 - <Navn>: <grund eller "fjernet på siden">
 
 ## Fravalgt
-- <Navn> · <platform> · <pris> · <link>: <årsag, fx "trænger til ny fatning">
+- <Navn> · <platform> · <pris> · <link>: <årsag>
 
 ## Søgedækning og begrænsninger
 Gennemført: <hvad der blev søgt og tjekket>
@@ -66,7 +40,3 @@ Ikke gennemført: <hvad der ikke blev gjort, og hvorfor>
 Begrænsninger: <datoer, login, paginering, sortering, cookies>
 Verifikation: <uafhængigt verificeret / ikke uafhængigt verificeret, og hvorfor>
 ```
-
-## 5. Når der ikke er fund
-
-Skriv stadig en `runs`-post og en resultatfil. Under "Fund" står der så: `Ingen nye fund`. Dækningen udfyldes altid, også når intet blev fundet. En tom kørsel er ikke det samme som en, der ikke blev kørt.
