@@ -38,6 +38,8 @@ Cutoff gælder for én lampe (target) på én platform. Det er tidspunktet for d
 | `runs` | En gennemført søgning på en target og en platform, med tidspunktet hvor den blev afsluttet. Bruges til cutoff. |
 | `finds` | Et fund: id, platform, target og link. Id'et er `<platform med småt>-<annonce-id>`. |
 | `ads` | En version af et fund. En ny række, når indholdet ændrer sig. |
+| `targets_rev` | Historik for targets: hver gang en target ændrer sig ved synk, gemmes den gamle tilstand her med tidspunkt. |
+| `ads_rev` | Tjek-log for fund: hvert tjek af et fund, også når intet har ændret sig. Bruges til `lastChecked`. |
 | `user_action_type` | De handlinger, der findes: `favorit` og `skjult`. Skjult gælder både fund og lamper. |
 | `user_actions` | Brugerens handlinger, som den nuværende tilstand: på et fund (favorit, skjult) eller på en lampe (skjult = arkiveret). |
 

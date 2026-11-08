@@ -77,7 +77,28 @@ def migrate_user_actions(db):
     db.execute("CREATE UNIQUE INDEX IF NOT EXISTS ux_user_actions_target ON user_actions(target_id, action) WHERE target_id IS NOT NULL")
 
 
+REV_SCHEMA = """
+CREATE TABLE IF NOT EXISTS targets_rev (
+  rev_id INTEGER PRIMARY KEY,
+  target_id TEXT NOT NULL,              -- targetet, som det var FØR ændringen
+  rev_at TEXT NOT NULL,                 -- hvornår ændringen blev synket ind
+  tilstand TEXT NOT NULL                -- JSON: felterne og underrækkerne før ændringen
+);
+CREATE INDEX IF NOT EXISTS idx_targets_rev ON targets_rev(target_id, rev_at);
+CREATE TABLE IF NOT EXISTS ads_rev (
+  rev_id INTEGER PRIMARY KEY,
+  find_id TEXT NOT NULL,                -- fundet, som det blev tjekket
+  rev_at TEXT NOT NULL,                 -- hvornår fundet blev tjekket
+  seen_at TEXT,                         -- den version i ads, der var den seneste på tjektidspunktet
+  title TEXT, type TEXT, description TEXT, note TEXT, city TEXT, direct TEXT,
+  price INTEGER, available TEXT, color TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_ads_rev ON ads_rev(find_id, rev_at);
+"""
+
+
 def init(db):
+    db.executescript(REV_SCHEMA)
     have = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type = 'table'")}
     missing = [t for t in REQUIRED if t not in have]
     if missing:
@@ -101,9 +122,25 @@ def lookup(db, table, col, value, label):
     return row[0]
 
 
+def target_state(db, tid):
+    row = db.execute("""SELECT list_id, sort_order, model, designer, producer, max_price, aktiv, image_url
+                        FROM targets WHERE id = ?""", (tid,)).fetchone()
+    if row is None:
+        return None
+    return {
+        "list_id": row[0], "sort_order": row[1], "model": row[2], "designer": row[3], "producer": row[4],
+        "max_price": row[5], "aktiv": row[6], "image_url": row[7],
+        "types": sorted(r[0] for r in db.execute("SELECT type FROM target_types WHERE target_id = ?", (tid,))),
+        "colors": sorted([r[0], r[1]] for r in db.execute("SELECT color, kind FROM target_colors WHERE target_id = ?", (tid,))),
+        "terms": sorted([r[0], r[1]] for r in db.execute("SELECT term, kind FROM target_terms WHERE target_id = ?", (tid,))),
+        "platforms": sorted(r[0] for r in db.execute("SELECT platform FROM target_platforms WHERE target_id = ?", (tid,))),
+    }
+
+
 def sync_lampe(db, path):
     with open(path, encoding="utf-8") as f:
         docs = json.load(f)
+    ts = now()
     ids = []
     for d in docs:
         data = d.get("data") or {}
@@ -111,6 +148,7 @@ def sync_lampe(db, path):
             print(f"springer tom række over: {d['id']}")
             continue
         tid = TARGET_PREFIX + d["id"]
+        before = target_state(db, tid)
         arkiveret = data.get("archived") is True
         aktiv = 1 if data.get("aktiv") is True and not arkiveret else 0
         if arkiveret:
@@ -147,6 +185,10 @@ def sync_lampe(db, path):
         for p in split(data.get("sites")):
             db.execute("INSERT INTO target_platforms (target_id, platform) VALUES (?, ?)",
                        (tid, lookup(db, "platforms", "name", p, "platform")))
+        after = target_state(db, tid)
+        if before is not None and before != after:
+            db.execute("INSERT INTO targets_rev (target_id, rev_at, tilstand) VALUES (?, ?, ?)",
+                       (tid, ts, json.dumps(before, ensure_ascii=False)))
     # Targets, der ikke længere står på listen, bliver inaktive. Ingen slettes.
     db.execute("UPDATE targets SET aktiv = 0 WHERE id LIKE ? AND id NOT IN (SELECT value FROM json_each(?))",
                (TARGET_PREFIX + "%", json.dumps(ids)))
@@ -192,6 +234,16 @@ def latest_ad(db, fid):
     row = db.execute(f"""SELECT {", ".join(AD_FIELDS)} FROM ads WHERE find_id = ?
                          ORDER BY seen_at DESC LIMIT 1""", (fid,)).fetchone()
     return dict(zip(AD_FIELDS, row)) if row else None
+
+
+def log_check(db, fid, ts):
+    """Hvert tjek af et fund logges, også når intet har ændret sig. Så kender vi sidst tjekket."""
+    latest = db.execute("SELECT seen_at FROM ads WHERE find_id = ? ORDER BY seen_at DESC LIMIT 1", (fid,)).fetchone()
+    values = latest_ad(db, fid) or {}
+    cols = ", ".join(AD_FIELDS)
+    marks = ", ".join("?" for _ in AD_FIELDS)
+    db.execute(f"INSERT INTO ads_rev (find_id, rev_at, seen_at, {cols}) VALUES (?, ?, ?, {marks})",
+               (fid, ts, latest[0] if latest else None, *[values.get(k) for k in AD_FIELDS]))
 
 
 def write_ad(db, fid, values, ts):
@@ -267,12 +319,14 @@ def gem_resultat(db, path):
             db.execute("INSERT INTO finds (id, plat, target_id, link) VALUES (?,?,?,?)",
                        (fid, plat, tid, f["link"]))
             write_ad(db, fid, ad_values(db, f, partial=False), ts)
+            log_check(db, fid, ts)
             nye += 1
         else:
             latest = latest_ad(db, fid) or {}
             values = dict(latest, **ad_values(db, f, partial=True))
             if write_ad(db, fid, values, ts):
                 versioner += 1
+            log_check(db, fid, ts)
     for r in data.get("fjernet", []):
         plat = lookup(db, "platforms", "name", r["platform"], "platform")
         fid = f"{plat.lower()}-{r['ekstern_id']}"
@@ -280,6 +334,8 @@ def gem_resultat(db, path):
         if latest and latest["available"] != "nej":
             if write_ad(db, fid, dict(latest, available="nej"), ts):
                 versioner += 1
+        if latest:
+            log_check(db, fid, ts)
     runs = 0
     for s in data.get("soegninger", []):
         if s.get("status") != "gennemfoert":
@@ -308,6 +364,7 @@ def slet_fund(db, fid):
         raise ValueError(f"fandt ikke fund: {fid}")
     n_ads = db.execute("SELECT COUNT(*) FROM ads WHERE find_id = ?", (fid,)).fetchone()[0]
     n_act = db.execute("SELECT COUNT(*) FROM user_actions WHERE find_id = ?", (fid,)).fetchone()[0]
+    db.execute("DELETE FROM ads_rev WHERE find_id = ?", (fid,))
     db.execute("DELETE FROM finds WHERE id = ?", (fid,))   # ads og user_actions slettes via ON DELETE CASCADE
     print(f"slettet {fid}: {n_ads} annonceversioner, {n_act} brugerhandlinger")
 
@@ -422,6 +479,9 @@ def eksport_side(db, path):
             doc["check"] = "Ikke uafhængigt verificeret"
         if avail == "nej" and gone:
             doc["goneAt"] = gone
+        last = db.execute("SELECT MAX(rev_at) FROM ads_rev WHERE find_id = ?", (fid,)).fetchone()[0]
+        if last:
+            doc["lastChecked"] = last
         out["finds"].append({"id": fid, "data": doc})
     with open(path, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=2)
@@ -430,7 +490,8 @@ def eksport_side(db, path):
 
 def status(db):
     for t in ("platforms", "lamp_types", "color_type", "targets", "target_types", "target_colors",
-              "target_terms", "target_platforms", "runs", "finds", "ads", "user_action_type", "user_actions"):
+              "target_terms", "target_platforms", "runs", "finds", "ads", "ads_rev", "targets_rev",
+              "user_action_type", "user_actions"):
         print(f"{t}: {db.execute(f'SELECT COUNT(*) FROM {t}').fetchone()[0]}")
 
 
