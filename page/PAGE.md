@@ -1,22 +1,15 @@
-# The page
+# Siden
 
-The page is the only place the user reads the finds. Its source is `page/rethink-soegerapport.html`. It is one self-contained HTML file. All text on it is Danish.
+Siden er den artefakt-side, hvor brugeren vurderer fund. Kildekoden er `page/rethink-soegerapport.html`. Al tekst på siden er dansk.
 
-## What it shows
+## Hvad den gør nu
 
-- Title "Søgerapport" with a small RETHINK wordmark on top. Below it one line: latest run, platforms, number of online listings, workbook and sheet.
-- One tab per category (from `categories`). The tab shows the number of listings that are not removed.
-- Filters: free text, then a "Produkt" group (Model, Designer, Producent, Type, Farve, max price) and an "Annonce" group (Platform, Vurdering, Tid, "Kan købes direkte", "Kun prisfald", "Vis fjernede"). Sorting and a reset button.
-- A flat list. Each listing is a row: name (links to the listing) and price, then one detail line (type, colours, platform, city, status, direct purchase, date, last checked). Open the row for the note, `check` text, price history and last-checked time. A find with `check` shows "Skal tjekkes". A removed find is struck through and hidden until "Vis fjernede" is ticked.
-- Three rating buttons per row (Godt fund, Ikke interessant, Købt) with reason chips. Only the owner sees them. They write to `feedback`.
-- At the bottom, "Søgedækning og begrænsninger": one block per run, newest first.
+- Viser fundene fra artefaktets egen database. De bliver ikke opdateret af agenterne. Fundene står nu i `database.db`.
+- Brugeren kan vurdere et fund med Godt fund, Ikke interessant eller Købt, og vælge årsager. Vurderingerne skrives til samlingen `feedback`.
+- Agenten læser `feedback` før hver søgning og importerer den til `database.db`, tabellen `user_actions`. Se `CLAUDE.md`, trin 2.
 
-## Data and settings
+## Ændringer
 
-- The page reads the collections `finds`, `targets`, `categories`, `runs` and `feedback`. The fields are in `templates/FIND_SCHEMA.md`.
-- It is published with the `db` capability (read: anyone who can view, write: owner only) and the `user` capability.
-- Style: calm green-grey palette, light and dark mode, fonts Bricolage Grotesque, IBM Plex Sans and IBM Plex Mono, readable on a phone.
+Hvis siden skal vise fund fra `database.db`, skal den have en anden datakilde. Der er ingen måde at læse SQLite direkte fra artefaktet. Det kræver en eksport af databasen, som siden kan læse. Afklar det, før siden ændres.
 
-## Changing the page
-
-Edit `page/rethink-soegerapport.html`, then republish it to the same URL. Do not republish to add finds: finds go in the database.
+Ret kun `page/rethink-soegerapport.html` for designændringer. Udgiv den igen til samme URL.
