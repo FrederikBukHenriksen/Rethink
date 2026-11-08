@@ -6,6 +6,7 @@ Kommandoer:
   python3 scripts/db.py sync-lampe FIL          læs lampelisten (JSON fra ArtifactData) ind i tabellen lampe
   python3 scripts/db.py import-feedback FIL     læs brugerens vurderinger fra siden (JSON) ind i user_actions
   python3 scripts/db.py gem-resultat FIL        gem resultatet af søgningen på én lampe (JSON, se templates/FIND_SCHEMA.md)
+  python3 scripts/db.py slet-fund FUND_ID       slet ét fund med alt, der hører til det (fx dba-26284641)
   python3 scripts/db.py status                  vis antal rækker
 
 FIL er en JSON-liste med objekter som {"id": "...", "data": {...}}, som ArtifactData returnerer dem.
@@ -50,6 +51,11 @@ CREATE TABLE IF NOT EXISTS user_actions (
   importeret TEXT NOT NULL              -- hvornår det blev læst ind i databasen
 );
 CREATE INDEX IF NOT EXISTS idx_user_actions_feedback ON user_actions(feedback_id, id);
+
+CREATE TABLE IF NOT EXISTS slettede_fund (
+  fund_id TEXT PRIMARY KEY,             -- fundets id, fx 'dba-26284641'
+  slettet TEXT NOT NULL                 -- hvornår det blev slettet
+);
 """
 
 
@@ -134,7 +140,8 @@ def import_feedback(db, path):
     with open(path, encoding="utf-8") as f:
         docs = json.load(f)
     ts = now()
-    current = {d["id"]: d.get("data") or {} for d in docs}
+    slettede = {r[0] for r in db.execute("SELECT fund_id FROM slettede_fund")}
+    current = {d["id"]: d.get("data") or {} for d in docs if d["id"] not in slettede}
     last = {r[0]: (r[1], r[2], r[3]) for r in db.execute("""
         SELECT feedback_id, handling, aarsager, tidspunkt FROM user_actions u
         WHERE id = (SELECT MAX(id) FROM user_actions WHERE feedback_id = u.feedback_id)""")}
@@ -206,11 +213,15 @@ def gem_resultat(db, path):
     lampe_id = data.get("lampe_id")
     if lampe_id and not db.execute("SELECT 1 FROM lampe WHERE id = ?", (lampe_id,)).fetchone():
         raise ValueError(f"ukendt lampe_id: {lampe_id}")
-    nye = versioner = 0
+    nye = versioner = sprunget = 0
+    slettede = {r[0] for r in db.execute("SELECT fund_id FROM slettede_fund")}
     for f in data.get("fund", []):
         plat = db.execute("SELECT id FROM platform WHERE navn = ?", (f["platform"],)).fetchone()
         if plat is None:
             raise ValueError(f"ukendt platform: {f['platform']}")
+        if f"{f['platform'].lower()}-{f['ekstern_id']}" in slettede:
+            sprunget += 1
+            continue
         aid = annonce_id_for(db, f["platform"], f["ekstern_id"])
         if aid is None:
             cur = db.execute("""INSERT INTO produkt (kategori_id, navn, model, designer, producent, farver,
@@ -245,23 +256,49 @@ def gem_resultat(db, path):
         db.execute("""INSERT INTO koersel (tidspunkt, kategori_id, platforme, cutoff, daekning)
                       VALUES (?,?,?,?,?)""",
                    (k.get("tidspunkt", ts), kat, k.get("platforme"), k.get("cutoff"), k.get("daekning")))
-    print(f"gemt: {nye} nye annoncer, {versioner} nye versioner")
+    print(f"gemt: {nye} nye annoncer, {versioner} nye versioner, {sprunget} sprunget over (slettet før)")
+
+
+def slet_fund(db, fund_id):
+    """Slet ét fund og alt, der hører til netop det: annoncen, dens versioner, brugerhandlinger
+    og produktet, hvis intet andet bruger det. Lampelisten, platforme og kørsler røres ikke.
+    Fund-id'et gemmes i slettede_fund, så det ikke bliver gemt igen ved næste søgning eller import."""
+    row = db.execute("""SELECT a.id, a.produkt_id, p.navn FROM annonce a
+                        JOIN platform p ON p.id = a.platform_id
+                        WHERE lower(p.navn) || '-' || a.ekstern_id = ?""", (fund_id,)).fetchone()
+    if row is None:
+        raise ValueError(f"fandt ikke fund: {fund_id}")
+    aid, pid, _ = row
+    ts = now()
+    n_versioner = db.execute("DELETE FROM annonce_content WHERE annonce_id = ?", (aid,)).rowcount
+    n_handlinger = db.execute("DELETE FROM user_actions WHERE annonce_id = ? OR feedback_id = ?",
+                              (aid, fund_id)).rowcount
+    db.execute("DELETE FROM annonce WHERE id = ?", (aid,))
+    n_produkt = 0
+    if not db.execute("SELECT 1 FROM annonce WHERE produkt_id = ?", (pid,)).fetchone():
+        db.execute("DELETE FROM produkt_lampe WHERE produkt_id = ?", (pid,))
+        n_produkt = db.execute("DELETE FROM produkt WHERE id = ?", (pid,)).rowcount
+    db.execute("INSERT OR REPLACE INTO slettede_fund (fund_id, slettet) VALUES (?, ?)", (fund_id, ts))
+    print(f"slettet {fund_id}: 1 annonce, {n_versioner} versioner, {n_handlinger} brugerhandlinger, "
+          f"{n_produkt} produkt")
 
 
 def status(db):
-    for t in ("produkt_kategori", "platform", "lampe", "produkt", "annonce", "annonce_content", "user_actions", "koersel"):
+    for t in ("produkt_kategori", "platform", "lampe", "produkt", "annonce", "annonce_content", "user_actions",
+              "koersel", "slettede_fund"):
         n = db.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0]
         print(f"{t}: {n}")
 
 
 def main(argv):
-    commands = ("init", "sync-lampe", "import-feedback", "gem-resultat", "status")
+    commands = ("init", "sync-lampe", "import-feedback", "gem-resultat", "slet-fund", "status")
     if len(argv) < 2 or argv[1] not in commands:
         print(__doc__)
         return 2
     cmd = argv[1]
-    if cmd in ("sync-lampe", "import-feedback", "gem-resultat") and len(argv) != 3:
-        print(f"Brug: python3 scripts/db.py {cmd} FIL")
+    if cmd in ("sync-lampe", "import-feedback", "gem-resultat", "slet-fund") and len(argv) != 3:
+        print(f"Brug: python3 scripts/db.py {cmd} FIL" if cmd != "slet-fund"
+              else "Brug: python3 scripts/db.py slet-fund FUND_ID   (fx dba-26284641)")
         return 2
     db = connect()
     try:
@@ -273,8 +310,13 @@ def main(argv):
                 import_feedback(db, argv[2])
             elif cmd == "gem-resultat":
                 gem_resultat(db, argv[2])
+            elif cmd == "slet-fund":
+                slet_fund(db, argv[2])
             elif cmd == "status":
                 status(db)
+    except (ValueError, sqlite3.Error) as e:
+        print(f"Fejl: {e}. Ingen ændringer er gemt.")
+        return 1
     finally:
         db.close()
     return 0

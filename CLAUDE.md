@@ -128,4 +128,5 @@ Afslut med en kort besked til brugeren: antal nye fund, prisændringer, fjernede
 - Omgå ikke login, betalingsmure, CAPTCHA eller adgangsbegrænsninger.
 - Kan en platform ikke søges pålideligt i browseren, siger du det. Brug ikke almindelig websøgning i stedet, medmindre brugeren udtrykkeligt tillader det.
 - Opfind aldrig annoncer, priser, steder, datoer, farver, modeller eller købsbeskyttelse.
-- Skriv aldrig til lampelisten eller til siden. Slet aldrig rækker i databasen.
+- Skriv aldrig til lampelisten eller til siden.
+- Slet kun et fund, når brugeren beder om det, og kun med `python3 scripts/db.py slet-fund <fund-id>`. Det sletter annoncen, dens versioner, brugerhandlingerne og produktet, hvis intet andet bruger det. Lampelisten, platformene og kørslerne røres ikke. Fund-id'et gemmes i `slettede_fund`, så det ikke bliver gemt igen ved en senere søgning eller import.

@@ -1,6 +1,6 @@
 # Databasen: `database.db`
 
-En SQLite-fil i mappen. Alt, der gemmes, går igennem `scripts/db.py`. Slet aldrig rækker. En fjernet annonce får `tilgaengelig` = `nej`.
+En SQLite-fil i mappen. Alt, der gemmes, går igennem `scripts/db.py`. En fjernet annonce får `tilgaengelig` = `nej`. Et fund slettes kun med `slet-fund`, når brugeren beder om det.
 
 ## Kommandoer
 
@@ -9,10 +9,13 @@ python3 scripts/db.py init                  # opret tabeller, hvis de mangler
 python3 scripts/db.py sync-lampe FIL        # lampelisten ind i lampe
 python3 scripts/db.py import-feedback FIL   # brugerens vurderinger ind i user_actions
 python3 scripts/db.py gem-resultat FIL      # resultatet af søgningen på én lampe
+python3 scripts/db.py slet-fund FUND_ID     # slet ét fund med alt, der hører til det, fx dba-26284641
 python3 scripts/db.py status                # antal rækker pr. tabel
 ```
 
 Alle kommandoer kører i én transaktion. Fejler noget, skrives intet.
+
+`slet-fund` sletter annoncen, alle dens versioner, alle brugerhandlinger for den, og produktet, hvis ingen andre annoncer bruger det. Lampelisten (`lampe`), platformene og kørslerne (`koersel`) røres ikke. Fund-id'et gemmes i `slettede_fund`. Et slettet fund bliver ikke gemt igen af `gem-resultat`, og dets vurderinger bliver ikke importeret igen fra siden. `gem-resultat` svarer med, hvor mange der blev sprunget over af den grund.
 
 ## Tabeller
 
@@ -27,6 +30,7 @@ Alle kommandoer kører i én transaktion. Fejler noget, skrives intet.
 | `annonce_content` | En version af en annonce. Ny række kun, når indholdet ændrer sig. |
 | `user_actions` | Brugerens vurderinger af fund, som hændelser. |
 | `koersel` | En kørsel med tidspunkt, platforme, cutoff og dækning. |
+| `slettede_fund` | Fund-id'er, der er slettet med `slet-fund`. De bliver ikke gemt igen. |
 
 Visningen `annonce_nu` viser den seneste version af hver annonce. Brug den til at læse fund. Brug `annonce_content` til historik.
 
