@@ -1,74 +1,41 @@
-# Datastruktur for sidens database
+# Databasen: `database.db`
 
-Siden `https://claude.ai/artifact/WRGmgJnVgvKhDegpB6q5x8` læser fire samlinger fra sin database: `categories`, `targets`, `finds` og `runs`. `feedback` skrives af siden. Agenterne læser den kun. Skriv med `ArtifactData` og `url` = sidens URL. Publicér aldrig siden igen for at tilføje fund. Ret kun sidens fil ved designændringer.
+En SQLite-fil i mappen. Alle fund, lamper og kørsler skrives her. Skriv efter reglerne i `CLAUDE.md`, afsnit 6. Slet aldrig rækker.
 
-Al tekst på siden er dansk.
+## Tabeller
 
-## `categories/<slug>`: en søgeområde-fane
+| Tabel | Hvad en række er | Vigtige felter |
+|---|---|---|
+| `produkt_kategori` | En søgeområde, fx lamper | `slug`, `navn`, `raekkefoelge` |
+| `platform` | En markedsplads | `navn` (DBA, Vinted, Tradera), `base_url`, `note` |
+| `produkt` | En lamp, som den står i en annonce | `kategori_id`, `navn`, `model`, `designer`, `producent`, `farver`, `status`, `note`, `soegeraekke` |
+| `produkt_lampe` | Lampetypen for et produkt | `produkt_id`, `lampetype` |
+| `annonce` | Én annonce på én platform | `produkt_id`, `platform_id`, `ekstern_id`, `link` |
+| `annonce_content` | Én version af en annonce | `annonce_id`, `observeret`, `sidst_set`, `pris`, `by`, `kan_koebes_direkte`, `tilgaengelig`, `listet_tid`, `dato_type`, `dato_omtrentlig`, `tjek` |
+| `koersel` | En kørsel | `tidspunkt`, `kategori_id`, `platforme`, `cutoff`, `daekning` |
 
-`{ "name": "Lamper", "order": 1 }`
+Felterne i `annonce_content` (de vigtigste):
 
-Slugs er små bogstaver, tal og bindestreger, fx `lamper`. Slugen er fanens adresse (`#lamper`). Slet aldrig en kategori, der har fund.
+- `observeret`: første gang denne version blev set. `sidst_set`: sidste gang den blev set.
+- `pris`: helt tal i kr. `pris_note`: fx "for begge".
+- `by`: sted, eller `by ukendt`.
+- `kan_koebes_direkte`: `Ja`, `Nej` eller `Tjek`.
+- `tilgaengelig`: `ja`, `nej` eller `ukendt`.
+- `listet_tid`: ISO-tid med offset, fx `2026-10-30T09:39:00+01:00`.
+- `dato_type`: `redigeret` (DBA viser kun sidst redigeret) eller `uploadet`.
+- `dato_omtrentlig`: 1, når datoen er udregnet fra en relativ alder.
+- `tjek`: det brugeren selv skal verificere. Tomt, når der ikke er noget.
 
-Alle `finds`, `targets` og `runs` har feltet `category` med slugen. Mangler det, tæller dokumentet som `lamper`.
+## Status og værdier
 
-## `finds/<id>`: ét fund pr. annonce
+- `produkt.status`: `Bekræftet`, `Sandsynlig med forbehold` eller `Uklar identitet`.
+- `produkt_lampe.lampetype`: `Bordlampe`, `Loftlampe`, `Standerlampe` eller `Væglampe`.
+- `farver`: danske farvenavne, hovedfarven først, adskilt med komma: Hvid, Sort, Grå, Beige, Brun, Rød, Orange, Gul, Grøn, Blå, Lilla, Pink, Guld, Sølv, Messing, Krom, Træ.
 
-Id'et er `<platform med småt>-<annonce-id>`, fx `dba-26284641`. Slet aldrig et fund. En fjernet annonce bliver liggende med `available: "nej"`.
+## Læs det nyeste
 
-| Felt | Betydning |
-|---|---|
-| `category` | Kategoriens slug, fx `lamper` |
-| `row` | Lampens `order` på listen (1, 2, 3 …). Siden bruger den til at knytte fund til `targets` |
-| `name` | Kort navn, fx `Flowerpot VP3, mat hvid` |
-| `type` | Én dansk type: `Bordlampe`, `Loftlampe`, `Standerlampe`, `Gulvlampe` eller `Væglampe` |
-| `colors` | Liste med danske farver med stort begyndelsesbogstav, hovedfarven først, fx `["Hvid", "Orange"]`. Brug disse navne: Hvid, Sort, Grå, Beige, Brun, Rød, Orange, Gul, Grøn, Blå, Lilla, Pink, Guld, Sølv, Messing, Krom, Træ |
-| `plat` | `DBA`, `Vinted` eller `Tradera`. Andre platforme tilføjes her, når de bruges |
-| `city` | By, eller `by ukendt` |
-| `direct` | `Ja`, `Nej` eller `Tjek` |
-| `status` | `Bekræftet`, `Sandsynlig med forbehold` eller `Uklar identitet` |
-| `link` | Direkte link til annoncen |
-| `listedAt` | ISO-tid med offset, fx `2026-10-30T09:39:00+01:00`. Vises kun en relativ alder ("22 t. siden"), beregnes tiden, og `dateApprox` sættes til `true` |
-| `dateKind` | `redigeret` (DBA viser kun sidst redigeret) eller `uploadet` |
-| `dateApprox` | `true` eller `false` |
-| `note` | Hvad der understøtter identifikationen, og hvad der mangler. Kort |
-| `check` | Kun når brugeren skal verificere noget. Skriv hvad der afviger. Udelad feltet ellers |
-| `price` | Aktuel pris i kr. som tal |
-| `priceNote` | Valgfrit, fx `for begge` |
-| `priceHistory` | `[{"d":"30.10","p":900}, ...]`. Én post pr. kørsel, hvor prisen ændrede sig. Første post er prisen, da fundet blev set første gang |
-| `firstSeen` | ISO-tid for kørslen, der fandt fundet første gang |
-| `lastChecked` | ISO-tid for seneste tilgængelighedstjek |
-| `available` | `ja`, `nej` eller `ukendt` |
-| `goneAt` | ISO-tid for kørslen, der fandt fundet fjernet. Kun når `available` er `nej` |
+`annonce_nu` er en visning med én række pr. annonce. Den viser den seneste version og den første observation. Brug den til at læse fund. Brug `annonce_content` til historik.
 
-## `targets/<slug>-row-<N>`: én pr. række på listen
+## Eksempel
 
-Fx `lamper-row-5`, hvor `N` er listens `order`. `{ "category": "lamper", "row": N, "model": "...", "designers": ["..."], "producers": ["..."] }`. `model` er en tom streng, når rækken ikke har model. Synkronisér med lampelisten. Sidens filtre bygges ud fra disse.
-
-## `runs/<YYYY-MM-DD-HHMM>`: én pr. kørsel
-
-```
-{ "category": "lamper", "date": "<ISO-tid>", "platforms": ["DBA", "Vinted"],
-  "sections": [ { "title": "Gennemført", "items": ["..."] }, ... ] }
-```
-
-Foreslåede sektionstitler: `Gennemført`, `Ikke gennemført`, `Begrænsninger`, `Tilgængelighed`, `Prisændringer`, `Fravalgt`, `Sælgere`. Hvert punkt er én almindelig sætning.
-
-## `feedback/<find-id>`: brugerens vurdering af et fund
-
-Skrives af siden, når brugeren trykker på en vurdering. Id'et er fundets id. Agenterne læser kun.
-
-```
-{ "findId": "dba-26284641",
-  "verdict": "godt" | "nej" | "koebt",
-  "reasons": ["For dyrt", "For langt væk"],
-  "at": "<ISO-tid for vurderingen>",
-  "snapshot": { name, type, plat, city, row, link, model, designers, producers,
-                price, firstPrice, direct, status, available, listedAt, ageHours } }
-```
-
-- `verdict`: `godt` = Godt fund, `nej` = Ikke interessant, `koebt` = Købt.
-- Årsager ved `nej`: `For dyrt`, `Dårlig stand`, `For langt væk`, `Forkert model`, `Forkert farve`, `Mistanke om kopi`, `Ikke vores stil`. Ved `godt`: `God pris`, `Sjælden model`, `Flot stand`. Flere kan vælges. `koebt` har ingen årsager.
-- `snapshot` er en kopi af fundet på vurderingstidspunktet. Senere prisændringer ændrer ikke, hvad vurderingen handlede om.
-- Et fund uden dokument her er ikke vurderet. Behandl det som ukendt, aldrig som et "nej".
-- `Forkert model`, `Forkert farve`, `Dårlig stand` og `Mistanke om kopi` betyder, at søgningen missede. `For dyrt`, `For langt væk` og `Ikke vores stil` betyder, at lampen var rigtig, men ikke en god handel for butikken.
+De to PH5-fund fra kørslen `2026-11-08 11.28` ligger i databasen. Den fravalgte PH5 Loftlampe står ikke i databasen, men i `koersel.daekning`.
