@@ -30,7 +30,6 @@ TZ = ZoneInfo("Europe/Copenhagen")
 REQUIRED = ("platforms", "lamp_types", "color_type", "targets", "target_types", "target_colors",
             "target_terms", "target_platforms", "runs", "finds", "ads", "user_actions")
 TARGET_PREFIX = "lamper-"          # listens id 'l07' bliver target 'lamper-l07'
-FEEDBACK_MAP = {"godt": "favorit", "nej": "skjult"}   # 'koebt' findes ikke i modellen og springes over
 AD_FIELDS = ("title", "type", "description", "note", "city", "direct", "price", "available", "color")
 
 
@@ -155,27 +154,38 @@ def sync_lampe(db, path):
 
 
 def import_feedback(db, path):
+    """Sidens feedback er hele tilstanden: ét dokument pr. fund med action 'favorit' eller 'skjult'.
+    Et fund uden dokument har ingen handling. Læsningen skal være lykkedes, før den kaldes."""
     with open(path, encoding="utf-8") as f:
         docs = json.load(f)
     ts = now()
-    n_sat = n_ikke = 0
+    want = {}
     for d in docs:
         data = d.get("data") or {}
         fid = data.get("findId") or d["id"]
-        action = FEEDBACK_MAP.get(data.get("verdict"))
+        act = data.get("action")
+        if act not in ("favorit", "skjult"):
+            print(f"springer over, ukendt handling: {fid} ({act})")
+            continue
         if not db.execute("SELECT 1 FROM finds WHERE id = ?", (fid,)).fetchone():
             print(f"springer over, fundet findes ikke: {fid}")
             continue
-        if action is None:
-            print(f"springer over, ingen tilsvarende handling: {fid} ({data.get('verdict')})")
-            n_ikke += 1
+        want[fid] = (act, data.get("at") or ts)
+    have = {(r[0], r[1]): r[2] for r in db.execute(
+        "SELECT find_id, action, at FROM user_actions WHERE find_id IS NOT NULL")}
+    removed = 0
+    for (fid, act) in list(have):
+        if want.get(fid, (None,))[0] != act:
+            db.execute("DELETE FROM user_actions WHERE find_id = ? AND action = ?", (fid, act))
+            removed += 1
+    added = 0
+    for fid, (act, at) in want.items():
+        if (fid, act) in have:
             continue
-        other = "skjult" if action == "favorit" else "favorit"
-        db.execute("DELETE FROM user_actions WHERE find_id = ? AND action IN (?, ?)", (fid, other, action))
-        db.execute("INSERT INTO user_actions (find_id, action, at) VALUES (?, ?, ?)",
-                   (fid, action, data.get("at") or ts))
-        n_sat += 1
-    print(f"user_actions: {n_sat} sat, {n_ikke} ikke mappet")
+        db.execute("DELETE FROM user_actions WHERE find_id = ? AND action <> ?", (fid, act))
+        db.execute("INSERT INTO user_actions (find_id, action, at) VALUES (?, ?, ?)", (fid, act, at))
+        added += 1
+    print(f"user_actions: {added} sat, {removed} fjernet")
 
 
 def latest_ad(db, fid):

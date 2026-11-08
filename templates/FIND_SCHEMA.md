@@ -7,7 +7,7 @@ SQLite-filen i mappen, med den datamodel brugeren har givet. Alt, der gemmes, g�
 ```
 python3 scripts/db.py init                    # tjek at tabellerne findes
 python3 scripts/db.py sync-lampe FIL          # lampelisten ind i targets
-python3 scripts/db.py import-feedback FIL     # brugerens vurderinger ind i user_actions
+python3 scripts/db.py import-feedback FIL     # brugerens favoritter og skjulte fund ind i user_actions
 python3 scripts/db.py gem-resultat FIL        # fund, versioner og gennemførte søgninger
 python3 scripts/db.py cutoff LAMPE PLATFORM   # cutoff for en lampe på en platform; 'ingen' hvis ingen
 python3 scripts/db.py slet-fund FUND_ID       # slet ét fund, fx dba-26284641
@@ -39,7 +39,7 @@ Cutoff gælder for én lampe (target) på én platform. Det er tidspunktet for d
 | `finds` | Et fund: id, platform, target og link. Id'et er `<platform med småt>-<annonce-id>`. |
 | `ads` | En version af et fund. En ny række, når indholdet ændrer sig. |
 | `user_action_type` | De handlinger, der findes: `favorit` og `skjult`. Skjult gælder både fund og lamper. |
-| `user_actions` | En handling brugeren har lavet: på et fund eller på en lampe. |
+| `user_actions` | Brugerens handlinger, som den nuværende tilstand: på et fund (favorit, skjult) eller på en lampe (skjult = arkiveret). |
 
 Et fund har altid én target og én platform. Det fund, der kommer tilbage af en søgning, kobles til den target, der blev søgt for.
 
@@ -82,8 +82,9 @@ Databasen er den eneste sandhed. Lampelisten og siden er spejlinger af den.
 **`user_actions`**
 
 - Hver række har enten `find_id` (fund) eller `target_id` (lampe), aldrig begge.
-- `action`: en af `user_action_type`. `favorit` kommer fra brugerens Godt fund, og `skjult` fra Ikke interessant eller fra arkivering af en lampe. Købt og årsager findes ikke i modellen og springes over.
+- `action`: en af `user_action_type`. `favorit` og `skjult` kommer fra stjernen og skraldespanden på siden. `skjult` på en lampe kommer fra arkivering på listen.
 - `skjult` på en lampe betyder arkiveret. Den sættes, når familien arkiverer en række på listen, og fjernes, hvis de fortryder.
+- `favorit` og `skjult` på et fund er den tilstand, siden viser. Når du importerer, erstatter den det, der er i databasen for fund.
 - `at`: hvornår handlingen blev lavet.
 
 ## JSON-filer
@@ -104,14 +105,14 @@ Tomme rækker springes over. Alle værdier i `type`, `tilladteFarver`, `fravalgt
 
 ### `import-feedback`
 
-Samlingen `feedback` på siden. En tom liste er gyldig, men kun hvis læsningen lykkedes:
+Samlingen `feedback` på siden. Hvert dokument er et fund med en handling. Et fund uden dokument har ingen handling:
 
 ```json
-[{"id": "dba-26546368", "data": {"findId": "dba-26546368", "verdict": "godt",
-                                  "at": "2026-11-08T12:00:00+01:00"}}]
+[{"id": "dba-26278770", "data": {"findId": "dba-26278770", "action": "favorit",
+                                  "at": "2026-11-08T17:01:00+01:00"}}]
 ```
 
-`godt` bliver `favorit`, og `nej` bliver `skjult`. `koebt` springes over. Årsagerne fra siden gemmes ikke.
+`action` er `favorit` (stjernen) eller `skjult` (skraldespanden). Skjulte fund vises ikke på siden, før brugeren vælger "Vis skjulte". Fjernes en handling på siden, mangler dokumentet, og handlingen fjernes også i databasen. En tom liste er gyldig, men kun hvis læsningen lykkedes.
 
 ### `gem-resultat`
 
