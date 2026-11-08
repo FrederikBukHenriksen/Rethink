@@ -67,9 +67,9 @@ Databasen er den eneste sandhed. Lampelisten og siden er spejlinger af den.
 
 - `plat`: platformens navn. `target_id`: den target, fundet blev fundet for. `link`: annoncens link.
 
-**`ads`** (versioner, nøglen er `find_id` + `seen_at`)
+**`ads`** (versioner, nøglen er `find_id` + `insert`)
 
-- `seen_at`: hvornår denne version blev set, som ISO-tid med offset.
+- `insert`: hvornår denne version blev indsat, som ISO-tid med offset. Kolonnen hedder `insert`, og i SQL skal den skrives i anførselstegn: `"insert"`.
 - `title`, `description`, `city`: tekst fra annoncen. `city` er `by ukendt`, hvis byen ikke står der.
 - `type`: en af lamp_types. `color`: den vigtigste farve, eller tom.
 - `direct`: `Ja`, `Nej` eller `Tjek`.

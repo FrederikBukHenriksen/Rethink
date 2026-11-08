@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS ads_rev (
   rev_id INTEGER PRIMARY KEY,
   find_id TEXT NOT NULL,                -- fundet, som det blev tjekket
   rev_at TEXT NOT NULL,                 -- hvornår fundet blev tjekket
-  seen_at TEXT,                         -- den version i ads, der var den seneste på tjektidspunktet
+  "insert" TEXT,                        -- den version i ads, der var den seneste på tjektidspunktet
   title TEXT, type TEXT, description TEXT, note TEXT, city TEXT, direct TEXT,
   price INTEGER, available TEXT, color TEXT
 );
@@ -99,6 +99,10 @@ CREATE INDEX IF NOT EXISTS idx_ads_rev ON ads_rev(find_id, rev_at);
 
 def init(db):
     db.executescript(REV_SCHEMA)
+    for tbl in ("ads", "ads_rev"):
+        cols = [r[1] for r in db.execute(f"PRAGMA table_info({tbl})")]
+        if "seen_at" in cols:
+            db.execute(f'ALTER TABLE {tbl} RENAME COLUMN seen_at TO "insert"')
     have = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type = 'table'")}
     missing = [t for t in REQUIRED if t not in have]
     if missing:
@@ -232,17 +236,17 @@ def import_feedback(db, path):
 
 def latest_ad(db, fid):
     row = db.execute(f"""SELECT {", ".join(AD_FIELDS)} FROM ads WHERE find_id = ?
-                         ORDER BY seen_at DESC LIMIT 1""", (fid,)).fetchone()
+                         ORDER BY "insert" DESC LIMIT 1""", (fid,)).fetchone()
     return dict(zip(AD_FIELDS, row)) if row else None
 
 
 def log_check(db, fid, ts):
     """Hvert tjek af et fund logges, også når intet har ændret sig. Så kender vi sidst tjekket."""
-    latest = db.execute("SELECT seen_at FROM ads WHERE find_id = ? ORDER BY seen_at DESC LIMIT 1", (fid,)).fetchone()
+    latest = db.execute('SELECT "insert" FROM ads WHERE find_id = ? ORDER BY "insert" DESC LIMIT 1', (fid,)).fetchone()
     values = latest_ad(db, fid) or {}
     cols = ", ".join(AD_FIELDS)
     marks = ", ".join("?" for _ in AD_FIELDS)
-    db.execute(f"INSERT INTO ads_rev (find_id, rev_at, seen_at, {cols}) VALUES (?, ?, ?, {marks})",
+    db.execute(f'INSERT INTO ads_rev (find_id, rev_at, "insert", {cols}) VALUES (?, ?, ?, {marks})',
                (fid, ts, latest[0] if latest else None, *[values.get(k) for k in AD_FIELDS]))
 
 
@@ -253,7 +257,7 @@ def write_ad(db, fid, values, ts):
         return False
     cols = ", ".join(AD_FIELDS)
     marks = ", ".join("?" for _ in AD_FIELDS)
-    db.execute(f"INSERT INTO ads (find_id, seen_at, {cols}) VALUES (?, ?, {marks})",
+    db.execute(f'INSERT INTO ads (find_id, "insert", {cols}) VALUES (?, ?, {marks})',
                (fid, ts, *[values.get(k) for k in AD_FIELDS]))
     return True
 
@@ -452,8 +456,8 @@ def eksport_side(db, path):
     for fid, plat, tid, link, order in db.execute(
             """SELECT f.id, f.plat, f.target_id, f.link, t.sort_order FROM finds f
                JOIN targets t ON t.id = f.target_id"""):
-        versions = db.execute("""SELECT seen_at, title, type, description, note, city, direct, price, available, color
-                                 FROM ads WHERE find_id = ? ORDER BY seen_at""", (fid,)).fetchall()
+        versions = db.execute('SELECT "insert", title, type, description, note, city, direct, price, available, color '
+                              'FROM ads WHERE find_id = ? ORDER BY "insert"', (fid,)).fetchall()
         if not versions:
             continue
         seen, title, typ, desc, note, city, direct, price, avail, color = versions[-1]
