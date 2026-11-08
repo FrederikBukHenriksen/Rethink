@@ -11,6 +11,9 @@ python3 scripts/db.py import-feedback FIL     # brugerens vurderinger ind i user
 python3 scripts/db.py gem-resultat FIL        # fund, versioner og gennemførte søgninger
 python3 scripts/db.py cutoff LAMPE PLATFORM   # cutoff for en lampe på en platform; 'ingen' hvis ingen
 python3 scripts/db.py slet-fund FUND_ID       # slet ét fund, fx dba-26284641
+python3 scripts/db.py soegeplan               # hvad der skal søges nu, med cutoff pr. platform (JSON)
+python3 scripts/db.py eksport-lamper FIL      # lamper fra databasen i lampelistens form (JSON)
+python3 scripts/db.py eksport-side FIL        # kategorier, targets og fund fra databasen i sidens form (JSON)
 python3 scripts/db.py status                  # antal rækker pr. tabel
 ```
 
@@ -38,6 +41,14 @@ Cutoff gælder for én lampe (target) på én platform. Det er tidspunktet for d
 | `user_actions` | Brugerens vurdering af et fund: `favorit` eller `skjult`. |
 
 Et fund har altid én target og én platform. Det fund, der kommer tilbage af en søgning, kobles til den target, der blev søgt for.
+
+## Artefakterne
+
+Databasen er den eneste sandhed. Lampelisten og siden er spejlinger af den.
+
+- **Lampelisten** (`lamper`) læses ind før hver kørsel med `sync-lampe`. Efter kørslen skrives den fra `eksport-lamper`. Familiens ændringer i listen går dermed først ind i databasen, og derefter tilbage i listen i den form databasen har. `archived` findes ikke i databasen, så den skrives altid som falsk.
+- **Siden** skriver `categories`, `targets` og `finds` fra `eksport-side`. `feedback` skrives af siden og læses ind med `import-feedback`. Siden kender ikke `status` og `listedAt` for ældre fund, fordi de ikke står i databasen. Det vises som "Uklar identitet" og "Dato ukendt".
+- Eksporten skriver ikke `runs`, så siden viser ikke søgedækningen. Den står i svaret til brugeren.
 
 ## Felter
 

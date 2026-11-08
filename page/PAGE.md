@@ -1,15 +1,12 @@
 # Siden
 
-Siden er den artefakt-side, hvor brugeren vurderer fund. Kildekoden er `page/rethink-soegerapport.html`. Al tekst på siden er dansk.
+Siden er artefaktet, hvor brugeren ser fund og vurderer dem. Kildekoden er `page/rethink-soegerapport.html`. Al tekst på siden er dansk.
 
-## Hvad den gør nu
+## Hvor dataene kommer fra
 
-- Viser fundene fra artefaktets egen database. De bliver ikke opdateret af agenterne. Fundene står nu i `database.db`.
-- Brugeren kan vurdere et fund med Godt fund, Ikke interessant eller Købt, og vælge årsager. Vurderingerne skrives til samlingen `feedback`.
-- Agenten læser `feedback` før hver søgning og importerer den til `database.db`, tabellen `user_actions`. Se `CLAUDE.md`, trin 2.
+- **Fund, targets og kategorier** kommer fra `database.db`. Agenten skriver dem til artefaktets samlinger efter hver kørsel, med `eksport-side`. Siden må ikke ændre dem.
+- **Brugerens vurderinger** (Godt fund, Ikke interessant, Købt og årsager) skrives af siden til samlingen `feedback`. Agenten læser dem ind i databasen før hver søgning, med `import-feedback`. Databasen gemmer kun Godt fund (`favorit`) og Ikke interessant (`skjult`). Købt og årsagerne gemmes ikke.
 
 ## Ændringer
 
-Hvis siden skal vise fund fra `database.db`, skal den have en anden datakilde. Der er ingen måde at læse SQLite direkte fra artefaktet. Det kræver en eksport af databasen, som siden kan læse. Afklar det, før siden ændres.
-
-Ret kun `page/rethink-soegerapport.html` for designændringer. Udgiv den igen til samme URL.
+Ret kun `page/rethink-soegerapport.html` for designændringer. Udgiv den igen til samme URL. Ændres dataformen i `eksport-side`, skal siden også ændres.
