@@ -31,7 +31,7 @@ Følg `qualification-rules.md`. Rapportér kun annoncer, der kvalificerer, med d
 Ren tekst. Først én blok pr. kandidat:
 
 ```
-Række: <order>
+Række: <sort_order>
 Lampe: <model/navn>
 Farve: <farver som vist, hovedfarve først, eller "ikke oplyst">
 Type: <bordlampe, loftlampe, gulvlampe, væglampe, eller "ikke oplyst">
@@ -52,7 +52,7 @@ Derefter dækningen:
 Søgninger kørt: <pr. række>
 Ikke gennemført: <søgninger eller sider, og hvorfor>
 Usikkerhed: <grænser for datoer, login, paginering eller sortering>
-Rækker uden kandidater: <order-numre>
+Rækker uden kandidater: <sort_order-numre>
 ```
 
 Kunne du slet ikke komme ind på platformen, returnerer du kun dækningen med "ikke søgt". Skriv aldrig "ingen fund" for noget, du ikke har søgt.
