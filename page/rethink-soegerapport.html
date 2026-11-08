@@ -173,7 +173,6 @@ select option { color: var(--fg); background: var(--surface); }
       <h3>Annonce</h3>
       <div class="filters-grid">
         <div class="ms" id="f-plat" data-label="Platform"></div>
-        <div class="ms" id="f-verdict" data-label="Handling"></div>
         <select id="f-time" class="ph" aria-label="Tid"><option value="">Tid</option><option value="24">24 timer</option><option value="48">48 timer</option><option value="72">72 timer</option><option value="168">7 dage</option><option value="720">1 måned</option></select>
         <label class="check" for="f-direct"><input id="f-direct" type="checkbox"> Kan købes direkte</label>
         <label class="check" for="f-drop"><input id="f-drop" type="checkbox"> Kun prisfald</label>
@@ -308,7 +307,7 @@ select option { color: var(--fg); background: var(--surface); }
 
   var MULTI = {
     model: makeMulti($("f-model")), designer: makeMulti($("f-designer")), producer: makeMulti($("f-producer")),
-    type: makeMulti($("f-type")), color: makeMulti($("f-color")), plat: makeMulti($("f-plat")), verdict: makeMulti($("f-verdict"))
+    type: makeMulti($("f-type")), color: makeMulti($("f-color")), plat: makeMulti($("f-plat"))
   };
 
   function catOf(x) { return x.category || "lamper"; }
@@ -499,7 +498,7 @@ select option { color: var(--fg); background: var(--surface); }
   function filtered() {
     var q = els.q.value.trim().toLowerCase();
     var max = els.max.value === "" ? null : Number(els.max.value);
-    var m = { model: MULTI.model.get(), designer: MULTI.designer.get(), producer: MULTI.producer.get(), type: MULTI.type.get(), color: MULTI.color.get(), plat: MULTI.plat.get(), verdict: MULTI.verdict.get() };
+    var m = { model: MULTI.model.get(), designer: MULTI.designer.get(), producer: MULTI.producer.get(), type: MULTI.type.get(), color: MULTI.color.get(), plat: MULTI.plat.get() };
     var hours = els.time.value ? Number(els.time.value) : null;
     var now = Date.now();
     var out = state.finds.filter(function (f) {
@@ -511,11 +510,6 @@ select option { color: var(--fg); background: var(--surface); }
       if (m.type.length && m.type.indexOf(f.type) === -1) return false;
       if (m.color.length && !anyIn(f.colors, m.color)) return false;
       if (m.plat.length && m.plat.indexOf(f.plat) === -1) return false;
-      if (m.verdict.length) {
-        var fv = state.feedback[f.id];
-        var vl = fv && ACTION[fv.action] ? ACTION[fv.action].label : "Ingen";
-        if (m.verdict.indexOf(vl) === -1) return false;
-      }
       if (els.direct.checked && f.direct !== "Ja") return false;
       if (els.drop.checked && !(priceInfo(f) && priceInfo(f).cls === "ok")) return false;
       if (hours != null) {
@@ -588,7 +582,6 @@ select option { color: var(--fg); background: var(--surface); }
     MULTI.type.setValues(uniqSorted(state.finds.map(function (f) { return f.type; })));
     MULTI.color.setValues(uniqSorted([].concat.apply([], state.finds.map(function (f) { return f.colors || []; }))));
     MULTI.plat.setValues(uniqSorted(state.finds.map(function (f) { return f.plat; })));
-    MULTI.verdict.setValues(["Favorit", "Skjult", "Ingen"]);
     var latest = state.runs[0];
     var active = state.finds.filter(function (f) { return f.available !== "nej"; }).length;
     var bits = [];

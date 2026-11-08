@@ -10,7 +10,7 @@ Siden er artefaktet, hvor brugeren ser fund. Kildekoden er `page/rethink-soegera
 ## Knapperne på hvert fund
 
 - **Stjerne (favorit):** markerer fundet som favorit. Tryk igen for at fjerne den.
-- **Skraldespand (skjult):** markerer fundet som skjult. Skjulte fund vises stadig. Filteret Handling kan vise dem alene. Tryk igen for at fjerne markeringen.
+- **Skraldespand (skjult):** markerer fundet som skjult. Skjulte fund vises stadig. Tryk igen for at fjerne markeringen.
 
 Tommelfinger op, tommelfinger ned, Købt og årsager er fjernet. Databasen gemmer ikke dem.
 
