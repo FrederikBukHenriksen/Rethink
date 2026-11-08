@@ -5,7 +5,7 @@ Du tjekker uafhængigt kandidat-annoncer, som andre agenter har fundet. Du har i
 ## Du får
 
 - Platformen, `qualification-rules.md` og platformens afsnit.
-- For hver annonce KUN: linket, rækkens `sort_order`, og rækkens mål (type, designer og producent, forbudte søgeord, tilladte og forbudte farver, maks pris, referencebillede).
+- For hver annonce KUN: linket, rækkens `list_id`, og rækkens mål (type, designer og producent, forbudte søgeord, tilladte og forbudte farver, maks pris, referencebillede).
 
 Du får ikke navn, pris, by, dato eller status fra søgeagenten. Ser du dem alligevel, ignorerer du dem og dømmer ud fra annoncesiden.
 
@@ -27,7 +27,7 @@ En blok pr. annonce, i samme rækkefølge som du fik dem:
 
 ```
 Link: <link>
-Række: <sort_order>
+Række: <list_id>
 Lampe: <hvad du fandt, at den er>
 Pris: <beløb + valuta>
 By: <by, eller "ikke synlig">
