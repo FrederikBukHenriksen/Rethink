@@ -1,0 +1,664 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Rethink søgerapport</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Bricolage+Grotesque:wght@600;700&family=Quicksand:wght@300&display=swap">
+<style>
+/* Layout: flad liste. Lille Rethink-skriftmærke øverst, så filtre og liste. Hver annonce er to linjer: titel + pris, og én linje detaljer. */
+:root {
+  --bg: #f2f5f3;
+  --surface: #ffffff;
+  --fg: #16211e;
+  --muted: #5b6a65;
+  --line: #d6dfdb;
+  --accent: #1d5c52;
+  --accent-soft: #dcebe7;
+  --ok: #1e6b3a;
+  --warn: #8a5a00;
+  --no: #8f2d2d;
+  --font-display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --font-logo: "Quicksand", "Nunito", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1614; --surface: #17211e; --fg: #e6eeea; --muted: #9aaba5; --line: #2a3834;
+    --accent: #6cc4b2; --accent-soft: #1e3531; --ok: #7fd49a; --warn: #e8b85a; --no: #ee9a9a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1614; --surface: #17211e; --fg: #e6eeea; --muted: #9aaba5; --line: #2a3834;
+  --accent: #6cc4b2; --accent-soft: #1e3531; --ok: #7fd49a; --warn: #e8b85a; --no: #ee9a9a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--font-body); font-size: 15px; line-height: 1.45;
+  padding-block: 28px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+main { max-width: 820px; margin: 0 auto; display: grid; gap: 24px; }
+h1, h2 { font-family: var(--font-display); letter-spacing: -0.01em; text-wrap: balance; margin: 0; }
+h1 { font-size: 28px; line-height: 1.1; }
+h2 { font-size: 18px; }
+a { color: inherit; }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.head { display: grid; gap: 6px; }
+.logo { font-family: var(--font-logo); font-weight: 300; font-size: 20px; letter-spacing: 0.18em; line-height: 1; color: var(--fg); }
+.logo .bar { display: inline-block; width: 2px; height: 1.2em; margin-left: 0.55em; background: currentColor; vertical-align: -0.2em; }
+.sub { margin: 0; color: var(--muted); font-size: 13px; }
+
+.filters { display: grid; gap: 10px; }
+.filters-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 620px) { .filters-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.field { display: grid; gap: 3px; min-width: 0; }
+.field.wide { grid-column: 1 / -1; }
+.field label { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+input[type="search"], input[type="number"], select {
+  font: inherit; color: var(--fg); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 6px; padding: 7px 9px; min-width: 0; width: 100%;
+}
+.count-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; color: var(--muted); font-size: 13px; }
+.reset { font: inherit; font-size: 13px; background: none; border: 1px solid var(--line); color: var(--fg); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+.reset:hover { background: var(--accent-soft); }
+
+.section.tjek h2 { border-bottom-color: var(--warn); }
+.lead { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+.empty { padding: 14px 0; color: var(--muted); border-bottom: 1px solid var(--line); }
+
+details.item { border-bottom: 1px solid var(--line); }
+details.item summary {
+  list-style: none; cursor: pointer; padding: 11px 0;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto auto; column-gap: 16px; row-gap: 2px;
+}
+details.item summary::-webkit-details-marker { display: none; }
+.title { min-width: 0; font-weight: 600; font-size: 15.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.title a { text-decoration: none; }
+.title a:hover { text-decoration: underline; color: var(--accent); }
+.price { font-family: var(--font-mono); font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
+.price small { font-size: 12px; color: var(--muted); font-weight: 400; margin-left: 4px; }
+.meta { grid-column: 1 / -1; min-width: 0; color: var(--muted); font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.meta .sep { padding-inline: 5px; opacity: .6; }
+.ok { color: var(--ok); } .warn { color: var(--warn); } .no { color: var(--no); }
+.more { padding: 0 0 12px; display: grid; gap: 4px; font-size: 14px; color: var(--muted); }
+.more p { margin: 0; overflow-wrap: anywhere; }
+.more strong { color: var(--fg); }
+
+.cover h2 { margin-bottom: 4px; }
+.cover details { border-top: 1px solid var(--line); padding-block: 9px; }
+.cover summary { cursor: pointer; font-weight: 600; }
+.cover ul { margin: 8px 0 0; padding-left: 20px; display: grid; gap: 5px; color: var(--muted); font-size: 14px; }
+
+.ms { position: relative; min-width: 0; }
+.ms-btn { font: inherit; width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 6px; text-align: left; background: var(--surface); color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 7px 9px; cursor: pointer; }
+.ms-btn.has { color: var(--fg); border-color: var(--accent); }
+.ms-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ms-caret { font-size: 11px; flex: none; }
+.ms-panel { position: absolute; z-index: 20; top: calc(100% + 4px); left: 0; min-width: 100%; max-height: 260px; overflow: auto; background: var(--surface); color: var(--fg); border: 1px solid var(--line); border-radius: 8px; padding: 6px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18); }
+.ms-opt { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 5px; cursor: pointer; white-space: nowrap; font-size: 14px; }
+.ms-opt:hover { background: var(--accent-soft); }
+.ms-opt input { accent-color: var(--accent); margin: 0; }
+select.ph { color: var(--muted); }
+select option { color: var(--fg); background: var(--surface); }
+.group { border: 1px solid var(--line); border-radius: 8px; padding: 12px; display: grid; gap: 10px; }
+.group.prod { background: var(--accent-soft); border-color: transparent; }
+.group.ann { background: var(--surface); }
+.group h3 { margin: 0; font-family: var(--font-mono); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
+.group .filters-grid { align-items: center; }
+.group.prod .filters-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+@media (max-width: 620px) { .group.prod .filters-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.check { display: flex; align-items: center; gap: 8px; padding-block: 7px; cursor: pointer; font-size: 14px; }
+.check input { width: 18px; height: 18px; accent-color: var(--accent); margin: 0; }
+.results { display: grid; gap: 0; }
+.listbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; padding-bottom: 8px; border-bottom: 2px solid var(--fg); color: var(--muted); font-size: 13px; }
+.listbar-r { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.listbar-r select { width: auto; padding: 4px 8px; }
+.item.gone .title a { text-decoration: line-through; color: var(--muted); }
+.item.gone { opacity: 0.7; }
+.delta { font-family: var(--font-body); font-size: 12px; font-weight: 500; margin-left: 6px; }
+.runs-h { margin: 0 0 4px; }
+.cover h4 { margin: 10px 0 0; font-size: 14px; }
+.cover .run-meta { color: var(--muted); font-size: 13px; }
+.tabs { display: flex; gap: 4px; overflow-x: auto; border-bottom: 1px solid var(--line); }
+.tab { font: inherit; font-weight: 600; background: none; border: 0; border-bottom: 3px solid transparent; margin-bottom: -1px; color: var(--muted); padding: 10px 14px; cursor: pointer; white-space: nowrap; }
+.tab:hover { color: var(--fg); }
+.tab[aria-selected="true"] { color: var(--fg); border-bottom-color: var(--accent); }
+.tab .n { font-family: var(--font-mono); font-size: 12px; font-weight: 400; margin-left: 7px; color: var(--muted); }
+.tab:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.acc { color: var(--accent); }
+.reasons { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; padding-top: 6px; }
+.fbbar { display: flex; gap: 4px; align-self: center; grid-row: 1; grid-column: 3; }
+.fbbtn { width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center; background: transparent; color: var(--muted); border: 1px solid var(--line); border-radius: 8px; cursor: pointer; }
+.fbbtn svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.fbbtn.down svg { transform: rotate(180deg); }
+.fbbtn:hover { color: var(--fg); border-color: var(--muted); }
+.fbbtn.on { color: var(--c); border-color: var(--c); background: color-mix(in srgb, var(--c) 16%, transparent); }
+.fbbtn.v-godt { --c: var(--ok); } .fbbtn.v-nej { --c: var(--no); } .fbbtn.v-koebt { --c: var(--accent); }
+.rchip { font: inherit; font-size: 12.5px; background: var(--surface); color: var(--fg); border: 1px solid var(--line); border-radius: 99px; padding: 3px 10px; cursor: pointer; }
+.rchip.on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.fbbtn:focus-visible, .rchip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 520px) {
+  h1 { font-size: 24px; }
+  .meta { font-size: 12px; }
+}
+</style>
+
+<main>
+  <header class="head">
+    <div class="logo" role="img" aria-label="Rethink">RETHINK<span class="bar" aria-hidden="true"></span></div>
+    <h1>Søgerapport</h1>
+    <p class="sub" id="sub">Henter fund …</p>
+  </header>
+
+  <nav class="tabs" id="tabs" role="tablist" aria-label="Søgninger"></nav>
+
+  <section class="filters" aria-label="Filtre">
+    <input id="q" type="search" placeholder="Søg i model, by, forbehold …" aria-label="Søg" autocomplete="off">
+    <div class="group prod" role="group" aria-label="Produkt">
+      <h3>Produkt</h3>
+      <div class="filters-grid">
+        <div class="ms" id="f-model" data-label="Model"></div>
+        <div class="ms" id="f-designer" data-label="Designer"></div>
+        <div class="ms" id="f-producer" data-label="Producent"></div>
+        <div class="ms" id="f-type" data-label="Type"></div>
+        <div class="ms" id="f-color" data-label="Farve"></div>
+        <input id="f-max" type="number" min="0" step="50" inputmode="numeric" placeholder="Maks. pris (kr.)" aria-label="Maks. pris i kroner">
+      </div>
+    </div>
+    <div class="group ann" role="group" aria-label="Annonce">
+      <h3>Annonce</h3>
+      <div class="filters-grid">
+        <div class="ms" id="f-plat" data-label="Platform"></div>
+        <div class="ms" id="f-verdict" data-label="Vurdering"></div>
+        <select id="f-time" class="ph" aria-label="Tid"><option value="">Tid</option><option value="24">24 timer</option><option value="48">48 timer</option><option value="72">72 timer</option><option value="168">7 dage</option><option value="720">1 måned</option></select>
+        <label class="check" for="f-direct"><input id="f-direct" type="checkbox"> Kan købes direkte</label>
+        <label class="check" for="f-drop"><input id="f-drop" type="checkbox"> Kun prisfald</label>
+        <label class="check" for="f-gone"><input id="f-gone" type="checkbox"> Vis fjernede</label>
+      </div>
+    </div>
+  </section>
+
+  <div class="results">
+    <div class="listbar">
+      <span id="count" aria-live="polite"></span>
+      <div class="listbar-r">
+        <select id="f-sort" class="ph" aria-label="Sortér"><option value="">Sortér</option><option value="new">Nyeste først</option><option value="asc">Pris, lav først</option><option value="desc">Pris, høj først</option></select>
+        <button id="reset" class="reset" type="button">Nulstil filtre</button>
+      </div>
+    </div>
+    <section id="liste" class="section" aria-label="Fund"></section>
+  </div>
+
+  <section class="cover" id="runs" aria-label="Søgedækning og begrænsninger"></section>
+</main>
+
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var els = {
+    q: $("q"), time: $("f-time"), direct: $("f-direct"), drop: $("f-drop"), gone: $("f-gone"),
+    max: $("f-max"), sort: $("f-sort"), liste: $("liste"), count: $("count"), reset: $("reset"),
+    sub: $("sub"), runs: $("runs"), tabs: $("tabs")
+  };
+  var ALL_MULTI = [];
+  var state = { finds: [], targets: {}, runs: [], feedback: {}, allFinds: [], allTargets: [], allRuns: [], categories: [], cat: null, loaded: { finds: false, targets: false, runs: false }, error: false, fbError: false };
+  var DB = null, canWrite = null, openIds = {}, chain = {};
+  var VERDICT = { godt: { label: "Godt fund", cls: "ok" }, nej: { label: "Ikke interessant", cls: "no" }, koebt: { label: "Købt", cls: "acc" } };
+  var REASONS = {
+    godt: ["God pris", "Sjælden model", "Flot stand"],
+    nej: ["For dyrt", "Dårlig stand", "For langt væk", "Forkert model", "Forkert farve", "Mistanke om kopi", "Ikke vores stil"]
+  };
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function sep() { return el("span", "sep", "·"); }
+  function kr(n) { return Number(n).toLocaleString("da-DK") + " kr."; }
+  function uniqSorted(list) {
+    var seen = [];
+    list.forEach(function (v) { if (v && seen.indexOf(v) === -1) seen.push(v); });
+    return seen.sort(function (a, b) { return a.localeCompare(b, "da"); });
+  }
+  var TZ = "Europe/Copenhagen";
+  function parts(iso) {
+    var t = Date.parse(iso);
+    if (isNaN(t)) return null;
+    var o = {};
+    new Intl.DateTimeFormat("da-DK", { timeZone: TZ, day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23" })
+      .formatToParts(new Date(t)).forEach(function (p) { o[p.type] = p.value; });
+    return o;
+  }
+  function dm(iso) { var p = parts(iso); return p ? p.day + "." + p.month : ""; }
+  function dmy(iso) { var p = parts(iso); return p ? p.day + "." + p.month + "." + p.year : ""; }
+  function hm(iso) { var p = parts(iso); return p ? p.hour + "." + p.minute : ""; }
+  function dateLabel(f) {
+    if (!f.listedAt) return "Dato ukendt";
+    var kind = f.dateKind === "uploadet" ? "Uploadet" : "Redigeret";
+    return kind + " " + dm(f.listedAt) + (f.dateApprox ? " ca. kl. " + hm(f.listedAt).split(".")[0] : " kl. " + hm(f.listedAt));
+  }
+
+  /* Dropdown med flere valg. Navnet vises, indtil noget er valgt. */
+  function makeMulti(root) {
+    var label = root.getAttribute("data-label");
+    var btn = el("button", "ms-btn");
+    btn.type = "button";
+    btn.setAttribute("aria-haspopup", "true");
+    btn.setAttribute("aria-expanded", "false");
+    var txt = el("span", "ms-text", label);
+    btn.appendChild(txt);
+    btn.appendChild(el("span", "ms-caret", "▾"));
+    var panel = el("div", "ms-panel");
+    panel.hidden = true;
+    root.appendChild(btn);
+    root.appendChild(panel);
+    var api = { root: root, chosen: [] };
+    api.get = function () { return api.chosen.slice(); };
+    function sync() {
+      txt.textContent = api.chosen.length ? api.chosen.join(", ") : label;
+      btn.classList.toggle("has", api.chosen.length > 0);
+    }
+    api.setValues = function (values) {
+      api.chosen = api.chosen.filter(function (v) { return values.indexOf(v) !== -1; });
+      panel.textContent = "";
+      values.forEach(function (v) {
+        var lab = el("label", "ms-opt");
+        var cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.value = v;
+        cb.checked = api.chosen.indexOf(v) !== -1;
+        lab.appendChild(cb);
+        lab.appendChild(document.createTextNode(v));
+        panel.appendChild(lab);
+      });
+      sync();
+    };
+    api.close = function () { panel.hidden = true; btn.setAttribute("aria-expanded", "false"); };
+    api.clear = function () {
+      api.chosen = [];
+      Array.prototype.forEach.call(panel.querySelectorAll("input"), function (b) { b.checked = false; });
+      sync();
+    };
+    btn.addEventListener("click", function () {
+      var open = panel.hidden;
+      ALL_MULTI.forEach(function (a) { a.close(); });
+      panel.hidden = !open;
+      btn.setAttribute("aria-expanded", String(open));
+    });
+    panel.addEventListener("change", function () {
+      api.chosen = Array.prototype.filter.call(panel.querySelectorAll("input"), function (b) { return b.checked; })
+        .map(function (b) { return b.value; });
+      sync();
+      draw();
+    });
+    ALL_MULTI.push(api);
+    return api;
+  }
+  document.addEventListener("click", function (e) {
+    ALL_MULTI.forEach(function (a) { if (!a.root.contains(e.target)) a.close(); });
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") ALL_MULTI.forEach(function (a) { a.close(); });
+  });
+  function syncPlaceholder(sel) { sel.classList.toggle("ph", sel.value === ""); }
+
+  var MULTI = {
+    model: makeMulti($("f-model")), designer: makeMulti($("f-designer")), producer: makeMulti($("f-producer")),
+    type: makeMulti($("f-type")), color: makeMulti($("f-color")), plat: makeMulti($("f-plat")), verdict: makeMulti($("f-verdict"))
+  };
+
+  function catOf(x) { return x.category || "lamper"; }
+  function cats() { return state.categories.length ? state.categories : [{ id: "lamper", name: "Lamper" }]; }
+  function scope() {
+    var list = cats();
+    if (!state.cat || !list.some(function (c) { return c.id === state.cat; })) {
+      var h = (location.hash || "").slice(1);
+      state.cat = list.some(function (c) { return c.id === h; }) ? h : list[0].id;
+    }
+    state.finds = state.allFinds.filter(function (f) { return catOf(f) === state.cat; });
+    state.runs = state.allRuns.filter(function (r) { return catOf(r) === state.cat; });
+    var t = {};
+    state.allTargets.forEach(function (v) { if (catOf(v) === state.cat) t[v.row] = v; });
+    state.targets = t;
+  }
+  function drawTabs() {
+    els.tabs.textContent = "";
+    cats().forEach(function (c) {
+      var n = state.allFinds.filter(function (f) { return catOf(f) === c.id && f.available !== "nej"; }).length;
+      var b = el("button", "tab", c.name);
+      b.type = "button";
+      b.setAttribute("role", "tab");
+      b.setAttribute("aria-selected", String(c.id === state.cat));
+      b.appendChild(el("span", "n", String(n)));
+      b.addEventListener("click", function () { switchCat(c.id); });
+      els.tabs.appendChild(b);
+    });
+  }
+  function switchCat(id) {
+    if (id !== state.cat) { state.cat = id; resetFilters(); refresh(); }
+    try { if ((location.hash || "").slice(1) !== id) location.hash = id; } catch (e) {}
+  }
+  function targetOf(f) { return state.targets[f.row] || { model: "", designers: [], producers: [] }; }
+  function priceInfo(f) {
+    var h = f.priceHistory || [];
+    if (h.length < 2) return null;
+    var first = Number(h[0].p);
+    if (f.price < first) return { cls: "ok", text: "▼ fra " + kr(first) };
+    if (f.price > first) return { cls: "warn", text: "▲ fra " + kr(first) };
+    return null;
+  }
+  function haystack(f) {
+    var t = targetOf(f);
+    return [f.name, t.model, (t.designers || []).join(" "), (t.producers || []).join(" "), f.type, (f.colors || []).join(" "), f.city, f.plat, f.note, f.check || "", f.status].join(" ").toLowerCase();
+  }
+
+  function render(f) {
+    var gone = f.available === "nej";
+    var d = el("details", "item" + (gone ? " gone" : ""));
+    d.open = openIds[f.id] === true;
+    d.addEventListener("toggle", function () { openIds[f.id] = d.open; });
+    var fb = state.feedback[f.id];
+    var s = el("summary");
+    var t = el("div", "title");
+    var a = el("a", null, f.name);
+    a.href = f.link; a.target = "_blank"; a.rel = "noopener noreferrer";
+    t.appendChild(a);
+    s.appendChild(t);
+
+    var p = el("div", "price", kr(f.price));
+    var pi = priceInfo(f);
+    if (pi) p.appendChild(el("span", "delta " + pi.cls, pi.text));
+    else if (f.priceNote) p.appendChild(el("small", null, f.priceNote));
+    s.appendChild(p);
+    var bar = feedbackBar(f, fb);
+    if (bar) s.appendChild(bar);
+
+    var m = el("div", "meta");
+    var dcls = f.direct === "Ja" ? "ok" : f.direct === "Nej" ? "no" : "warn";
+    var list = [
+      [f.type, null], [f.plat, null], [f.city, null],
+      [f.status === "Bekræftet" ? "Bekræftet" : "Med forbehold", f.status === "Bekræftet" ? "ok" : "warn"],
+      ["Køb direkte: " + f.direct, dcls]
+    ];
+    if ((f.colors || []).length) list.splice(1, 0, [f.colors.join(" / "), null]);
+    if (f.check) list.push(["Skal tjekkes", "warn"]);
+    list.push([dateLabel(f), null]);
+    if (gone) list.push(["Fjernet" + (f.goneAt ? " " + dm(f.goneAt) : ""), "no"]);
+    else if (f.available === "ja" && f.lastChecked) list.push(["Tjekket " + dm(f.lastChecked), null]);
+    else list.push(["Ikke bekræftet online", "warn"]);
+    if (fb && VERDICT[fb.verdict]) list.push([VERDICT[fb.verdict].label, VERDICT[fb.verdict].cls]);
+    list.forEach(function (x, i) {
+      if (i) m.appendChild(sep());
+      m.appendChild(el("span", x[1], x[0]));
+    });
+    m.title = list.map(function (x) { return x[0]; }).join(" · ");
+    s.appendChild(m);
+    var rr = reasonRow(f, fb);
+    if (rr) s.appendChild(rr);
+    d.appendChild(s);
+
+    var more = el("div", "more");
+    if (f.note) more.appendChild(el("p", null, f.note));
+    if (f.check) {
+      var c = el("p");
+      c.appendChild(el("strong", null, "Tjek: "));
+      c.appendChild(document.createTextNode(f.check));
+      more.appendChild(c);
+    }
+    var h = f.priceHistory || [];
+    if (h.length) {
+      var hp = el("p");
+      hp.appendChild(el("strong", null, "Pris: "));
+      hp.appendChild(document.createTextNode(h.map(function (x) { return x.d + " " + kr(x.p); }).join(" → ")));
+      more.appendChild(hp);
+    }
+    if (f.lastChecked) {
+      var lp = el("p");
+      lp.appendChild(el("strong", null, "Sidst tjekket: "));
+      lp.appendChild(document.createTextNode(dmy(f.lastChecked) + " kl. " + hm(f.lastChecked) + (f.available === "ja" ? ". Annoncen findes stadig." : f.available === "nej" ? ". Annoncen er fjernet." : ". Det er ikke afklaret, om annoncen findes.")));
+      more.appendChild(lp);
+    }
+    if (f.firstSeen) more.appendChild(el("p", null, "Fundet første gang " + dmy(f.firstSeen) + "."));
+    d.appendChild(more);
+    return d;
+  }
+
+  function snapshotOf(f) {
+    var t = targetOf(f), h = f.priceHistory || [];
+    var age = Math.round((Date.now() - Date.parse(f.listedAt)) / 3600000);
+    return {
+      category: catOf(f), name: f.name, type: f.type, colors: f.colors || [], plat: f.plat, city: f.city, row: f.row, link: f.link,
+      model: t.model || "", designers: t.designers || [], producers: t.producers || [],
+      price: f.price, firstPrice: h.length ? h[0].p : f.price,
+      direct: f.direct, status: f.status, available: f.available || "ukendt",
+      listedAt: f.listedAt || "", ageHours: isFinite(age) ? age : null
+    };
+  }
+  function queueWrite(id, job) {
+    var next = (chain[id] || Promise.resolve()).then(job).then(function () {
+      if (state.fbError) { state.fbError = false; draw(); }
+    }, function () { state.fbError = true; draw(); });
+    chain[id] = next;
+  }
+  function setVerdict(f, v, current) {
+    var ref = DB.doc("feedback/" + f.id);
+    if (current && current.verdict === v) { queueWrite(f.id, function () { return ref.delete(); }); return; }
+    queueWrite(f.id, function () {
+      return ref.set({ findId: f.id, verdict: v, reasons: [], at: new Date().toISOString(), snapshot: snapshotOf(f) });
+    });
+  }
+  function toggleReason(f, current, reason) {
+    var r = (current.reasons || []).slice();
+    var i = r.indexOf(reason);
+    if (i === -1) r.push(reason); else r.splice(i, 1);
+    queueWrite(f.id, function () { return DB.doc("feedback/" + f.id).update({ reasons: r }); });
+  }
+  var ICONS = {
+    godt: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10v11H3V10h4zm0 0l4-8a2 2 0 0 1 2 2v4h6a2 2 0 0 1 2 2.3l-1.4 7A2 2 0 0 1 17.6 21H7"/></svg>',
+    nej: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10v11H3V10h4zm0 0l4-8a2 2 0 0 1 2 2v4h6a2 2 0 0 1 2 2.3l-1.4 7A2 2 0 0 1 17.6 21H7"/></svg>',
+    koebt: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14l-1 13H6L5 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>'
+  };
+  function feedbackBar(f, fb) {
+    if (!DB || canWrite === false) return null;
+    var bar = el("div", "fbbar");
+    bar.setAttribute("role", "group");
+    bar.setAttribute("aria-label", "Vurdér fundet");
+    Object.keys(VERDICT).forEach(function (k) {
+      var on = !!(fb && fb.verdict === k);
+      var b = el("button", "fbbtn v-" + k + (k === "nej" ? " down" : "") + (on ? " on" : ""));
+      b.type = "button";
+      b.innerHTML = ICONS[k];
+      b.title = VERDICT[k].label;
+      b.setAttribute("aria-label", VERDICT[k].label);
+      b.setAttribute("aria-pressed", String(on));
+      b.addEventListener("click", function (e) { e.preventDefault(); e.stopPropagation(); setVerdict(f, k, fb); });
+      bar.appendChild(b);
+    });
+    return bar;
+  }
+  function reasonRow(f, fb) {
+    if (!DB || canWrite === false || !fb || !REASONS[fb.verdict]) return null;
+    var rs = el("div", "reasons");
+    REASONS[fb.verdict].forEach(function (r) {
+      var on = (fb.reasons || []).indexOf(r) !== -1;
+      var c = el("button", "rchip" + (on ? " on" : ""), r);
+      c.type = "button";
+      c.setAttribute("aria-pressed", String(on));
+      c.addEventListener("click", function (e) { e.preventDefault(); e.stopPropagation(); toggleReason(f, fb, r); });
+      rs.appendChild(c);
+    });
+    return rs;
+  }
+
+  function anyIn(list, sel) {
+    return (list || []).some(function (v) { return sel.indexOf(v) !== -1; });
+  }
+  function filtered() {
+    var q = els.q.value.trim().toLowerCase();
+    var max = els.max.value === "" ? null : Number(els.max.value);
+    var m = { model: MULTI.model.get(), designer: MULTI.designer.get(), producer: MULTI.producer.get(), type: MULTI.type.get(), color: MULTI.color.get(), plat: MULTI.plat.get(), verdict: MULTI.verdict.get() };
+    var hours = els.time.value ? Number(els.time.value) : null;
+    var now = Date.now();
+    var out = state.finds.filter(function (f) {
+      var t = targetOf(f);
+      if (f.available === "nej" && !els.gone.checked) return false;
+      if (m.model.length && m.model.indexOf(t.model) === -1) return false;
+      if (m.designer.length && !anyIn(t.designers, m.designer)) return false;
+      if (m.producer.length && !anyIn(t.producers, m.producer)) return false;
+      if (m.type.length && m.type.indexOf(f.type) === -1) return false;
+      if (m.color.length && !anyIn(f.colors, m.color)) return false;
+      if (m.plat.length && m.plat.indexOf(f.plat) === -1) return false;
+      if (m.verdict.length) {
+        var fv = state.feedback[f.id];
+        var vl = fv && VERDICT[fv.verdict] ? VERDICT[fv.verdict].label : "Ikke vurderet";
+        if (m.verdict.indexOf(vl) === -1) return false;
+      }
+      if (els.direct.checked && f.direct !== "Ja") return false;
+      if (els.drop.checked && !(priceInfo(f) && priceInfo(f).cls === "ok")) return false;
+      if (hours != null) {
+        var ts = Date.parse(f.listedAt);
+        if (isNaN(ts) || (now - ts) / 3600000 > hours) return false;
+      }
+      if (max != null && !isNaN(max) && f.price > max) return false;
+      if (q) {
+        var h = haystack(f);
+        var terms = q.split(/\s+/);
+        for (var i = 0; i < terms.length; i++) if (h.indexOf(terms[i]) === -1) return false;
+      }
+      return true;
+    });
+    var s = els.sort.value;
+    out.sort(function (x, y) {
+      if (s === "asc") return x.price - y.price;
+      if (s === "desc") return y.price - x.price;
+      var tx = Date.parse(x.listedAt) || 0, ty = Date.parse(y.listedAt) || 0;
+      if (s === "new") return ty - tx;
+      return (x.row - y.row) || (ty - tx);
+    });
+    return out;
+  }
+
+  function draw() {
+    els.liste.textContent = "";
+    if (state.error) {
+      els.liste.appendChild(el("div", "empty", "Fundene kan ikke hentes. Åbn siden i claude.ai og log ind."));
+      els.count.textContent = "";
+      return;
+    }
+    if (!(state.loaded.finds && state.loaded.targets)) {
+      els.liste.appendChild(el("div", "empty", "Henter fund …"));
+      return;
+    }
+    var list = filtered();
+    if (!state.finds.length) els.liste.appendChild(el("div", "empty", "Ingen fund endnu. De kommer her efter næste søgning."));
+    else if (!list.length) els.liste.appendChild(el("div", "empty", "Ingen fund for de valgte filtre."));
+    list.forEach(function (f) { els.liste.appendChild(render(f)); });
+    els.count.textContent = list.length + " af " + state.finds.length + " annoncer" + (state.fbError ? " · Vurderingen kunne ikke gemmes" : "");
+  }
+
+  function drawRuns() {
+    els.runs.textContent = "";
+    if (!state.runs.length) return;
+    els.runs.appendChild(el("h2", "runs-h", "Søgedækning og begrænsninger"));
+    state.runs.forEach(function (r, idx) {
+      var d = el("details");
+      if (idx === 0) d.open = true;
+      var sm = el("summary", null, "Kørsel " + dmy(r.date) + " kl. " + hm(r.date) + " · " + (r.platforms || []).join(", "));
+      d.appendChild(sm);
+      (r.sections || []).forEach(function (sec) {
+        d.appendChild(el("h4", null, sec.title));
+        var ul = el("ul");
+        (sec.items || []).forEach(function (it) { ul.appendChild(el("li", null, it)); });
+        d.appendChild(ul);
+      });
+      els.runs.appendChild(d);
+    });
+  }
+
+  function refresh() {
+    scope();
+    drawTabs();
+    var targets = Object.keys(state.targets).map(function (k) { return state.targets[k]; });
+    MULTI.model.setValues(uniqSorted(targets.map(function (t) { return t.model; })));
+    MULTI.designer.setValues(uniqSorted([].concat.apply([], targets.map(function (t) { return t.designers || []; }))));
+    MULTI.producer.setValues(uniqSorted([].concat.apply([], targets.map(function (t) { return t.producers || []; }))));
+    MULTI.type.setValues(uniqSorted(state.finds.map(function (f) { return f.type; })));
+    MULTI.color.setValues(uniqSorted([].concat.apply([], state.finds.map(function (f) { return f.colors || []; }))));
+    MULTI.plat.setValues(uniqSorted(state.finds.map(function (f) { return f.plat; })));
+    MULTI.verdict.setValues(["Godt fund", "Ikke interessant", "Købt", "Ikke vurderet"]);
+    var latest = state.runs[0];
+    var active = state.finds.filter(function (f) { return f.available !== "nej"; }).length;
+    var bits = [];
+    if (latest) bits.push("Seneste kørsel " + dmy(latest.date) + " kl. " + hm(latest.date));
+    if (latest && latest.platforms) bits.push(latest.platforms.join(" og "));
+    if (state.loaded.finds) bits.push(active + (active === 1 ? " annonce online" : " annoncer online"));
+    var cur = cats().filter(function (c) { return c.id === state.cat; })[0] || {};
+    bits.push((cur.workbook || "DBA-lampesøgning.xlsx") + ", ark " + (cur.sheet || "Søgeliste"));
+    els.sub.textContent = bits.join(" · ");
+    draw();
+    drawRuns();
+  }
+
+  [els.q, els.max].forEach(function (e) { e.addEventListener("input", draw); });
+  [els.time, els.sort].forEach(function (e) {
+    e.addEventListener("change", function () { syncPlaceholder(e); draw(); });
+  });
+  [els.direct, els.drop, els.gone].forEach(function (e) { e.addEventListener("change", draw); });
+  function resetFilters() {
+    els.q.value = ""; els.max.value = "";
+    els.direct.checked = false; els.drop.checked = false; els.gone.checked = false;
+    els.time.value = ""; els.sort.value = "";
+    syncPlaceholder(els.time); syncPlaceholder(els.sort);
+    ALL_MULTI.forEach(function (a) { a.clear(); a.close(); });
+  }
+  els.reset.addEventListener("click", function () { resetFilters(); draw(); });
+  window.addEventListener("hashchange", function () {
+    var h = (location.hash || "").slice(1);
+    if (h && h !== state.cat && cats().some(function (c) { return c.id === h; })) switchCat(h);
+  });
+
+  function fail() { state.error = true; els.sub.textContent = "Fundene kan ikke hentes"; draw(); }
+  var use = window.claude && window.claude.use ? window.claude.use("db") : Promise.resolve(null);
+  use.then(function (db) {
+    if (!db) { fail(); return; }
+    DB = db;
+    db.collection("finds").onSnapshot(function (snap) {
+      state.allFinds = snap.docs.map(function (d) { return Object.assign({ id: d.id }, d.data()); });
+      state.loaded.finds = true; refresh();
+    }, fail);
+    db.collection("targets").onSnapshot(function (snap) {
+      state.allTargets = snap.docs.map(function (d) { return d.data(); });
+      state.loaded.targets = true; refresh();
+    }, fail);
+    db.collection("categories").onSnapshot(function (snap) {
+      state.categories = snap.docs.map(function (d) { return Object.assign({ id: d.id }, d.data()); })
+        .sort(function (a, b) { return (a.order || 0) - (b.order || 0); });
+      refresh();
+    }, function () {});
+    db.collection("feedback").onSnapshot(function (snap) {
+      var m = {};
+      snap.docs.forEach(function (d) { m[d.id] = d.data(); });
+      state.feedback = m; state.loaded.feedback = true; refresh();
+    }, function () { state.feedback = {}; });
+    db.collection("runs").orderBy("date", "desc").limit(20).onSnapshot(function (snap) {
+      state.allRuns = snap.docs.map(function (d) { return d.data(); });
+      state.loaded.runs = true; refresh();
+    }, fail);
+  }, fail);
+  if (window.claude && window.claude.use) {
+    window.claude.use("user").then(function (u) {
+      if (u && typeof u.isOwner === "function") { canWrite = u.isOwner(); draw(); }
+    }, function () {});
+  }
+  draw();
+})();
+</script>
+
+</body></html>
