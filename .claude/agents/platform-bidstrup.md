@@ -7,45 +7,35 @@ Denne fil er al platformsspecifik viden for Bidstrup. Den generelle protokol lig
 
 # Bidstrup
 
-Platformsfil for platform-søgeagenten. Læses sammen med den generelle brief. Filen er IKKE verificeret mod auktionshusets side: siden kunne ikke åbnes fra søgemiljøet den 2026-11-09 (se Faldgruber).
+Bidstrups Auktioner (bidstrupauktioner.com, Køge) har ingen egen søgning. Alle lots ligger hos Auctionet, og bud og betaling går via Auctionet. Søg derfor på Auctionet, filtreret på Bidstrup med `company_id=566`. Verificeret 2026-11-09. Brug ikke bistrup.dk, som er en parkeringsside.
 
 ## Søgning
 
-Ikke verificeret. Søgeadresse, parametre og sortering er ikke fundet.
-
-- Kør kun de givne søgninger, når en søgeside faktisk kan åbnes og er fundet.
-- Sortering efter nyeste: ikke undersøgt. Skriv i dækningsnoten, at sorteringen ikke kunne bekræftes.
-- Gæt ikke søgeadresser eller parametre.
+- Igangværende: `https://auctionet.com/da/search?company_id=566&q=<søgeord>`.
+- Afsluttede (arkiv): tilføj `&is=ended`. Kør begge dele for hver søgning.
+- Sortering: `order=recent` ("Senest modtaget") er nærmest nyeste, men er ikke verificeret som nyeste først. Brug standardsortering og dæk med flere søgeord.
+- Paginering: klikbare sider med `&page=N`, 48 lots pr. side. Stop ved en tom side. Tæl unikke lot-numre og sammenlign med "N genstande" øverst.
+- Ved 0 igangværende fund viser siden arkivlots under "Her er genstande fra vores arkiv". Tæl kun, hvis der ikke står "desværre ingen genstande".
+- Cookiebanner: vælg "Afvis alle".
+- Kørsel 2026-11-09: "Fritz Hansen" afsluttet 142 af 142 læst. "Hans J. Wegner" afsluttet 107 opgivet, kun 92 unikke læst, fordi sider gav dubletter. "Verner Panton stol" 4 afsluttede, 0 igangværende. "Severin Hansen bord" 21 afsluttede, 1 igangværende.
 
 ## Dato
 
-Ikke verificeret. Det vides ikke, hvor datoen vises, eller om der findes en oprettelsesdato.
-
-- Noter datoen med den præcise tekst fra siden, og skriv hvad den betyder: slutdato, auktionsdato eller oprettelse. På auktionshuse er det normalt slut- eller auktionsdato, ikke oprettelsesdato.
-- Kan ingen dato ses: `Dato/aktualitet: ikke synlig`.
+- Afsluttede lots: kortet viser "Opnåede hammerslag <dato>". Lotsiden viser "Solgt".
+- Igangværende lots: kortet viser tid tilbage. Lotsiden viser "Slutter om" med dato og klokkeslæt, fx "16 nov 2026 kl. 15:51 CST".
+- Datoen er auktionens slut. Der findes ingen start- eller oprettelsesdato. Skriv `Dato/aktualitet: slut <dato>, ikke oprettelse`.
 
 ## Direkte køb
 
-Ukendt. Der er ikke set nogen købsknap uden auktion, og det kan ikke bekræftes her.
-
-- Brug `Tjek`, indtil en annonce tydeligt viser et direkte køb.
-- `Nej` kun, hvis det senere ses, at alle annoncer er auktioner.
-- Antag ikke købsbeskyttelse ud fra auktionshusets navn.
+- Set på en afsluttet og en igangværende lot-side: kun budgivning ("Afgiv bud", "Log ind eller opret konto for at afgive et bud"). Ingen "Køb nu"-knap.
+- Svar `Nej`, når lotsiden kun viser budgivning. Svar `Tjek`, hvis noget andet vises.
+- Antag ikke købsbeskyttelse ud fra Auctionets eller Bidstrups navn.
 
 ## Faldgruber
 
-Ikke verificeret. Cookie-banner, login, bot-tjek og markering af solgt eller udgået er ikke set.
-
-Forsøg den 2026-11-09:
-
-- `https://bidstrup.dk/` og `https://bidstrup.dk/auktion/`: proxy-fejl 502 "upstream request failed".
-- `http://bidstrup.dk/`: one.com-parkeringsside ("This one is taken"), ikke auktionshusets side.
-- `http://bidstrup.dk/auktion/`: 404 fra nginx.
-- `bidstrup.com` og `www.bidstrup.com`: forbindelsen kan ikke oprettes.
-- `bidstrupauktion.dk` og `bidstrup-auktion.dk`: forbindelsen kan ikke oprettes.
-
-Konsekvenser:
-
-- Det rigtige domæne for auktionshuset er ikke fundet. Find det, før platformen søges.
-- Pris (startpris, nuværende bud eller slutpris) kan ikke afgøres. Angiv det, der står på annoncen, og skriv hvilken type det er.
-- Skriv i dækningsnoten, at Bidstrup ikke blev søgt, og kør ikke en søgning på en gætning.
+- Login: bud kræver konto. Søgning og lotsider kan læses uden login. Log ikke ind og byd ikke.
+- Pris: kortet viser højeste bud. Uden bud viser det vurderingen. Prisen står i USD som standard. Skriv valutaen og konvertér ikke.
+- Navnefælde: "Severin Hansen" finder kun ERIK SEVERIN RISAGER-HANSEN (Haslev Møbelsnedkeri). "Fritz Hansen" finder 21 af 142 lots uden Fritz Hansen i titlen. Læs titlen, før du giver `Bekræftet`.
+- Søgningen matcher dele af ord, så søgeord kan give ukendte designere.
+- Afsluttet uden bud: kortet kan vise "Opnåede hammerslag" selv uden salg. Skriv forbehold om solgt-status.
+- Ingen bot-tjek eller CAPTCHA er set. "Kontakt supporten" og "Få en gratis vurdering" hører ikke til lots. Brug dem ikke.

@@ -7,20 +7,31 @@ Denne fil er al platformsspecifik viden for Sikö. Den generelle protokol ligger
 
 # Sikö
 
-Platformsfil for søgeagenten. Læses sammen med den generelle brief. Filen er endnu ikke verificeret: adressen til Sikö-markedspladsen er ikke kendt. Brug den generelle brief, og noter hullet i dækningsnoten.
+Sikö Auktioner (sikoauktioner.se) er et svensk auktionshus. Siden er på svensk, og priserne står i "kr". Valutakoden vises ikke, så skriv "kr" og lad være med at konvertere.
 
 ## Søgning
 
-Ikke undersøgt endnu. Adressen til Sikö er ikke fundet i repoet. `siko.dk` er Samvirkende Idrætsklubber i Odense og `sikoe.com` er en parkeringsside, så ingen af dem er markedspladsen. Søgeadresse, parametre og sortering skal verificeres, før denne sektion udfyldes.
+- Adresse: `https://www.sikoauktioner.se/sok/<søgeord>/<kategori>/<arkiv>/<side>/<sortering>/<by>`. Brug `0` for alle kategorier, `0` for kun aktive auktioner, og `0` for alle byer. Mellemrum skrives `%20`. Punktum skrives `¬`, så "Hans J. Wegner" bliver `Hans%20J¬%20Wegner`.
+- Sortering: `tid` (Kortast tid kvar, sluttid stigende), `nya` (Längst tid kvar, sluttid faldende), `senast` (Senast publicerade), `pris` (Värdering), `hogst` (Högst bud). Standard er `tid`.
+- Side 1 viser 24 lots. Gå videre med `<side>` 2, 3 osv. til en side uden lots.
+- Kørt 2026-11-09: "Verner Panton stol", "Panton", "Severin Hansen bord", "Severin Hansen", "Hans J. Wegner", "Wegner" og "Haslev bord" gav 0 lots. "Fritz Hansen" gav 2, "Bruno Mathsson" 3 og "stol" 83 (over 4 sider).
 
 ## Dato
 
-Ikke undersøgt endnu. Brug annoncedatoen, hvis den vises. Hvis den ikke vises, må alderen ikke gættes. Angiv begrænsningen.
+- Lotsiden viser "Avslutas: 16 NOV 20:12", og søgekortet har sluttiden i `title`. Det er sluttidspunktet, ikke oprettelsesdatoen.
+- Publiceringsdato vises ikke på kort eller lotside. Sorteringen "Senast publicerade" er ikke verificeret mod en dato, og den følger hverken lotnummer eller sluttid.
+- Skriv derfor `Dato/aktualitet: sluttid <dato>, publicering ikke synlig`, og sæt forbehold. Udled ikke alder af sluttiden.
 
 ## Direkte køb
 
-Ikke undersøgt endnu. Sæt `Tjek`, indtil det er verificeret, om der findes en købsknap uden auktion.
+- Alle lots, der er set (på kort og lotside), har kun "Lägg bud" eller "Bjud!", altså auktion. Der er ingen "Köp nu". "Boka transport" er fragt, ikke køb. Sæt `Nej`. Sæt `Tjek`, hvis en købsknap uden budgivning optræder.
 
 ## Faldgruber
 
-Ikke undersøgt endnu. Tilføj kendte problemer, når siden er undersøgt, fx cookie-bannere, login-vægge, paginering, bot-tjek og markering af solgte eller udgåede annoncer.
+- Søgesiden viser ikke samlet antal resultater. Sidenavigationen viser altid 8 sider, også når færre har lots: "stol" gav 4 sider med lots, og side 5 var tom. Stop ved første tomme side, ikke ved sidetallet.
+- En søgning uden resultater viser bare en tom side uden tekst. Skriv det i dækningsnoten, så det ikke ses som "ingen fund".
+- Forbindelsen til sikoauktioner.se afbrydes ofte (`connection reset`). Prøv igen, og notér sider, der ikke kunne hentes.
+- "Aktuellt bud" er det aktuelle bud (0 kr = ingen bud). "Värdering" er et skøn, ikke startpris eller salgspris, og startpris vises ikke. Brug ikke Värdering som pris.
+- Læsning kræver ikke login. Budgivning kræver login og BankID, og det gør vi ikke.
+- Ingen cookiebanner, CAPTCHA eller bot-tjek sås i curl eller Playwright.
+- Arkivflaget (`1`) gav samme lots som aktive søgninger for "stol" og "Fritz Hansen". Afsluttede eller solgte lots er ikke set, så status for dem er ikke verificeret.
