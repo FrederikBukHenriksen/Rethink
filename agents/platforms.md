@@ -14,7 +14,7 @@ Hvert afsnit gælder for én platform. Indsæt kun afsnittet for den platform, a
 
 ## Tradera
 
-**Søgning:** Tilføj ordet `lampe` til brede søgninger, så irrelevante resultater falder væk. Behold model- og designerordene. Sortér efter nyeste.
+**Søgning:** Tilføj kategoriens tillægsord (`Tillægsord` i blokken: `lampe` for lamper, `møbel` for møbler) til brede søgninger, så irrelevante resultater falder væk. Behold model- og designerordene. Sortér efter nyeste.
 
 **Dato:** Ikke udfyldt endnu. Brug listens dato, hvis den vises. Hvis ikke, skal du ikke gætte alderen. Skriv begrænsningen.
 
@@ -24,7 +24,7 @@ Hvert afsnit gælder for én platform. Indsæt kun afsnittet for den platform, a
 
 ## Vinted
 
-**Søgning:** Tilføj ordet `lampe` til brede søgninger, så tøj og andre irrelevante resultater falder væk. Behold model- og designerordene. Sortér efter nyeste.
+**Søgning:** Tilføj kategoriens tillægsord (`Tillægsord` i blokken) til brede søgninger, så tøj og andre irrelevante resultater falder væk. Behold model- og designerordene. Sortér efter nyeste.
 
 **Dato:** Ikke udfyldt endnu. Brug listens dato, hvis den vises. Hvis ikke, skal du ikke gætte alderen. Skriv begrænsningen.
 

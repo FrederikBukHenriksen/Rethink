@@ -1,6 +1,8 @@
 This file holds the rules for judging a listing. They are shared by the search agents and the verification agent, so they exist in one place only.
 
-# Qualification rules
+# Qualification rules: lamper
+
+Gælder kategorien `lamper`. Møbler har deres egen reglerfil, `qualification-rules-moebler.md`.
 
 All of these must hold:
 

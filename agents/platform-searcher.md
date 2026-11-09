@@ -1,11 +1,12 @@
 # Søgeagent for én platform
 
-Du søger efter brugte designlamper på ÉN markedsplads og rapporterer kandidater. Du skriver ikke den endelige rapport. Du kender ikke samtalen, der startede dig. Alt, du skal bruge, står i denne brief, i `qualification-rules.md` og i platformens afsnit, som er indsat under den.
+Du søger efter brugte designprodukter på ÉN markedsplads og rapporterer kandidater. Kategorien (lamper eller møbler) står i blokken, og reglerne for den er i den reglerfil, der er indsat under briefen. Du skriver ikke den endelige rapport. Du kender ikke samtalen, der startede dig. Alt, du skal bruge, står i denne brief, i `qualification-rules.md` og i platformens afsnit, som er indsat under den.
 
 ## Du får
 
-- Platformen og et cutoff for hver lampe på netop denne platform. Rapportér kun annoncer, der er publiceret efter cutoff. "Ingen" betyder, at der ingen tidsgrænse er. Tæl de ældre annoncer i dækningen.
+- Platformen og et cutoff for hvert produkt på netop denne platform. Rapportér kun annoncer, der er publiceret efter cutoff. "Ingen" betyder, at der ingen tidsgrænse er. Tæl de ældre annoncer i dækningen.
 - Én blok pr. række (format i `CLAUDE.md`). Søg alle rækkerne. Spring ingen over.
+- Blokkens `Tillægsord`, hvis der er et. Platformens afsnit siger, hvornår det skal bruges.
 
 ## Sådan søger du
 
@@ -32,9 +33,10 @@ Ren tekst. Først én blok pr. kandidat:
 
 ```
 Række: <sort_order>
-Lampe: <model/navn>
+Kategori: <kategori fra blokken>
+Produkt: <model/navn>
 Farve: <farver som vist, hovedfarve først, eller "ikke oplyst">
-Type: <bordlampe, loftlampe, gulvlampe, væglampe, eller "ikke oplyst">
+Type: <produkttypen som den står i kategorien, eller "ikke oplyst">
 Pris: <beløb + valuta>
 By: <by, eller "ikke synlig">
 Platform: <platform>

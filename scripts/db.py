@@ -3,14 +3,15 @@
 
 Kommandoer:
   python3 scripts/db.py init                    tjek at tabellerne findes
-  python3 scripts/db.py sync-lampe FIL          læs lampelisten (JSON fra ArtifactData) ind i targets
+  python3 scripts/db.py sync-lampe FIL KATEGORI læs listen for én kategori (JSON fra ArtifactData) ind i targets
   python3 scripts/db.py import-feedback FIL     læs brugerens vurderinger fra siden (JSON) ind i user_actions
   python3 scripts/db.py gem-resultat FIL        gem fund, versioner og gennemførte søgninger (JSON)
-  python3 scripts/db.py cutoff LAMPE PLATFORM   cutoff for en lampe på en platform; 'ingen' hvis ingen
+  python3 scripts/db.py cutoff KATEGORI LAMPE PLATFORM  cutoff for en lampe på en platform; 'ingen' hvis ingen
   python3 scripts/db.py slet-fund FUND_ID       slet ét fund; annonceversioner og brugerhandlinger slettes med
   python3 scripts/db.py status                  antal rækker pr. tabel
   python3 scripts/db.py soegeplan               hvad der skal søges nu, med cutoff pr. platform (JSON)
-  python3 scripts/db.py eksport-lamper FIL      skriv lamper fra databasen som lampelisten (JSON)
+  python3 scripts/db.py kategorier             kategorierne med samling, regler og tillægsord (JSON)
+  python3 scripts/db.py eksport-lamper FIL KATEGORI  skriv en kategoris targets fra databasen som listen (JSON)
   python3 scripts/db.py eksport-side FIL        skriv kategorier, targets og fund fra databasen som siden (JSON)
 
 FIL er en JSON-liste med objekter som {"id": "...", "data": {...}}, som ArtifactData returnerer dem.
@@ -27,9 +28,19 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB = os.path.join(ROOT, "database.db")
 TZ = ZoneInfo("Europe/Copenhagen")
 
-REQUIRED = ("platforms", "lamp_types", "color_type", "targets", "target_types", "target_colors",
-            "target_terms", "target_platforms", "runs", "finds", "ads", "user_actions")
-TARGET_PREFIX = "lamper-"          # listens id 'l07' bliver target 'lamper-l07'
+REQUIRED = ("platforms", "produkt_kategori", "produkt_type", "color_type", "targets", "target_types",
+            "target_colors", "target_terms", "target_platforms", "runs", "finds", "ads", "user_actions")
+
+# Kategorierne: id, visningsnavn, rækkefølge, listens samling, titel og ark på siden, tillægsord til
+# brede søgninger, og kvalifikationsreglerne (fil i agents/). Ny kategori: en række her og en liste.
+KATEGORIER = [
+    ("lamper", "Lamper", 1, "lamper", "Lampelisten", "lamper", "lampe", "qualification-rules.md"),
+    ("moebler", "Møbler", 2, "moebler", "Møbellisten", "møbler", "møbel", "qualification-rules-moebler.md"),
+]
+# Typer pr. kategori. Typerne i listen skal stå her. Møbeltyperne er et UDKAST, der skal godkendes.
+TYPER = {
+    "moebler": ["Sofa", "Stol", "Lænestol", "Bord", "Skab", "Hylde", "Kommode"],
+}
 AD_FIELDS = ("title", "type", "description", "note", "city", "direct", "price", "available", "color")
 
 
@@ -113,7 +124,7 @@ def migrate_ads(db):
     db.execute("""CREATE TABLE ads_ny (
         find_id TEXT PRIMARY KEY NOT NULL REFERENCES finds(id) ON DELETE CASCADE,
         title TEXT NOT NULL,
-        type TEXT REFERENCES lamp_types(name),
+        type TEXT REFERENCES produkt_type(name),
         description TEXT,
         note TEXT,
         city TEXT,
@@ -163,8 +174,71 @@ def migrate_rev_fk(db):
         db.execute(index_sql)
 
 
+def migrate_kategori(db):
+    """Kategorier: produkt_kategori, produkt_type (den gamle lamp_types, med en kategori) og targets.kategori.
+    Eksisterende lamper bliver kategorien 'lamper'. Kan køres igen uden at ændre noget."""
+    tabeller = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type = 'table'")}
+    if "produkt_kategori" not in tabeller:
+        db.execute("""CREATE TABLE produkt_kategori (
+            id TEXT PRIMARY KEY NOT NULL,
+            navn TEXT NOT NULL,            -- fanens navn på siden og listen: Lamper, Møbler
+            orden INTEGER NOT NULL,        -- fanernes rækkefølge
+            samling TEXT NOT NULL UNIQUE,  -- ArtifactData-samlingen på listen
+            arbejdsbog TEXT NOT NULL,      -- titlen på listen, vist på siden
+            ark TEXT NOT NULL,             -- arknavnet, vist på siden
+            tillaeg TEXT NOT NULL,         -- ord, der tilføjes brede søgninger på Tradera og Vinted
+            regler TEXT NOT NULL)          -- kvalifikationsreglerne: fil i agents/
+        """)
+    db.executemany("INSERT OR IGNORE INTO produkt_kategori (id, navn, orden, samling, arbejdsbog, ark, tillaeg, regler) "
+                   "VALUES (?,?,?,?,?,?,?,?)", KATEGORIER)
+    if "lamp_types" in tabeller and "produkt_type" not in tabeller:
+        db.execute("ALTER TABLE lamp_types RENAME TO produkt_type")   # FK fra target_types og ads følger med
+        tabeller.add("produkt_type")
+    if "produkt_type" not in tabeller:
+        db.execute("CREATE TABLE produkt_type (name TEXT PRIMARY KEY)")
+    kolonner = [r[1] for r in db.execute("PRAGMA table_info(produkt_type)")]
+    if "kategori" not in kolonner:
+        db.execute("ALTER TABLE produkt_type ADD COLUMN kategori TEXT REFERENCES produkt_kategori(id)")
+        db.execute("UPDATE produkt_type SET kategori = 'lamper' WHERE kategori IS NULL")
+    db.executemany("INSERT OR IGNORE INTO produkt_type (name, kategori) VALUES (?, ?)",
+                   [(navn, kat) for kat, navne in TYPER.items() for navn in navne])
+    kolonner = [r[1] for r in db.execute("PRAGMA table_info(targets)")]
+    if "kategori" not in kolonner:
+        db.execute("ALTER TABLE targets ADD COLUMN kategori TEXT REFERENCES produkt_kategori(id)")
+    db.execute("UPDATE targets SET kategori = 'lamper' WHERE kategori IS NULL AND id LIKE 'lamper-%'")
+    if db.execute("SELECT COUNT(*) FROM targets WHERE kategori IS NULL").fetchone()[0]:
+        raise ValueError("targets uden kategori kan ikke placeres")
+
+
+def migrate_ads_form(db):
+    """ads skal have de felter, koden skriver: type, note, color og direct. Den committede database havde en
+    ældre form med direct_purchase. De manglende felter hentes fra den seneste række i ads_rev, og direct_purchase
+    flyttes til direct. Tabellen bygges ikke om, fordi DROP TABLE på ads ville slette historikken i ads_rev."""
+    cols = [r[1] for r in db.execute("PRAGMA table_info(ads)")]
+    if "direct" in cols and "type" in cols and "note" in cols and "color" in cols and "direct_purchase" not in cols:
+        return
+    if "direct" not in cols:
+        db.execute("ALTER TABLE ads ADD COLUMN direct TEXT")
+    if "type" not in cols:
+        db.execute("ALTER TABLE ads ADD COLUMN type TEXT REFERENCES produkt_type(name)")
+    if "note" not in cols:
+        db.execute("ALTER TABLE ads ADD COLUMN note TEXT")
+    if "color" not in cols:
+        db.execute("ALTER TABLE ads ADD COLUMN color TEXT REFERENCES color_type(name)")
+    if "direct_purchase" in cols:
+        db.execute("UPDATE ads SET direct = direct_purchase WHERE direct IS NULL")
+    db.execute("""UPDATE ads SET
+        type = (SELECT r.type FROM ads_rev r WHERE r.find_id = ads.find_id ORDER BY r.rev_id DESC LIMIT 1),
+        note = (SELECT r.note FROM ads_rev r WHERE r.find_id = ads.find_id ORDER BY r.rev_id DESC LIMIT 1),
+        color = (SELECT r.color FROM ads_rev r WHERE r.find_id = ads.find_id ORDER BY r.rev_id DESC LIMIT 1)""")
+    if "direct_purchase" in cols:
+        db.execute("ALTER TABLE ads DROP COLUMN direct_purchase")
+
+
 def init(db):
     db.executescript(REV_SCHEMA)
+    migrate_kategori(db)
+    migrate_ads_form(db)
     for tbl in ("ads", "ads_rev"):
         cols = [r[1] for r in db.execute(f"PRAGMA table_info({tbl})")]
         if "seen_at" in cols:
@@ -197,6 +271,27 @@ def lookup(db, table, col, value, label):
     return row[0]
 
 
+def target_id(kategori, list_id):
+    """Listens id 'l07' i kategorien 'lamper' bliver target 'lamper-l07'."""
+    return f"{kategori}-{list_id}"
+
+
+def check_kategori(db, kategori):
+    if not kategori:
+        raise ValueError("mangler kategori")
+    if not db.execute("SELECT 1 FROM produkt_kategori WHERE id = ?", (kategori,)).fetchone():
+        raise ValueError(f"ukendt kategori: {kategori}")
+
+
+def lookup_type(db, kategori, value):
+    """En type, der hører til netop denne kategori. Lampetyper gælder ikke for møbler, og omvendt."""
+    row = db.execute("SELECT name FROM produkt_type WHERE kategori = ? AND lower(name) = lower(?)",
+                     (kategori, value)).fetchone()
+    if row is None:
+        raise ValueError(f"ukendt type i {kategori}: {value}")
+    return row[0]
+
+
 def target_state(db, tid):
     row = db.execute("""SELECT list_id, sort_order, model, designer, producer, max_price, aktiv, image_url
                         FROM targets WHERE id = ?""", (tid,)).fetchone()
@@ -212,7 +307,8 @@ def target_state(db, tid):
     }
 
 
-def sync_lampe(db, path):
+def sync_lampe(db, path, kategori):
+    check_kategori(db, kategori)
     with open(path, encoding="utf-8") as f:
         docs = json.load(f)
     ts = now()
@@ -222,7 +318,7 @@ def sync_lampe(db, path):
         if not any(data.get(k) for k in ("model", "designer", "producent")):
             print(f"springer tom række over: {d['id']}")
             continue
-        tid = TARGET_PREFIX + d["id"]
+        tid = target_id(kategori, d["id"])
         before = target_state(db, tid)
         arkiveret = data.get("archived") is True
         aktiv = 1 if data.get("aktiv") is True and not arkiveret else 0
@@ -234,21 +330,22 @@ def sync_lampe(db, path):
         maks = data.get("maksPris")
         maks = int(maks) if isinstance(maks, (int, float)) and not isinstance(maks, bool) else None
         db.execute("""
-            INSERT INTO targets (id, list_id, sort_order, model, designer, producer, max_price, aktiv, image_url)
-            VALUES (?,?,?,?,?,?,?,?,?)
+            INSERT INTO targets (id, list_id, sort_order, model, designer, producer, max_price, aktiv, image_url, kategori)
+            VALUES (?,?,?,?,?,?,?,?,?,?)
             ON CONFLICT(id) DO UPDATE SET list_id = excluded.list_id, sort_order = excluded.sort_order,
               model = excluded.model, designer = excluded.designer, producer = excluded.producer,
-              max_price = excluded.max_price, aktiv = excluded.aktiv, image_url = excluded.image_url""",
+              max_price = excluded.max_price, aktiv = excluded.aktiv, image_url = excluded.image_url,
+              kategori = excluded.kategori""",
                    (tid, d["id"], data.get("order") or 0, data.get("model") or None,
                     data.get("designer") or None, data.get("producent") or None, maks, aktiv,
-                    data.get("billede") or None))
+                    data.get("billede") or None, kategori))
         ids.append(tid)
         # Underrækkerne erstattes helt med listens værdier.
         for t in ("target_types", "target_colors", "target_terms", "target_platforms"):
             db.execute(f"DELETE FROM {t} WHERE target_id = ?", (tid,))
         for typ in split(data.get("type")):
             db.execute("INSERT INTO target_types (target_id, type) VALUES (?, ?)",
-                       (tid, lookup(db, "lamp_types", "name", typ, "lampetype")))
+                       (tid, lookup_type(db, kategori, typ)))
         for kind, key in (("tilladt", "tilladteFarver"), ("fravalg", "fravalgteFarver")):
             for c in split(data.get(key)):
                 db.execute("INSERT INTO target_colors (target_id, color, kind) VALUES (?,?,?)",
@@ -264,10 +361,10 @@ def sync_lampe(db, path):
         if before is not None and before != after:
             db.execute("INSERT INTO targets_rev (target_id, rev_at, tilstand) VALUES (?, ?, ?)",
                        (tid, ts, json.dumps(before, ensure_ascii=False)))
-    # Targets, der ikke længere står på listen, bliver inaktive. Ingen slettes.
-    db.execute("UPDATE targets SET aktiv = 0 WHERE id LIKE ? AND id NOT IN (SELECT value FROM json_each(?))",
-               (TARGET_PREFIX + "%", json.dumps(ids)))
-    print(f"targets: {len(ids)} rækker synket fra listen")
+    # Targets i samme kategori, der ikke længere står på listen, bliver inaktive. Ingen slettes.
+    db.execute("UPDATE targets SET aktiv = 0 WHERE kategori = ? AND id NOT IN (SELECT value FROM json_each(?))",
+               (kategori, json.dumps(ids)))
+    print(f"{kategori}: {len(ids)} rækker synket fra listen")
 
 
 def import_feedback(db, path):
@@ -341,13 +438,13 @@ def write_ad(db, fid, values, ts):
     return True
 
 
-def ad_values(db, f, partial):
+def ad_values(db, f, partial, kategori):
     """Oversæt en fund-post fra søgeagenten til felterne i ads. Ved en ny annonce skal de nødvendige felter være der."""
     m = {}
     if "navn" in f or "titel" in f:
         m["title"] = f.get("titel") or f.get("navn")
-    if "lampetype" in f:
-        m["type"] = f["lampetype"]
+    if "type" in f:
+        m["type"] = lookup_type(db, kategori, f["type"])
     if "beskrivelse" in f:
         m["description"] = f["beskrivelse"]
     if "note" in f:
@@ -385,10 +482,14 @@ def gem_resultat(db, path):
     with open(path, encoding="utf-8") as f:
         data = json.load(f)
     ts = now()
+    kat = data.get("kategori")
     lampe = data.get("lampe_id")
-    tid = TARGET_PREFIX + lampe if lampe else None
-    if tid and not db.execute("SELECT 1 FROM targets WHERE id = ?", (tid,)).fetchone():
-        raise ValueError(f"ukendt lampe_id: {lampe}")
+    tid = None
+    if lampe:
+        check_kategori(db, kat)
+        tid = target_id(kat, lampe)
+        if not db.execute("SELECT 1 FROM targets WHERE id = ?", (tid,)).fetchone():
+            raise ValueError(f"ukendt lampe_id: {lampe} i kategori {kat}")
     nye = versioner = 0
     for f in data.get("fund", []):
         plat = lookup(db, "platforms", "name", f["platform"], "platform")
@@ -401,12 +502,14 @@ def gem_resultat(db, path):
                 raise ValueError(f"nyt fund {fid} mangler link")
             db.execute("INSERT INTO finds (id, plat, target_id, link) VALUES (?,?,?,?)",
                        (fid, plat, tid, f["link"]))
-            write_ad(db, fid, ad_values(db, f, partial=False), ts)
+            write_ad(db, fid, ad_values(db, f, False, kat), ts)
             log_check(db, fid, ts)
             nye += 1
         else:
             latest = latest_ad(db, fid) or {}
-            values = dict(latest, **ad_values(db, f, partial=True))
+            fkat = db.execute("SELECT t.kategori FROM finds f JOIN targets t ON t.id = f.target_id WHERE f.id = ?",
+                              (fid,)).fetchone()[0]
+            values = dict(latest, **ad_values(db, f, True, fkat))
             if write_ad(db, fid, values, ts):
                 versioner += 1
             log_check(db, fid, ts)
@@ -434,11 +537,12 @@ def gem_resultat(db, path):
     print(f"gemt: {nye} nye fund, {versioner} nye versioner, {runs} gennemførte søgninger")
 
 
-def cutoff(db, lampe, platform):
+def cutoff(db, kategori, lampe, platform):
     """Cutoff er tidspunktet for den seneste gennemførte søgning på netop denne lampe og platform."""
+    check_kategori(db, kategori)
     plat = lookup(db, "platforms", "name", platform, "platform")
     row = db.execute("SELECT MAX(completed_at) FROM runs WHERE target_id = ? AND platform = ?",
-                     (TARGET_PREFIX + lampe, plat)).fetchone()
+                     (target_id(kategori, lampe), plat)).fetchone()
     print(row[0] or "ingen")
 
 
@@ -458,12 +562,23 @@ def _cutoff_for(db, tid, plat_name):
     return row[0]
 
 
+def kategorier(db):
+    """Kategorierne i den rækkefølge fanerne vises. Hovedagenten bruger samling og regler herfra."""
+    rows = db.execute("SELECT id, navn, orden, samling, arbejdsbog, ark, tillaeg, regler FROM produkt_kategori ORDER BY orden").fetchall()
+    print(json.dumps([dict(zip(("id", "navn", "orden", "samling", "arbejdsbog", "ark", "tillaeg", "regler"), r)) for r in rows],
+                     ensure_ascii=False, indent=2))
+
+
 def soegeplan(db):
-    """Hvad der skal søges nu: aktive lamper, deres platforme og cutoff pr. platform. Udskrives som JSON."""
+    """Hvad der skal søges nu: aktive lamper i alle kategorier, deres platforme og cutoff pr. platform.
+    Udskrives som JSON. Kategorien står på hver række, og lampe_id er kun unik inden for en kategori."""
     plan = []
-    targets = db.execute("""SELECT id, list_id, sort_order, model, designer, producer, max_price, image_url
-                            FROM targets WHERE aktiv = 1 ORDER BY sort_order""").fetchall()
-    for tid, list_id, order, model, designer, producer, maks, billede in targets:
+    targets = db.execute("""SELECT t.id, t.list_id, t.sort_order, t.model, t.designer, t.producer, t.max_price,
+                                   t.image_url, t.kategori, k.tillaeg, k.regler
+                            FROM targets t JOIN produkt_kategori k ON k.id = t.kategori
+                            WHERE t.aktiv = 1 ORDER BY k.orden, t.sort_order""").fetchall()
+    for (tid, list_id, order, model, designer, producer, maks, billede,
+         kategori, tillaeg, regler) in targets:
         types = [r[0] for r in db.execute("SELECT type FROM target_types WHERE target_id = ? ORDER BY type", (tid,))]
         colors = db.execute("SELECT color, kind FROM target_colors WHERE target_id = ?", (tid,)).fetchall()
         terms = db.execute("SELECT term, kind FROM target_terms WHERE target_id = ?", (tid,)).fetchall()
@@ -477,6 +592,7 @@ def soegeplan(db):
         else:
             soeg = [" ".join(x for x in [(designer or producer), (types[0].lower() if types else "")] if x)] + tilvalg
         plan.append({
+            "kategori": kategori, "tillaeg": tillaeg, "regler": regler,
             "lampe_id": list_id, "sort_order": order, "model": model, "designer": designer, "producer": producer,
             "type": types, "soegninger": soeg,
             "tilladte_farver": [c for c, k in colors if k == "tilladt"],
@@ -487,13 +603,14 @@ def soegeplan(db):
     print(json.dumps(plan, ensure_ascii=False, indent=2))
 
 
-def eksport_lamper(db, path):
-    """Lamper fra databasen i samme form som listen. Bruges til at opdatere lampelisten fra databasen."""
+def eksport_lamper(db, path, kategori):
+    """Targets i én kategori fra databasen i samme form som kategoriens liste. Bruges til at opdatere listen."""
+    check_kategori(db, kategori)
     docs = []
     for tid, list_id, order, model, designer, producer, maks, aktiv, billede, arkiveret in db.execute(
             """SELECT id, list_id, sort_order, model, designer, producer, max_price, aktiv, image_url,
                       EXISTS (SELECT 1 FROM user_actions u WHERE u.target_id = targets.id AND u.action = 'skjult')
-               FROM targets ORDER BY sort_order"""):
+               FROM targets WHERE kategori = ? ORDER BY sort_order""", (kategori,)):
         types = [r[0].lower() for r in db.execute("SELECT type FROM target_types WHERE target_id = ? ORDER BY type", (tid,))]
         def cols(kind):
             return "; ".join(r[0].lower() for r in db.execute(
@@ -510,7 +627,7 @@ def eksport_lamper(db, path):
             "aktiv": bool(aktiv), "archived": bool(arkiveret), "order": order}})
     with open(path, "w", encoding="utf-8") as f:
         json.dump(docs, f, ensure_ascii=False, indent=2)
-    print(f"lamper: {len(docs)} dokumenter skrevet til {path}")
+    print(f"{kategori}: {len(docs)} dokumenter skrevet til {path}")
 
 
 def _parse_note(note, prefix):
@@ -525,15 +642,17 @@ def _parse_note(note, prefix):
 def eksport_side(db, path):
     """Fund, targets og kategorier fra databasen i formen siden læser. Siden får sine data herfra."""
     out = {"categories": [], "targets": [], "finds": []}
-    out["categories"].append({"id": "lamper", "data": {"name": "Lamper", "order": 1,
-                                                        "workbook": "Lampelisten", "sheet": "lamper"}})
-    for tid, list_id, order, model, designer, producer in db.execute(
-            "SELECT id, list_id, sort_order, model, designer, producer FROM targets ORDER BY sort_order"):
-        out["targets"].append({"id": f"lamper-row-{order}", "data": {
-            "category": "lamper", "row": order, "model": model or "",
+    for kid, navn, orden, arbejdsbog, ark in db.execute(
+            "SELECT id, navn, orden, arbejdsbog, ark FROM produkt_kategori ORDER BY orden"):
+        out["categories"].append({"id": kid, "data": {"name": navn, "order": orden,
+                                                      "workbook": arbejdsbog, "sheet": ark}})
+    for tid, kategori, list_id, order, model, designer, producer in db.execute(
+            "SELECT id, kategori, list_id, sort_order, model, designer, producer FROM targets ORDER BY kategori, sort_order"):
+        out["targets"].append({"id": f"{kategori}-row-{order}", "data": {
+            "category": kategori, "row": order, "model": model or "",
             "designers": [designer] if designer else [], "producers": [producer] if producer else []}})
-    for fid, plat, tid, link, order in db.execute(
-            """SELECT f.id, f.plat, f.target_id, f.link, t.sort_order FROM finds f
+    for fid, plat, tid, link, order, kategori in db.execute(
+            """SELECT f.id, f.plat, f.target_id, f.link, t.sort_order, t.kategori FROM finds f
                JOIN targets t ON t.id = f.target_id"""):
         versions = db.execute('SELECT "insert", title, type, description, note, city, direct, price, available, color '
                               "FROM ads_rev WHERE find_id = ? AND kind = 'ændring' ORDER BY \"insert\"", (fid,)).fetchall()
@@ -550,7 +669,7 @@ def eksport_side(db, path):
         status = _parse_note(note, "Status: ") or "Uklar identitet"
         listed = _parse_note(note, "Annonceret: ")
         gone = next((v[0] for v in versions if v[8] == "nej"), None)
-        doc = {"category": "lamper", "row": order, "name": title, "type": typ, "plat": plat,
+        doc = {"category": kategori, "row": order, "name": title, "type": typ, "plat": plat,
                "colors": [color] if color else [], "city": city or "by ukendt", "direct": direct,
                "status": status, "link": link, "price": price, "priceHistory": history,
                "available": avail, "firstSeen": first_seen, "lastChecked": versions[-1][0]}
@@ -572,16 +691,16 @@ def eksport_side(db, path):
 
 
 def status(db):
-    for t in ("platforms", "lamp_types", "color_type", "targets", "target_types", "target_colors",
+    for t in ("platforms", "produkt_kategori", "produkt_type", "color_type", "targets", "target_types", "target_colors",
               "target_terms", "target_platforms", "runs", "finds", "ads", "ads_rev", "targets_rev",
               "user_action_type", "user_actions"):
         print(f"{t}: {db.execute(f'SELECT COUNT(*) FROM {t}').fetchone()[0]}")
 
 
 def main(argv):
-    commands = {"init": 2, "sync-lampe": 3, "import-feedback": 3, "gem-resultat": 3,
-                "cutoff": 4, "slet-fund": 3, "status": 2, "soegeplan": 2,
-                "eksport-lamper": 3, "eksport-side": 3}
+    commands = {"init": 2, "sync-lampe": 4, "import-feedback": 3, "gem-resultat": 3,
+                "cutoff": 5, "slet-fund": 3, "status": 2, "soegeplan": 2,
+                "eksport-lamper": 4, "eksport-side": 3, "kategorier": 2}
     if len(argv) < 2 or argv[1] not in commands:
         print(__doc__)
         return 2
@@ -594,21 +713,23 @@ def main(argv):
         with db:
             init(db)
             if cmd == "sync-lampe":
-                sync_lampe(db, argv[2])
+                sync_lampe(db, argv[2], argv[3])
             elif cmd == "import-feedback":
                 import_feedback(db, argv[2])
             elif cmd == "gem-resultat":
                 gem_resultat(db, argv[2])
             elif cmd == "cutoff":
-                cutoff(db, argv[2], argv[3])
+                cutoff(db, argv[2], argv[3], argv[4])
             elif cmd == "slet-fund":
                 slet_fund(db, argv[2])
             elif cmd == "status":
                 status(db)
+            elif cmd == "kategorier":
+                kategorier(db)
             elif cmd == "soegeplan":
                 soegeplan(db)
             elif cmd == "eksport-lamper":
-                eksport_lamper(db, argv[2])
+                eksport_lamper(db, argv[2], argv[3])
             elif cmd == "eksport-side":
                 eksport_side(db, argv[2])
     except (ValueError, sqlite3.Error) as e:

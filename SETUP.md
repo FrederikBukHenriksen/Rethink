@@ -1,6 +1,6 @@
 # Opsætning på en ny computer
 
-Lamperne står i en liste, som er et artefakt: https://claude.ai/artifact/7SKsryS5G4DTBDGXmLm3ZF. Alt andet gemmes i `database.db` i denne mappe. Der er ingen Excel-fil.
+Listerne (en fane pr. kategori: lamper, møbler) er ét artefakt: https://claude.ai/artifact/7SKsryS5G4DTBDGXmLm3ZF. Alt andet gemmes i `database.db` i denne mappe. Der er ingen Excel-fil.
 
 ## Mappen
 
@@ -24,4 +24,10 @@ Lamperne står i en liste, som er et artefakt: https://claude.ai/artifact/7SKsry
 ## Senere
 
 - Ny platform: tilføj et afsnit i `agents/platforms.md`. Uden afsnit kører agenten med hovedbriefen alene, og det noteres i dækningen.
-- Ny kategori: tilføj en række i `produkt_kategori`, og lav en liste, der har samme form som lampelisten.
+- Ny kategori (fx keramik eller kunst):
+  1. Tilføj en række i `KATEGORIER` i `scripts/db.py` (id, navn, orden, samling, titel og ark, tillægsord, reglerfil). Kør derefter `python3 scripts/db.py status`, så tabellen `produkt_kategori` opdateres.
+  2. Tilføj kategoriens typer i `MOEBEL_TYPER`-mønstret i `scripts/db.py`, og skriv dem til `produkt_type` med kategoriens id.
+  3. Lav en reglerfil i `agents/` (fx `qualification-rules-keramik.md`), og et afsnit i `agents/platforms.md` for hver platform, der søges.
+  4. Tilføj en fane i `CATS` i listens kode (artefaktet `7SKs…`), med samme id og samling som i `produkt_kategori`, og udgiv listen igen til samme URL.
+  5. Skriv kategoriens række til siden (`categories`) med `eksport-side` og `batch`, som i trin 6 i `CLAUDE.md`.
+- Møbler: reglerne i `agents/qualification-rules-moebler.md` er et udkast. Gennemgå dem og typerne, før møbler søges.
