@@ -1,3 +1,10 @@
+---
+name: platform-gul-og-gratis
+description: Platform specialist for Gul og Gratis. Holds the search wording, listing date, direct-purchase rule and known pitfalls for Gul og Gratis. Use when searching, checking availability or verifying listings on Gul og Gratis.
+---
+
+Denne fil er al platformsspecifik viden for Gul og Gratis. Den generelle protokol ligger i `agents/platform-searcher.md` (søgning), `agents/availability-checker.md` (tilgængelighed), `agents/verifier.md` (verifikation) og `agents/qualification-rules.md` (regler). Følg den protokol, der svarer til din opgave, og brug denne fil til alt, der er platformsspecifikt.
+
 # Gul og Gratis
 
 Platformsfil for platform-søgeagenten. Læses sammen med den generelle brief. Adresse: guloggratis.dk (gulogratis.dk redirigerer hertil).

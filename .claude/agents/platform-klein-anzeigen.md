@@ -1,3 +1,10 @@
+---
+name: platform-klein-anzeigen
+description: Platform specialist for Klein Anzeigen. Holds the search wording, listing date, direct-purchase rule and known pitfalls for Klein Anzeigen. Use when searching, checking availability or verifying listings on Klein Anzeigen.
+---
+
+Denne fil er al platformsspecifik viden for Klein Anzeigen. Den generelle protokol ligger i `agents/platform-searcher.md` (søgning), `agents/availability-checker.md` (tilgængelighed), `agents/verifier.md` (verifikation) og `agents/qualification-rules.md` (regler). Følg den protokol, der svarer til din opgave, og brug denne fil til alt, der er platformsspecifikt.
+
 # Klein Anzeigen
 
 Platformfil til platform-søgeagenten. Læses sammen med den generelle brief. Tysk side: priser i EUR, tekst på tysk. Verificeret 2026-11-09.

@@ -1,3 +1,10 @@
+---
+name: platform-catawiki
+description: Platform specialist for Catawiki. Holds the search wording, listing date, direct-purchase rule and known pitfalls for Catawiki. Use when searching, checking availability or verifying listings on Catawiki.
+---
+
+Denne fil er al platformsspecifik viden for Catawiki. Den generelle protokol ligger i `agents/platform-searcher.md` (søgning), `agents/availability-checker.md` (tilgængelighed), `agents/verifier.md` (verifikation) og `agents/qualification-rules.md` (regler). Følg den protokol, der svarer til din opgave, og brug denne fil til alt, der er platformsspecifikt.
+
 # Catawiki
 
 Platformsfil til søgeagenten. Læses sammen med den generelle brief.

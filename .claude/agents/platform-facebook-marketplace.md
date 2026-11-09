@@ -1,3 +1,10 @@
+---
+name: platform-facebook-marketplace
+description: Platform specialist for Facebook Marketplace. Holds the search wording, listing date, direct-purchase rule and known pitfalls for Facebook Marketplace. Use when searching, checking availability or verifying listings on Facebook Marketplace.
+---
+
+Denne fil er al platformsspecifik viden for Facebook Marketplace. Den generelle protokol ligger i `agents/platform-searcher.md` (søgning), `agents/availability-checker.md` (tilgængelighed), `agents/verifier.md` (verifikation) og `agents/qualification-rules.md` (regler). Følg den protokol, der svarer til din opgave, og brug denne fil til alt, der er platformsspecifikt.
+
 # Facebook Marketplace
 
 Platformsfil for søgeagenten. Læses sammen med den generelle brief.

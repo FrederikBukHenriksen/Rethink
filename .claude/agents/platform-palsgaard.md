@@ -1,3 +1,10 @@
+---
+name: platform-palsgaard
+description: Platform specialist for Palsgaard. Holds the search wording, listing date, direct-purchase rule and known pitfalls for Palsgaard. Use when searching, checking availability or verifying listings on Palsgaard.
+---
+
+Denne fil er al platformsspecifik viden for Palsgaard. Den generelle protokol ligger i `agents/platform-searcher.md` (søgning), `agents/availability-checker.md` (tilgængelighed), `agents/verifier.md` (verifikation) og `agents/qualification-rules.md` (regler). Følg den protokol, der svarer til din opgave, og brug denne fil til alt, der er platformsspecifikt.
+
 # Palsgaard
 
 Platformsfil for platform-søgeagenten. Læses sammen med den generelle brief.

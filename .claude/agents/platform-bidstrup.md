@@ -1,3 +1,10 @@
+---
+name: platform-bidstrup
+description: Platform specialist for Bidstrup. Holds the search wording, listing date, direct-purchase rule and known pitfalls for Bidstrup. Use when searching, checking availability or verifying listings on Bidstrup.
+---
+
+Denne fil er al platformsspecifik viden for Bidstrup. Den generelle protokol ligger i `agents/platform-searcher.md` (søgning), `agents/availability-checker.md` (tilgængelighed), `agents/verifier.md` (verifikation) og `agents/qualification-rules.md` (regler). Følg den protokol, der svarer til din opgave, og brug denne fil til alt, der er platformsspecifikt.
+
 # Bidstrup
 
 Platformsfil for platform-søgeagenten. Læses sammen med den generelle brief. Filen er IKKE verificeret mod auktionshusets side: siden kunne ikke åbnes fra søgemiljøet den 2026-11-09 (se Faldgruber).

@@ -1,3 +1,10 @@
+---
+name: platform-lauritz
+description: Platform specialist for Lauritz. Holds the search wording, listing date, direct-purchase rule and known pitfalls for Lauritz. Use when searching, checking availability or verifying listings on Lauritz.
+---
+
+Denne fil er al platformsspecifik viden for Lauritz. Den generelle protokol ligger i `agents/platform-searcher.md` (søgning), `agents/availability-checker.md` (tilgængelighed), `agents/verifier.md` (verifikation) og `agents/qualification-rules.md` (regler). Følg den protokol, der svarer til din opgave, og brug denne fil til alt, der er platformsspecifikt.
+
 # Lauritz
 
 Platformsfil til platformssøgeagenten. Læses sammen med den generelle brief.

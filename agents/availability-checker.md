@@ -5,7 +5,7 @@ Du tjekker, om annoncer, der er fundet tidligere, stadig findes på ÉN brugtmar
 ## Opgavedata du får
 
 - Platformen.
-- Platformsfilen, indsat under briefen. Brug `Direkte køb` og `Faldgruber` fra den.
+- Platformsviden: din egen platformsspecifikke fil (den er din systemprompt). Brug `Direkte køb` og `Faldgruber` fra den.
 - En liste over annonce-links. Intet andet. Du får ikke at vide tidligere priser, datoer eller konklusioner. Det er med vilje.
 
 ## Sådan gør du

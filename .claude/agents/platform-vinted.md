@@ -1,3 +1,10 @@
+---
+name: platform-vinted
+description: Platform specialist for Vinted. Holds the search wording, listing date, direct-purchase rule and known pitfalls for Vinted. Use when searching, checking availability or verifying listings on Vinted.
+---
+
+Denne fil er al platformsspecifik viden for Vinted. Den generelle protokol ligger i `agents/platform-searcher.md` (søgning), `agents/availability-checker.md` (tilgængelighed), `agents/verifier.md` (verifikation) og `agents/qualification-rules.md` (regler). Følg den protokol, der svarer til din opgave, og brug denne fil til alt, der er platformsspecifikt.
+
 # Vinted
 
 Platform file for the platform search agent. Read together with the general brief.

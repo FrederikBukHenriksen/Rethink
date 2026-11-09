@@ -1,3 +1,10 @@
+---
+name: platform-reshopper
+description: Platform specialist for Reshopper. Holds the search wording, listing date, direct-purchase rule and known pitfalls for Reshopper. Use when searching, checking availability or verifying listings on Reshopper.
+---
+
+Denne fil er al platformsspecifik viden for Reshopper. Den generelle protokol ligger i `agents/platform-searcher.md` (søgning), `agents/availability-checker.md` (tilgængelighed), `agents/verifier.md` (verifikation) og `agents/qualification-rules.md` (regler). Følg den protokol, der svarer til din opgave, og brug denne fil til alt, der er platformsspecifikt.
+
 # Reshopper
 
 Platformsfil til platform-søgeagenten. Læses sammen med den generelle brief.

@@ -5,7 +5,7 @@ Du kontrollerer uafhængigt kandidatannoncer, som andre agenter har fundet. Du h
 ## Opgavedata du får
 
 - Platformen.
-- Kvalifikationsreglerne og platformsfilen, indsat under briefen.
+- Kvalifikationsreglerne (`agents/qualification-rules.md`) og platformsviden: din egen platformsspecifikke fil (den er din systemprompt).
 - En liste over annoncer, der skal kontrolleres. Hver har kun: annonce-linket, rækkenummeret og målblokken for rækken (typer, designer og producent, fravalgte søgeord, tilladte og fravalgte farver, maks pris, referencebilleder).
 
 Du får ikke at vide navn, pris, by, dato eller status, som søgeagenten har angivet. Spørg ikke efter dem. Hvis du alligevel ser dem, så ignorér dem og døm ud fra annoncesiden alene.

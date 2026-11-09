@@ -1,3 +1,10 @@
+---
+name: platform-woxholt
+description: Platform specialist for Woxholt. Holds the search wording, listing date, direct-purchase rule and known pitfalls for Woxholt. Use when searching, checking availability or verifying listings on Woxholt.
+---
+
+Denne fil er al platformsspecifik viden for Woxholt. Den generelle protokol ligger i `agents/platform-searcher.md` (søgning), `agents/availability-checker.md` (tilgængelighed), `agents/verifier.md` (verifikation) og `agents/qualification-rules.md` (regler). Følg den protokol, der svarer til din opgave, og brug denne fil til alt, der er platformsspecifikt.
+
 # Woxholt
 
 Platformsfil for platformssøgeagenten. Læses sammen med den generelle brief.

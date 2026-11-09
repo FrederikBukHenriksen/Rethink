@@ -68,7 +68,7 @@ After the platforms and the time window are set, and before any new search:
 
 1. Read all documents in `finds` (all categories) with `ArtifactData` (action `list`; page through with the cursor). Note each document's `version`.
 2. Take every find where `available` is not `nej`. Group them by platform.
-3. Start one fresh availability agent per platform that has such finds, in parallel where possible. Build each prompt from three parts, in this order: the full text of `agents/availability-checker.md`, the full text of that platform's file in `agents/platforms/`, and the list of listing links only. Give them nothing else, especially not earlier prices or dates.
+3. Start one fresh availability agent per platform that has such finds, in parallel where possible. Use the platform's agent `platform-<platform>` from `.claude/agents/` (its platform file is its system prompt). Build each prompt from two parts, in this order: the full text of `agents/availability-checker.md`, and the list of listing links only. Give them nothing else, especially not earlier prices or dates.
 4. Update each find from the agent's answer (section 6). If an availability agent cannot be started, say so in the run's coverage and leave `available` and `lastChecked` unchanged. Never mark something checked that was not.
 
 Platforms that are not part of this run are still checked if they have active finds, unless the user says otherwise.
@@ -122,12 +122,12 @@ Build each subagent prompt from four parts, in this order:
 
 1. The full text of `agents/platform-searcher.md`, pasted verbatim.
 2. The full text of `agents/qualification-rules.md`, pasted verbatim.
-3. The full text of that platform's file in `agents/platforms/`, pasted verbatim: `dba.md`, `vinted.md` or `tradera.md`.
+3. The platform's own file, `.claude/agents/platform-<platform>.md`. Start the subagent as that agent type when it is available; the file is then its system prompt. If the agent type is not available in the session, paste the file verbatim here.
 4. The platform and all target blocks from section 2. State the cutoff for this platform from the Time window rules in section 1 (only listings published after that date and time are to be reported, or "no cutoff" if there is none) and that every qualifying listing must be reported with its listing date.
 
 Open the files and paste them. Do not just tell the subagent to find them.
 
-If a platform of the run has no file in `agents/platforms/`, run it with the general brief only, and note the gap in the run document's coverage note.
+If a platform of the run has no `platform-<platform>` agent in `.claude/agents/`, run it with the general brief only, and note the gap in the run document's coverage note.
 
 Subagents report candidates only. They never write to the page.
 
@@ -141,7 +141,7 @@ Build each verifier prompt from four parts, in this order:
 
 1. The full text of `agents/verifier.md`, pasted verbatim.
 2. The full text of `agents/qualification-rules.md`, pasted verbatim.
-3. The full text of that platform's file in `agents/platforms/`, pasted verbatim.
+3. The platform's own file, `.claude/agents/platform-<platform>.md` (its system prompt when the agent type is used; otherwise paste it verbatim here).
 4. The platform and, for each candidate ONLY: the listing link, the row number, and that row's target block from section 2.
 
 Do not give the verifier anything the search agent concluded: not the lamp name, price, city, date, status, reasoning or caveats. The verifier must reach its own verdict from the listing page. Strip those fields before building the prompt.
