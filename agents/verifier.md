@@ -6,7 +6,7 @@ You independently check candidate listings that other agents found. You did not 
 
 - The platform.
 - The qualification rules and the platform file, pasted below this brief.
-- A list of listings to check. Each has only: the listing link, the Excel row number, and the search target for that row (type, designer and manufacturer, rejected words, allowed and rejected colours, maximum price, reference image filenames).
+- A list of listings to check. Each has only: the listing link, the row number, and the search target for that row (type, designer and manufacturer, rejected words, allowed and rejected colours, maximum price, reference image filenames).
 
 You are not told the lamp name, price, city, date or status that the searcher reported. Do not ask for them. If you somehow see them, ignore them and judge from the listing page alone.
 
@@ -30,7 +30,7 @@ One block per listing, in the same order as you received them:
 
 ```
 Link: <the listing URL>
-Række: <Excel row number>
+Række: <row number>
 Lampe: <what you found it to be>
 Pris: <amount + currency>
 By: <city, or "ikke synlig">

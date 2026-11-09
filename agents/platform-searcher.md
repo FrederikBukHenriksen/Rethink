@@ -7,7 +7,7 @@ You search ONE second-hand marketplace for design lamps and report candidate lis
 - Platform and a cutoff. Find every qualifying listing published after the cutoff. If the cutoff says "no cutoff", there is no time limit. Do not report listings published before the cutoff; count them in the coverage note.
 - The qualification rules, pasted below this brief. They decide whether a listing qualifies and how sure you are of its identity.
 - The platform file for your platform, pasted below this brief. It holds everything specific to your platform: search wording, sorting, where the listing date is shown, how direct purchase is shown, and known pitfalls. It has the headings `Søgning`, `Dato`, `Direkte køb` and `Faldgruber`.
-- One search target per Excel row. Each has: row number, a label, the exact searches to run, `Type`, designer and manufacturer, rejected words, allowed colours, rejected colours, maximum price, and reference image filenames (images are in the project files).
+- One search target per target row. Each has: row number, a label, the exact searches to run, `Type`, designer and manufacturer, rejected words, allowed colours, rejected colours, maximum price, and reference image filenames (images are in the project files).
 
 Search every target you are given. Do not skip any.
 
@@ -48,7 +48,7 @@ If a heading in the platform file is empty or says it is not filled in, use the 
 Plain text. First one block per candidate:
 
 ```
-Række: <Excel row number>
+Række: <row number>
 Lampe: <model/name>
 Farve: <colours as shown in the listing, main colour first, or "ikke oplyst">
 Type: <lamp type shown in the listing: bordlampe, loftlampe, standerlampe, væglampe, or "ikke oplyst">

@@ -6,9 +6,9 @@ All text shown on the page is Danish.
 
 ## `categories/<slug>` — one document per search area (a tab on the page)
 
-`{ "name": "Lamper", "order": 1, "workbook": "DBA-lampesøgning.xlsx", "sheet": "Søgeliste" }`
+`{ "name": "Lamper", "order": 1, "platforms": [...] }` (older documents may still carry `workbook` and `sheet`; ignore them, the Excel workbook is no longer used)
 
-The slug is lower case ASCII letters, digits and hyphens only, for example `lamper`, `keramik`, `kommoder`, `stole`. It is also the tab's address on the page (`#keramik`). Create a category document when a new search area is set up, with the sheet that holds its search list. The page shows one tab per category document. Never delete one that has finds.
+The slug is lower case ASCII letters, digits and hyphens only, for example `lamper`, `keramik`, `kommoder`, `stole`. It is also the tab's address on the page (`#keramik`). Create a category document when a new search area is set up, and add its search list as `targets` documents. The page shows one tab per category document. Never delete one that has finds.
 
 Every `finds`, `targets` and `runs` document has a `category` field with the slug. A document without it counts as `lamper`.
 
@@ -19,7 +19,7 @@ The id is `<platform lowercase>-<listing id>`, for example `dba-26284641` or `vi
 | Field | Meaning |
 |---|---|
 | `category` | Category slug, for example `lamper` |
-| `row` | Excel row number in the category's sheet |
+| `row` | Row number of the target in `targets` |
 | `name` | Short lamp name, for example `Flowerpot VP3, mat hvid` |
 | `type` | One lamp type in Danish, for example `Bordlampe`, `Loftlampe`, `Standerlampe`, `Væglampe` |
 | `colors` | List of colours in Danish with a capital letter, main colour first, for example `["Hvid", "Orange"]`. Use plain names: Hvid, Sort, Grå, Beige, Brun, Rød, Orange, Gul, Grøn, Blå, Lilla, Pink, Guld, Sølv, Messing, Krom, Træ |
@@ -42,9 +42,9 @@ The id is `<platform lowercase>-<listing id>`, for example `dba-26284641` or `vi
 | `available` | `ja`, `nej` or `ukendt` |
 | `goneAt` | ISO time of the run that found it removed. Only when `available` is `nej` |
 
-## `targets/<slug>-row-<N>` — one document per Excel row
+## `targets/<slug>-row-<N>` — one document per search-list row
 
-For example `lamper-row-5`. `{ "category": "lamper", "row": N, "model": "...", "designers": ["..."], "producers": ["..."] }`. `model` is an empty string when the row has no model. Keep in sync with `Søgeliste`. The filters on the page are built from these.
+For example `lamper-row-5`. `{ "category": "lamper", "row": N, "model": "...", "designers": ["..."], "producers": ["..."] }`. `model` is an empty string when the row has no model. This is the search list itself and is edited by the user on the page. Its other fields (`types`, `keywords`, `excludeKeywords`, `colorsAllowed`, `colorsRejected`, `maxPrice`, `images`, `platforms`, `active`) are described in `SETUP.md` section 2. The filters on the page are built from these.
 
 ## `runs/<YYYY-MM-DD-HHMM>` — one document per run
 
