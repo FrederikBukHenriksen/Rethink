@@ -7,27 +7,36 @@ Denne fil er al platformsspecifik viden for Palsgaard. Den generelle protokol li
 
 # Palsgaard
 
-Platformsfil for platform-søgeagenten. Læses sammen med den generelle brief.
-
-**Status: ikke verificeret.** Siden kunne ikke nås fra sessionen (se Faldgruber). Det nedenfor er foreløbige antagelser, ikke observationer. Ret filen, når siden er testet.
+Platformsfil for platform-søgeagenten. Testet 2026-11-09 med curl og Playwright. Palsgaards egen side (palsgaardkunstauktioner.dk) er en vitrine: alle genstande sælges på Auctionet (auctionet.com, `company_id=404`).
 
 ## Søgning
 
-- Adresse: ikke fastlagt. Sandsynligvis www.palsgaardkunstauktioner.dk. Søgeadresse og parametre er ikke undersøgt.
-- Sortering efter nyeste eller slutter-tid: ikke undersøgt.
-- Kør de givne søgninger, men notér i dækningsnoten at platformen ikke er søgt, til siden er testet.
+- Søg på Auctionet: `https://auctionet.com/da/search?company_id=404&q=<søgning>` for aktive genstande. Tilføj `&is=ended` for afsluttede.
+- Paginering: `&page=2`, `&page=3` osv. Aktive søgninger viser 20 pr. side, afsluttede 48. Stop, når siden er tom eller antallet er nået.
+- Sortering: `order=` (menu: "Relevans", "Senest modtaget", "Kortest tid tilbage" m.fl.). `order=recent` blev accepteret, men det er ikke verificeret, at den sorterer efter oprettelse.
+- Listen er JavaScript-renderet. curl finder ingen annoncelinks, så brug Playwright og vent på `a.item-thumb__link`.
+- Kørt 2026-11-09 (resultater i alt / læst):
+  - "Verner Panton stol": aktive 0 / 0, afsluttede 20 / 20.
+  - "Severin Hansen bord": aktive 4 / 4, afsluttede 137 / 137.
+  - "Fritz Hansen": aktive 20 / 20, afsluttede 476 / 476.
+  - "Hans J. Wegner": aktive 4 / 4, afsluttede 312 / 309 unikke. Nogle kort optrådte flere gange, og tallet varierede mellem kørsler.
+- Login er ikke nødvendigt for at søge og læse. Cookie-banneret: vælg "Nødvendige cookies" eller "Afvis alle". Der sås ingen bot-tjek eller CAPTCHA.
 
 ## Dato
 
-Ikke undersøgt. Det er en auktion, så en slutdato er ikke en annoncedato. Den siger hvornår auktionen slutter, ikke hvornår lampen blev lagt op. Brug kun en oprettelsesdato, hvis den vises. Ellers skrives `Dato/aktualitet: ikke synlig`, og forbeholdet står i dækningsnoten.
+- Kort og annonce viser kun slutteid, ikke oprettelsesdato. Aktive: "Slutter om 4 dage" og "13 nov 2026 kl. 04:20 CST". Afsluttede: "Opnåede hammerslag 25 mar 2026".
+- Det er ikke annoncedato. Skriv `Dato/aktualitet: ikke synlig`, og nævn sluttidspunktet i Forbehold. Gæt aldrig en oprettelsesdato, og brug ikke cutoff på slutteid.
 
 ## Direkte køb
 
-Ikke undersøgt. Antag indtil videre at alt er auktion. Brug `Tjek` for alle kandidater, indtil en købsknap uden auktion er fundet. Brug `Nej` først når siden tydeligt viser kun auktion.
+- `Nej`. Palsgaard skriver på siden /koeb, at alle genstande sælges på netauktion via Auctionet. Annoncen (én aktiv genstand tjekket) viser kun "Afgiv bud", ingen købsknap.
 
 ## Faldgruber
 
-- Forbindelsen fejlede konsekvent. Proxyen svarede 502 ("host allowed, but gateway could not connect") for www.palsgaardkunstauktioner.dk ved flere forsøg over ca. et minut. Det er ikke en politikblokering, men siden blev ikke nået.
-- Samme fejl sås for andre danske auktionssider i samme session, så det kan være midlertidigt.
-- Ikke undersøgt: cookie-banner, login-vægge, bot-tjek, pagination, markering af solgt eller udgået, og om prisen er startpris, nuværende bud eller slutpris.
-- Domænet palsgaardauktioner.dk (med -er) er en parkeret One.com-side og ikke Palsgaard. Brug den ikke.
+- Tom aktiv søgning viser "Vi har desværre ingen genstande, der matcher din søgning" og derefter op til fem arkivkort på side 2 og videre. Tæl kun de kort, der står i den viste total.
+- Priser vises i USD, fordi sessionen er sat til USD. Annoncens oprindelige valuta er DKK (`original_currency`). Brug DKK-beløbet, hvis det vises, ellers angiv beløbet som vist og konvertér ikke.
+- Startpris: "Byd mindst". "Vurdering" vises, når der ikke er bud. "Opnåede hammerslag" er slutpris. Købers salær (25 % og 70 kr. hammerslagsgebyr, ifølge /koeb) er ikke med i tallene.
+- By: "Genstanden findes i <by>", fx Copenhagen. Huset ligger på Midtager 33, 2605 Brøndby, men det er ikke genstandens by.
+- Søgeord rammer også bøger og magasiner og tilskrevne værker ("TILSKREVET"). Kortenes titler er afkortet med "…", så læs den fulde titel og beskrivelse.
+- Tryk aldrig på "Afgiv bud", "Overvåg søgning" eller "Søg efter pris".
+- Ikke verificeret: om afsluttede genstande uden hammerslag findes, og om der er en genstand, der er "ikke solgt".
