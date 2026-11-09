@@ -26,7 +26,7 @@ Listerne (en fane pr. kategori: lamper, møbler) er ét artefakt: https://claude
 - Ny platform: tilføj et afsnit i `agents/platforms.md`. Uden afsnit kører agenten med hovedbriefen alene, og det noteres i dækningen.
 - Ny kategori (fx keramik eller kunst):
   1. Tilføj en række i `KATEGORIER` i `scripts/db.py` (id, navn, orden, samling, titel og ark, tillægsord, reglerfil). Kør derefter `python3 scripts/db.py status`, så tabellen `produkt_kategori` opdateres.
-  2. Tilføj kategoriens typer i `MOEBEL_TYPER`-mønstret i `scripts/db.py`, og skriv dem til `produkt_type` med kategoriens id.
+  2. Tilføj kategoriens typer i `TYPER` i `scripts/db.py` (nøglen er kategoriens id). Kør `python3 scripts/db.py status` igen, så typerne skrives til `produkt_type`.
   3. Lav en reglerfil i `agents/` (fx `qualification-rules-keramik.md`), og et afsnit i `agents/platforms.md` for hver platform, der søges.
   4. Tilføj en fane i `CATS` i listens kode (artefaktet `7SKs…`), med samme id og samling som i `produkt_kategori`, og udgiv listen igen til samme URL.
   5. Skriv kategoriens række til siden (`categories`) med `eksport-side` og `batch`, som i trin 6 i `CLAUDE.md`.
