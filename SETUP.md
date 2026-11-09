@@ -35,16 +35,28 @@ The time window is set per target (row) and per platform, never per platform alo
 For each target row and each platform where the row's `platforms` value is `true`:
 
 - If the row has never been searched on that platform, search the whole platform for that row, with no time limit.
-- If the row has been searched on that platform before, search only for listings published after the start time of the newest search of that row on that platform. Find it in the `searched` field of the newest run document that covers the row and the platform.
+- If the row has been searched on that platform before, search only for listings published after the start time of the newest **complete** search of that row on that platform. Find it in the `searched` field of the newest run document that covers the row and the platform. A search that was not complete never counts.
 - A new row, or a row whose `platforms` value for a platform turns `true`, is searched on that whole platform, even if the platform was searched recently for other rows. Searching one row never sets or changes the cutoff of another row.
+- **A change of criteria starts a new full search.** If any of these fields on a row changes: `model`, `designers`, `producers`, `types`, `keywords`, `excludeKeywords`, `colorsAllowed`, `colorsRejected`, `maxPrice`, or `images`, the row is searched again on every platform it is `true` on, with no cutoff. Compare the new criteria with the criteria in the run document where the row's `searched` value comes from. Do not compare with the live target alone. Use judgement on the outcome:
+  - Listings that are new to the row are added as usual.
+  - Existing finds of the row are re-checked against the new criteria. If a find no longer matches, do not delete it. Set `check` to say which criterion it fails, and keep it on the page.
+  - Record in the run document that the row was searched because the criteria changed, and which fields changed.
 
 Run documents written before this rule have `searched` keyed by platform only (for example `{"DBA": "..."}`). Such a value counts for every row that was in that run's `rows` list, or for every row of the category if no list exists.
 
-When a run ends, record in its run document a `searched` field keyed `"<platform>|<række>"` with the start time of that search, for example `{"DBA|17": "2026-11-07T18:58:00+01:00", "Facebook Marketplace|17": "2026-11-07T19:05:00+01:00"}`. Use the start time, not the end time, so nothing published during the search is missed. Only rows and platforms actually searched are written.
+When a run ends, record in its run document a `searched` field keyed `"<platform>|<række>"` with the start time of that search, for example `{"DBA|17": "2026-11-07T18:58:00+01:00", "Facebook Marketplace|17": "2026-11-07T19:05:00+01:00"}`. Use the start time, not the end time, so nothing published during the search is missed.
 
-A listing published before the cutoff of its row is not reported as a candidate. Count them, and give the number in the run's coverage. If a platform shows only a last-edited date (DBA) or a relative age (Vinted, Facebook), use that as the evidence, and say in `check` or `note` that the publish date is uncertain. A listing whose date cannot be read at all is reported with that limitation, never dropped silently.
+**Only complete searches are written.** A search is complete when every search string for the row has been run, and every result page up to the end of the results has been read (until a page is empty or the platform says there is no next page). If a search stops early for any reason (a page limit, a block, a login wall, a timeout, a platform that cannot be reached), the row's `searched` value for that platform is not written, and the run document says so in its coverage note. The next run then searches that row on that platform again, from the previous complete cutoff. An incomplete search never moves the cutoff forward.
 
-New search rule (standing, from the user): when a row is searched on a platform for the first time, or the platform is searched for a row that has never been searched fully, search the whole market for that row. Do not exclude a listing because it is old. Every listing that matches the row (identity, colour, maximum price, direct purchase, and a listing date) is reported, whatever its age. After that first full search, later runs only report listings newer than the row's cutoff for that platform, and only update what is new.
+A listing published before the cutoff of its row is not reported as a candidate. Count them, and give the number in the run's coverage.
+
+**Never stop paging at the first listing older than the cutoff.** Sorting is not reliable enough for that. On DBA, the date shown is "sidst redigeret", so a listing that is old in the list can be newer than a listing that appears before it. Read every result page until the results end, and apply the cutoff to each listing. A platform file may allow an early stop only if it documents that the sorting is strictly by listing date on that platform.
+
+**Dates without time.** If a platform shows only a date (DBA, Klein Anzeigen, Lauritz, Gul og Gratis), set the listing time to 00:00 Copenhagen time on that date, and say in `check` or `note` that the publish date is uncertain. Compare dates for such listings, not times: a listing dated the same day as the cutoff is kept, not excluded. A listing whose date cannot be read at all is reported with that limitation, never dropped silently.
+
+If a platform shows only a relative age (Vinted, Facebook), use that as the evidence, and give the same limitation.
+
+New search rule (standing, from the user): when a row is searched on a platform for the first time, or the platform is searched for a row that has never been searched completely, search the whole market for that row. Do not exclude a listing because it is old. Every listing that matches the row (identity, colour, maximum price, direct purchase, and a listing date) is reported, whatever its age. After that first full search, later runs only report listings newer than the row's cutoff for that platform, and only update what is new.
 
 The time window applies to new listings only. The check of earlier finds (section 1a) covers all active finds, whatever their age.
 

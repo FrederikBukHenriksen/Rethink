@@ -19,7 +19,7 @@ For each target:
 
 1. Run each of the given searches.
 2. Sort by newest where the platform supports it.
-3. Go through the results, newest first, until they run out, stop being relevant or pass the cutoff. Say in the coverage note how far you got and how many listings were older than the cutoff.
+3. Go through every result page until the results end (an empty page or no next page). Do not stop at the first listing older than the cutoff: the sorting is not reliable enough for that. Apply the cutoff to each listing. Say in the coverage note how many pages you read, whether the results ended, and how many listings were older than the cutoff. A search that did not reach the end of the results is incomplete, and the coverage note must say so.
 4. Open promising listings and read both title and description.
 5. Look at the listing images when the text does not settle model or colour. Compare with the reference images.
 6. Record the listing date, or the strongest available evidence of recency (see `Dato` in your platform file).
