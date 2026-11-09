@@ -21,7 +21,7 @@ Den fulde procedure står i `SETUP.md` i repoet frederikbukhenriksen/rethink, br
 ## Platforme
 
 - **Facebook Marketplace:** Prøv én gang. Hvis browseren sendes til login, noter "ikke søgt" i dækningsnoten. Omgå ikke login.
-- **Platforme uden platformsfil** (fx Palsgaard, Bistrup, Woxholt, Lauritz, Sikø, Catawiki): Brug den generelle brief fra `agents/platform-searcher.md` og noter hullet i dækningsnoten.
+- **Platforme uden platformsfil** (fx Palsgaard, Bidstrup, Woxholt, Lauritz, Sikö, Catawiki): Brug den generelle brief fra `agents/platform-searcher.md` og noter hullet i dækningsnoten.
 - **DBA, Tradera, Vinted:** Brug de platformsfiler, der findes i `agents/platforms/`.
 
 ## Regler

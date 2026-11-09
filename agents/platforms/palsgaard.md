@@ -6,7 +6,7 @@ Platformsfil for platform-søgeagenten. Læses sammen med den generelle brief.
 
 ## Søgning
 
-- Adresse: ikke fastlagt. Sandsynligvis www.palsgaardauktion.dk. Søgeadresse og parametre er ikke undersøgt.
+- Adresse: ikke fastlagt. Sandsynligvis www.palsgaardkunstauktioner.dk. Søgeadresse og parametre er ikke undersøgt.
 - Sortering efter nyeste eller slutter-tid: ikke undersøgt.
 - Kør de givne søgninger, men notér i dækningsnoten at platformen ikke er søgt, til siden er testet.
 
@@ -20,7 +20,7 @@ Ikke undersøgt. Antag indtil videre at alt er auktion. Brug `Tjek` for alle kan
 
 ## Faldgruber
 
-- Forbindelsen fejlede konsekvent. Proxyen svarede 502 ("host allowed, but gateway could not connect") for www.palsgaardauktion.dk ved flere forsøg over ca. et minut. Det er ikke en politikblokering, men siden blev ikke nået.
+- Forbindelsen fejlede konsekvent. Proxyen svarede 502 ("host allowed, but gateway could not connect") for www.palsgaardkunstauktioner.dk ved flere forsøg over ca. et minut. Det er ikke en politikblokering, men siden blev ikke nået.
 - Samme fejl sås for andre danske auktionssider i samme session, så det kan være midlertidigt.
 - Ikke undersøgt: cookie-banner, login-vægge, bot-tjek, pagination, markering af solgt eller udgået, og om prisen er startpris, nuværende bud eller slutpris.
 - Domænet palsgaardauktioner.dk (med -er) er en parkeret One.com-side og ikke Palsgaard. Brug den ikke.

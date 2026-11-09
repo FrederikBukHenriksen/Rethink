@@ -1,4 +1,4 @@
-# Bistrup
+# Bidstrup
 
 Platformsfil for platform-søgeagenten. Læses sammen med den generelle brief. Filen er IKKE verificeret mod auktionshusets side: siden kunne ikke åbnes fra søgemiljøet den 2026-11-09 (se Faldgruber).
 
@@ -31,14 +31,14 @@ Ikke verificeret. Cookie-banner, login, bot-tjek og markering af solgt eller udg
 
 Forsøg den 2026-11-09:
 
-- `https://bistrup.dk/` og `https://bistrup.dk/auktion/`: proxy-fejl 502 "upstream request failed".
-- `http://bistrup.dk/`: one.com-parkeringsside ("This one is taken"), ikke auktionshusets side.
-- `http://bistrup.dk/auktion/`: 404 fra nginx.
-- `bistrup.com` og `www.bistrup.com`: forbindelsen kan ikke oprettes.
-- `bistrupauktion.dk` og `bistrup-auktion.dk`: forbindelsen kan ikke oprettes.
+- `https://bidstrup.dk/` og `https://bidstrup.dk/auktion/`: proxy-fejl 502 "upstream request failed".
+- `http://bidstrup.dk/`: one.com-parkeringsside ("This one is taken"), ikke auktionshusets side.
+- `http://bidstrup.dk/auktion/`: 404 fra nginx.
+- `bidstrup.com` og `www.bidstrup.com`: forbindelsen kan ikke oprettes.
+- `bidstrupauktion.dk` og `bidstrup-auktion.dk`: forbindelsen kan ikke oprettes.
 
 Konsekvenser:
 
 - Det rigtige domæne for auktionshuset er ikke fundet. Find det, før platformen søges.
 - Pris (startpris, nuværende bud eller slutpris) kan ikke afgøres. Angiv det, der står på annoncen, og skriv hvilken type det er.
-- Skriv i dækningsnoten, at Bistrup ikke blev søgt, og kør ikke en søgning på en gætning.
+- Skriv i dækningsnoten, at Bidstrup ikke blev søgt, og kør ikke en søgning på en gætning.
