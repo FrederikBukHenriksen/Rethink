@@ -11,6 +11,10 @@ The page has one tab per search area (category), for example Lamper, Keramik, Ko
 A run only adds to the page. It never removes finds. Listings that disappear are marked removed. Price changes are kept as history.
 
 
+## 0. Start button on the page
+
+The page has a "Start søgning" button at the very top (owner only). It writes `requests/search` with `{status: "bestilt", scope: "alle", requestedAt}`. `scope: "alle"` means: search every active row of every category, on every platform set to `true` on the row. At the start of any run, read `requests/search`. If `status` is `bestilt`, set it to `kører` with `startedAt`, run the search (all categories, one after the other; section 1 step 1 does not ask which category when `scope` is `alle`), and at the end set `status` to `færdig` with `finishedAt`. Pin writes with `if_version`. The button is disabled while the status is `bestilt` or `kører`. If a run fails, set `status` to `færdig` with a `note` saying what failed, so the button works again. The page cannot start Claude by itself: a scheduled run or the user starting a session picks the request up.
+
 ## 1. Start-of-run gate
 
 Standing rule from the user: when the user asks for a search, search every active row of the category's `targets` and every platform set to `true` on the row. Never ask which rows or platforms to run, and never limit a run to the platforms or rows searched most recently.
@@ -18,7 +22,7 @@ Standing rule from the user: when the user asks for a search, search every activ
 
 At the beginning of every new run, do not search any marketplace yet.
 
-1. Read the `categories` collection from the page database. If there is more than one category, ask which one to search. If there is one, use it and say which.
+1. Read the `categories` collection from the page database. If the request `scope` is `alle`, or the user asks for all searches, search every category in turn. Otherwise, if there is more than one category, ask which one to search. If there is one, use it and say which.
 2. Read the search list: query `targets` with `category` = the chosen slug (page through with the cursor). Verify that it has active rows and that the required fields can be read (see section 2). Report how many rows were read. Do NOT look for, open or ask for an Excel workbook. If the targets cannot be read, or the category has no rows, stop and tell the user.
 3. Decide the platforms of this run. Do not ask the user. The platforms of the run are all platforms that appear as keys in the targets' `platforms` objects, unless the user's request explicitly names the platforms to search. If the user names platforms, search only those. Say which platforms the run covers.
 4. Decide the time window for each platform of the run. Do not ask the user. See "Time window" below.
