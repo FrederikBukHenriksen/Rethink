@@ -11,9 +11,9 @@ The page has one tab per search area (category), for example Lamper, Keramik, Ko
 A run only adds to the page. It never removes finds. Listings that disappear are marked removed. Price changes are kept as history.
 
 
-## 0. Start button on the page
+## Currency
 
-The page has a "Start søgning" button at the very top (owner only). It writes `requests/search` with `{status: "bestilt", scope: "alle", requestedAt}`. `scope: "alle"` means: search every active row of every category, on every platform set to `true` on the row. At the start of any run, read `requests/search`. If `status` is `bestilt`, set it to `kører` with `startedAt`, run the search (all categories, one after the other; section 1 step 1 does not ask which category when `scope` is `alle`), and at the end set `status` to `færdig` with `finishedAt`. Pin writes with `if_version`. The button is disabled while the status is `bestilt` or `kører`. If a run fails, set `status` to `færdig` with a `note` saying what failed, so the button works again. The page cannot start Claude by itself: a scheduled run or the user starting a session picks the request up.
+Convert to DKK with an approximate rate when a price is in another currency, and say in `priceNote` what the original price was. Approximate rates: USD 7.0, EUR 7.46, SEK 0.68. Do not compare a converted price with the maximum price unless the conversion is clear, and mark the find `check` when the conversion is close to the maximum.
 
 ## 1. Start-of-run gate
 
@@ -37,12 +37,10 @@ For each target row and each platform where the row's `platforms` value is `true
 - If the row has never been searched on that platform, search the whole platform for that row, with no time limit.
 - If the row has been searched on that platform before, search only for listings published after the start time of the newest **complete** search of that row on that platform. Find it in the `searched` field of the newest run document that covers the row and the platform. A search that was not complete never counts.
 - A new row, or a row whose `platforms` value for a platform turns `true`, is searched on that whole platform, even if the platform was searched recently for other rows. Searching one row never sets or changes the cutoff of another row.
-- **A change of criteria starts a new full search.** If any of these fields on a row changes: `model`, `designers`, `producers`, `types`, `keywords`, `excludeKeywords`, `colorsAllowed`, `colorsRejected`, `maxPrice`, or `images`, the row is searched again on every platform it is `true` on, with no cutoff. Compare the new criteria with the criteria in the run document where the row's `searched` value comes from. Do not compare with the live target alone. Use judgement on the outcome:
-  - Listings that are new to the row are added as usual.
-  - Existing finds of the row are re-checked against the new criteria. If a find no longer matches, do not delete it. Set `check` to say which criterion it fails, and keep it on the page.
-  - Record in the run document that the row was searched because the criteria changed, and which fields changed.
-
-Run documents written before this rule have `searched` keyed by platform only (for example `{"DBA": "..."}`). Such a value counts for every row that was in that run's `rows` list, or for every row of the category if no list exists.
+- **Criteria snapshot and changes.** Every run document stores `criteria`: for each row it searched, the values of `model`, `designers`, `producers`, `types`, `keywords`, `excludeKeywords`, `colorsAllowed`, `colorsRejected`, `maxPrice` and `images` at the time of the search. At the start of a run, compare each row's current criteria with the `criteria` of the newest run document that covers that row. If the row has no snapshot, treat it as changed.
+  - **If the criteria changed,** the row is searched again on every platform it is `true` on, with no cutoff.
+  - **Existing finds of that row** are checked against the new criteria. A find that no longer matches is not deleted. Set `available` to `nej`, `goneAt` to the run time, and `note` to say which criterion it fails, so it is hidden from the page. A find that still matches stays.
+  - Record in the run document which row changed, and which fields changed.
 
 When a run ends, record in its run document a `searched` field keyed `"<platform>|<række>"` with the start time of that search, for example `{"DBA|17": "2026-11-07T18:58:00+01:00", "Facebook Marketplace|17": "2026-11-07T19:05:00+01:00"}`. Use the start time, not the end time, so nothing published during the search is missed.
 
@@ -118,12 +116,11 @@ Referencebilleder: <filenames>
 
 Start exactly one subagent per platform of the run, in parallel where possible. Each subagent gets the targets from section 2 that are `true` for its platform. Do not split those rows between subagents. If a platform has no rows set to `true`, do not start a subagent for it, and say so.
 
-Build each subagent prompt from four parts, in this order:
+Build each subagent prompt from three parts, in this order:
 
 1. The full text of `agents/platform-searcher.md`, pasted verbatim.
-2. The full text of `agents/qualification-rules.md`, pasted verbatim.
-3. The platform's own file, `.claude/agents/platform-<platform>.md`. Start the subagent as that agent type when it is available; the file is then its system prompt. If the agent type is not available in the session, paste the file verbatim here.
-4. The platform and all target blocks from section 2. State the cutoff for this platform from the Time window rules in section 1 (only listings published after that date and time are to be reported, or "no cutoff" if there is none) and that every qualifying listing must be reported with its listing date.
+2. The platform's own file, `.claude/agents/platform-<platform>.md`. Start the subagent as that agent type when it is available; the file is then its system prompt. If the agent type is not available in the session, paste the file verbatim here.
+3. The platform and all target blocks from section 2. State the cutoff for this platform from the Time window rules in section 1 (only listings published after that date and time are to be reported, or "no cutoff" if there is none) and that every qualifying listing must be reported with its listing date.
 
 Open the files and paste them. Do not just tell the subagent to find them.
 
@@ -131,18 +128,17 @@ If a platform of the run has no `platform-<platform>` agent in `.claude/agents/`
 
 Subagents report candidates only. They never write to the page.
 
-If subagents cannot be started, say so, and do the same work yourself one platform at a time, following the same three files for each platform.
+If subagents cannot be started, say so, and do the same work yourself one platform at a time, following the same files for each platform.
 
 ## 4. Independent verification
 
 The agents that found a listing must not be the ones that confirm it. When the search agents are done, start a fresh verification agent for each platform that returned candidates, in parallel where possible.
 
-Build each verifier prompt from four parts, in this order:
+Build each verifier prompt from three parts, in this order:
 
 1. The full text of `agents/verifier.md`, pasted verbatim.
-2. The full text of `agents/qualification-rules.md`, pasted verbatim.
-3. The platform's own file, `.claude/agents/platform-<platform>.md` (its system prompt when the agent type is used; otherwise paste it verbatim here).
-4. The platform and, for each candidate ONLY: the listing link, the row number, and that row's target block from section 2.
+2. The platform's own file, `.claude/agents/platform-<platform>.md` (its system prompt when the agent type is used; otherwise paste it verbatim here).
+3. The platform and, for each candidate ONLY: the listing link, the row number, and that row's target block from section 2.
 
 Do not give the verifier anything the search agent concluded: not the lamp name, price, city, date, status, reasoning or caveats. The verifier must reach its own verdict from the listing page. Strip those fields before building the prompt.
 

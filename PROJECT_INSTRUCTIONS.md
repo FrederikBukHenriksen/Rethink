@@ -8,21 +8,25 @@ Den fulde procedure står i `SETUP.md` i repoet frederikbukhenriksen/rethink, br
 
 - Søgelisten er `targets` i artefaktets database: https://claude.ai/artifact/4PFuzWt2x5ZqhdzyanGTtA. Den er ikke Excel, og Excel må ikke læses.
 - Kategorier: `categories`.
-- Resultater: `finds`. Kørsler: `runs`. Bestillinger fra knappen på siden: `requests/search`.
+- Resultater: `finds`. Kørsler: `runs`.
 
 ## Hvad du gør ved hver kørsel
 
-1. **Bestilling.** Læs `requests/search`. Sæt status til `kører` med `startedAt`. Pin skrivningen med `if_version`.
+1. **Kørsel.** Søg alle kategorier, alle aktive rækker og alle platforme, der er sat til `true` for rækken. Start hver kørsel, som `SETUP.md` beskriver.
 2. **Søgelisten.** Læs alle kategorier og alle aktive rækker i `targets`. Søg hver række på hver platform, der er sat til `true` for rækken. Søg alle kategorier.
 3. **Eksisterende fund.** Tjek alle aktive fund for tilgængelighed med uafhængige agenter, før du søger nye, jf. `SETUP.md` afsnit 1a.
 4. **Nye fund.** Følg `SETUP.md` afsnit 1-6: søgning med cutoff pr. række og platform, uafhængig verifikation, derefter skrivning til `finds`, `targets` og `runs`.
-5. **Afslutning.** Skriv en note i `runs` med hvad der blev søgt, hvad der ikke blev søgt, og hvorfor. Sæt `requests/search` til `færdig` med `finishedAt`. Hvis kørslen fejler, sæt `færdig` med en `note` om fejlen, så knappen virker igen.
+5. **Afslutning.** Skriv en note i `runs` med hvad der blev søgt, hvad der ikke blev søgt, og hvorfor, samt `criteria` for hver række. Hvis kørslen fejler, skriv fejlen i noten, så den kan genoptages.
 
 ## Platforme
 
 - **Facebook Marketplace:** Prøv én gang. Hvis browseren sendes til login, noter "ikke søgt" i dækningsnoten. Omgå ikke login.
 - **Platforme uden platform-agent** (fx Palsgaard, Bidstrup, Woxholt, Lauritz, Sikö, Catawiki, hvis deres agent ikke findes i `.claude/agents/`): Brug den generelle brief fra `agents/platform-searcher.md` og noter hullet i dækningsnoten.
 - **DBA, Tradera, Vinted:** Brug platform-agenterne `platform-dba`, `platform-tradera` og `platform-vinted` i `.claude/agents/`.
+
+## Valuta
+
+Omregn fremmed valuta til DKK med cirka kurs: USD 7,0, EUR 7,46, SEK 0,68. Skriv den oprindelige pris i `priceNote`.
 
 ## Regler
 

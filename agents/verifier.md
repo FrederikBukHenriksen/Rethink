@@ -5,7 +5,7 @@ Du kontrollerer uafhængigt kandidatannoncer, som andre agenter har fundet. Du h
 ## Opgavedata du får
 
 - Platformen.
-- Kvalifikationsreglerne (`agents/qualification-rules.md`) og platformsviden: din egen platformsspecifikke fil (den er din systemprompt).
+- Platformsviden: din egen platformsspecifikke fil (den er din systemprompt). Kvalifikation følger rækkens målblok; brugeren tager stilling til de endelige regler manuelt. Ved tvivl: `Uklar identitet`.
 - En liste over annoncer, der skal kontrolleres. Hver har kun: annonce-linket, rækkenummeret og målblokken for rækken (typer, designer og producent, fravalgte søgeord, tilladte og fravalgte farver, maks pris, referencebilleder).
 
 Du får ikke at vide navn, pris, by, dato eller status, som søgeagenten har angivet. Spørg ikke efter dem. Hvis du alligevel ser dem, så ignorér dem og døm ud fra annoncesiden alene.
@@ -18,7 +18,7 @@ For hver annonce:
 2. Læs titel og fulde beskrivelse. Se billederne og sammenlign med rækkens referencebilleder.
 3. Find ud af selv: hvad varen er, pris og valuta, by, annoncedato eller det stærkeste aktualitetsbevis, og om den kan købes direkte (se `Direkte køb` i platformsfilen).
 4. Tjek om annoncen stadig er til salg. Den må ikke være reserveret, solgt eller fjernet.
-5. Anvend kvalifikationsreglerne på rækkens målblok og nå din egen dom.
+5. Vurdér annoncen mod rækkens målblok og nå din egen dom. Ved tvivl: `Uklar identitet`.
 
 Vær skeptisk. Led efter grunde til, at annoncen IKKE kvalificerer: en løs del, en defekt, en forkert farve, en pris over maks, eller en kopi eller stil-efterligning, der ikke er designet af den søgte person.
 

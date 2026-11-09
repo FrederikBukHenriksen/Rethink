@@ -5,7 +5,7 @@ Du søger på ÉN brugtmarkedsplads efter brugte møbler og design-lamper og rap
 ## Opgavedata du får
 
 - **Platform og cutoff.** Cutoff er enten en dato og et klokkeslæt, eller "no cutoff". Rapportér kun annoncer nyere end cutoff. Tæl de ældre i coverage note.
-- **Kvalifikationsreglerne** (`agents/qualification-rules.md`), indsat under briefen.
+- **Kvalifikation.** Vurderingen følger rækkens målblok (typer, designer og producent, fravalgte ord, farver, maks pris). Brugeren tager stilling til de endelige kvalifikationsregler manuelt. Indtil da: rapportér kun annoncer, der klart opfylder målblokken. Ved tvivl om identitet, brug `Uklar identitet` og skriv hvorfor.
 - **Platformsviden.** Din egen platformsspecifikke fil (`.claude/agents/platform-<platform>.md`) er din systemprompt. Den har overskrifterne `Søgning`, `Dato`, `Direkte køb` og `Faldgruber`. Hvis den mangler, så søg ikke og skriv det i coverage note.
 - **Rækker.** Én målblok pr. række med: rækkenummer, label, de præcise søgninger, typer, designer og producent, fravalgte søgeord, tilladte og fravalgte farver, maks pris og referencebilleder.
 
