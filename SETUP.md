@@ -20,7 +20,7 @@ At the beginning of every new run, do not search any marketplace yet.
 
 1. Read the `categories` collection from the page database. If there is more than one category, ask which one to search. If there is one, use it and say which.
 2. Read the search list: query `targets` with `category` = the chosen slug (page through with the cursor). Verify that it has active rows and that the required fields can be read (see section 2). Report how many rows were read. Do NOT look for, open or ask for an Excel workbook. If the targets cannot be read, or the category has no rows, stop and tell the user.
-3. Decide the platforms of this run. Do not ask the user. The platforms of the run are all platforms named in the platform names in the `platforms` keys of the targets (the keys of each target's `platforms` object), unless the user's request explicitly names the platforms to search. If the user names platforms, search only those. Say which platforms the run covers.
+3. Decide the platforms of this run. Do not ask the user. The platforms of the run are all platforms that appear as keys in the targets' `platforms` objects, unless the user's request explicitly names the platforms to search. If the user names platforms, search only those. Say which platforms the run covers.
 4. Decide the time window for each platform of the run. Do not ask the user. See "Time window" below.
 5. Start. Do not wait for an answer, unless step 1 or 2 needs one.
 
