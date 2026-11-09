@@ -73,15 +73,17 @@ input[type="search"], input[type="number"], select {
 details.item { border-bottom: 1px solid var(--line); }
 details.item summary {
   list-style: none; cursor: pointer; padding: 11px 0;
-  display: grid; grid-template-columns: minmax(0, 1fr) auto auto; column-gap: 16px; row-gap: 2px;
+  display: grid; grid-template-columns: 52px minmax(0, 1fr) auto auto; column-gap: 14px; row-gap: 2px;
 }
 details.item summary::-webkit-details-marker { display: none; }
-.title { min-width: 0; font-weight: 600; font-size: 15.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.thumb { grid-column: 1; grid-row: 1 / span 2; align-self: center; width: 52px; height: 52px; border-radius: 8px; overflow: hidden; background: var(--accent-soft); border: 1px solid var(--line); }
+.thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.title { grid-column: 2; grid-row: 1; min-width: 0; font-weight: 600; font-size: 15.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .title a { text-decoration: none; }
 .title a:hover { text-decoration: underline; color: var(--accent); }
-.price { font-family: var(--font-mono); font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
+.price { grid-column: 3; grid-row: 1; font-family: var(--font-mono); font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
 .price small { font-size: 12px; color: var(--muted); font-weight: 400; margin-left: 4px; }
-.meta { grid-column: 1 / -1; min-width: 0; color: var(--muted); font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.meta { grid-column: 2 / -1; min-width: 0; color: var(--muted); font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .meta .sep { padding-inline: 5px; opacity: .6; }
 .ok { color: var(--ok); } .warn { color: var(--warn); } .no { color: var(--no); }
 .more { padding: 0 0 12px; display: grid; gap: 4px; font-size: 14px; color: var(--muted); }
@@ -130,19 +132,21 @@ select option { color: var(--fg); background: var(--surface); }
 .tab .n { font-family: var(--font-mono); font-size: 12px; font-weight: 400; margin-left: 7px; color: var(--muted); }
 .tab:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .acc { color: var(--accent); }
-.reasons { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; padding-top: 6px; }
-.fbbar { display: flex; gap: 4px; align-self: center; grid-row: 1; grid-column: 3; }
+.reasons { grid-column: 2 / -1; display: flex; flex-wrap: wrap; gap: 6px; padding-top: 6px; }
+.fbbar { display: flex; gap: 4px; align-self: center; grid-row: 1; grid-column: 4; }
 .fbbtn { width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center; background: transparent; color: var(--muted); border: 1px solid var(--line); border-radius: 8px; cursor: pointer; }
 .fbbtn svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .fbbtn.down svg { transform: rotate(180deg); }
 .fbbtn:hover { color: var(--fg); border-color: var(--muted); }
 .fbbtn.on { color: var(--c); border-color: var(--c); background: color-mix(in srgb, var(--c) 16%, transparent); }
-.fbbtn.v-favorit { --c: var(--ok); } .fbbtn.v-skjult { --c: var(--no); }
+.fbbtn.v-godt { --c: var(--ok); } .fbbtn.v-nej { --c: var(--no); } .fbbtn.v-koebt { --c: var(--accent); } .fbbtn.v-skrald { --c: var(--no); }
 .rchip { font: inherit; font-size: 12.5px; background: var(--surface); color: var(--fg); border: 1px solid var(--line); border-radius: 99px; padding: 3px 10px; cursor: pointer; }
 .rchip.on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
 .fbbtn:focus-visible, .rchip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 @media (max-width: 520px) {
   h1 { font-size: 24px; }
+  details.item summary { grid-template-columns: 40px minmax(0, 1fr) auto auto; column-gap: 10px; }
+  .thumb { width: 40px; height: 40px; }
   .meta { font-size: 12px; }
 }
 </style>
@@ -173,10 +177,10 @@ select option { color: var(--fg); background: var(--surface); }
       <h3>Annonce</h3>
       <div class="filters-grid">
         <div class="ms" id="f-plat" data-label="Platform"></div>
+        <div class="ms" id="f-verdict" data-label="Vurdering"></div>
         <select id="f-time" class="ph" aria-label="Tid"><option value="">Tid</option><option value="24">24 timer</option><option value="48">48 timer</option><option value="72">72 timer</option><option value="168">7 dage</option><option value="720">1 måned</option></select>
         <label class="check" for="f-direct"><input id="f-direct" type="checkbox"> Kan købes direkte</label>
-        <label class="check" for="f-drop"><input id="f-drop" type="checkbox"> Kun prisfald</label>
-        <label class="check" for="f-gone"><input id="f-gone" type="checkbox"> Vis fjernede</label>
+        <label class="check" for="f-hide"><input id="f-hide" type="checkbox" checked> Skjul ikke interessante</label>
       </div>
     </div>
   </section>
@@ -200,15 +204,18 @@ select option { color: var(--fg); background: var(--surface); }
 (function () {
   var $ = function (id) { return document.getElementById(id); };
   var els = {
-    q: $("q"), time: $("f-time"), direct: $("f-direct"), drop: $("f-drop"), gone: $("f-gone"),
+    q: $("q"), time: $("f-time"), direct: $("f-direct"), hide: $("f-hide"),
     max: $("f-max"), sort: $("f-sort"), liste: $("liste"), count: $("count"), reset: $("reset"),
     sub: $("sub"), runs: $("runs"), tabs: $("tabs")
   };
   var ALL_MULTI = [];
-  var state = { finds: [], targets: {}, runs: [], feedback: {}, allFinds: [], allTargets: [], allRuns: [], categories: [], cat: null, loaded: { finds: false, targets: false, runs: false }, error: false, fbError: false };
+  var state = { finds: [], targets: {}, runs: [], feedback: {}, allFinds: [], allTargets: [], allRuns: [], categories: [], cat: null, loaded: { finds: false, targets: false, runs: false }, error: false, fbError: false, keep: {} };
   var DB = null, canWrite = null, openIds = {}, chain = {};
-  var ACTION = { favorit: { label: "Favorit", cls: "ok" }, skjult: { label: "Skjult", cls: "no" } };
-  var REASONS = {};
+  var VERDICT = { godt: { label: "Godt fund", cls: "ok" }, nej: { label: "Ikke interessant", cls: "no" }, koebt: { label: "Købt", cls: "acc" }, skrald: { label: "Skraldespand", cls: "no" } };
+  var REASONS = {
+    godt: ["God pris", "Sjælden model", "Flot stand"],
+    nej: ["For dyrt", "Dårlig stand", "For langt væk", "Forkert model", "Forkert farve", "Mistanke om kopi", "Ikke vores stil"]
+  };
 
   function el(tag, cls, text) {
     var e = document.createElement(tag);
@@ -307,7 +314,7 @@ select option { color: var(--fg); background: var(--surface); }
 
   var MULTI = {
     model: makeMulti($("f-model")), designer: makeMulti($("f-designer")), producer: makeMulti($("f-producer")),
-    type: makeMulti($("f-type")), color: makeMulti($("f-color")), plat: makeMulti($("f-plat"))
+    type: makeMulti($("f-type")), color: makeMulti($("f-color")), plat: makeMulti($("f-plat")), verdict: makeMulti($("f-verdict"))
   };
 
   function catOf(x) { return x.category || "lamper"; }
@@ -327,7 +334,7 @@ select option { color: var(--fg); background: var(--surface); }
   function drawTabs() {
     els.tabs.textContent = "";
     cats().forEach(function (c) {
-      var n = state.allFinds.filter(function (f) { return catOf(f) === c.id && f.available !== "nej"; }).length;
+      var n = state.allFinds.filter(function (f) { return catOf(f) === c.id && f.available !== "nej" && !isTrashed(f); }).length;
       var b = el("button", "tab", c.name);
       b.type = "button";
       b.setAttribute("role", "tab");
@@ -341,6 +348,7 @@ select option { color: var(--fg); background: var(--surface); }
     if (id !== state.cat) { state.cat = id; resetFilters(); refresh(); }
     try { if ((location.hash || "").slice(1) !== id) location.hash = id; } catch (e) {}
   }
+  function isTrashed(f) { var v = state.feedback[f.id]; return !!(v && v.verdict === "skrald"); }
   function targetOf(f) { return state.targets[f.row] || { model: "", designers: [], producers: [] }; }
   function priceInfo(f) {
     var h = f.priceHistory || [];
@@ -362,6 +370,15 @@ select option { color: var(--fg); background: var(--surface); }
     d.addEventListener("toggle", function () { openIds[f.id] = d.open; });
     var fb = state.feedback[f.id];
     var s = el("summary");
+    var th = el("div", "thumb");
+    if (f.thumb) {
+      var im = document.createElement("img");
+      im.src = f.thumb; im.alt = ""; im.loading = "lazy"; im.decoding = "async";
+      im.referrerPolicy = "no-referrer";
+      im.onerror = function () { im.remove(); };
+      th.appendChild(im);
+    }
+    s.appendChild(th);
     var t = el("div", "title");
     var a = el("a", null, f.name);
     a.href = f.link; a.target = "_blank"; a.rel = "noopener noreferrer";
@@ -389,7 +406,7 @@ select option { color: var(--fg); background: var(--surface); }
     if (gone) list.push(["Fjernet" + (f.goneAt ? " " + dm(f.goneAt) : ""), "no"]);
     else if (f.available === "ja" && f.lastChecked) list.push(["Tjekket " + dm(f.lastChecked), null]);
     else list.push(["Ikke bekræftet online", "warn"]);
-    if (fb && ACTION[fb.action]) list.push([ACTION[fb.action].label, ACTION[fb.action].cls]);
+    if (fb && VERDICT[fb.verdict]) list.push([VERDICT[fb.verdict].label, VERDICT[fb.verdict].cls]);
     list.forEach(function (x, i) {
       if (i) m.appendChild(sep());
       m.appendChild(el("span", x[1], x[0]));
@@ -445,9 +462,10 @@ select option { color: var(--fg); background: var(--surface); }
   }
   function setVerdict(f, v, current) {
     var ref = DB.doc("feedback/" + f.id);
-    if (current && current.action === v) { queueWrite(f.id, function () { return ref.delete(); }); return; }
+    if (v === "nej") state.keep[f.id] = true;
+    if (current && current.verdict === v) { queueWrite(f.id, function () { return ref.delete(); }); return; }
     queueWrite(f.id, function () {
-      return ref.set({ findId: f.id, action: v, at: new Date().toISOString() });
+      return ref.set({ findId: f.id, verdict: v, reasons: [], at: new Date().toISOString(), snapshot: snapshotOf(f) });
     });
   }
   function toggleReason(f, current, reason) {
@@ -457,21 +475,23 @@ select option { color: var(--fg); background: var(--surface); }
     queueWrite(f.id, function () { return DB.doc("feedback/" + f.id).update({ reasons: r }); });
   }
   var ICONS = {
-    favorit: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg>',
-    skjult: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>'
+    godt: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10v11H3V10h4zm0 0l4-8a2 2 0 0 1 2 2v4h6a2 2 0 0 1 2 2.3l-1.4 7A2 2 0 0 1 17.6 21H7"/></svg>',
+    nej: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10v11H3V10h4zm0 0l4-8a2 2 0 0 1 2 2v4h6a2 2 0 0 1 2 2.3l-1.4 7A2 2 0 0 1 17.6 21H7"/></svg>',
+    koebt: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14l-1 13H6L5 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>',
+    skrald: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/></svg>'
   };
   function feedbackBar(f, fb) {
     if (!DB || canWrite === false) return null;
     var bar = el("div", "fbbar");
     bar.setAttribute("role", "group");
     bar.setAttribute("aria-label", "Vurdér fundet");
-    Object.keys(ACTION).forEach(function (k) {
-      var on = !!(fb && fb.action === k);
+    Object.keys(VERDICT).forEach(function (k) {
+      var on = !!(fb && fb.verdict === k);
       var b = el("button", "fbbtn v-" + k + (k === "nej" ? " down" : "") + (on ? " on" : ""));
       b.type = "button";
       b.innerHTML = ICONS[k];
-      b.title = ACTION[k].label;
-      b.setAttribute("aria-label", ACTION[k].label);
+      b.title = k === "skrald" ? (on ? "Tag op af skraldespanden" : "Skraldespand: skjul for altid") : VERDICT[k].label;
+      b.setAttribute("aria-label", k === "skrald" ? "Skraldespand" : VERDICT[k].label);
       b.setAttribute("aria-pressed", String(on));
       b.addEventListener("click", function (e) { e.preventDefault(); e.stopPropagation(); setVerdict(f, k, fb); });
       bar.appendChild(b);
@@ -498,20 +518,29 @@ select option { color: var(--fg); background: var(--surface); }
   function filtered() {
     var q = els.q.value.trim().toLowerCase();
     var max = els.max.value === "" ? null : Number(els.max.value);
-    var m = { model: MULTI.model.get(), designer: MULTI.designer.get(), producer: MULTI.producer.get(), type: MULTI.type.get(), color: MULTI.color.get(), plat: MULTI.plat.get() };
+    var m = { model: MULTI.model.get(), designer: MULTI.designer.get(), producer: MULTI.producer.get(), type: MULTI.type.get(), color: MULTI.color.get(), plat: MULTI.plat.get(), verdict: MULTI.verdict.get() };
     var hours = els.time.value ? Number(els.time.value) : null;
     var now = Date.now();
     var out = state.finds.filter(function (f) {
       var t = targetOf(f);
-      if (f.available === "nej" && !els.gone.checked) return false;
+      if (f.available === "nej") return false;
       if (m.model.length && m.model.indexOf(t.model) === -1) return false;
       if (m.designer.length && !anyIn(t.designers, m.designer)) return false;
       if (m.producer.length && !anyIn(t.producers, m.producer)) return false;
       if (m.type.length && m.type.indexOf(f.type) === -1) return false;
       if (m.color.length && !anyIn(f.colors, m.color)) return false;
       if (m.plat.length && m.plat.indexOf(f.plat) === -1) return false;
+      if (m.verdict.length) {
+        var fv = state.feedback[f.id];
+        var vl = fv && VERDICT[fv.verdict] ? VERDICT[fv.verdict].label : "Ikke vurderet";
+        if (m.verdict.indexOf(vl) === -1) return false;
+      }
+      if (isTrashed(f) && m.verdict.indexOf("Skraldespand") === -1) return false;
+      if (els.hide.checked && !state.keep[f.id] && m.verdict.indexOf("Ikke interessant") === -1) {
+        var hv = state.feedback[f.id];
+        if (hv && hv.verdict === "nej") return false;
+      }
       if (els.direct.checked && f.direct !== "Ja") return false;
-      if (els.drop.checked && !(priceInfo(f) && priceInfo(f).cls === "ok")) return false;
       if (hours != null) {
         var ts = Date.parse(f.listedAt);
         if (isNaN(ts) || (now - ts) / 3600000 > hours) return false;
@@ -547,10 +576,11 @@ select option { color: var(--fg); background: var(--surface); }
       return;
     }
     var list = filtered();
-    if (!state.finds.length) els.liste.appendChild(el("div", "empty", "Ingen fund endnu. De kommer her efter næste søgning."));
+    var live = state.finds.filter(function (f) { return f.available !== "nej" && !isTrashed(f); }).length;
+    if (!live) els.liste.appendChild(el("div", "empty", "Ingen fund endnu. De kommer her efter næste søgning."));
     else if (!list.length) els.liste.appendChild(el("div", "empty", "Ingen fund for de valgte filtre."));
     list.forEach(function (f) { els.liste.appendChild(render(f)); });
-    els.count.textContent = list.length + " af " + state.finds.length + " annoncer" + (state.fbError ? " · Vurderingen kunne ikke gemmes" : "");
+    els.count.textContent = list.length + " af " + live + " annoncer" + (state.fbError ? " · Vurderingen kunne ikke gemmes" : "");
   }
 
   function drawRuns() {
@@ -582,8 +612,9 @@ select option { color: var(--fg); background: var(--surface); }
     MULTI.type.setValues(uniqSorted(state.finds.map(function (f) { return f.type; })));
     MULTI.color.setValues(uniqSorted([].concat.apply([], state.finds.map(function (f) { return f.colors || []; }))));
     MULTI.plat.setValues(uniqSorted(state.finds.map(function (f) { return f.plat; })));
+    MULTI.verdict.setValues(["Godt fund", "Ikke interessant", "Købt", "Ikke vurderet", "Skraldespand"]);
     var latest = state.runs[0];
-    var active = state.finds.filter(function (f) { return f.available !== "nej"; }).length;
+    var active = state.finds.filter(function (f) { return f.available !== "nej" && !isTrashed(f); }).length;
     var bits = [];
     if (latest) bits.push("Seneste kørsel " + dmy(latest.date) + " kl. " + hm(latest.date));
     if (latest && latest.platforms) bits.push(latest.platforms.join(" og "));
@@ -599,10 +630,10 @@ select option { color: var(--fg); background: var(--surface); }
   [els.time, els.sort].forEach(function (e) {
     e.addEventListener("change", function () { syncPlaceholder(e); draw(); });
   });
-  [els.direct, els.drop, els.gone].forEach(function (e) { e.addEventListener("change", draw); });
+  [els.direct, els.hide].forEach(function (e) { e.addEventListener("change", function () { state.keep = {}; draw(); }); });
   function resetFilters() {
     els.q.value = ""; els.max.value = "";
-    els.direct.checked = false; els.drop.checked = false; els.gone.checked = false;
+    els.direct.checked = false; els.hide.checked = true; state.keep = {};
     els.time.value = ""; els.sort.value = "";
     syncPlaceholder(els.time); syncPlaceholder(els.sort);
     ALL_MULTI.forEach(function (a) { a.clear(); a.close(); });

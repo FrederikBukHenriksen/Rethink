@@ -1,19 +1,22 @@
-# Siden
+# The page
 
-Siden er artefaktet, hvor brugeren ser fund. Kildekoden er `page/rethink-soegerapport.html`. Al tekst på siden er dansk.
+The page is the only place the user reads the finds. Its source is `page/rethink-soegerapport.html`. It is one self-contained HTML file. All text on it is Danish.
 
-## Hvor dataene kommer fra
+## What it shows
 
-- **Fund, targets og kategorier** kommer fra `database.db`. Agenten skriver dem til artefaktets samlinger efter hver kørsel, med `eksport-side`. Siden må ikke ændre dem.
-- **Brugerens handlinger** skrives af siden til samlingen `feedback`, med `action` `favorit` eller `skjult`. Agenten læser dem ind i databasen før hver søgning, med `import-feedback`.
+- Title "Søgerapport" with a small RETHINK wordmark on top. Below it one line: latest run, platforms, number of online listings, workbook and sheet.
+- One tab per category (from `categories`). The tab shows the number of listings that are not removed.
+- Filters: free text, then a "Produkt" group (Model, Designer, Producent, Type, Farve, max price) and an "Annonce" group (Platform, Vurdering, Tid, "Kan købes direkte", "Skjul ikke interessante" (on by default; hides finds rated Ikke interessant)). Sorting and a reset button.
+- A flat list. Each listing is a row: name (links to the listing) and price, then one detail line (type, colours, platform, city, status, direct purchase, date, last checked). Open the row for the note, `check` text, price history and last-checked time. A find with `check` shows "Skal tjekkes". A find with `available: "nej"` (sold or removed) is never shown on the page. The agent marks it `nej` on every run, so sold items drop off the page by themselves; the record stays in the database.
+- Three rating buttons per row (Godt fund, Ikke interessant, Købt) with reason chips. Only the owner sees them. They write to `feedback`.
+- At the bottom, "Søgedækning og begrænsninger": one block per run, newest first.
 
-## Knapperne på hvert fund
+## Data and settings
 
-- **Stjerne (favorit):** markerer fundet som favorit. Tryk igen for at fjerne den.
-- **Skraldespand (skjult):** markerer fundet som skjult. Skjulte fund vises stadig. Tryk igen for at fjerne markeringen.
+- The page reads the collections `finds`, `targets`, `categories`, `runs` and `feedback`. The fields are in `templates/FIND_SCHEMA.md`.
+- It is published with the `db` capability (read: anyone who can view, write: owner only) and the `user` capability.
+- Style: calm green-grey palette, light and dark mode, fonts Bricolage Grotesque, IBM Plex Sans and IBM Plex Mono, readable on a phone.
 
-Tommelfinger op, tommelfinger ned, Købt og årsager er fjernet. Databasen gemmer ikke dem.
+## Changing the page
 
-## Ændringer
-
-Ret kun `page/rethink-soegerapport.html` for designændringer. Udgiv den igen til samme URL. Ændres dataformen i `eksport-side` eller handlingerne, skal siden også ændres.
+Edit `page/rethink-soegerapport.html`, then republish it to the same URL. Do not republish to add finds: finds go in the database.

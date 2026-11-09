@@ -1,147 +1,76 @@
-# Databasen: `database.db`
+# Data schema for the living page
 
-SQLite-filen i mappen, med den datamodel brugeren har givet. Alt, der gemmes, går igennem `scripts/db.py`. Skriv aldrig direkte i filen.
+The page `https://claude.ai/artifact/4PFuzWt2x5ZqhdzyanGTtA` reads three collections from its database. Write them with the `ArtifactData` tool (`url` = the page URL). Never publish the page again to add finds. Only change the page file for design changes.
 
-## Kommandoer
+All text shown on the page is Danish.
 
-```
-python3 scripts/db.py init                    # tjek at tabellerne findes
-python3 scripts/db.py sync-lampe FIL          # lampelisten ind i targets
-python3 scripts/db.py import-feedback FIL     # brugerens favoritter og skjulte fund ind i user_actions
-python3 scripts/db.py gem-resultat FIL        # fund, versioner og gennemførte søgninger
-python3 scripts/db.py cutoff LAMPE PLATFORM   # cutoff for en lampe på en platform; 'ingen' hvis ingen
-python3 scripts/db.py slet-fund FUND_ID       # slet ét fund, fx dba-26284641
-python3 scripts/db.py soegeplan               # hvad der skal søges nu, med cutoff pr. platform (JSON)
-python3 scripts/db.py eksport-lamper FIL      # lamper fra databasen i lampelistens form (JSON)
-python3 scripts/db.py eksport-side FIL        # kategorier, targets og fund fra databasen i sidens form (JSON)
-python3 scripts/db.py status                  # antal rækker pr. tabel
-```
+## `categories/<slug>` — one document per search area (a tab on the page)
 
-Alle kommandoer kører i én transaktion. Fejler noget, skrives intet.
+`{ "name": "Lamper", "order": 1, "workbook": "DBA-lampesøgning.xlsx", "sheet": "Søgeliste" }`
 
-## Cutoff
+The slug is lower case ASCII letters, digits and hyphens only, for example `lamper`, `keramik`, `kommoder`, `stole`. It is also the tab's address on the page (`#keramik`). Create a category document when a new search area is set up, with the sheet that holds its search list. The page shows one tab per category document. Never delete one that has finds.
 
-Cutoff gælder for én lampe (target) på én platform. Det er tidspunktet for den seneste gennemførte søgning på netop det par. Den findes i `runs`. En søgning, der ikke blev gennemført, bliver ikke gemt i `runs`, og derfor flytter den ikke cutoff.
+Every `finds`, `targets` and `runs` document has a `category` field with the slug. A document without it counts as `lamper`.
 
-## Tabeller
+## `finds/<id>` — one document per listing
 
-| Tabel | Hvad en række er |
+The id is `<platform lowercase>-<listing id>`, for example `dba-26284641` or `vinted-10582416262`. Never delete a find. A removed or sold listing stays, with `available: "nej"`. The page never shows finds with `available: "nej"`, so this is what removes them from view.
+
+| Field | Meaning |
 |---|---|
-| `platforms` | En markedsplads: DBA, Lauritz, Tradera, Vinted, Facebook. |
-| `lamp_types` | Lampetyperne: Bordlampe, Loftlampe, Standerlampe, Gulvlampe, Væglampe. |
-| `color_type` | Farverne: Hvid, Sort, Grå, Beige, Brun, Rød, Orange, Gul, Grøn, Blå, Lilla, Pink, Guld, Sølv, Messing, Krom, Træ. |
-| `targets` | En lampe fra listen. Id'et er `lamper-` plus listens id, fx `lamper-l07`. |
-| `target_types` | Lampetyper for en target. |
-| `target_colors` | Tilladte (`tilladt`) og fravalgte (`fravalg`) farver for en target. |
-| `target_terms` | Søgeord (`tilvalg`) og fravalgte ord (`fravalg`) for en target. |
-| `target_platforms` | De platforme, en target søges på. |
-| `runs` | En gennemført søgning på en target og en platform, med tidspunktet hvor den blev afsluttet. Bruges til cutoff. |
-| `finds` | Et fund: id, platform, target og link. Id'et er `<platform med småt>-<annonce-id>`. |
-| `ads` | Fundets aktuelle tilstand: én række pr. fund. |
-| `targets_rev` | Historik for targets: hver gang en target ændrer sig ved synk, gemmes den gamle tilstand her med tidspunkt. |
-| `ads_rev` | Historik for fund: hver ændring (`kind` = `ændring`) og hvert tjek (`kind` = `tjek`). Prishistorik, første gang set og `lastChecked` læses herfra. |
+| `category` | Category slug, for example `lamper` |
+| `row` | Excel row number in the category's sheet |
+| `name` | Short lamp name, for example `Flowerpot VP3, mat hvid` |
+| `type` | One lamp type in Danish, for example `Bordlampe`, `Loftlampe`, `Standerlampe`, `Væglampe` |
+| `colors` | List of colours in Danish with a capital letter, main colour first, for example `["Hvid", "Orange"]`. Use plain names: Hvid, Sort, Grå, Beige, Brun, Rød, Orange, Gul, Grøn, Blå, Lilla, Pink, Guld, Sølv, Messing, Krom, Træ |
+| `plat` | `DBA`, `Vinted` or `Tradera` |
+| `city` | City, or `by ukendt` |
+| `direct` | `Ja`, `Nej` or `Tjek` |
+| `status` | `Bekræftet`, `Sandsynlig med forbehold` or `Uklar identitet` |
+| `link` | Direct listing URL |
+| `image` | URL of the listing's first product photo: the `og:image` meta tag on the listing page, for example `https://images.dbastatic.dk/dynamic/1280w/item/<id>/<uuid>`. The page shows it as a small thumbnail. Leave the field out if it cannot be read |
+| `listedAt` | ISO time with offset, for example `2026-10-30T09:39:00+01:00`. If only a relative age is shown ("22 t. siden"), compute it and set `dateApprox: true` |
+| `dateKind` | `redigeret` (DBA shows only last edited) or `uploadet` |
+| `dateApprox` | `true` or `false` |
+| `note` | What supports the identification and what is missing. Short |
+| `check` | Only when something must be verified by the user. Say what differs. Leave the field out otherwise |
+| `price` | Current price as a number in DKK |
+| `priceNote` | Optional, for example `for begge` |
+| `priceHistory` | `[{"d":"30.10","p":900}, ...]`. One entry per run where the price changed. The first entry is the price when first found |
+| `firstSeen` | ISO time of the run that first found it |
+| `lastChecked` | ISO time of the latest availability check |
+| `available` | `ja`, `nej` or `ukendt` |
+| `goneAt` | ISO time of the run that found it removed. Only when `available` is `nej` |
 
-De to historiktabeller har en fremmednøgle til deres hovedtabel (`targets_rev` til `targets`, `ads_rev` til `ads`). Når hovedrækken slettes, slettes historikken med den.
-| `user_action_type` | De handlinger, der findes: `favorit` og `skjult`. Skjult gælder både fund og lamper. |
-| `user_actions` | Brugerens handlinger, som den nuværende tilstand: på et fund (favorit, skjult) eller på en lampe (skjult = arkiveret). |
+## `targets/<slug>-row-<N>` — one document per Excel row
 
-Et fund har altid én target og én platform. Det fund, der kommer tilbage af en søgning, kobles til den target, der blev søgt for.
+For example `lamper-row-5`. `{ "category": "lamper", "row": N, "model": "...", "designers": ["..."], "producers": ["..."] }`. `model` is an empty string when the row has no model. Keep in sync with `Søgeliste`. The filters on the page are built from these.
 
-## Artefakterne
+## `runs/<YYYY-MM-DD-HHMM>` — one document per run
 
-Databasen er den eneste sandhed. Lampelisten og siden er spejlinger af den.
-
-- **Lampelisten** (`lamper`) læses ind før hver kørsel med `sync-lampe`. Efter kørslen skrives den fra `eksport-lamper`. Familiens ændringer i listen går dermed først ind i databasen, og derefter tilbage i listen i den form databasen har. `archived` gemmes som handlingen `skjult` på lampen i `user_actions`, og eksporten skriver feltet ud fra den.
-- **Siden** skriver `categories`, `targets` og `finds` fra `eksport-side`. `feedback` skrives af siden og læses ind med `import-feedback`. Siden kender ikke `status` og `listedAt` for ældre fund, fordi de ikke står i databasen. Det vises som "Uklar identitet" og "Dato ukendt".
-- Eksporten skriver ikke `runs`, så siden viser ikke søgedækningen. Den står i svaret til brugeren.
-
-## Felter
-
-**`targets`**
-
-- `list_id`: listens id, fx `l07`. `sort_order`: listens `order`.
-- `model`, `designer`, `producer`: tekst fra listen. `producer` er listens `producent`.
-- `max_price`: heltal i kr., eller tom, hvis der ingen grænse er.
-- `aktiv`: 1 kun, når listen har `aktiv` = sand, og targetet ikke er `skjult`. Targets, der ikke står på listen, bliver 0. De slettes ikke.
-- `image_url`: listens `billede`.
-
-**`finds`**
-
-- `plat`: platformens navn. `target_id`: den target, fundet blev fundet for. `link`: annoncens link.
-
-**`ads`** (aktuel tilstand, nøglen er `find_id`)
-
-- Tidligere versioner ligger i `ads_rev`. Der er ingen tidskolonne i `ads`.
-- `title`, `description`, `city`: tekst fra annoncen. `city` er `by ukendt`, hvis byen ikke står der.
-- `type`: en af lamp_types. `color`: den vigtigste farve, eller tom.
-- `direct`: `Ja`, `Nej` eller `Tjek`.
-- `price`: heltal i kr.
-- `available`: `ja`, `nej` eller `ukendt`.
-- `note`: fri tekst. Status, farver og annonceringsdato står her, fordi modellen ikke har egne felter til dem.
-
-**`runs`**
-
-- `completed_at`: ISO-tid med offset. Det er tidspunktet, hvor søgningen blev afsluttet.
-
-**`user_actions`**
-
-- Hver række har enten `find_id` (fund) eller `target_id` (lampe), aldrig begge.
-- `action`: en af `user_action_type`. `favorit` og `skjult` kommer fra stjernen og skraldespanden på siden. `skjult` på en lampe kommer fra arkivering på listen.
-- `skjult` på en lampe betyder arkiveret. Den sættes, når familien arkiverer en række på listen, og fjernes, hvis de fortryder.
-- `favorit` og `skjult` på et fund er den tilstand, siden viser. Når du importerer, erstatter den det, der er i databasen for fund.
-- `at`: hvornår handlingen blev lavet.
-
-## JSON-filer
-
-### `sync-lampe`
-
-Lampelisten, som `ArtifactData` returnerer den:
-
-```json
-[{"id": "l07", "data": {"aktiv": true, "archived": false, "designer": "Jo Hammerborg",
-                        "type": "gulvlampe", "order": 7, "sites": ["DBA"],
-                        "soegeord": "", "fravalgteSoegeord": "", "tilladteFarver": "",
-                        "fravalgteFarver": "", "maksPris": null, "billede": "", "model": "",
-                        "producent": "", "updatedAt": "..."}}]
+```
+{ "category": "lamper", "date": "<ISO time>", "platforms": ["DBA", "Vinted"], "searched": {"DBA": "<ISO time the DBA search started>", "Vinted": "<ISO time the Vinted search started>"},
+  "sections": [ { "title": "Gennemført", "items": ["..."] }, ... ] }
 ```
 
-Tomme rækker springes over. Alle værdier i `type`, `tilladteFarver`, `fravalgteFarver`, `sites` skal findes i tabellerne. Ellers stopper kommandoen med en fejl.
+Suggested section titles: `Gennemført`, `Ikke gennemført`, `Begrænsninger`, `Tilgængelighed`, `Prisændringer`, `Fravalgt`, `Sælgere`. Each item is one plain sentence.
 
-### `import-feedback`
+## `feedback/<find id>` — the user's rating of a find
 
-Samlingen `feedback` på siden. Hvert dokument er et fund med en handling. Et fund uden dokument har ingen handling:
+Written by the page when the user taps a rating. The id is the same as the find's id. The agents only read this collection. They never write it.
 
-```json
-[{"id": "dba-26278770", "data": {"findId": "dba-26278770", "action": "favorit",
-                                  "at": "2026-11-08T17:01:00+01:00"}}]
+```
+{ "findId": "dba-26284641",
+  "verdict": "godt" | "nej" | "koebt" | "skrald",
+  "reasons": ["For dyrt", "For langt væk"],
+  "at": "<ISO time of the rating>",
+  "snapshot": { name, type, plat, city, row, link, model, designers, producers,
+                price, firstPrice, direct, status, available, listedAt, ageHours } }
 ```
 
-`action` er `favorit` (stjernen) eller `skjult` (skraldespanden). Skjulte fund vises stadig på siden,. Fjernes en handling på siden, mangler dokumentet, og handlingen fjernes også i databasen. En tom liste er gyldig, men kun hvis læsningen lykkedes.
-
-### `gem-resultat`
-
-Resultatet af én lampe:
-
-```json
-{
-  "lampe_id": "l07",
-  "fund": [
-    {"platform": "DBA", "ekstern_id": "26568341",
-     "link": "https://www.dba.dk/recommerce/forsale/item/26568341",
-     "navn": "Flot retro gulvlampe, Jo Hammerborg", "lampetype": "Gulvlampe",
-     "farver": "Rød", "status": "Bekræftet", "beskrivelse": "...",
-     "pris": 500, "by": "Sorø", "kan_koebes_direkte": "Nej",
-     "tilgaengelig": "ja", "listet_tid": "2026-11-08T14:00:00+01:00", "note": null}
-  ],
-  "fjernet": [{"platform": "DBA", "ekstern_id": "26276621"}],
-  "soegninger": [
-    {"platform": "DBA", "status": "gennemfoert", "tidspunkt": "2026-11-08T16:00:00+01:00"}
-  ]
-}
-```
-
-- Et nyt fund kræver `navn`, `lampetype`, `pris`, `kan_koebes_direkte`, `tilgaengelig` og `link`. `lampetype` er Bordlampe, Loftlampe, Standerlampe, Gulvlampe eller Væglampe.
-- Et kendt fund kræver kun `platform`, `ekstern_id` og de felter, der ændrer sig. Felter, der ikke står i filen, beholdes.
-- En ny version gemmes kun, når indholdet ændrer sig.
-- `soegninger` bruges kun til søgninger på en lampe. Kun `gennemfoert` gemmes i `runs`. `tidspunkt` er den tid, søgningen blev afsluttet. Standard er nu.
-- Søgninger med andre status, og dækningsteksten, står ikke i databasen. De skal med i svaret til brugeren.
+- `verdict`: `godt` = Godt fund, `nej` = Ikke interessant, `koebt` = Købt.
+- `skrald` = Skraldespand. The user has thrown the listing away: it never shows on the page again (unless the user filters on "Skraldespand" to restore it). The find stays in `finds` with its id, so agents must remember it exists and never add it again, never re-surface it and never count it as a new find. Keep checking availability as usual or skip it; either way the page hides it. `skrald` has no reasons and says nothing about the search or the lamp, so do not use it as a signal for what to search for.
+- Reasons for `nej`: `For dyrt`, `Dårlig stand`, `For langt væk`, `Forkert model`, `Forkert farve`, `Mistanke om kopi`, `Ikke vores stil`. For `godt`: `God pris`, `Sjælden model`, `Flot stand`. Several can be set. `koebt` has none.
+- `snapshot` is a copy of the find when it was rated, so later price changes do not change what the rating was about.
+- A find with no document here is not rated. Treat it as unknown, never as a "no".
+- `Forkert model`, `Forkert farve`, `Dårlig stand` and `Mistanke om kopi` say the search missed. `For dyrt`, `For langt væk` and `Ikke vores stil` say the lamp was right but not a good deal for the shop.
