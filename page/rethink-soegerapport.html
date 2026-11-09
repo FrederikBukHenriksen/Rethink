@@ -166,6 +166,8 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
 .sheet input:focus { outline: 2px solid var(--accent); outline-offset: -2px; background: var(--bg); }
 .sheet input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent); margin: 8px; }
 .sheet .ro { display: block; padding: 7px 8px; min-width: 80px; }
+.pop-btn { border: 0; border-radius: 0; min-width: 120px; background: transparent; }
+.pop-panel { position: fixed; z-index: 50; min-width: 160px; }
 .sheet-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; color: var(--muted); font-size: 13px; }
 .sheet-err { color: var(--no); }
 </style>
@@ -659,17 +661,21 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
 
   /* ---------- Søgeliste (regneark over søgninger) ---------- */
   var DEFAULT_PLATS = ["DBA", "Tradera", "Vinted"];
+  var TYPES = ["Bordlampe", "Loftlampe", "Standerlampe", "Væglampe"];
+  var COLORS = ["Hvid", "Sort", "Grå", "Beige", "Brun", "Rød", "Orange", "Gul", "Grøn", "Blå", "Lilla", "Pink", "Guld", "Sølv", "Messing", "Krom", "Træ"];
+  var popOpen = null;
   var COLS = [
     { k: "model", label: "Model", t: "s", w: "w-lg" },
-    { k: "type", label: "Type", t: "s", w: "w-sm" },
+    { k: "types", label: "Type", t: "m", opts: TYPES, w: "w-sm" },
     { k: "designers", label: "Designer", t: "l", w: "w-lg" },
     { k: "producers", label: "Producent", t: "l", w: "w-lg" },
     { k: "keywords", label: "Søgeord", t: "l", w: "w-lg" },
     { k: "excludeKeywords", label: "Fravalgte søgeord", t: "l", w: "w-lg" },
-    { k: "colorsAllowed", label: "Tilladte farver", t: "l", w: "w-lg" },
-    { k: "colorsRejected", label: "Fravalgte farver", t: "l", w: "w-lg" },
+    { k: "colorsAllowed", label: "Tilladte farver", t: "m", opts: COLORS, w: "w-lg" },
+    { k: "colorsRejected", label: "Fravalgte farver", t: "m", opts: COLORS, w: "w-lg" },
     { k: "maxPrice", label: "Maks pris", t: "n", w: "w-sm" },
-    { k: "images", label: "Billede reference", t: "l", w: "w-lg" }
+    { k: "images", label: "Billede reference", t: "l", w: "w-lg" },
+    { k: "platforms", label: "Platforme", t: "p", w: "w-sm" }
   ];
   function splitList(v) { return String(v).split(";").map(function (x) { return x.trim(); }).filter(Boolean); }
   function sheetPlats() {
@@ -687,6 +693,61 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
       if (state.sheetErr) { state.sheetErr = false; drawSheet(); }
     }, function () { state.sheetErr = true; drawSheet(); });
   }
+  function colVal(t, c) {
+    if (c.k === "types") return t.types || (t.type ? splitList(t.type) : []);
+    return t[c.k];
+  }
+  function closePop() {
+    if (!popOpen) return;
+    popOpen.panel.remove(); popOpen = null; drawSheet();
+  }
+  document.addEventListener("click", function (e) { if (popOpen && !popOpen.panel.contains(e.target) && !popOpen.btn.contains(e.target)) closePop(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closePop(); });
+  window.addEventListener("resize", function () { placePop(); });
+  function placePop() {
+    if (!popOpen) return;
+    var r = popOpen.btn.getBoundingClientRect(), panel = popOpen.panel;
+    panel.style.left = Math.max(8, Math.min(r.left, window.innerWidth - panel.offsetWidth - 8)) + "px";
+    var below = window.innerHeight - r.bottom;
+    if (below < panel.offsetHeight + 8 && r.top > below) panel.style.top = Math.max(8, r.top - panel.offsetHeight - 4) + "px";
+    else panel.style.top = (r.bottom + 4) + "px";
+  }
+  document.addEventListener("scroll", function (e) { if (popOpen && !popOpen.panel.contains(e.target)) placePop(); }, true);
+  /* Knap med popup med afkrydsningsfelter. get() giver de valgte, save(liste) gemmer. */
+  function popCell(label, opts, get, save, edit) {
+    var chosen = get().slice();
+    var btn = el("button", "ms-btn pop-btn");
+    btn.type = "button";
+    var txt = el("span", "ms-text");
+    btn.appendChild(txt);
+    btn.appendChild(el("span", "ms-caret", "▾"));
+    function sync() { txt.textContent = chosen.length ? chosen.join(", ") : "–"; btn.classList.toggle("has", chosen.length > 0); }
+    sync();
+    if (!edit) { btn.disabled = true; btn.style.cursor = "default"; return btn; }
+    btn.setAttribute("aria-label", label);
+    btn.addEventListener("click", function () {
+      if (popOpen && popOpen.btn === btn) { closePop(); return; }
+      closePop();
+      var panel = el("div", "ms-panel pop-panel");
+      var all = opts.slice();
+      chosen.forEach(function (v) { if (all.indexOf(v) === -1) all.push(v); });
+      all.forEach(function (v) {
+        var lab = el("label", "ms-opt");
+        var cb = document.createElement("input");
+        cb.type = "checkbox"; cb.value = v; cb.checked = chosen.indexOf(v) !== -1;
+        cb.addEventListener("change", function () {
+          chosen = all.filter(function (x) { return x === v ? cb.checked : chosen.indexOf(x) !== -1; });
+          sync(); save(chosen);
+        });
+        lab.appendChild(cb); lab.appendChild(document.createTextNode(v));
+        panel.appendChild(lab);
+      });
+      document.body.appendChild(panel);
+      popOpen = { btn: btn, panel: panel };
+      placePop();
+    });
+    return btn;
+  }
   function saveCell(t, col, raw) {
     var val = col.t === "l" ? splitList(raw) : col.t === "n" ? (String(raw).trim() === "" ? null : Number(raw)) : String(raw).trim();
     if (col.t === "n" && val !== null && isNaN(val)) return;
@@ -698,12 +759,13 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
   function addRow() {
     var rows = state.allTargets.filter(function (t) { return catOf(t) === state.cat; }).map(function (t) { return Number(t.row) || 0; });
     var n = rows.length ? Math.max.apply(null, rows) + 1 : 2;
-    var doc = { category: state.cat, row: n, model: "", type: "", designers: [], producers: [], keywords: [], excludeKeywords: [], colorsAllowed: [], colorsRejected: [], maxPrice: null, images: [], platforms: {} };
+    var doc = { category: state.cat, row: n, model: "", active: true, types: [], type: "", designers: [], producers: [], keywords: [], excludeKeywords: [], colorsAllowed: [], colorsRejected: [], maxPrice: null, images: [], platforms: {} };
     sheetWrite(function () { return DB.doc("targets/" + state.cat + "-row-" + n).set(doc); });
   }
   function drawSheet() {
     var root = els.sheet;
     var isSheet = state.view === "sheet";
+    if (popOpen) return;
     root.hidden = !isSheet;
     els.fview.style.display = isSheet ? "none" : "grid";
     els.vFinds.setAttribute("aria-pressed", String(!isSheet));
@@ -730,27 +792,50 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
       bar.appendChild(add);
     }
     root.appendChild(bar);
-    root.appendChild(el("p", "sheet-note", "Hver række er en søgning. Sæt kryds ved de platforme, rækken skal søges på; uden kryds søges rækken ikke. Flere værdier i én celle skilles med semikolon. Tom model: søg på designer eller producent. Tom maks pris: ingen grænse." + (edit ? " Ændringer gemmes med det samme." : " Kun ejeren kan redigere.")));
+    root.appendChild(el("p", "sheet-note", "Hver række er en søgning. Aktiv: kun afkrydsede rækker søges. Type, farver og platforme vælges i en menu med afkrydsning; er ingen platform valgt, søges rækken ikke. Flere værdier i én celle skilles med semikolon. Tom model: søg på designer eller producent. Tom maks pris: ingen grænse." + (edit ? " Ændringer gemmes med det samme." : " Kun ejeren kan redigere.")));
 
     var wrap = el("div", "sheet-scroll");
     var tbl = el("table", "sheet");
     var thead = el("thead"), hr = el("tr");
-    hr.appendChild(el("th", null, "#"));
+    hr.appendChild(el("th", "plat", "Aktiv"));
     COLS.forEach(function (c) { hr.appendChild(el("th", null, c.label)); });
-    plats.forEach(function (p) { hr.appendChild(el("th", "plat", p)); });
     thead.appendChild(hr); tbl.appendChild(thead);
     var tb = el("tbody");
     if (!rows.length) {
       var er = el("tr"), ec = el("td", null, "Ingen søgninger endnu." + (edit ? " Tryk “Tilføj række”." : ""));
-      ec.colSpan = 1 + COLS.length + plats.length; ec.style.padding = "14px";
+      ec.colSpan = 1 + COLS.length; ec.style.padding = "14px";
       er.appendChild(ec); tb.appendChild(er);
     }
     rows.forEach(function (t) {
       var tr = el("tr");
-      tr.appendChild(el("td", "rn", String(t.row)));
+      var atd = el("td", "plat rn");
+      var acb = document.createElement("input");
+      acb.type = "checkbox"; acb.checked = t.active !== false; acb.disabled = !edit;
+      acb.title = "Aktiv: søges denne række?";
+      acb.setAttribute("aria-label", "Aktiv, række " + t.row);
+      acb.addEventListener("change", function () { sheetWrite(function () { return DB.doc("targets/" + t.id).update({ active: acb.checked }); }); });
+      atd.appendChild(acb); tr.appendChild(atd);
+      if (t.active === false) tr.style.opacity = "0.55";
       COLS.forEach(function (c) {
         var td = el("td");
-        var v = t[c.k];
+        if (c.t === "m" || c.t === "p") {
+          if (c.t === "m") {
+            td.appendChild(popCell(c.label + ", række " + t.row, c.opts, function () { return colVal(t, c) || []; }, function (list) {
+              var patch = {}; patch[c.k] = list;
+              if (c.k === "types") patch.type = list.join("; ");
+              sheetWrite(function () { return DB.doc("targets/" + t.id).update(patch); });
+            }, edit));
+          } else {
+            td.appendChild(popCell("Platforme, række " + t.row, plats, function () { return plats.filter(function (p) { return t.platforms && t.platforms[p]; }); }, function (list) {
+              var patch = {};
+              plats.forEach(function (p) { patch["platforms." + p] = list.indexOf(p) !== -1; });
+              sheetWrite(function () { return DB.doc("targets/" + t.id).update(patch); });
+            }, edit));
+          }
+          tr.appendChild(td);
+          return;
+        }
+        var v = colVal(t, c);
         var text = c.t === "l" ? (v || []).join("; ") : v == null ? "" : String(v);
         if (!edit) { td.appendChild(el("span", "ro", text)); }
         else {
@@ -763,18 +848,6 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
           td.appendChild(inp);
         }
         tr.appendChild(td);
-      });
-      plats.forEach(function (p) {
-        var td = el("td", "plat");
-        var on = !!(t.platforms && t.platforms[p]);
-        var cb = document.createElement("input");
-        cb.type = "checkbox"; cb.checked = on; cb.disabled = !edit;
-        cb.setAttribute("aria-label", p + ", række " + t.row);
-        cb.addEventListener("change", function () {
-          var patch = {}; patch["platforms." + p] = cb.checked;
-          sheetWrite(function () { return DB.doc("targets/" + t.id).update(patch); });
-        });
-        td.appendChild(cb); tr.appendChild(td);
       });
       tb.appendChild(tr);
     });

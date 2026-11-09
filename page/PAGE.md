@@ -13,7 +13,7 @@ The page is the only place the user reads the finds. Its source is `page/rethink
 
 ## Søgeliste (second view)
 
-A "Fund / Søgeliste" switch under the tabs. "Søgeliste" replaces the Excel sheet: a spreadsheet with one row per search (`targets/<slug>-row-<N>`) for the selected category. Columns: Model, Type, Designer, Producent, Søgeord, Fravalgte søgeord, Tilladte farver, Fravalgte farver, Maks pris, Billede reference, and one checkbox per platform (default DBA, Tradera, Vinted, plus any in `categories.platforms` or in a row's `platforms`). Lists are written with semicolons. The owner edits cells in place (saved on change) and can add rows; everyone else sees it read-only. Address: `#<slug>/soegeliste`.
+A "Fund / Søgeliste" switch under the tabs. "Søgeliste" replaces the Excel sheet: a spreadsheet with one row per search (`targets/<slug>-row-<N>`) for the selected category. Columns: Aktiv (checkbox, field `active`; only active rows are searched; missing = active), Model, Type, Designer, Producent, Søgeord, Fravalgte søgeord, Tilladte farver, Fravalgte farver, Maks pris, Billede reference, Platforme. Type, the two colour columns and Platforme are pop-up menus with checkboxes (types: Bordlampe, Loftlampe, Standerlampe, Væglampe; colours: the list in FIND_SCHEMA; platforms: default DBA, Tradera, Vinted, plus any in `categories.platforms` or in a row's `platforms`). Other list cells use semicolons. The owner edits cells in place (saved on change) and can add rows; everyone else sees it read-only. Address: `#<slug>/soegeliste`.
 
 ## Data and settings
 
