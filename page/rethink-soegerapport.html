@@ -149,6 +149,25 @@ select option { color: var(--fg); background: var(--surface); }
   .thumb { width: 40px; height: 40px; }
   .meta { font-size: 12px; }
 }
+.views { display: flex; gap: 8px; }
+.view-btn { font: inherit; font-weight: 600; background: var(--surface); color: var(--muted); border: 1px solid var(--line); border-radius: 99px; padding: 6px 16px; cursor: pointer; }
+.view-btn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.sheet-wrap { display: grid; gap: 10px; }
+.sheet-note { margin: 0; color: var(--muted); font-size: 13px; }
+.sheet-scroll { overflow: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); max-height: 70vh; }
+table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; min-width: 100%; }
+.sheet th { position: sticky; top: 0; z-index: 2; background: var(--accent-soft); font-family: var(--font-mono); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; text-align: left; padding: 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.sheet th.plat, .sheet td.plat { text-align: center; }
+.sheet td { padding: 0; border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); vertical-align: middle; }
+.sheet td.rn { padding: 6px 8px; font-family: var(--font-mono); color: var(--muted); text-align: right; position: sticky; left: 0; background: var(--surface); z-index: 1; }
+.sheet input[type="text"], .sheet input[type="number"] { font: inherit; color: var(--fg); background: transparent; border: 0; border-radius: 0; padding: 7px 8px; width: 100%; min-width: 110px; }
+.sheet input.w-sm { min-width: 80px; }
+.sheet input.w-lg { min-width: 170px; }
+.sheet input:focus { outline: 2px solid var(--accent); outline-offset: -2px; background: var(--bg); }
+.sheet input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent); margin: 8px; }
+.sheet .ro { display: block; padding: 7px 8px; min-width: 80px; }
+.sheet-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; color: var(--muted); font-size: 13px; }
+.sheet-err { color: var(--no); }
 </style>
 
 <main>
@@ -160,6 +179,14 @@ select option { color: var(--fg); background: var(--surface); }
 
   <nav class="tabs" id="tabs" role="tablist" aria-label="Søgninger"></nav>
 
+  <div class="views" role="group" aria-label="Visning">
+    <button class="view-btn" id="v-finds" type="button" aria-pressed="true">Fund</button>
+    <button class="view-btn" id="v-sheet" type="button" aria-pressed="false">Søgeliste</button>
+  </div>
+
+  <section class="sheet-wrap" id="sheet" aria-label="Søgeliste" hidden></section>
+
+  <div id="finds-view" style="display:grid;gap:24px">
   <section class="filters" aria-label="Filtre">
     <input id="q" type="search" placeholder="Søg i model, by, forbehold …" aria-label="Søg" autocomplete="off">
     <div class="group prod" role="group" aria-label="Produkt">
@@ -197,6 +224,7 @@ select option { color: var(--fg); background: var(--surface); }
   </div>
 
   <section class="cover" id="runs" aria-label="Søgedækning og begrænsninger"></section>
+  </div>
 </main>
 
 
@@ -206,10 +234,10 @@ select option { color: var(--fg); background: var(--surface); }
   var els = {
     q: $("q"), time: $("f-time"), direct: $("f-direct"), hide: $("f-hide"),
     max: $("f-max"), sort: $("f-sort"), liste: $("liste"), count: $("count"), reset: $("reset"),
-    sub: $("sub"), runs: $("runs"), tabs: $("tabs")
+    sub: $("sub"), runs: $("runs"), tabs: $("tabs"), sheet: $("sheet"), fview: $("finds-view"), vFinds: $("v-finds"), vSheet: $("v-sheet")
   };
   var ALL_MULTI = [];
-  var state = { finds: [], targets: {}, runs: [], feedback: {}, allFinds: [], allTargets: [], allRuns: [], categories: [], cat: null, loaded: { finds: false, targets: false, runs: false }, error: false, fbError: false, keep: {} };
+  var state = { finds: [], targets: {}, runs: [], feedback: {}, allFinds: [], allTargets: [], allRuns: [], categories: [], cat: null, loaded: { finds: false, targets: false, runs: false }, error: false, fbError: false, keep: {}, view: "finds", sheetErr: false };
   var DB = null, canWrite = null, openIds = {}, chain = {};
   var VERDICT = { godt: { label: "Godt fund", cls: "ok" }, nej: { label: "Ikke interessant", cls: "no" }, koebt: { label: "Købt", cls: "acc" }, skrald: { label: "Skraldespand", cls: "no" } };
   var REASONS = {
@@ -322,7 +350,8 @@ select option { color: var(--fg); background: var(--surface); }
   function scope() {
     var list = cats();
     if (!state.cat || !list.some(function (c) { return c.id === state.cat; })) {
-      var h = (location.hash || "").slice(1);
+      var h = (location.hash || "").slice(1).split("/")[0];
+      if ((location.hash || "").indexOf("/soegeliste") !== -1) state.view = "sheet";
       state.cat = list.some(function (c) { return c.id === h; }) ? h : list[0].id;
     }
     state.finds = state.allFinds.filter(function (f) { return catOf(f) === state.cat; });
@@ -346,7 +375,7 @@ select option { color: var(--fg); background: var(--surface); }
   }
   function switchCat(id) {
     if (id !== state.cat) { state.cat = id; resetFilters(); refresh(); }
-    try { if ((location.hash || "").slice(1) !== id) location.hash = id; } catch (e) {}
+    try { var nh = id + (state.view === "sheet" ? "/soegeliste" : ""); if ((location.hash || "").slice(1) !== nh) location.hash = nh; } catch (e) {}
   }
   function isTrashed(f) { var v = state.feedback[f.id]; return !!(v && v.verdict === "skrald"); }
   function targetOf(f) { return state.targets[f.row] || { model: "", designers: [], producers: [] }; }
@@ -371,9 +400,10 @@ select option { color: var(--fg); background: var(--surface); }
     var fb = state.feedback[f.id];
     var s = el("summary");
     var th = el("div", "thumb");
-    if (f.thumb) {
+    var thumbUrl = f.thumb || f.image;
+    if (thumbUrl) {
       var im = document.createElement("img");
-      im.src = f.thumb; im.alt = ""; im.loading = "lazy"; im.decoding = "async";
+      im.src = thumbUrl; im.alt = ""; im.loading = "lazy"; im.decoding = "async";
       im.referrerPolicy = "no-referrer";
       im.onerror = function () { im.remove(); };
       th.appendChild(im);
@@ -624,7 +654,139 @@ select option { color: var(--fg); background: var(--surface); }
     els.sub.textContent = bits.join(" · ");
     draw();
     drawRuns();
+    drawSheet();
   }
+
+  /* ---------- Søgeliste (regneark over søgninger) ---------- */
+  var DEFAULT_PLATS = ["DBA", "Tradera", "Vinted"];
+  var COLS = [
+    { k: "model", label: "Model", t: "s", w: "w-lg" },
+    { k: "type", label: "Type", t: "s", w: "w-sm" },
+    { k: "designers", label: "Designer", t: "l", w: "w-lg" },
+    { k: "producers", label: "Producent", t: "l", w: "w-lg" },
+    { k: "keywords", label: "Søgeord", t: "l", w: "w-lg" },
+    { k: "excludeKeywords", label: "Fravalgte søgeord", t: "l", w: "w-lg" },
+    { k: "colorsAllowed", label: "Tilladte farver", t: "l", w: "w-lg" },
+    { k: "colorsRejected", label: "Fravalgte farver", t: "l", w: "w-lg" },
+    { k: "maxPrice", label: "Maks pris", t: "n", w: "w-sm" },
+    { k: "images", label: "Billede reference", t: "l", w: "w-lg" }
+  ];
+  function splitList(v) { return String(v).split(";").map(function (x) { return x.trim(); }).filter(Boolean); }
+  function sheetPlats() {
+    var cur = cats().filter(function (c) { return c.id === state.cat; })[0] || {};
+    var out = [];
+    DEFAULT_PLATS.concat(cur.platforms || []).forEach(function (p) { if (out.indexOf(p) === -1) out.push(p); });
+    state.allTargets.forEach(function (t) {
+      if (catOf(t) !== state.cat) return;
+      Object.keys(t.platforms || {}).forEach(function (p) { if (out.indexOf(p) === -1) out.push(p); });
+    });
+    return out;
+  }
+  function sheetWrite(job) {
+    Promise.resolve().then(job).then(function () {
+      if (state.sheetErr) { state.sheetErr = false; drawSheet(); }
+    }, function () { state.sheetErr = true; drawSheet(); });
+  }
+  function saveCell(t, col, raw) {
+    var val = col.t === "l" ? splitList(raw) : col.t === "n" ? (String(raw).trim() === "" ? null : Number(raw)) : String(raw).trim();
+    if (col.t === "n" && val !== null && isNaN(val)) return;
+    var old = t[col.k];
+    if (JSON.stringify(old == null ? (col.t === "l" ? [] : col.t === "n" ? null : "") : old) === JSON.stringify(val)) return;
+    var patch = {}; patch[col.k] = val;
+    sheetWrite(function () { return DB.doc("targets/" + t.id).update(patch); });
+  }
+  function addRow() {
+    var rows = state.allTargets.filter(function (t) { return catOf(t) === state.cat; }).map(function (t) { return Number(t.row) || 0; });
+    var n = rows.length ? Math.max.apply(null, rows) + 1 : 2;
+    var doc = { category: state.cat, row: n, model: "", type: "", designers: [], producers: [], keywords: [], excludeKeywords: [], colorsAllowed: [], colorsRejected: [], maxPrice: null, images: [], platforms: {} };
+    sheetWrite(function () { return DB.doc("targets/" + state.cat + "-row-" + n).set(doc); });
+  }
+  function drawSheet() {
+    var root = els.sheet;
+    var isSheet = state.view === "sheet";
+    root.hidden = !isSheet;
+    els.fview.style.display = isSheet ? "none" : "grid";
+    els.vFinds.setAttribute("aria-pressed", String(!isSheet));
+    els.vSheet.setAttribute("aria-pressed", String(isSheet));
+    if (!isSheet) return;
+    if (document.activeElement && root.contains(document.activeElement) && document.activeElement.tagName === "INPUT" && document.activeElement.type !== "checkbox") return;
+    root.textContent = "";
+    if (state.error) { root.appendChild(el("div", "empty", "Søgelisten kan ikke hentes. Åbn siden i claude.ai og log ind.")); return; }
+    if (!state.loaded.targets) { root.appendChild(el("div", "empty", "Henter søgeliste …")); return; }
+    var edit = !!DB && canWrite === true;
+    var cur = cats().filter(function (c) { return c.id === state.cat; })[0] || {};
+    var rows = state.allTargets.filter(function (t) { return catOf(t) === state.cat; })
+      .sort(function (a, b) { return (Number(a.row) || 0) - (Number(b.row) || 0); });
+    var plats = sheetPlats();
+
+    var bar = el("div", "sheet-bar");
+    var left = el("span", null, rows.length + (rows.length === 1 ? " række" : " rækker") + " · " + (cur.name || state.cat));
+    if (state.sheetErr) { left.appendChild(document.createTextNode(" · ")); left.appendChild(el("span", "sheet-err", "Ændringen kunne ikke gemmes")); }
+    bar.appendChild(left);
+    if (edit) {
+      var add = el("button", "reset", "+ Tilføj række");
+      add.type = "button";
+      add.addEventListener("click", addRow);
+      bar.appendChild(add);
+    }
+    root.appendChild(bar);
+    root.appendChild(el("p", "sheet-note", "Hver række er en søgning. Sæt kryds ved de platforme, rækken skal søges på; uden kryds søges rækken ikke. Flere værdier i én celle skilles med semikolon. Tom model: søg på designer eller producent. Tom maks pris: ingen grænse." + (edit ? " Ændringer gemmes med det samme." : " Kun ejeren kan redigere.")));
+
+    var wrap = el("div", "sheet-scroll");
+    var tbl = el("table", "sheet");
+    var thead = el("thead"), hr = el("tr");
+    hr.appendChild(el("th", null, "#"));
+    COLS.forEach(function (c) { hr.appendChild(el("th", null, c.label)); });
+    plats.forEach(function (p) { hr.appendChild(el("th", "plat", p)); });
+    thead.appendChild(hr); tbl.appendChild(thead);
+    var tb = el("tbody");
+    if (!rows.length) {
+      var er = el("tr"), ec = el("td", null, "Ingen søgninger endnu." + (edit ? " Tryk “Tilføj række”." : ""));
+      ec.colSpan = 1 + COLS.length + plats.length; ec.style.padding = "14px";
+      er.appendChild(ec); tb.appendChild(er);
+    }
+    rows.forEach(function (t) {
+      var tr = el("tr");
+      tr.appendChild(el("td", "rn", String(t.row)));
+      COLS.forEach(function (c) {
+        var td = el("td");
+        var v = t[c.k];
+        var text = c.t === "l" ? (v || []).join("; ") : v == null ? "" : String(v);
+        if (!edit) { td.appendChild(el("span", "ro", text)); }
+        else {
+          var inp = document.createElement("input");
+          inp.type = c.t === "n" ? "number" : "text";
+          if (c.t === "n") { inp.min = "0"; inp.step = "50"; inp.inputMode = "numeric"; }
+          inp.className = c.w; inp.value = text;
+          inp.setAttribute("aria-label", c.label + ", række " + t.row);
+          inp.addEventListener("change", function () { saveCell(t, c, inp.value); });
+          td.appendChild(inp);
+        }
+        tr.appendChild(td);
+      });
+      plats.forEach(function (p) {
+        var td = el("td", "plat");
+        var on = !!(t.platforms && t.platforms[p]);
+        var cb = document.createElement("input");
+        cb.type = "checkbox"; cb.checked = on; cb.disabled = !edit;
+        cb.setAttribute("aria-label", p + ", række " + t.row);
+        cb.addEventListener("change", function () {
+          var patch = {}; patch["platforms." + p] = cb.checked;
+          sheetWrite(function () { return DB.doc("targets/" + t.id).update(patch); });
+        });
+        td.appendChild(cb); tr.appendChild(td);
+      });
+      tb.appendChild(tr);
+    });
+    tbl.appendChild(tb); wrap.appendChild(tbl); root.appendChild(wrap);
+  }
+  function setView(v) {
+    state.view = v;
+    try { var h = (location.hash || "").slice(1).split("/")[0]; location.hash = h ? h + (v === "sheet" ? "/soegeliste" : "") : (v === "sheet" ? "/soegeliste" : ""); } catch (e) {}
+    drawSheet();
+  }
+  els.vFinds.addEventListener("click", function () { setView("finds"); });
+  els.vSheet.addEventListener("click", function () { setView("sheet"); });
 
   [els.q, els.max].forEach(function (e) { e.addEventListener("input", draw); });
   [els.time, els.sort].forEach(function (e) {
@@ -640,7 +802,9 @@ select option { color: var(--fg); background: var(--surface); }
   }
   els.reset.addEventListener("click", function () { resetFilters(); draw(); });
   window.addEventListener("hashchange", function () {
-    var h = (location.hash || "").slice(1);
+    var hs = (location.hash || "").slice(1).split("/"), h = hs[0];
+    var wantSheet = hs[1] === "soegeliste";
+    if (wantSheet !== (state.view === "sheet")) { state.view = wantSheet ? "sheet" : "finds"; drawSheet(); }
     if (h && h !== state.cat && cats().some(function (c) { return c.id === h; })) switchCat(h);
   });
 
@@ -654,7 +818,7 @@ select option { color: var(--fg); background: var(--surface); }
       state.loaded.finds = true; refresh();
     }, fail);
     db.collection("targets").onSnapshot(function (snap) {
-      state.allTargets = snap.docs.map(function (d) { return d.data(); });
+      state.allTargets = snap.docs.map(function (d) { return Object.assign({ id: d.id }, d.data()); });
       state.loaded.targets = true; refresh();
     }, fail);
     db.collection("categories").onSnapshot(function (snap) {
@@ -674,7 +838,7 @@ select option { color: var(--fg); background: var(--surface); }
   }, fail);
   if (window.claude && window.claude.use) {
     window.claude.use("user").then(function (u) {
-      if (u && typeof u.isOwner === "function") { canWrite = u.isOwner(); draw(); }
+      if (u && typeof u.isOwner === "function") { canWrite = u.isOwner(); draw(); drawSheet(); }
     }, function () {});
   }
   draw();

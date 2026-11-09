@@ -44,7 +44,7 @@ The id is `<platform lowercase>-<listing id>`, for example `dba-26284641` or `vi
 
 ## `targets/<slug>-row-<N>` — one document per Excel row
 
-For example `lamper-row-5`. `{ "category": "lamper", "row": N, "model": "...", "designers": ["..."], "producers": ["..."] }`. `model` is an empty string when the row has no model. Keep in sync with `Søgeliste`. The filters on the page are built from these.
+For example `lamper-row-5`. `{ "category": "lamper", "row": N, "model": "...", "designers": ["..."], "producers": ["..."] }`. The same document is the search list (the page's Søgeliste view replaces the Excel sheet) and also holds: `type` (string), `keywords`, `excludeKeywords`, `colorsAllowed`, `colorsRejected`, `images` (lists of strings), `maxPrice` (number or null) and `platforms` (`{"DBA": true, "Vinted": false}`; ticked = search the row on that platform). The owner edits them on the page. `model` is an empty string when the row has no model. Keep in sync with `Søgeliste`. The filters on the page are built from these.
 
 ## `runs/<YYYY-MM-DD-HHMM>` — one document per run
 
