@@ -530,8 +530,11 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
     if (!DB || canWrite !== true) return;
     var on = isTrashed(f);
     var ref = DB.doc("feedback/" + f.id);
+    var exists = !!state.feedback[f.id];
     queueWrite(f.id, function () {
-      return on ? ref.delete() : ref.set({ findId: f.id, verdict: "skrald", reasons: [], at: new Date().toISOString(), snapshot: snapshotOf(f) });
+      if (on) return ref.delete();
+      if (exists) return ref.update({ verdict: "skrald", at: new Date().toISOString(), snapshot: snapshotOf(f) });
+      return ref.set({ findId: f.id, verdict: "skrald", reasons: [], at: new Date().toISOString(), snapshot: snapshotOf(f) });
     });
   }
   function queueWrite(id, job) {
