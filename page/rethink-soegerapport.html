@@ -136,17 +136,10 @@ select option { color: var(--fg); background: var(--surface); }
 .tab .n { font-family: var(--font-mono); font-size: 12px; font-weight: 400; margin-left: 7px; color: var(--muted); }
 .tab:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .acc { color: var(--accent); }
-.reasons { grid-column: 2 / -1; display: flex; flex-wrap: wrap; gap: 6px; padding-top: 6px; }
-.fbbar { display: flex; gap: 4px; align-self: center; grid-row: 1; grid-column: 4; }
-.fbbtn { width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center; background: transparent; color: var(--muted); border: 1px solid var(--line); border-radius: 8px; cursor: pointer; }
-.fbbtn svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.fbbtn.down svg { transform: rotate(180deg); }
-.fbbtn:hover { color: var(--fg); border-color: var(--muted); }
-.fbbtn.on { color: var(--c); border-color: var(--c); background: color-mix(in srgb, var(--c) 16%, transparent); }
-.fbbtn.v-godt { --c: var(--ok); } .fbbtn.v-nej { --c: var(--no); } .fbbtn.v-koebt { --c: var(--accent); } .fbbtn.v-skrald { --c: var(--no); }
-.rchip { font: inherit; font-size: 12.5px; background: var(--surface); color: var(--fg); border: 1px solid var(--line); border-radius: 99px; padding: 3px 10px; cursor: pointer; }
-.rchip.on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
-.fbbtn:focus-visible, .rchip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.starbtn { width: 32px; height: 32px; padding: 0; font-size: 20px; line-height: 1; background: transparent; color: var(--muted); border: 1px solid var(--line); border-radius: 8px; cursor: pointer; align-self: center; grid-row: 1; grid-column: 4; }
+.starbtn.on { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+.starbtn:disabled { opacity: .45; cursor: default; }
+.starbtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 @media (max-width: 520px) {
   h1 { font-size: 24px; }
   details.item summary { grid-template-columns: 40px minmax(0, 1fr) auto auto; column-gap: 10px; }
@@ -234,10 +227,9 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
       <h3>Annonce</h3>
       <div class="filters-grid">
         <div class="ms" id="f-plat" data-label="Platform"></div>
-        <div class="ms" id="f-verdict" data-label="Vurdering"></div>
         <select id="f-time" class="ph" aria-label="Tid"><option value="">Tid</option><option value="24">24 timer</option><option value="48">48 timer</option><option value="72">72 timer</option><option value="168">7 dage</option><option value="720">1 måned</option></select>
         <label class="check" for="f-direct"><input id="f-direct" type="checkbox"> Kan købes direkte</label>
-        <label class="check" for="f-hide"><input id="f-hide" type="checkbox" checked> Skjul ikke interessante</label>
+        <label class="check" for="f-fav"><input id="f-fav" type="checkbox"> Kun favoritter</label>
       </div>
     </div>
   </section>
@@ -262,19 +254,13 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
 (function () {
   var $ = function (id) { return document.getElementById(id); };
   var els = {
-    q: $("q"), time: $("f-time"), direct: $("f-direct"), hide: $("f-hide"),
+    q: $("q"), time: $("f-time"), direct: $("f-direct"), fav: $("f-fav"),
     max: $("f-max"), sort: $("f-sort"), liste: $("liste"), count: $("count"), reset: $("reset"),
     sub: $("sub"), runs: $("runs"), tabs: $("tabs"), sheet: $("sheet"), fview: $("finds-view"), vFinds: $("v-finds"), vSheet: $("v-sheet")
   };
   var ALL_MULTI = [];
-  var state = { finds: [], targets: {}, runs: [], feedback: {}, allFinds: [], allTargets: [], allRuns: [], categories: [], cat: null, loaded: { finds: false, targets: false, runs: false }, error: false, fbError: false, keep: {}, view: "finds", sheetErr: false };
+  var state = { finds: [], targets: {}, runs: [], favs: {}, allFinds: [], allTargets: [], allRuns: [], categories: [], cat: null, loaded: { finds: false, targets: false, runs: false }, error: false, fbError: false, favFilterOn: false, view: "finds", sheetErr: false };
   var DB = null, canWrite = null, openIds = {}, chain = {};
-  var VERDICT = { godt: { label: "Godt fund", cls: "ok" }, nej: { label: "Ikke interessant", cls: "no" }, koebt: { label: "Købt", cls: "acc" }, skrald: { label: "Skraldespand", cls: "no" } };
-  var REASONS = {
-    godt: ["God pris", "Sjælden model", "Flot stand"],
-    nej: ["For dyrt", "Dårlig stand", "For langt væk", "Forkert model", "Forkert farve", "Mistanke om kopi", "Ikke vores stil"]
-  };
-
   function el(tag, cls, text) {
     var e = document.createElement(tag);
     if (cls) e.className = cls;
@@ -372,7 +358,7 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
 
   var MULTI = {
     model: makeMulti($("f-model")), designer: makeMulti($("f-designer")), producer: makeMulti($("f-producer")),
-    type: makeMulti($("f-type")), color: makeMulti($("f-color")), plat: makeMulti($("f-plat")), verdict: makeMulti($("f-verdict"))
+    type: makeMulti($("f-type")), color: makeMulti($("f-color")), plat: makeMulti($("f-plat"))
   };
 
   function catOf(x) { return x.category || "lamper"; }
@@ -395,7 +381,7 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
   function drawTabs() {
     els.tabs.textContent = "";
     cats().forEach(function (c) {
-      var n = state.allFinds.filter(function (f) { return catOf(f) === c.id && f.available !== "nej" && !isTrashed(f); }).length;
+      var n = state.allFinds.filter(function (f) { return catOf(f) === c.id && f.available !== "nej"; }).length;
       var b = el("button", "tab", c.name);
       b.type = "button";
       b.setAttribute("role", "tab");
@@ -409,7 +395,6 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
     if (id !== state.cat) { state.cat = id; resetFilters(); refresh(); }
     try { var nh = id + (state.view === "sheet" ? "/soegeliste" : ""); if ((location.hash || "").slice(1) !== nh) location.hash = nh; } catch (e) {}
   }
-  function isTrashed(f) { var v = state.feedback[f.id]; return !!(v && v.verdict === "skrald"); }
   function targetOf(f) { return state.targets[f.row] || { model: "", designers: [], producers: [] }; }
   function priceInfo(f) {
     var h = f.priceHistory || [];
@@ -429,7 +414,6 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
     var d = el("details", "item" + (gone ? " gone" : ""));
     d.open = openIds[f.id] === true;
     d.addEventListener("toggle", function () { openIds[f.id] = d.open; });
-    var fb = state.feedback[f.id];
     var s = el("summary");
     var th = el("div", "thumb");
     var thumbUrl = f.thumb || f.image;
@@ -452,8 +436,15 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
     if (pi) p.appendChild(el("span", "delta " + pi.cls, pi.text));
     else if (f.priceNote) p.appendChild(el("small", null, f.priceNote));
     s.appendChild(p);
-    var bar = feedbackBar(f, fb);
-    if (bar) s.appendChild(bar);
+    var star = el("button", "starbtn" + (state.favs[f.id] ? " on" : ""));
+    star.type = "button";
+    star.textContent = state.favs[f.id] ? "\u2605" : "\u2606";
+    star.disabled = canWrite !== true;
+    star.setAttribute("aria-pressed", String(!!state.favs[f.id]));
+    star.setAttribute("aria-label", state.favs[f.id] ? "Fjern fra favoritter" : "Gem som favorit");
+    star.title = state.favs[f.id] ? "Fjern fra favoritter" : "Gem som favorit";
+    star.addEventListener("click", function (e) { e.preventDefault(); e.stopPropagation(); toggleFav(f); });
+    s.appendChild(star);
 
     var m = el("div", "meta");
     var dcls = f.direct === "Ja" ? "ok" : f.direct === "Nej" ? "no" : "warn";
@@ -468,15 +459,12 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
     if (gone) list.push(["Fjernet" + (f.goneAt ? " " + dm(f.goneAt) : ""), "no"]);
     else if (f.available === "ja" && f.lastChecked) list.push(["Tjekket " + dm(f.lastChecked), null]);
     else list.push(["Ikke bekræftet online", "warn"]);
-    if (fb && VERDICT[fb.verdict]) list.push([VERDICT[fb.verdict].label, VERDICT[fb.verdict].cls]);
     list.forEach(function (x, i) {
       if (i) m.appendChild(sep());
       m.appendChild(el("span", x[1], x[0]));
     });
     m.title = list.map(function (x) { return x[0]; }).join(" · ");
     s.appendChild(m);
-    var rr = reasonRow(f, fb);
-    if (rr) s.appendChild(rr);
     d.appendChild(s);
 
     var more = el("div", "more");
@@ -516,25 +504,19 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
       listedAt: f.listedAt || "", ageHours: isFinite(age) ? age : null
     };
   }
+  function toggleFav(f) {
+    if (!DB || canWrite !== true) return;
+    var on = !!state.favs[f.id];
+    var ref = DB.doc("favorites/" + f.id);
+    queueWrite(f.id, function () {
+      return on ? ref.delete() : ref.set({ findId: f.id, at: new Date().toISOString() });
+    });
+  }
   function queueWrite(id, job) {
     var next = (chain[id] || Promise.resolve()).then(job).then(function () {
       if (state.fbError) { state.fbError = false; draw(); }
     }, function () { state.fbError = true; draw(); });
     chain[id] = next;
-  }
-  function setVerdict(f, v, current) {
-    var ref = DB.doc("feedback/" + f.id);
-    if (v === "nej") state.keep[f.id] = true;
-    if (current && current.verdict === v) { queueWrite(f.id, function () { return ref.delete(); }); return; }
-    queueWrite(f.id, function () {
-      return ref.set({ findId: f.id, verdict: v, reasons: [], at: new Date().toISOString(), snapshot: snapshotOf(f) });
-    });
-  }
-  function toggleReason(f, current, reason) {
-    var r = (current.reasons || []).slice();
-    var i = r.indexOf(reason);
-    if (i === -1) r.push(reason); else r.splice(i, 1);
-    queueWrite(f.id, function () { return DB.doc("feedback/" + f.id).update({ reasons: r }); });
   }
   var ICONS = {
     godt: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10v11H3V10h4zm0 0l4-8a2 2 0 0 1 2 2v4h6a2 2 0 0 1 2 2.3l-1.4 7A2 2 0 0 1 17.6 21H7"/></svg>',
@@ -542,45 +524,10 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
     koebt: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14l-1 13H6L5 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>',
     skrald: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/></svg>'
   };
-  function feedbackBar(f, fb) {
-    if (!DB || canWrite === false) return null;
-    var bar = el("div", "fbbar");
-    bar.setAttribute("role", "group");
-    bar.setAttribute("aria-label", "Vurdér fundet");
-    Object.keys(VERDICT).forEach(function (k) {
-      var on = !!(fb && fb.verdict === k);
-      var b = el("button", "fbbtn v-" + k + (k === "nej" ? " down" : "") + (on ? " on" : ""));
-      b.type = "button";
-      b.innerHTML = ICONS[k];
-      b.title = k === "skrald" ? (on ? "Tag op af skraldespanden" : "Skraldespand: skjul for altid") : VERDICT[k].label;
-      b.setAttribute("aria-label", k === "skrald" ? "Skraldespand" : VERDICT[k].label);
-      b.setAttribute("aria-pressed", String(on));
-      b.addEventListener("click", function (e) { e.preventDefault(); e.stopPropagation(); setVerdict(f, k, fb); });
-      bar.appendChild(b);
-    });
-    return bar;
-  }
-  function reasonRow(f, fb) {
-    if (!DB || canWrite === false || !fb || !REASONS[fb.verdict]) return null;
-    var rs = el("div", "reasons");
-    REASONS[fb.verdict].forEach(function (r) {
-      var on = (fb.reasons || []).indexOf(r) !== -1;
-      var c = el("button", "rchip" + (on ? " on" : ""), r);
-      c.type = "button";
-      c.setAttribute("aria-pressed", String(on));
-      c.addEventListener("click", function (e) { e.preventDefault(); e.stopPropagation(); toggleReason(f, fb, r); });
-      rs.appendChild(c);
-    });
-    return rs;
-  }
-
-  function anyIn(list, sel) {
-    return (list || []).some(function (v) { return sel.indexOf(v) !== -1; });
-  }
   function filtered() {
     var q = els.q.value.trim().toLowerCase();
     var max = els.max.value === "" ? null : Number(els.max.value);
-    var m = { model: MULTI.model.get(), designer: MULTI.designer.get(), producer: MULTI.producer.get(), type: MULTI.type.get(), color: MULTI.color.get(), plat: MULTI.plat.get(), verdict: MULTI.verdict.get() };
+    var m = { model: MULTI.model.get(), designer: MULTI.designer.get(), producer: MULTI.producer.get(), type: MULTI.type.get(), color: MULTI.color.get(), plat: MULTI.plat.get(), };
     var hours = els.time.value ? Number(els.time.value) : null;
     var now = Date.now();
     var out = state.finds.filter(function (f) {
@@ -592,17 +539,8 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
       if (m.type.length && m.type.indexOf(f.type) === -1) return false;
       if (m.color.length && !anyIn(f.colors, m.color)) return false;
       if (m.plat.length && m.plat.indexOf(f.plat) === -1) return false;
-      if (m.verdict.length) {
-        var fv = state.feedback[f.id];
-        var vl = fv && VERDICT[fv.verdict] ? VERDICT[fv.verdict].label : "Ikke vurderet";
-        if (m.verdict.indexOf(vl) === -1) return false;
-      }
-      if (isTrashed(f) && m.verdict.indexOf("Skraldespand") === -1) return false;
-      if (els.hide.checked && !state.keep[f.id] && m.verdict.indexOf("Ikke interessant") === -1) {
-        var hv = state.feedback[f.id];
-        if (hv && hv.verdict === "nej") return false;
-      }
       if (els.direct.checked && f.direct !== "Ja") return false;
+      if (els.fav.checked && !state.favs[f.id]) return false;
       if (hours != null) {
         var ts = Date.parse(f.listedAt);
         if (isNaN(ts) || (now - ts) / 3600000 > hours) return false;
@@ -638,7 +576,7 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
       return;
     }
     var list = filtered();
-    var live = state.finds.filter(function (f) { return f.available !== "nej" && !isTrashed(f); }).length;
+    var live = state.finds.filter(function (f) { return f.available !== "nej"; }).length;
     if (!live) els.liste.appendChild(el("div", "empty", "Ingen fund endnu. De kommer her efter næste søgning."));
     else if (!list.length) els.liste.appendChild(el("div", "empty", "Ingen fund for de valgte filtre."));
     list.forEach(function (f) { els.liste.appendChild(render(f)); });
@@ -674,9 +612,8 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
     MULTI.type.setValues(uniqSorted(state.finds.map(function (f) { return f.type; })));
     MULTI.color.setValues(uniqSorted([].concat.apply([], state.finds.map(function (f) { return f.colors || []; }))));
     MULTI.plat.setValues(uniqSorted(state.finds.map(function (f) { return f.plat; })));
-    MULTI.verdict.setValues(["Godt fund", "Ikke interessant", "Købt", "Ikke vurderet", "Skraldespand"]);
     var latest = state.runs[0];
-    var active = state.finds.filter(function (f) { return f.available !== "nej" && !isTrashed(f); }).length;
+    var active = state.finds.filter(function (f) { return f.available !== "nej"; }).length;
     var bits = [];
     if (latest) bits.push("Seneste kørsel " + dmy(latest.date) + " kl. " + hm(latest.date));
     if (latest && latest.platforms) bits.push(latest.platforms.join(" og "));
@@ -968,10 +905,10 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
   [els.time, els.sort].forEach(function (e) {
     e.addEventListener("change", function () { syncPlaceholder(e); draw(); });
   });
-  [els.direct, els.hide].forEach(function (e) { e.addEventListener("change", function () { state.keep = {}; draw(); }); });
+  [els.direct, els.fav].forEach(function (e) { e.addEventListener("change", function () { draw(); }); });
   function resetFilters() {
     els.q.value = ""; els.max.value = "";
-    els.direct.checked = false; els.hide.checked = true; state.keep = {};
+    els.direct.checked = false; els.fav.checked = false;
     els.time.value = ""; els.sort.value = "";
     syncPlaceholder(els.time); syncPlaceholder(els.sort);
     ALL_MULTI.forEach(function (a) { a.clear(); a.close(); });
@@ -1002,11 +939,11 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
         .sort(function (a, b) { return (a.order || 0) - (b.order || 0); });
       refresh();
     }, function () {});
-    db.collection("feedback").onSnapshot(function (snap) {
+    db.collection("favorites").onSnapshot(function (snap) {
       var m = {};
       snap.docs.forEach(function (d) { m[d.id] = d.data(); });
-      state.feedback = m; state.loaded.feedback = true; refresh();
-    }, function () { state.feedback = {}; });
+      state.favs = m; refresh();
+    }, function () { state.favs = {}; });
     db.collection("runs").orderBy("date", "desc").limit(20).onSnapshot(function (snap) {
       state.allRuns = snap.docs.map(function (d) { return d.data(); });
       state.loaded.runs = true; refresh();
