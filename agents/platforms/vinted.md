@@ -9,7 +9,7 @@ Platform file for the platform search agent. Read together with the general brie
 
 ## Dato
 
-Not filled in yet. Use the listing date if it is shown. If it is not shown, do not guess how old it is. Report the limitation.
+On the listing page, Vinted shows a relative age under "Uploadet", for example "Uploadet 2 dage siden". Use that as the evidence of recency and set the listing date to the approximate day. Say in `Forbehold` that the date is relative and approximate. If no age is shown, do not guess how old it is. Report the limitation.
 
 ## By
 
@@ -27,6 +27,21 @@ Report the city exactly as shown. Do not guess it from the seller's name, the ph
 `Ja` where the normal Vinted checkout (payment and shipping) is available.
 If the information is not visible or is ambiguous: `Tjek`.
 
+## Adgang og Cloudflare
+
+Vinted sits behind a Cloudflare check. Observed on 2026-11-10:
+
+- The first page load can show the title "Just a moment..." with HTTP 403. This is the automatic browser check, not a CAPTCHA and not a ban.
+- Wait for the check to finish before you read the page. Wait up to about 20 seconds after the page loads, then read the URL, title and results again. In a test on 2026-11-10 the check finished on its own after about 8 seconds, and the search page returned HTTP 200 with results.
+- If the check is still showing after about 20 seconds, stop on Vinted. Write "ikke søgt" for Vinted in the coverage note, with the reason "Cloudflare-tjek blev ikke færdigt". Do not retry in a loop.
+- Never solve a CAPTCHA, never change headers or fingerprints to get past the check, and never use proxies. Those are not allowed.
+- Do not treat one 403 as proof that Vinted blocks this session. A later run may succeed, so state what was seen and when.
+
+Search URL that worked on 2026-11-10: `https://www.vinted.dk/catalog?search_text=<søgeord>&order=newest_first`. Results are links of the form `/items/<id>-<slug>`.
+
 ## Faldgruber
 
-Not filled in yet. Add known problems here, for example cookie banners, login walls, pagination limits, or relisted ads that look new.
+- The Cloudflare check described above. A 403 on the first load is often not final.
+- The search page shows many irrelevant results (for example tools and cosmetics for "ph 4/3"). Check title and photos for each candidate. Do not report a listing just because the search returned it.
+- Relisted or renewed listings can look new. Check the listing date shown on the page itself.
+- The listing page shows a "Køb nu" button and a "Giv et tilbud" button. Do not press either one. Only "Køb nu" as a sign of checkout belongs in `Direkte køb`, and only as the platform file describes.
