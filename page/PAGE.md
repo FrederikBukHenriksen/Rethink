@@ -8,8 +8,9 @@ The page is the only place the user reads the finds. Its source is `page/rethink
 - One tab per category (from `categories`). The tab shows the number of listings that are not removed.
 - Filters: free text, then a "Produkt" group (Model, Designer, Producent, Type, Farve, max price) and an "Annonce" group (Platform, Tid, "Kan købes direkte", "Kun favoritter"). Sorting and a reset button.
 - A flat list. Each listing is a row: name (links to the listing) and price, then one detail line (type, colours, platform, city, status, direct purchase, date, last checked). Open the row for the note, `check` text, price history and last-checked time. A find with `check` shows "Skal tjekkes". A find with `available: "nej"` (sold or removed) is never shown on the page. The agent marks it `nej` on every run, so sold items drop off the page by themselves; the record stays in the database.
+- A "Skraldespand" button per row hides a find for good (writes `feedback/<id>` with `verdict: "skrald"`; the find stays in `finds`). "Vis skraldespand" shows hidden finds again; tapping the button again restores them.
 - A star button per row marks a find as a favourite. Only the owner can click it (other viewers see it disabled). Favourites are written to the collection `favorites` (doc id = find id, field `findId`, `at`). "Kun favoritter" shows only favourites.
-- The rating buttons (Godt fund, Ikke interessant, Købt, Skraldespand) are removed. They are to be re-introduced later if needed. The existing `feedback` records stay in the database and are not deleted.
+- The rating buttons (Godt fund, Ikke interessant, Købt) are removed. They are to be re-introduced later if needed. The existing `feedback` records stay in the database and are not deleted.
 - At the bottom, "Søgedækning og begrænsninger": one block per run, newest first.
 
 ## Data and settings

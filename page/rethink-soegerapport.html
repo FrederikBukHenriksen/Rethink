@@ -138,6 +138,7 @@ select option { color: var(--fg); background: var(--surface); }
 .acc { color: var(--accent); }
 .starbtn { width: 32px; height: 32px; padding: 0; font-size: 20px; line-height: 1; background: transparent; color: var(--muted); border: 1px solid var(--line); border-radius: 8px; cursor: pointer; align-self: center; grid-row: 1; grid-column: 4; }
 .starbtn.on { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+.acts { display: flex; gap: 4px; align-self: center; grid-row: 1; grid-column: 4; }
 .starbtn:disabled { opacity: .45; cursor: default; }
 .starbtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 @media (max-width: 520px) {
@@ -230,6 +231,7 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
         <select id="f-time" class="ph" aria-label="Tid"><option value="">Tid</option><option value="24">24 timer</option><option value="48">48 timer</option><option value="72">72 timer</option><option value="168">7 dage</option><option value="720">1 måned</option></select>
         <label class="check" for="f-direct"><input id="f-direct" type="checkbox"> Kan købes direkte</label>
         <label class="check" for="f-fav"><input id="f-fav" type="checkbox"> Kun favoritter</label>
+        <label class="check" for="f-trash"><input id="f-trash" type="checkbox"> Vis skraldespand</label>
       </div>
     </div>
   </section>
@@ -254,12 +256,12 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
 (function () {
   var $ = function (id) { return document.getElementById(id); };
   var els = {
-    q: $("q"), time: $("f-time"), direct: $("f-direct"), fav: $("f-fav"),
+    q: $("q"), time: $("f-time"), direct: $("f-direct"), fav: $("f-fav"), trash: $("f-trash"),
     max: $("f-max"), sort: $("f-sort"), liste: $("liste"), count: $("count"), reset: $("reset"),
     sub: $("sub"), runs: $("runs"), tabs: $("tabs"), sheet: $("sheet"), fview: $("finds-view"), vFinds: $("v-finds"), vSheet: $("v-sheet")
   };
   var ALL_MULTI = [];
-  var state = { finds: [], targets: {}, runs: [], favs: {}, allFinds: [], allTargets: [], allRuns: [], categories: [], cat: null, loaded: { finds: false, targets: false, runs: false }, error: false, fbError: false, favFilterOn: false, view: "finds", sheetErr: false };
+  var state = { finds: [], targets: {}, runs: [], favs: {}, feedback: {}, allFinds: [], allTargets: [], allRuns: [], categories: [], cat: null, loaded: { finds: false, targets: false, runs: false }, error: false, fbError: false, favFilterOn: false, view: "finds", sheetErr: false };
   var DB = null, canWrite = null, openIds = {}, chain = {};
   function el(tag, cls, text) {
     var e = document.createElement(tag);
@@ -381,7 +383,7 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
   function drawTabs() {
     els.tabs.textContent = "";
     cats().forEach(function (c) {
-      var n = state.allFinds.filter(function (f) { return catOf(f) === c.id && f.available !== "nej"; }).length;
+      var n = state.allFinds.filter(function (f) { return catOf(f) === c.id && f.available !== "nej" && !isTrashed(f); }).length;
       var b = el("button", "tab", c.name);
       b.type = "button";
       b.setAttribute("role", "tab");
@@ -395,6 +397,7 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
     if (id !== state.cat) { state.cat = id; resetFilters(); refresh(); }
     try { var nh = id + (state.view === "sheet" ? "/soegeliste" : ""); if ((location.hash || "").slice(1) !== nh) location.hash = nh; } catch (e) {}
   }
+  function isTrashed(f) { var v = state.feedback[f.id]; return !!(v && v.verdict === "skrald"); }
   function targetOf(f) { return state.targets[f.row] || { model: "", designers: [], producers: [] }; }
   function priceInfo(f) {
     var h = f.priceHistory || [];
@@ -444,7 +447,18 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
     star.setAttribute("aria-label", state.favs[f.id] ? "Fjern fra favoritter" : "Gem som favorit");
     star.title = state.favs[f.id] ? "Fjern fra favoritter" : "Gem som favorit";
     star.addEventListener("click", function (e) { e.preventDefault(); e.stopPropagation(); toggleFav(f); });
-    s.appendChild(star);
+    var trash = el("button", "starbtn trashbtn" + (isTrashed(f) ? " on" : ""));
+    trash.type = "button";
+    trash.innerHTML = ICONS.skrald;
+    trash.disabled = canWrite !== true;
+    trash.setAttribute("aria-pressed", String(isTrashed(f)));
+    trash.setAttribute("aria-label", isTrashed(f) ? "Tag op af skraldespanden" : "Skraldespand: skjul for altid");
+    trash.title = isTrashed(f) ? "Tag op af skraldespanden" : "Skraldespand: skjul for altid";
+    trash.addEventListener("click", function (e) { e.preventDefault(); e.stopPropagation(); toggleTrash(f); });
+    var acts = el("div", "acts");
+    acts.appendChild(star);
+    acts.appendChild(trash);
+    s.appendChild(acts);
 
     var m = el("div", "meta");
     var dcls = f.direct === "Ja" ? "ok" : f.direct === "Nej" ? "no" : "warn";
@@ -512,6 +526,14 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
       return on ? ref.delete() : ref.set({ findId: f.id, at: new Date().toISOString() });
     });
   }
+  function toggleTrash(f) {
+    if (!DB || canWrite !== true) return;
+    var on = isTrashed(f);
+    var ref = DB.doc("feedback/" + f.id);
+    queueWrite(f.id, function () {
+      return on ? ref.delete() : ref.set({ findId: f.id, verdict: "skrald", reasons: [], at: new Date().toISOString(), snapshot: snapshotOf(f) });
+    });
+  }
   function queueWrite(id, job) {
     var next = (chain[id] || Promise.resolve()).then(job).then(function () {
       if (state.fbError) { state.fbError = false; draw(); }
@@ -541,6 +563,7 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
       if (m.plat.length && m.plat.indexOf(f.plat) === -1) return false;
       if (els.direct.checked && f.direct !== "Ja") return false;
       if (els.fav.checked && !state.favs[f.id]) return false;
+      if (isTrashed(f) !== !!els.trash.checked) return false;
       if (hours != null) {
         var ts = Date.parse(f.listedAt);
         if (isNaN(ts) || (now - ts) / 3600000 > hours) return false;
@@ -576,7 +599,7 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
       return;
     }
     var list = filtered();
-    var live = state.finds.filter(function (f) { return f.available !== "nej"; }).length;
+    var live = state.finds.filter(function (f) { return f.available !== "nej" && !isTrashed(f); }).length;
     if (!live) els.liste.appendChild(el("div", "empty", "Ingen fund endnu. De kommer her efter næste søgning."));
     else if (!list.length) els.liste.appendChild(el("div", "empty", "Ingen fund for de valgte filtre."));
     list.forEach(function (f) { els.liste.appendChild(render(f)); });
@@ -613,7 +636,7 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
     MULTI.color.setValues(uniqSorted([].concat.apply([], state.finds.map(function (f) { return f.colors || []; }))));
     MULTI.plat.setValues(uniqSorted(state.finds.map(function (f) { return f.plat; })));
     var latest = state.runs[0];
-    var active = state.finds.filter(function (f) { return f.available !== "nej"; }).length;
+    var active = state.finds.filter(function (f) { return f.available !== "nej" && !isTrashed(f); }).length;
     var bits = [];
     if (latest) bits.push("Seneste kørsel " + dmy(latest.date) + " kl. " + hm(latest.date));
     if (latest && latest.platforms) bits.push(latest.platforms.join(" og "));
@@ -905,10 +928,10 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
   [els.time, els.sort].forEach(function (e) {
     e.addEventListener("change", function () { syncPlaceholder(e); draw(); });
   });
-  [els.direct, els.fav].forEach(function (e) { e.addEventListener("change", function () { draw(); }); });
+  [els.direct, els.fav, els.trash].forEach(function (e) { e.addEventListener("change", function () { draw(); }); });
   function resetFilters() {
     els.q.value = ""; els.max.value = "";
-    els.direct.checked = false; els.fav.checked = false;
+    els.direct.checked = false; els.fav.checked = false; els.trash.checked = false;
     els.time.value = ""; els.sort.value = "";
     syncPlaceholder(els.time); syncPlaceholder(els.sort);
     ALL_MULTI.forEach(function (a) { a.clear(); a.close(); });
@@ -939,6 +962,11 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
         .sort(function (a, b) { return (a.order || 0) - (b.order || 0); });
       refresh();
     }, function () {});
+    db.collection("feedback").onSnapshot(function (snap) {
+      var m = {};
+      snap.docs.forEach(function (d) { m[d.id] = d.data(); });
+      state.feedback = m; refresh();
+    }, function () { state.feedback = {}; });
     db.collection("favorites").onSnapshot(function (snap) {
       var m = {};
       snap.docs.forEach(function (d) { m[d.id] = d.data(); });
