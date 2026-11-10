@@ -442,7 +442,7 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
     var star = el("button", "starbtn" + (state.favs[f.id] ? " on" : ""));
     star.type = "button";
     star.textContent = state.favs[f.id] ? "\u2605" : "\u2606";
-    star.disabled = canWrite !== true;
+    star.disabled = canWrite === false;
     star.setAttribute("aria-pressed", String(!!state.favs[f.id]));
     star.setAttribute("aria-label", state.favs[f.id] ? "Fjern fra favoritter" : "Gem som favorit");
     star.title = state.favs[f.id] ? "Fjern fra favoritter" : "Gem som favorit";
@@ -450,7 +450,7 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
     var trash = el("button", "starbtn trashbtn" + (isTrashed(f) ? " on" : ""));
     trash.type = "button";
     trash.innerHTML = ICONS.skrald;
-    trash.disabled = canWrite !== true;
+    trash.disabled = canWrite === false;
     trash.setAttribute("aria-pressed", String(isTrashed(f)));
     trash.setAttribute("aria-label", isTrashed(f) ? "Tag op af skraldespanden" : "Skraldespand: skjul for altid");
     trash.title = isTrashed(f) ? "Tag op af skraldespanden" : "Skraldespand: skjul for altid";
@@ -519,7 +519,7 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
     };
   }
   function toggleFav(f) {
-    if (!DB || canWrite !== true) return;
+    if (!DB || canWrite === false) return;
     var on = !!state.favs[f.id];
     var ref = DB.doc("favorites/" + f.id);
     queueWrite(f.id, function () {
@@ -527,7 +527,7 @@ table.sheet { border-collapse: separate; border-spacing: 0; font-size: 13.5px; m
     });
   }
   function toggleTrash(f) {
-    if (!DB || canWrite !== true) return;
+    if (!DB || canWrite === false) return;
     var on = isTrashed(f);
     var ref = DB.doc("feedback/" + f.id);
     var exists = !!state.feedback[f.id];
