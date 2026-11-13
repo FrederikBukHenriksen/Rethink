@@ -13,6 +13,8 @@ All of these must hold:
 - Colour is among the allowed colours (or clearly equivalent). If none are given, any colour is fine. Rejected colours are out.
 - Price is not above the maximum price. Do not convert currencies unless the listing's currency and a conversion source are clear.
 
+**Reference image as a filter.** If a target row has reference images (`images`), the photo in the listing must show the same kind of product as the reference. The product must be the same; colour, lighting, angle, background and photo quality may differ and are not a reason to reject. Ask: does this photo show the product I am looking for? If the listing has no usable photo, or the photo shows a clearly different product (other model, other type, or a loose part), the candidate is not reported. If the photo is inconclusive, report it as `Uklar identitet` with `Forbehold: foto ikke entydigt`.
+
 Judge identity from title, description, seller details and images together. Give each candidate one status:
 
 - **Bekræftet:** model and type are supported by the listing's own evidence.
