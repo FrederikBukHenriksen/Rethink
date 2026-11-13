@@ -24,6 +24,13 @@ Platformfil til platform-søgeagenten. Læses sammen med den generelle brief. Ty
 - Ikke verificeret: selve købsflowet, betaling og returret. Jeg har ikke klikket på noget. På en direkte-køb-annonce vises "Käuferschutz" som betalt tillæg ("Für nur 24,13 € extra"). Det må ikke overføres til andre annoncer.
 - "Versand möglich" og "ab 1,99 €" er fragt, ikke køb.
 
+## Forsendelse (skal med)
+
+- Kun annoncer, der kan sendes, tages med. Det skal stå i annoncen, fx "Versand möglich" eller "Versand" med en fragtpris.
+- Udelad annoncer, hvor der står "Nur Abholung", "nur Abholung", "Abholung only" eller "Versand nicht möglich", og annoncer der kun kan afhentes.
+- Hvis annoncen ikke nævner forsendelse, udelades den også, og det noteres i dækningsnoten som "udeladt: forsendelse ikke angivet".
+- "Versand möglich" og "ab 1,99 €" er fragt, ikke køb (se Direkte køb). Fragt er ikke en bekræftelse af, at annoncen kan sendes til Danmark. Det noteres som ikke verificeret.
+
 ## Faldgruber
 
 - Søgning og annoncer kan læses uden login. Et "Hallo!"-login-popup vises på søgesiden, og den kan lukkes med X. På annoncesider ligger et cookie-banner ("Alle akzeptieren") over siden. Jeg har ikke klikket det. Teksten står i DOM.
