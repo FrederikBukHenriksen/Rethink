@@ -18,6 +18,12 @@ Platform file for the platform search agent. Read together with the general brie
 - Skriv derfor altid datoen som "sidst redigeret" og sæt `dateKind: redigeret`. Gamle annoncer kan være genoptaget, og en ny dato betyder ikke, at annoncen er ny.
 - Hvis kun en relativ alder vises, så skriv den som evidens, og sæt `dateApprox: true` i fundet.
 
+## Placering og åbning af annoncen (skal altid gøres)
+
+- Når et fund noteres, skal annoncen åbnes, og genstandens placering (by og postnummer) aflæses fra selve annoncen. Et søgekort eller en titel er ikke nok.
+- Skriv byen i `city`. Hvis den ikke kan aflæses fra annoncen, skriv "by ukendt" og forklar hvorfor i `check`.
+- Samme gælder, om annoncen allerede har "Fiks færdig"-muligheden: den skal læses fra selve annoncen, ikke fra søgekortet.
+
 ## Direkte køb
 
 - `Ja` kun når Fiks færdig er tilbudt eksplicit, fx med Fiks færdig-badge og "Tryg handel" på annoncen. Det er købe-muligheden på DBA.
