@@ -18,11 +18,38 @@ Den fulde procedure står i `SETUP.md` i repoet frederikbukhenriksen/rethink, br
 4. **Nye fund.** Følg `SETUP.md` afsnit 1-6: søgning med cutoff pr. række og platform, uafhængig verifikation, derefter skrivning til `finds`, `targets` og `runs`.
 5. **Afslutning.** Skriv en note i `runs` med hvad der blev søgt, hvad der ikke blev søgt, og hvorfor. Sæt `requests/search` til `færdig` med `finishedAt`. Hvis kørslen fejler, sæt `færdig` med en `note` om fejlen, så knappen virker igen.
 
-## Platforme
+## Browser
+
+Søgning sker med headless Chromium via Playwright: `require('playwright')` og `chromium.launch()` uden options. Installér ikke Playwright eller browsere igen. Hvis en side viser login-overlay, lukkes det, og der logges ikke ind. Hvis siden ikke kan læses, noteres det som "ikke søgt" i dækningsnoten.
+
+## Platforme og platformsfiler
+
+Hver platform har sin egen fil i `agents/platforms/`. Brug præcis disse filnavne:
+
+| Platform (nøgle i `targets`) | Fil |
+|---|---|
+| DBA | `dba.md` |
+| Facebook Marketplace | `facebook-marketplace.md` |
+| Tradera | `tradera.md` |
+| Vinted | `vinted.md` |
+| Bidstrup | `bidstrup.md` |
+| Catawiki | `catawiki.md` |
+| Gul og Gratis | `gul-og-gratis.md` |
+| Klein Anzeigen | `klein-anzeigen.md` |
+| Lauritz | `lauritz.md` |
+| Palsgaard | `palsgaard.md` |
+| Reshopper | `reshopper.md` |
+| Sikö | `sikoe.md` |
+| Woxholt | `woxholt.md` |
 
 - **Facebook Marketplace:** Prøv én gang. Hvis browseren sendes til login, noter "ikke søgt" i dækningsnoten. Omgå ikke login.
-- **Platforme uden platformsfil** (fx Palsgaard, Bidstrup, Woxholt, Lauritz, Sikö, Catawiki): Brug den generelle brief fra `agents/platform-searcher.md` og noter hullet i dækningsnoten.
-- **DBA, Tradera, Vinted:** Brug de platformsfiler, der findes i `agents/platforms/`.
+- Hvis en platform i `targets` ikke står i tabellen, bruges den generelle brief fra `agents/platform-searcher.md`, og hullet noteres i dækningsnoten.
+
+## Omfang og rækkefølge
+
+- Én kategori pr. kørsel, med alle dens rækker.
+- Platforme søges parallelt med én subagent pr. platform, jf. `SETUP.md` afsnit 3. Rækkefølgen mellem platforme er ikke fast.
+- Hver kørsel har en tidsramme på 60 minutter. Hvad der ikke når at blive færdigt, noteres i `runs` med feltet `progress`, så næste kørsel fortsætter der. Se `SETUP.md` afsnit 6.
 
 ## Regler
 

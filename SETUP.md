@@ -15,6 +15,8 @@ A run only adds to the page. It never removes finds. Listings that disappear are
 
 The page has a "Start søgning" button at the very top (owner only). It writes `requests/search` with `{status: "bestilt", scope: "alle", requestedAt}`. `scope: "alle"` means: search every active row of every category, on every platform set to `true` on the row. At the start of any run, read `requests/search`. If `status` is `bestilt`, set it to `kører` with `startedAt`, run the search (all categories, one after the other; section 1 step 1 does not ask which category when `scope` is `alle`), and at the end set `status` to `færdig` with `finishedAt`. Pin writes with `if_version`. The button is disabled while the status is `bestilt` or `kører`. If a run fails, set `status` to `færdig` with a `note` saying what failed, so the button works again. The page cannot start Claude by itself: a scheduled run or the user starting a session picks the request up.
 
+If `requests/search` does not exist when a scheduled run starts, the run creates it with `status: "kører"` and `startedAt`, and finishes it as described above. A scheduled run is not a button press, so it does not need `bestilt`.
+
 ## 1. Start-of-run gate
 
 Standing rule from the user: when the user asks for a search, search every active row of the category's `targets` and every platform set to `true` on the row. Never ask which rows or platforms to run, and never limit a run to the platforms or rows searched most recently.
@@ -67,7 +69,7 @@ The access check of the `targets` collection is mandatory on every new run.
 After the platforms and the time window are set, and before any new search:
 
 1. Read all documents in `finds` (all categories) with `ArtifactData` (action `list`; page through with the cursor). Note each document's `version`.
-2. Take every find where `available` is not `nej`. Group them by platform.
+2. Take every find where `available` is not `nej`. Group them by platform. Check at most 50 finds per batch, in a fixed order (platform, then `id`). Record in the run's `progress` which find was checked last, so an interrupted check can continue from there.
 3. Start one fresh availability agent per platform that has such finds, in parallel where possible. Build each prompt from three parts, in this order: the full text of `agents/availability-checker.md`, the full text of that platform's file in `agents/platforms/`, and the list of listing links only. Give them nothing else, especially not earlier prices or dates.
 4. Update each find from the agent's answer (section 6). If an availability agent cannot be started, say so in the run's coverage and leave `available` and `lastChecked` unchanged. Never mark something checked that was not.
 
@@ -116,7 +118,7 @@ Referencebilleder: <filenames>
 
 ## 3. Start the subagents
 
-Start exactly one subagent per platform of the run, in parallel where possible. Each subagent gets the targets from section 2 that are `true` for its platform. Do not split those rows between subagents. If a platform has no rows set to `true`, do not start a subagent for it, and say so.
+Start exactly one subagent per platform of the run, all in parallel in one message. The platforms are independent of each other, so no platform waits for another one. Each subagent gets the targets from section 2 that are `true` for its platform. Do not split those rows between subagents. If a platform has no rows set to `true`, do not start a subagent for it, and say so.
 
 Build each subagent prompt from four parts, in this order:
 
@@ -170,6 +172,8 @@ In every case:
 - A row that is not set to `true` for a platform is reported in the coverage as "fravalgt" for that platform, never as "no finds".
 - Do not say a platform was exhaustively checked if access, login, sorting or pagination limited the search.
 - Do not claim a listing is available unless the verifier or the listing page supports it.
+- **Price fields.** If a price reads as more than one amount (for example `20002000`) or is above 10,000,000 kr., the find is not written with that price. Note the problem in `check`, mark the find for manual review, and do not guess the price.
+- **Status "Bekræftet".** Use only when the verifier confirmed all criteria: identity, designer or producer, colour, price, direct purchase and listing date. If any criterion is missing or only seen in a title, the status is "Sandsynlig med forbehold".
 
 ## 6. Write to the page database
 
@@ -183,6 +187,12 @@ Use `ArtifactData` with `batch` where you write more than a couple of documents.
    - City: if a find has `city` `by ukendt` and an agent reports a city, set `city`.
    - Always set `lastChecked` to the run time when the page was actually opened.
 4. **Run note.** Create `runs/<YYYY-MM-DD-HHMM>` with the platforms, the `searched` field (see Time window) and the coverage note: what was searched and checked, what could not be done, uncertainty about dates or buying flow, how many finds were added, which prices changed, which listings were removed, and what was left out and why.
+
+**Write after each platform, not at the end.** When a platform's subagent has finished and its verification is done, write that platform's finds, price changes and `searched` values to the page before waiting for the others. An interrupted run then keeps what it had verified.
+
+**Progress.** Every run document has a `progress` field. For each category and platform it says one of `færdig`, `delvis` (with the last row, and the last find if relevant) or `ikke startet`. The next run starts with `ikke startet` and `delvis` combinations, not with the ones already `færdig`, unless the criteria changed (see Time window).
+
+**Incomplete runs.** If the 60-minute time frame runs out before every platform is done, write the run document with the `progress` field, mark each unfinished combination in its coverage note as "ikke færdig", and set `requests/search` to `færdig` with a note saying the run is partial.
 
 Finish by writing a short summary into the run document (`runs`), since no user is present: how many finds were added, which prices dropped or rose, which listings disappeared, and which platforms or searches were not done. Do not paste the list of finds. The page has them.
 
