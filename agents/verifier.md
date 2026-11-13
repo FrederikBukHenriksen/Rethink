@@ -34,7 +34,7 @@ Række: <row number>
 Lampe: <what you found it to be>
 Pris: <amount + currency>
 By: <city, or "ikke synlig">
-Kan købes direkte: <Ja/Nej/Tjek>
+Kan købes direkte: <Ja/Nej/Ukendt>
 Dato/aktualitet: <listing date or strongest evidence>
 Stadig tilgængelig: <Ja / Nej / Uklar>
 Dom: <Bekræftet / Sandsynlig med forbehold / Uklar identitet / Ikke et match>

@@ -20,8 +20,10 @@ Platform file for the platform search agent. Read together with the general brie
 
 ## Direkte køb
 
-- `Ja` kun når Fiks færdig er tilbudt eksplicit, fx med Fiks færdig-badge og "Tryg handel" på annoncen.
+- `Ja` kun når Fiks færdig er tilbudt eksplicit, fx med Fiks færdig-badge og "Tryg handel" på annoncen. Det er købe-muligheden på DBA.
 - Knappen "Bed om Fiks færdig" alene er ikke et tilbud, så den giver `Nej`.
+- `Nej` når annoncen tydeligt ikke tilbyder køb (fx kun "Send besked" eller "Gå til varen").
+- `Ukendt` når det ikke kan ses på annoncen eller er tvetydigt.
 - "Send besked", "Gå til varen" og "Fragt tilbydes" giver `Nej`.
 - Er det uklart, så `Tjek`.
 

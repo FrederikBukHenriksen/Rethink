@@ -25,7 +25,7 @@ The id is `<platform lowercase>-<listing id>`, for example `dba-26284641` or `vi
 | `colors` | List of colours in Danish with a capital letter, main colour first, for example `["Hvid", "Orange"]`. Use plain names: Hvid, Sort, Grå, Beige, Brun, Rød, Orange, Gul, Grøn, Blå, Lilla, Pink, Guld, Sølv, Messing, Krom, Træ |
 | `plat` | `DBA`, `Vinted` or `Tradera` |
 | `city` | City, or `by ukendt` |
-| `direct` | `Ja`, `Nej` or `Tjek` |
+| `direct` | `Ja`, `Nej` or `Ukendt`. `Ja` only when the listing offers a direct purchase (on DBA: Fiks færdig is offered explicitly, see `agents/platforms/dba.md`). `Nej` when the listing clearly offers no direct purchase. `Ukendt` when it cannot be seen or is ambiguous |
 | `status` | `Bekræftet`, `Sandsynlig med forbehold` or `Uklar identitet` |
 | `link` | Direct listing URL |
 | `image` | URL of the listing's first product photo: the `og:image` meta tag on the listing page, for example `https://images.dbastatic.dk/dynamic/1280w/item/<id>/<uuid>`. The page shows it as a small thumbnail. Leave the field out if it cannot be read |

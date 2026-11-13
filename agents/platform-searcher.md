@@ -38,7 +38,7 @@ Follow your platform file. It overrides nothing in this brief, it only fills in 
 
 - `Søgning`: how to search and sort, and any wording to add to the searches.
 - `Dato`: where the listing date is shown and what counts as evidence of recency.
-- `Direkte køb`: what makes `Kan købes direkte` equal `Ja`. Use exactly `Ja`, `Nej` or `Tjek`. If the information is not visible or is ambiguous, use `Tjek`. Do not infer buying protection from the existence of a listing or a seller profile.
+- `Direkte køb`: what makes `Kan købes direkte` equal `Ja`. Use exactly `Ja`, `Nej` or `Ukendt`. If the information is not visible or is ambiguous, use `Ukendt`. Do not infer buying protection from the existence of a listing or a seller profile.
 - `Faldgruber`: known problems on the platform.
 
 If a heading in the platform file is empty or says it is not filled in, use the general rules in this brief. Do not guess platform details. Mention the gap in the coverage note.
@@ -55,7 +55,7 @@ Type: <lamp type shown in the listing: bordlampe, loftlampe, standerlampe, vægl
 Pris: <amount + currency>
 By: <city, or "ikke synlig">
 Platform: <platform>
-Kan købes direkte: <Ja/Nej/Tjek>
+Kan købes direkte: <Ja/Nej/Ukendt>
 Link: <direct listing URL>
 Dato/aktualitet: <listing date or strongest evidence>
 Status: <Bekræftet / Sandsynlig med forbehold / Uklar identitet>
