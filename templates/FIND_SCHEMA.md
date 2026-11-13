@@ -29,6 +29,7 @@ The id is `<platform lowercase>-<listing id>`, for example `dba-26284641` or `vi
 | `status` | `Bekræftet`, `Sandsynlig med forbehold` or `Uklar identitet` |
 | `link` | Direct listing URL |
 | `image` | URL of the listing's first product photo: the `og:image` meta tag on the listing page, for example `https://images.dbastatic.dk/dynamic/1280w/item/<id>/<uuid>`. The page shows it as a small thumbnail. Leave the field out if it cannot be read |
+| `thumb` | A 120 px JPEG thumbnail of the same photo, as an inline `data:image/jpeg;base64,...` string (made with ImageMagick `convert -thumbnail 120x120^ -extent 120x120 -quality 70`). The page shows this first. Written for every new find on every platform, and kept at ~2–6 KB. Leave the field out if the photo cannot be read |
 | `listedAt` | ISO time with offset, for example `2026-10-30T09:39:00+01:00`. If only a relative age is shown ("22 t. siden"), compute it and set `dateApprox: true` |
 | `dateKind` | `redigeret` (DBA shows only last edited) or `uploadet` |
 | `dateApprox` | `true` or `false` |
