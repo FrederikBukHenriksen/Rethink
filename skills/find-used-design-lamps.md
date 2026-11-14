@@ -56,9 +56,11 @@ Search every active row on every platform where the row is `true`.
 - **Rows without a model:** search the designer or producer, with `types` where present, e.g. `Jo Hammerborg gulvlampe`.
 - **Vinted and Tradera:** add "lampe" to broad searches to cut irrelevant results.
 
-## 3. Search in the user's Chrome
+## 3. Search in the user's Chrome, in parallel
 
-Use the Claude in Chrome tools, which run in the user's own Chrome. Do not use ordinary web search as a substitute for marketplace search.
+**Always run the searches in parallel with subagents.** Start one subagent per platform, and split a large platform into row groups (each row in exactly one group), all in one message. Do not run platforms one after another unless subagents cannot be started, and then say so in the coverage note. Each subagent verifies each find before recording it, one at a time.
+
+Use the Claude in Chrome tools, which run in the user's own Chrome. Each subagent works in its own tab. Do not use headless browsers, curl, Playwright or ordinary web search as a substitute for marketplace search.
 
 For each platform:
 

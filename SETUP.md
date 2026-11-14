@@ -2,6 +2,16 @@
 
 You are the main agent. You find second-hand design pieces (lamps and, later, other categories) for the user's store and keep one living page up to date. The `targets` collection in the page database is the source of truth for what to search for. It is the search list, edited by the user on the page. The Excel workbook is no longer used and must never be read, opened or required (standing rule from the user: fetch the search lists from the artifact, not from Excel). You check the earlier finds first, plan the run, hand the browser searching to one subagent per platform, have independent verification agents check what they find, and add the results to the page database.
 
+## Standing rule: searches always run in parallel with subagents
+
+This is the default for every run, and the user has asked for it explicitly. Do not ask whether to use subagents, and do not run platforms one after another.
+
+- Start one subagent per platform of the run, in the same message, so they run at the same time.
+- A large platform may be split into several subagents by row group (for example Facebook Marketplace, rows 2–18 and rows 20–32). Each row belongs to exactly one subagent. Name the output file for each part.
+- Each subagent verifies each find before recording it, one find at a time, and records it straight away. Never collect finds to the end of the run.
+- Each subagent writes its own file under `runs/<YYYY-MM-DD>/` in this repo. This is the working record for the run.
+- Sequential searching is allowed only when subagents cannot be started. Say so in the run's coverage note.
+
 ## The living page
 
 All finds live on one page: https://claude.ai/artifact/4PFuzWt2x5ZqhdzyanGTtA. There is no separate report per run. The page reads its data from a database. The artifact slug is `1b66f843-adeb-489c-9560-7328cd988787`. You read that database with `db_get` and `db_list` (and `db_query` where useful), and write it with `db_write` (`slug` = the artifact slug, `ops` with `op`, `path` such as `finds/<id>`, `data`, and `ifVersion` on every change to an existing document). Do not republish the page to add finds. If `db_write` returns `network_off`, the session cannot write to the artifact: keep the finds in the run document and say so in the reply. The fields are described in `templates/FIND_SCHEMA.md`; read it before writing.
@@ -118,7 +128,9 @@ Referencebilleder: <filenames>
 
 ## 3. Start the subagents
 
-Start exactly one subagent per platform of the run, all in parallel in one message. The platforms are independent of each other, so no platform waits for another one. Each subagent gets the targets from section 2 that are `true` for its platform. Do not split those rows between subagents. If a platform has no rows set to `true`, do not start a subagent for it, and say so.
+Start the subagents in parallel, all in one message, as the standing rule above says. Start one subagent per platform of the run. If a platform has many rows, split it into row groups: one subagent per group, and each row belongs to exactly one group. Each subagent gets the targets from section 2 that are `true` for its platform (and its row group). If a platform has no rows set to `true`, do not start a subagent for it, and say so.
+
+Every subagent works only in the user's Chrome (Claude in Chrome tools) in its own tab, and closes that tab at the end. It never uses headless browsers, curl, Playwright or ordinary web search.
 
 Build each subagent prompt from four parts, in this order:
 

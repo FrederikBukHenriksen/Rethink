@@ -7,6 +7,8 @@ Den fulde procedure står i `SETUP.md` i dette repo (branch `main`). Læs den f�
 ## Arbejdsgang
 
 - Når brugeren beder om en søgning, følger du `SETUP.md` fra start til slut: bestilling, søgelister, eksisterende fund, søgning pr. platform, uafhængig verifikation og skrivning til databasen.
+- **Søgningen køres altid parallelt med underagenter.** Hver platform (og hver stor platform opdelt i rækkegrupper) får sin egen underagent, og alle starter i samme besked. Det er standardmetoden og ikke et valg, der skal spørges om. Sekventiel søgning er kun tilladt, hvis underagenter ikke kan startes, og så skal det siges i kørselsnoten.
+- Hver underagent verificerer hvert fund, før det noteres, og noterer det straks. Der samles ikke op til sidst.
 - Browsersøgning sker via den browser, som brugeren har koblet til sessionen (Claude in Chrome). Hvis ingen browser er koblet til, siger du det med det samme og spørger, hvordan brugeren vil have det løst. Du bruger ikke almindelig websøgning som erstatning.
 - Log login-spærrer, CAPTCHA og adgangsfejl i kørselsnoten. Omgå dem ikke.
 - Skriv en kørselsnote i `runs` med det, der blev søgt, det der ikke blev søgt, og hvorfor. Skriv aldrig "ingen fund" om noget, der ikke blev søgt.
