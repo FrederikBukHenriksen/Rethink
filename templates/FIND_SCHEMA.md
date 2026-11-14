@@ -36,7 +36,7 @@ The id is `<platform lowercase>-<listing id>`, for example `dba-26284641` or `vi
 | `dateApprox` | `true` or `false` |
 | `note` | What supports the identification and what is missing. Short |
 | `check` | Only when something must be verified by the user. Say what differs. Leave the field out otherwise |
-| `price` | Current price as a number in DKK |
+| `price` | Current price as a number in DKK. If the listing shows EUR, convert with 7.46 (DKK = EUR × 7.46) and write the original EUR amount in `priceNote`. Never copy the EUR number into `price` |
 | `priceNote` | Optional, for example `for begge` |
 | `priceHistory` | `[{"d":"30.10","p":900}, ...]`. One entry per run where the price changed. The first entry is the price when first found |
 | `firstSeen` | ISO time of the run that first found it |

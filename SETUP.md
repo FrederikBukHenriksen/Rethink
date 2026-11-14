@@ -172,6 +172,7 @@ In every case:
 - A row that is not set to `true` for a platform is reported in the coverage as "fravalgt" for that platform, never as "no finds".
 - Do not say a platform was exhaustively checked if access, login, sorting or pagination limited the search.
 - Do not claim a listing is available unless the verifier or the listing page supports it.
+- **Valuta (DKK).** `price`, `priceHistory` og `price` i `priceNote`-logikken skal altid være i DKK. Hvis annoncen oplyser en pris i EUR (fx `295 €`, `EUR 120`, `1.600 € VB`), omregnes med kurs **7,46** (DKK = EUR × 7,46, afrundet til hele kroner). Det oplyste EUR-beløb skrives i `priceNote` (fx `EUR 120, nuværende bud`), og `price` er den omregnede DKK-værdi. Et EUR-beløb må aldrig kopieres direkte til `price`. Svenske kroner (SEK) omregnes med ca. 0,68 DKK pr. SEK og skrives tilsvarende i `priceNote`. Kontroller efter hver skrivning, at `price` ≈ EUR × 7,46.
 - **Price fields.** If a price reads as more than one amount (for example `20002000`) or is above 10,000,000 kr., the find is not written with that price. Note the problem in `check`, mark the find for manual review, and do not guess the price.
 - **Status "Bekræftet".** Use only when the verifier confirmed all criteria: identity, designer or producer, colour, price, direct purchase and listing date. If any criterion is missing or only seen in a title, the status is "Sandsynlig med forbehold".
 
