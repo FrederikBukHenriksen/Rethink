@@ -192,7 +192,9 @@ Use `ArtifactData` with `batch` where you write more than a couple of documents.
 
 **Progress.** Every run document has a `progress` field. For each category and platform it says one of `færdig`, `delvis` (with the last row, and the last find if relevant) or `ikke startet`. The next run starts with `ikke startet` and `delvis` combinations, not with the ones already `færdig`, unless the criteria changed (see Time window).
 
-**Incomplete runs.** If the 60-minute time frame runs out before every platform is done, write the run document with the `progress` field, mark each unfinished combination in its coverage note as "ikke færdig", and set `requests/search` to `færdig` with a note saying the run is partial.
+**Completeness is not time-limited.** A platform's search is done only when every search is complete (read equals total, see `agents/platform-searcher.md`, section Completeness). Do not stop a search because of time. Only a real block (403, Cloudflare/Akamai, login, unreachable host) ends a platform early, and it is written as "ikke søgt" with the reason.
+
+**Incomplete runs.** If a platform is blocked or a search stays incomplete after splitting,  write the run document with the `progress` field, mark each unfinished combination in its coverage note as "ikke færdig", and set `requests/search` to `færdig` with a note saying the run is partial.
 
 Finish by writing a short summary into the run document (`runs`), since no user is present: how many finds were added, which prices dropped or rose, which listings disappeared, and which platforms or searches were not done. Do not paste the list of finds. The page has them.
 

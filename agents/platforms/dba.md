@@ -41,3 +41,7 @@ Platform file for the platform search agent. Read together with the general brie
 - Ombetræksservice-annoncer ("ombetræk", "polstring") er ikke et møbel til salg. Afvis dem.
 - Reserverede eller solgte annoncer er ikke set i de seneste kørsler. Tjek alligevel tilgængeligheden i annoncen.
 - Annoncetekst kan være afkortet på søgekortet. Læs fuld beskrivelse, før du vurderer identitet.
+
+## Dækningsgrænse
+
+- DBA viser højst 50 sider pr. søgning, uanset hvor mange resultater der er. Søgninger med flere end ca. 1.000 resultater er derfor altid ufuldstændige og skal opdeles (model, type, farve, pris, dato).

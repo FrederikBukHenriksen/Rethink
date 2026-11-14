@@ -19,3 +19,7 @@ If the information is not visible or is ambiguous: `Tjek`.
 ## Faldgruber
 
 Not filled in yet. Add known problems here, for example cookie banners, login walls, pagination limits, or relisted ads that look new.
+
+## Dækningsgrænse
+
+- Tradera viser højst 40 sider pr. søgning. Når sider fortsætter ud over søgningens relevans, stopper søgningen ikke af sig selv. Brede søgninger skal opdeles, og en søgning med 40 sider læst er ikke komplet, medmindre total er læst.

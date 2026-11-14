@@ -40,3 +40,7 @@ Platformfil til platform-søgeagenten. Læses sammen med den generelle brief. Ty
 - "Gewerblicher Nutzer" og PRO-badge betyder erhvervssælger. "Privatverkauf" betyder ingen returret.
 - Paginering: sidetal ud over sidste side giver sidste side igen. Stop når header "X - Y von Z" når Z. Scanningen stoppede på 4 sider, så den dækker ikke alt.
 - Facettet "Aktiv 140" ved direkte køb stemmer ikke med de 7 resultater i filteret. Brug listen, ikke tallet.
+
+## Dækningsgrænse
+
+- Klein Anzeigen viser højst 50 sider pr. søgning (ca. 1.250 annoncer). Brede søgninger som "Space Age" eller "Studio" er derfor ufuldstændige og skal opdeles (model, type, farve, pris, postnummer-område).

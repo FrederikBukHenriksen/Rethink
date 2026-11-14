@@ -28,6 +28,15 @@ If the platform shows no reliable listing date, do not guess how old it is. Repo
 
 Do not claim you checked everything if pagination, login, sorting or access limits stopped you. Say what you did cover.
 
+### Completeness (the search is not done until it is complete)
+
+- Before you read a search, note the total number of hits the platform shows (for example "X resultater" or "X annoncer"). Count the listings you actually read. Write both numbers in the coverage note: `Søgning "<term>": <read> af <total>`.
+- A search is **complete** only when read equals total, or the last page is empty. A search is **incomplete** when the platform stops at a page or result cap, when pages keep repeating, or when total is larger than what you could read.
+- A cap is a limit, not the end of the results. The known caps are in each platform file under `Dækningsgrænse`. When you hit one, do not report the search as done and do not report "ingen kandidater" for it.
+- Before you give up on a search, split it into narrower searches until each part is complete: add the model name or designer, the lamp type, a colour, a price range, a sort by newest or by end time, or a category filter. Report each part in the coverage note. Only the parts that stay incomplete after splitting are "ufuldstændig".
+- Time is not a reason to stop. Continue until every search is complete or a real block (403, Cloudflare/Akamai, login wall, unreachable host) stops you. Then write the block in `Ikke gennemført`.
+- Never write "ingen fund" or "ingen kandidater" for a search that is incomplete. Write "ufuldstændig" with the numbers.
+
 ## Does a listing qualify?
 
 Follow the qualification rules pasted below this brief. Report only listings that qualify, with the status the rules give.

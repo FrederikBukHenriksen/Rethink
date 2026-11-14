@@ -30,3 +30,7 @@ Platformsfil for platform-søgeagenten. Læses sammen med den generelle brief. A
 - Reserveret og solgt: ingen markering fundet i de testede søgninger eller på detaljesiden. Det betyder ikke, at markeringen mangler.
 - Annoncer fra forhandlere og reklamer (fx PriceRunner) blandes ind. Filtrer dem fra, hvis de ikke er private annoncer.
 - Ingen CAPTCHA eller bot-tjek observeret (HTTP 200 med curl og Playwright).
+
+## Dækningsgrænse
+
+- Gul og Gratis viser højst ca. 60 annoncer pr. søgning. Paginering (`&side=2`) virker ikke. Brede søgninger som "Kina", "Magasinholder" og "1-2-3 stol" er derfor ufuldstændige og skal opdeles (model, type, farve, pris).
