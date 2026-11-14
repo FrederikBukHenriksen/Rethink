@@ -2,6 +2,19 @@
 
 Platformsfil for søgeagenten. Læses sammen med den generelle brief.
 
+## Søgeparametre
+
+Alle søgeparametre for Facebook Marketplace står i denne fil.
+
+| Parameter | Værdi |
+|---|---|
+| Radius | cirka 400 km fra brugerens lokation (se "Radius") |
+| Søgeadresse | `facebook.com/marketplace/search/?query=<søgeord>` |
+| Søgeord og by | søg med søgeord og by på lokations- eller kategorisider |
+| Browser | kun brugerens egen Chrome, hvor brugeren er logget ind |
+| Dato | relativ alder fra siden, omregnet til ca.-dato med `dateApprox: true` |
+| Direkte køb | `Tjek`, medmindre annoncen tydeligt viser en funktion |
+
 ## Søgning
 
 **Status: søgbar i brugerens egen Chrome** (verificeret 2026-11-14). Søgninger og annoncesider virker i brugerens Chrome, hvor brugeren allerede er logget ind på Facebook. Headless Chromium, Playwright og curl virker ikke her. Derfor kører søgningen kun i brugerens Chrome.

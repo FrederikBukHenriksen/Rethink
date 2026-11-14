@@ -136,7 +136,7 @@ Build each subagent prompt from four parts, in this order:
 
 1. The full text of `agents/platform-searcher.md`, pasted verbatim.
 2. The full text of `agents/qualification-rules.md`, pasted verbatim.
-3. The full text of that platform's file in `agents/platforms/`, pasted verbatim, for example `dba.md`, `vinted.md`, `facebook-marketplace.md`, `catawiki.md` or `woxholt.md`.
+3. The full text of that platform's file in `agents/platforms/`, pasted verbatim, for example `dba.md`, `vinted.md`, `facebook_marketplace.md`, `catawiki.md` or `woxholt.md`.
 4. The platform and all target blocks from section 2. State the cutoff for this platform from the Time window rules in section 1 (only listings published after that date and time are to be reported, or "no cutoff" if there is none) and that every qualifying listing must be reported with its listing date.
 
 Open the files and paste them. Do not just tell the subagent to find them.
