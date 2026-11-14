@@ -49,7 +49,7 @@ Hver platform har sin egen fil i `agents/platforms/`. Brug præcis disse filnavn
 
 - Én kategori pr. kørsel, med alle dens rækker.
 - Platforme søges parallelt med én subagent pr. platform, jf. `SETUP.md` afsnit 3. Rækkefølgen mellem platforme er ikke fast.
-- Hver kørsel har en tidsramme på 60 minutter. Hvad der ikke når at blive færdigt, noteres i `runs` med feltet `progress`, så næste kørsel fortsætter der. Se `SETUP.md` afsnit 6.
+- Der er ingen tidsramme. Søgningen fortsætter, til alle søgninger er færdige, eller en reel blokering stopper den. Fund skrives løbende (se `SETUP.md` afsnit 6).
 
 ## Regler
 

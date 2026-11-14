@@ -188,7 +188,7 @@ Use `ArtifactData` with `batch` where you write more than a couple of documents.
    - Always set `lastChecked` to the run time when the page was actually opened.
 4. **Run note.** Create `runs/<YYYY-MM-DD-HHMM>` with the platforms, the `searched` field (see Time window) and the coverage note: what was searched and checked, what could not be done, uncertainty about dates or buying flow, how many finds were added, which prices changed, which listings were removed, and what was left out and why.
 
-**Write after each platform, not at the end.** When a platform's subagent has finished and its verification is done, write that platform's finds, price changes and `searched` values to the page before waiting for the others. An interrupted run then keeps what it had verified.
+**Write as you go, not at the end.** Open each listing as soon as it is found, and run the independent verification for it right away (see section 4). Once a find is verified, write it to the page at once, without waiting for the other searches or platforms. Price changes and `searched` values are written when their search is complete. A run that stops still keeps everything verified so far. An interrupted run then keeps what it had verified.
 
 **Progress.** Every run document has a `progress` field. For each category and platform it says one of `færdig`, `delvis` (with the last row, and the last find if relevant) or `ikke startet`. The next run starts with `ikke startet` and `delvis` combinations, not with the ones already `færdig`, unless the criteria changed (see Time window).
 
