@@ -1,6 +1,6 @@
 # Klein Anzeigen
 
-Platformfil til platform-søgeagenten. Læses sammen med den generelle brief. Tysk side: priser i EUR, tekst på tysk. Verificeret 2026-11-09.
+Platformfil til platform-søgeagenten. Læses sammen med den generelle brief. Tysk side: priser i EUR, tekst på tysk. Verificeret 2026-11-09 med headless-kørsel. Skal genkøres i brugerens Chrome, før det bruges som søgefacit. Alle søgninger køres i brugerens Chrome.
 
 ## Søgning
 

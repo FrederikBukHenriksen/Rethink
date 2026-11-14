@@ -29,7 +29,7 @@ Platformsfil for platform-søgeagenten. Læses sammen med den generelle brief. A
 - "Fremhævet" og "Ny" annoncer kan stå øverst uden at følge datorækkefølgen.
 - Reserveret og solgt: ingen markering fundet i de testede søgninger eller på detaljesiden. Det betyder ikke, at markeringen mangler.
 - Annoncer fra forhandlere og reklamer (fx PriceRunner) blandes ind. Filtrer dem fra, hvis de ikke er private annoncer.
-- Ingen CAPTCHA eller bot-tjek observeret (HTTP 200 med curl og Playwright).
+- Ingen CAPTCHA eller bot-tjek observeret i de headless-forsøg fra 2026-11-09. Søgningen skal køres i brugerens Chrome, og den er ikke genkørt dér endnu. Hvis der dukker et bot-tjek op, så stop og skriv "ikke søgt".
 
 ## Dækningsgrænse
 

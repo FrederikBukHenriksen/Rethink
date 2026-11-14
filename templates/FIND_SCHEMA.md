@@ -1,6 +1,6 @@
 # Data schema for the living page
 
-The page `https://claude.ai/artifact/4PFuzWt2x5ZqhdzyanGTtA` reads three collections from its database. Write them with the `ArtifactData` tool (`url` = the page URL). Never publish the page again to add finds. Only change the page file for design changes.
+The page `https://claude.ai/artifact/4PFuzWt2x5ZqhdzyanGTtA` reads its collections from its database. The artifact slug is `1b66f843-adeb-489c-9560-7328cd988787`. Write with the `db_write` tool (`slug` = the artifact slug, and `ifVersion` on every op that changes an existing document). Read with `db_get` or `db_list`. Never publish the page again to add finds. Only change the page file for design changes. If `db_write` returns `network_off`, the session cannot write to the artifact: keep the finds in the run document and say so in the reply.
 
 All text shown on the page is Danish.
 
@@ -14,7 +14,7 @@ Every `finds`, `targets` and `runs` document has a `category` field with the slu
 
 ## `finds/<id>` — one document per listing
 
-The id is `<platform lowercase>-<listing id>`, for example `dba-26284641` or `vinted-10582416262`. Never delete a find. A removed or sold listing stays, with `available: "nej"`. The page never shows finds with `available: "nej"`, so this is what removes them from view.
+The id is `<platform lowercase>-<listing id>`, for example `dba-26284641`, `vinted-10582416262`, `facebook-1759112305155778` or `catawiki-108326634`. Use the platform's first word in lowercase ASCII: `dba`, `vinted`, `facebook`, `catawiki`, `bidstrup`, `woxholt`, `sikoe`, `palsgaard`. Existing find `bistrup-5534129` has a typo; it should be `bidstrup-5534129` when it is next written. Never delete a find. A removed or sold listing stays, with `available: "nej"`. The page never shows finds with `available: "nej"`, so this is what removes them from view.
 
 | Field | Meaning |
 |---|---|
@@ -23,7 +23,7 @@ The id is `<platform lowercase>-<listing id>`, for example `dba-26284641` or `vi
 | `name` | Short lamp name, for example `Flowerpot VP3, mat hvid` |
 | `type` | One lamp type in Danish, for example `Bordlampe`, `Loftlampe`, `Standerlampe`, `Væglampe` |
 | `colors` | List of colours in Danish with a capital letter, main colour first, for example `["Hvid", "Orange"]`. Use plain names: Hvid, Sort, Grå, Beige, Brun, Rød, Orange, Gul, Grøn, Blå, Lilla, Pink, Guld, Sølv, Messing, Krom, Træ |
-| `plat` | `DBA`, `Vinted` or `Tradera` |
+| `plat` | The platform's name as the page shows it: `DBA`, `Vinted`, `Tradera`, `Facebook Marketplace`, `Catawiki`, `Bidstrup`, `Woxholt`, `Palsgaard`, `Sikö`, `Lauritz`, `Gul og Gratis`, `Klein Anzeigen` or `Reshopper` |
 | `city` | City, or `by ukendt` |
 | `direct` | `Ja`, `Nej` or `Ukendt`. `Ja` only when the listing offers a direct purchase (on DBA: Fiks færdig is offered explicitly, see `agents/platforms/dba.md`). `Nej` when the listing clearly offers no direct purchase. `Ukendt` when it cannot be seen or is ambiguous |
 | `status` | `Bekræftet`, `Sandsynlig med forbehold` or `Uklar identitet` |

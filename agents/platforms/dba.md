@@ -9,7 +9,7 @@ Platform file for the platform search agent. Read together with the general brie
 - Gå alle resultatsider igennem, til en side er tom. Det samlede antal øverst på siden har vist sig ustabilt, så brug det ikke til at afgøre, om du er færdig.
 - Første gang på en række: søg hele markedet. Ingen cutoff.
 - Cookie-banneret: vælg "Kun nødvendige". Det påvirker ikke søgelisterne.
-- Hent siderne som rå HTML (curl). Playwright har i flere kørsler givet en tom side på dba.dk. Læs annoncedata fra HTML eller de indlejrede JSON-LD-data: titel, pris, by, stand, designer- og mærkefelt, "Sidst redigeret" og tilgængelighed.
+- Søg og åbn siderne i brugerens egen Chrome. Headless Chromium, Playwright og curl bruges ikke, fordi de har givet tomme sider på dba.dk. Læs annoncedata fra selve annoncen: titel, pris, by, stand, designer- og mærkefelt, "Sidst redigeret" og tilgængelighed.
 
 ## Dato
 
