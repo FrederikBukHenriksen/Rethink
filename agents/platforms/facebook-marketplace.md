@@ -11,6 +11,12 @@ Platformsfil for søgeagenten. Læses sammen med den generelle brief.
 - Sæt ikke login ind selv. Hvis Facebook viser en login-væg eller bot-tjek, så stop, og skriv "ikke søgt" med årsagen i dækningsnoten. Skriv aldrig "ingen fund".
 - Ved lokations- eller kategorisider: søg med søgeord og by i stedet. Gå ikke ud fra, at en kategori dækker en række.
 
+### Radius
+
+- Søgningen på Facebook Marketplace skal bruge en radius på cirka **400 km** fra brugerens lokation. Sæt radius i Marketplace-filteret for afstand, før resultaterne gennemgås.
+- Hvis en tidligere Facebook-søgning er kørt med mindre radius, skal søgningen køres igen med 400 km, og de nye annoncer, der ikke allerede findes i `finds`, skal tjekkes og tilføjes.
+- Skriv radius i dækningsnoten for hver søgning, så det kan ses, hvilken radius der blev brugt.
+
 ## Dato
 
 Facebook viser en relativ alder, fx "Slået op for 2 timer siden" eller "for 10 uger siden". Det er ikke en præcis dato. Angiv `Dato/aktualitet` med ordlyden fra siden, og beregn en ca.-dato i `listedAt` med `dateApprox: true`. Tjek, om annoncen er en gen-opslået annonce, før den regnes som ny.
