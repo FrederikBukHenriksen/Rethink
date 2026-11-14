@@ -137,6 +137,8 @@ If subagents cannot be started, say so, and do the same work yourself one platfo
 
 ## 4. Independent verification
 
+**Open and read the listing as soon as it is found.** A search card is never enough on its own. As soon as a candidate appears in search results, open its listing page and read the listing itself: title, price (and any strike-through or auction price), condition, description, colour, location, listing date, and the direct-purchase button. Do this before the candidate is passed on, and note in the run which listings were opened. A candidate whose listing page cannot be read is reported as such and is not written as a find. Price and location on a search card are often misaligned with the listing, so the listing page is the source for them.
+
 The agents that found a listing must not be the ones that confirm it. When the search agents are done, start a fresh verification agent for each platform that returned candidates, in parallel where possible.
 
 Build each verifier prompt from four parts, in this order:
