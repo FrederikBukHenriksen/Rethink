@@ -39,6 +39,13 @@ Do the start-of-run gate in `SETUP.md` section 1 (categories, targets, platforms
 
 Write the queue before any searching, and set `requests/search` to `kører`.
 
+**How to find a unit's cutoff.** Read every document in `runs`, not only the newest ones: older runs hold valid cutoffs. For a row R in category C on platform P, the cutoff is the **latest timestamp** among these values:
+
+- `searched["P|R"]` in a run document whose `category` is C or `alle`.
+- `searched["P"]` (old form, platform only) in a run document whose `category` is C or `alle`. If that document has a `rows` list, the value counts only when R is in the list.
+
+Compare the timestamps themselves, not the run documents' `date` fields, which use mixed formats. If no value is found, the unit has no cutoff (`"ingen"`), and the row is searched on the whole platform. Write the cutoff into each unit when you build the queue, so it is visible on the page.
+
 **Platform order.** Edit this list to change it. Platforms missing from it go last, in alphabetical order.
 
 DBA, Tradera, Vinted, Klein Anzeigen, Lauritz, Palsgaard, Woxholt, Bidstrup, Sikö, Catawiki, Gul og Gratis, Reshopper, Facebook Marketplace
