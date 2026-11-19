@@ -85,6 +85,22 @@ Subagents share the working directory. Each prompt is then short, for example:
 
 This replaces "pasted verbatim" in `SETUP.md`. The content is the same, but it is written once instead of copied into hundreds of prompts.
 
+## 3a. Models for the subagents
+
+Set the model on every subagent you start (the `model` field of the Agent tool). Most of the run's cost is in the subagents, because they browse and look at pages. So the cheap model does the work that is mechanical, and the stronger model does the judgement.
+
+| Agent | Model | Why |
+|---|---|---|
+| search (`search` units) | `haiku` | Runs the searches, pages through results, and notes candidates. The verifier checks its work. |
+| availability (`check` units) | `haiku` | Opens links and reads whether the listing is still for sale. |
+| writer (`write` units) | `haiku` | Follows fixed rules and writes to the database. |
+| verifier (`verify` units) | `sonnet` | Decides identity, colour, price and date. It is the safeguard against the search agent's mistakes. |
+
+**Escalation.** If a Haiku unit comes back unusable, start it again once with `sonnet` and say so in the unit's `note`. Unusable means one of these:
+- The answer is not in the format in section 6.
+- `read af total` is missing.
+- It stops with `ikke færdig` at the same `resumeFrom` twice.
+
 ## 4. Run one platform
 
 1. Set the platform to `kører` in `progress`.
