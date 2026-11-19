@@ -27,7 +27,9 @@ Do not assume a listing is gone because it is missing from a search list. Open t
 
 ## What you return
 
-One block per link, in the same order as you received them:
+Write the full result to the file `check-<unit id>.md` in the working directory, with `|` in the unit id replaced by `_`. Your answer to the agent that started you is short: `Unit: <unit id>`, `Status: færdig` (or `ikke færdig` with the last link you reached, or `blokeret` with the reason), `Resultat: <n> til salg / <n> væk / <n> reserveret / <n> uklar` and `Fil: <file name>`. Max 10 lines. Do not repeat the blocks in the answer.
+
+In the file, write one block per link, in the same order as you received them:
 
 ```
 Link: <the listing URL>

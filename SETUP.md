@@ -1,29 +1,31 @@
 # Design Lamp Search Project
 
-You are the main agent. You find second-hand design pieces (lamps and, later, other categories) for the user's store and keep one living page up to date. The `targets` collection in the page database is the source of truth for what to search for. It is the search list, edited by the user on the page. The Excel workbook is no longer used and must never be read, opened or required (standing rule from the user: fetch the search lists from the artifact, not from Excel). You check the earlier finds first, plan the run, hand the browser searching to one subagent per platform, have independent verification agents check what they find, and add the results to the page database.
+You are the main agent. You find second-hand design pieces (lamps and, later, other categories) for the user's store and keep one living page up to date. The `targets` collection in the page database is the source of truth for what to search for. It is the search list, edited by the user on the page. The Excel workbook is no longer used and must never be read, opened or required (standing rule from the user: fetch the search lists from the artifact, not from Excel). You plan the run as a queue, hand the browser searching to subagents, have independent verification agents check what they find, add the results to the page database, and check the earlier finds.
 
-## Standing rule: searches always run in parallel with subagents
+**Read `RUN.md` now, before section 0.** It describes how a run is carried out: a queue of small work units, one platform at a time, kept in the run document. Where `RUN.md` and this file disagree, `RUN.md` wins.
 
-This is the default for every run, and the user has asked for it explicitly. Do not ask whether to use subagents, and do not run platforms one after another.
+## Standing rules from the user: how a run is carried out
 
-- Start one subagent per platform of the run, in the same message, so they run at the same time.
-- A large platform may be split into several subagents by row group (for example Facebook Marketplace, rows 2–18 and rows 20–32). Each row belongs to exactly one subagent. Name the output file for each part.
-- Each subagent verifies each find before recording it, one find at a time, and records it straight away. Never collect finds to the end of the run.
-- Each subagent writes its own file under `runs/<YYYY-MM-DD>/` in this repo. This is the working record for the run.
-- Sequential searching is allowed only when subagents cannot be started. Say so in the run's coverage note.
+These are the defaults for every run. Do not ask about them.
+
+- **The session does not end before the search is finished.** Finished means every unit in the queue is `færdig`, `ufuldstændig` or `blokeret` (`RUN.md`). A run takes many hours. That is expected.
+- **One platform at a time.** Finish a platform (search, verification, writing, availability check) before the next one starts. If a platform is blocked or fails, mark it and go on to the next platform.
+- **Parallel within the platform.** Each work unit (one target row, or part of a large row) gets its own subagent. Up to 3 run at the same time on the platform (`RUN.md` section 4). Never give one subagent all rows of a platform: it runs out of room and stops at page 1–3.
+- Each find is verified and written as soon as possible. Never collect finds to the end of the run.
+- Sequential searching inside a platform is allowed only when subagents cannot be started. Say so in the run's coverage note.
 
 ## The living page
 
 All finds live on one page: https://claude.ai/artifact/4PFuzWt2x5ZqhdzyanGTtA. There is no separate report per run. The page reads its data from a database. The artifact slug is `1b66f843-adeb-489c-9560-7328cd988787`. You read that database with `db_get` and `db_list` (and `db_query` where useful), and write it with `db_write` (`slug` = the artifact slug, `ops` with `op`, `path` such as `finds/<id>`, `data`, and `ifVersion` on every change to an existing document). Do not republish the page to add finds. If `db_write` returns `network_off`, the session cannot write to the artifact: keep the finds in the run document and say so in the reply. The fields are described in `templates/FIND_SCHEMA.md`; read it before writing.
 
-The page has one tab per search area (category), for example Lamper, Keramik, Kommoder, Stole. The tabs come from the `categories` collection. Each category has its own search list: the `targets` documents with that category's slug. A run covers one category at a time. Every document you write carries that category's slug in `category`.
+The page has one tab per search area (category), for example Lamper, Keramik, Kommoder, Stole. The tabs come from the `categories` collection. Each category has its own search list: the `targets` documents with that category's slug. Every document you write carries that category's slug in `category`.
 
 A run only adds to the page. It never removes finds. Listings that disappear are marked removed. Price changes are kept as history.
 
 
 ## 0. Start button on the page
 
-The page has a "Start søgning" button at the very top (owner only). It writes `requests/search` with `{status: "bestilt", scope: "alle", requestedAt}`. `scope: "alle"` means: search every active row of every category, on every platform set to `true` on the row. At the start of any run, read `requests/search`. If `status` is `bestilt`, set it to `kører` with `startedAt`, run the search (all categories, one after the other; section 1 step 1 does not ask which category when `scope` is `alle`), and at the end set `status` to `færdig` with `finishedAt`. Pin writes with `if_version`. The button is disabled while the status is `bestilt` or `kører`. If a run fails, set `status` to `færdig` with a `note` saying what failed, so the button works again. The page cannot start Claude by itself: a scheduled run or the user starting a session picks the request up.
+The page has a "Start søgning" button at the very top (owner only). It writes `requests/search` with `{status: "bestilt", scope: "alle", requestedAt}`. `scope: "alle"` means: search every active row of every category, on every platform set to `true` on the row. At the start of any run, read `requests/search`. If `status` is `bestilt`, set it to `kører` with `startedAt`, run the search (all categories; each platform covers the rows of every category before the run moves to the next platform, see `RUN.md`; section 1 step 1 does not ask which category when `scope` is `alle`), and at the end set `status` to `færdig` with `finishedAt`. Pin writes with `if_version`. The button is disabled while the status is `bestilt` or `kører`. If a run fails, set `status` to `færdig` with a `note` saying what failed, so the button works again. The page cannot start Claude by itself: a scheduled run or the user starting a session picks the request up.
 
 If `requests/search` does not exist when a scheduled run starts, the run creates it with `status: "kører"` and `startedAt`, and finishes it as described above. A scheduled run is not a button press, so it does not need `bestilt`.
 
@@ -56,7 +58,7 @@ For each target row and each platform where the row's `platforms` value is `true
 
 Run documents written before this rule have `searched` keyed by platform only (for example `{"DBA": "..."}`). Such a value counts for every row that was in that run's `rows` list, or for every row of the category if no list exists.
 
-When a run ends, record in its run document a `searched` field keyed `"<platform>|<række>"` with the start time of that search, for example `{"DBA|17": "2026-11-07T18:58:00+01:00", "Facebook Marketplace|17": "2026-11-07T19:05:00+01:00"}`. Use the start time, not the end time, so nothing published during the search is missed.
+As soon as a search unit is complete (`RUN.md` section 5), record in the run document a `searched` field keyed `"<platform>|<række>"` with the start time of that search, for example `{"DBA|17": "2026-11-07T18:58:00+01:00", "Facebook Marketplace|17": "2026-11-07T19:05:00+01:00"}`. Use the start time, not the end time, so nothing published during the search is missed.
 
 **Only complete searches are written.** A search is complete when every search string for the row has been run, and every result page up to the end of the results has been read (until a page is empty or the platform says there is no next page). If a search stops early for any reason (a page limit, a block, a login wall, a timeout, a platform that cannot be reached), the row's `searched` value for that platform is not written, and the run document says so in its coverage note. The next run then searches that row on that platform again, from the previous complete cutoff. An incomplete search never moves the cutoff forward.
 
@@ -74,14 +76,14 @@ The time window applies to new listings only. The check of earlier finds (sectio
 
 The access check of the `targets` collection is mandatory on every new run.
 
-## 1a. Check the existing finds first
+## 1a. Check the existing finds
 
-After the platforms and the time window are set, and before any new search:
+The availability check is part of each platform's units in the queue (`check` units, `RUN.md` section 2). It runs after the platform's searches and verification, before the run moves to the next platform. It does not block the searches.
 
 1. Read all documents in `finds` (all categories) with `db_list` (page through with the cursor). Note each document's `version`.
-2. Take every find where `available` is not `nej`. Group them by platform. Check at most 50 finds per batch, in a fixed order (platform, then `id`). Record in the run's `progress` which find was checked last, so an interrupted check can continue from there.
-3. Start one fresh availability agent per platform that has such finds, in parallel where possible. Build each prompt from three parts, in this order: the full text of `agents/availability-checker.md`, the full text of that platform's file in `agents/platforms/`, and the list of listing links only. Give them nothing else, especially not earlier prices or dates.
-4. Update each find from the agent's answer (section 6). If an availability agent cannot be started, say so in the run's coverage and leave `available` and `lastChecked` unchanged. Never mark something checked that was not.
+2. Take every find where `available` is not `nej`. Group them by platform. Make one `check` unit per 40 finds, in a fixed order (platform, then `id`), so an interrupted check can continue from the next open unit.
+3. Start one fresh availability agent per `check` unit. Its brief file holds the full text of `agents/availability-checker.md` and of that platform's file in `agents/platforms/` (`RUN.md` section 3). The prompt gives the list of listing links only. Give them nothing else, especially not earlier prices or dates.
+4. A `write` unit applies the agent's result to the finds (section 6, `RUN.md` section 5). If an availability agent cannot be started, say so in the run's coverage and leave `available` and `lastChecked` unchanged. Never mark something checked that was not.
 
 Platforms that are not part of this run are still checked if they have active finds, unless the user says otherwise.
 
@@ -128,22 +130,22 @@ Referencebilleder: <filenames>
 
 ## 3. Start the subagents
 
-Start the subagents in parallel, all in one message, as the standing rule above says. Start one subagent per platform of the run. If a platform has many rows, split it into row groups: one subagent per group, and each row belongs to exactly one group. Each subagent gets the targets from section 2 that are `true` for its platform (and its row group). If a platform has no rows set to `true`, do not start a subagent for it, and say so.
+Search one platform at a time, in the order in `RUN.md` section 2. Within the platform, start one subagent per work unit: one target row that is `true` for the platform, or part of a large row. Run up to 3 at the same time (`RUN.md` section 4). If a platform has no rows set to `true`, it gets no units. Say so.
 
 Every subagent works only in the user's Chrome (Claude in Chrome tools) in its own tab, and closes that tab at the end. It never uses headless browsers, curl, Playwright or ordinary web search.
 
-Build each subagent prompt from four parts, in this order:
+Each search subagent gets four parts:
 
-1. The full text of `agents/platform-searcher.md`, pasted verbatim.
-2. The full text of `agents/qualification-rules.md`, pasted verbatim.
-3. The full text of that platform's file in `agents/platforms/`, pasted verbatim, for example `dba.md`, `vinted.md`, `facebook_marketplace.md`, `catawiki.md` or `woxholt.md`.
-4. The platform and all target blocks from section 2. State the cutoff for this platform from the Time window rules in section 1 (only listings published after that date and time are to be reported, or "no cutoff" if there is none) and that every qualifying listing must be reported with its listing date.
+1. The full text of `agents/platform-searcher.md`, unchanged.
+2. The full text of `agents/qualification-rules.md`, unchanged.
+3. The full text of that platform's file in `agents/platforms/`, unchanged, for example `dba.md`, `vinted.md`, `facebook_marketplace.md`, `catawiki.md` or `woxholt.md`.
+4. The unit id, the target block from section 2, and the row's cutoff for this platform from the Time window rules in section 1 (only listings published after that date and time are to be reported, or "no cutoff" if there is none). Also state that every qualifying listing must be reported with its listing date, and give `resumeFrom` if the unit was started before.
 
-Open the files and paste them. Do not just tell the subagent to find them.
+Parts 1–3 are written once per platform into a brief file in the working directory (`RUN.md` section 3), and the prompt tells the subagent to read it. Part 4 goes in the prompt. Do not paste parts 1–3 into every prompt: with hundreds of units, that fills the conductor's context and ends the run.
 
 If a platform of the run has no file in `agents/platforms/`, run it with the general brief only, and note the gap in the run document's coverage note.
 
-Subagents report candidates only. They never write to the page.
+Search, verification and availability agents report only, to files in the working directory. They never write to the page. Only `write` agents write to the page (`RUN.md` section 5).
 
 If subagents cannot be started, say so, and do the same work yourself one platform at a time, following the same three files for each platform.
 
@@ -151,14 +153,16 @@ If subagents cannot be started, say so, and do the same work yourself one platfo
 
 **Open and read the listing as soon as it is found.** A search card is never enough on its own. As soon as a candidate appears in search results, open its listing page and read the listing itself: title, price (and any strike-through or auction price), condition, description, colour, location, listing date, and the direct-purchase button. Do this before the candidate is passed on, and note in the run which listings were opened. A candidate whose listing page cannot be read is reported as such and is not written as a find. Price and location on a search card are often misaligned with the listing, so the listing page is the source for them.
 
-The agents that found a listing must not be the ones that confirm it. When the search agents are done, start a fresh verification agent for each platform that returned candidates, in parallel where possible.
+The agents that found a listing must not be the ones that confirm it. Candidates go into `verify` units of at most 15 (`RUN.md` section 5), and each unit gets a fresh verification agent.
 
-Build each verifier prompt from four parts, in this order:
+Each verifier gets four parts:
 
-1. The full text of `agents/verifier.md`, pasted verbatim.
-2. The full text of `agents/qualification-rules.md`, pasted verbatim.
-3. The full text of that platform's file in `agents/platforms/`, pasted verbatim.
+1. The full text of `agents/verifier.md`, unchanged.
+2. The full text of `agents/qualification-rules.md`, unchanged.
+3. The full text of that platform's file in `agents/platforms/`, unchanged.
 4. The platform and, for each candidate ONLY: the listing link, the row number, and that row's target block from section 2.
+
+Parts 1–3 are in the platform's verifier brief file (`RUN.md` section 3). Part 4 goes in the prompt.
 
 Do not give the verifier anything the search agent concluded: not the lamp name, price, city, date, status, reasoning or caveats. The verifier must reach its own verdict from the listing page. Strip those fields before building the prompt.
 
@@ -166,7 +170,7 @@ If a verifier cannot be started, say so in the coverage note. Then keep the find
 
 ## 5. Decide what goes on the page
 
-Compare each searcher result with the verifier's result for the same link. You decide, using these rules.
+The `write` agent (`RUN.md` section 5) compares each searcher result with the verifier's result for the same link, and decides, using these rules.
 
 | Verifier result | What you do |
 |---|---|
@@ -180,7 +184,7 @@ There is no separate "Tjek selv" list. The page shows a find with `check` as "Sk
 
 In every case:
 
-- A find needs a listing URL, a price and evidence of the listing date (`listedAt`). Without all three, drop it and say why in the run's coverage.
+- A find needs a listing URL, a price and evidence of the listing date (`listedAt`). Without all three, drop it and say why in the run's coverage. Exception: on platforms that show no listing date (Vinted, Facebook Marketplace, Gul og Gratis), follow `RUN.md` section 7. A missing date is never a reason to drop such a find.
 - Deduplicate on the find id (`<platform>-<listing id>`). A listing that already exists in `finds` is updated (section 6), never added twice. The same listing can fit several rows: keep it under its best-fitting row.
 - A platform that could not be searched is reported as not searched, never as "no finds".
 - A row that is not set to `true` for a platform is reported in the coverage as "fravalgt" for that platform, never as "no finds".
@@ -209,7 +213,7 @@ Use `db_write` with several `ops` in one call where you write more than a couple
 
 **Completeness is not time-limited.** A platform's search is done only when every search is complete (read equals total, see `agents/platform-searcher.md`, section Completeness). Do not stop a search because of time. Only a real block (403, Cloudflare/Akamai, login, unreachable host) ends a platform early, and it is written as "ikke søgt" with the reason.
 
-**Incomplete runs.** If a platform is blocked or a search stays incomplete after splitting,  write the run document with the `progress` field, mark each unfinished combination in its coverage note as "ikke færdig", and set `requests/search` to `færdig` with a note saying the run is partial.
+**Incomplete runs.** A blocked platform or a search that stays incomplete after splitting does not end the run. Mark the unit `blokeret` or `ufuldstændig` with the reason, and go on (`RUN.md` section 5). `requests/search` stays `kører` until every unit in the queue is `færdig`, `ufuldstændig` or `blokeret`. Only then is it set to `færdig`, with a note listing the units that were not completed.
 
 Finish by writing a short summary into the run document (`runs`), since no user is present: how many finds were added, which prices dropped or rose, which listings disappeared, and which platforms or searches were not done. Do not paste the list of finds. The page has them.
 

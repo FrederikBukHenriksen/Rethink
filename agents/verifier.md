@@ -26,7 +26,9 @@ If a link does not open, or the listing is gone, say so. Do not fill in details 
 
 ## What you return
 
-One block per listing, in the same order as you received them:
+Write the full result to the file `verify-<unit id>.md` in the working directory, with `|` in the unit id replaced by `_`. Your answer to the agent that started you is short: `Unit: <unit id>`, `Status: færdig` (or `ikke færdig` with the last link you reached, or `blokeret` with the reason), `Resultat: <n> bekræftet / <n> forbehold / <n> afvist` and `Fil: <file name>`. Max 10 lines. Do not repeat the blocks in the answer.
+
+In the file, write one block per listing, in the same order as you received them:
 
 ```
 Link: <the listing URL>
