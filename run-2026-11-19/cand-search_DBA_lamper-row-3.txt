@@ -1,0 +1,7 @@
+Unit: search|DBA|lamper-row-3
+Status: færdig
+Dækning:
+- "Hekla": 72 af 72, 2 sider med resultater (side 3 tom), slut nået: ja, før cutoff: 71, afvist: 1
+- "Hekla Fog Mørup": 5 af 5, 1 side, slut nået: ja, før cutoff: 5, afvist: 0
+- "Hekla loftlampe": 53 af 53, 1 side, slut nået: ja, før cutoff: 52, afvist: 1
+Kandidater: ingen

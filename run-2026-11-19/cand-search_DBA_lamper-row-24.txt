@@ -1,0 +1,6 @@
+Unit: search|DBA|lamper-row-24
+Status: færdig
+Dækning:
+- "Kartell ur": 45 af 45, 1 side, slut nået: ja, før cutoff: 43, afvist: 45
+Kandidater: ingen
+Note: Søgningen på "Kartell ur" (sorteret efter nyeste) gav 45 annoncer, alle Kartell lamper, bord, stole, pendler mv. Ingen annonce er et Kartell ur (ingen titel eller kortbeskrivelse nævner ur, vægur eller bordur). Alle 45 er afvist på identitet. To annoncer (26928679 "1 t.", 26874782 "1 dag") er nyere end cutoff, men er også afvist på identitet. Ingen annonce blev åbnet, da ingen var et plausibelt match. Target-blok: Række 24, Kartell ur, producent Kartell, maks pris 700 kr, ingen farvekrav, ingen type, ingen referencebilleder.

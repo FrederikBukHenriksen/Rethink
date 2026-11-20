@@ -1,0 +1,65 @@
+{
+  "category": "lamper",
+  "date": "2026-11-04T19:56:00+01:00",
+  "platforms": [
+    "DBA",
+    "Facebook Marketplace"
+  ],
+  "sections": [
+    {
+      "items": [
+        "Tredje kørsel i dag. Tidsvindue: kun annoncer oprettet eller redigeret efter forrige kørsel kl. 16:18.",
+        "Regnearket er ændret siden sidst: 15 rækker (2-16), alle afkrydset for DBA og Facebook Marketplace. AJ Royal står nu på række 5. Søgemålene på siden og række-feltet på AJ Royal-fundene er rettet til.",
+        "DBA og Facebook Marketplace søgt for alle 15 rækker, nyeste først. Ingen nye kandidater.",
+        "Facebook Marketplace er søgt med den generelle brief, fordi der ikke findes en platformsfil."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Kun de øverste resultater pr. søgning er gennemgået (ca. 5-12 på DBA, højst 2 pr. søgning på Facebook).",
+        "Facebook Marketplace: login-overlay kom frem, og der blev ikke logget ind. Facebook kan skjule opslag for ikke-indloggede, så 'ingen resultater' gælder kun den visning."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "DBA viser kun relativ alder eller sidst redigeret. Grænsen ved 16:18 er uskarp for annoncer, der er '4 t.' gamle.",
+        "Tilgængelighedstjekket for DBA er aflæst fra skærmbilleder, fordi sidetekst ikke kunne udtrækkes. Datoen på dba-26181525 blev ikke aflæst.",
+        "Kan købes direkte er ikke ændret. Dba-18176707 viser nu Tjek (knappen er 'Gå til varen', sælger er forhandler), mens den gemte værdi er Nej."
+      ],
+      "title": "Begrænsninger"
+    },
+    {
+      "items": [
+        "16 eksisterende fund tjekket (15 på DBA, 1 på Facebook Marketplace): alle stadig til salg. Ingen reserverede eller solgte."
+      ],
+      "title": "Tilgængelighed"
+    },
+    {
+      "items": [
+        "Ingen prisændringer."
+      ],
+      "title": "Prisændringer"
+    },
+    {
+      "items": [
+        "Tradera, Vinted og de øvrige platforme i arket har ingen flueben på nogen række og er ikke søgt."
+      ],
+      "title": "Fravalgt"
+    },
+    {
+      "items": [
+        "Regnearkets maksimumspriser er ændret. Hekla (række 3, maks 2.800) har ét fund til 4.995 kr. AJ Royal (række 5, maks 1.000) har otte fund over maks: 2.500, 4.500, 2.300, 4.200, 1.500, 2.300, 1.400 og 2.500 kr. Fundene er ikke fjernet fra siden."
+      ],
+      "title": "Over ny maksimumspris"
+    },
+    {
+      "items": [
+        "DBA: PH 3/4 Bunker Fog & Mørup (14854249, 2.250 kr, forkert model), Søværnspendel Doo-Wop (11328007, 2.400 kr, over maks 850) og Pearl-skærm (26459539, 1.250 kr, over maks 1.000, muligvis kun skærm).",
+        "Facebook Marketplace: 'Originale PH 3/4 loftslamper' (Hillerød, 750 kr/stk, orange) er slået op for ca. 7 timer siden, altså før 16:18 og udenfor tidsvinduet. Den kan være værd at se på: https://www.facebook.com/marketplace/item/1639074167596328/"
+      ],
+      "title": "Udeladt"
+    }
+  ]
+}

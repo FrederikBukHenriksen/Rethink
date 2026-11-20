@@ -1,0 +1,11 @@
+Unit: search|DBA|lamper-row-31
+Status: ikke færdig (resumeFrom: "Pan", side 51) - søgningen "Pan" ramte 50-sides-capet (2.646 resultater), ikke opdelt efter instruks; side 51 var tom
+Dækning:
+- "Pan": 50 sider læst (side 51 tom), total 2.646, slut nået: nej (cap 50 sider), før cutoff: ikke talt præcist (listen er sorteret efter dato, og alle fundne Pan/Lyfa/Karlby-lamper er ældre end cutoff), afvist: ca. 2.600 (ikke lampe/ikke Pan)
+- "Pan pendel": 53 af 53, 1 side, slut nået: ja, før cutoff: ca. 52, afvist: 0 relevante
+- "Pan loftlampe": 53 af 53, 1 side, slut nået: ja, før cutoff: ca. 52, afvist: 0 relevante
+- "Lyfa Pan": 53 af 53, 1 side, slut nået: ja, før cutoff: ca. 52, afvist: 0 relevante
+- "Bent Karlby Pan": 53 af 53, 1 side, slut nået: ja, før cutoff: ca. 52, afvist: 0 relevante
+Kandidater:
+- https://www.dba.dk/recommerce/forsale/item/10533430 | række 31 | Bent Karlby pendel med hejsemekanik (Pan ikke nævnt) | 3.200 kr. | dato: sidst redigeret 19.11.2026 (4 t.) | Uklar identitet | direkte: Nej | farve: rød metal og opalglas | type: pendel (loftlampe) | by: Rødding (Jels, 6630 Rødding) | forbehold: model Pan står ikke i titel eller beskrivelse; beskrivelsen siger kun Bent Karlby og producent for Lyfa; "Fragt tilbydes", "Spørg sælger om pris" og "Gå til varen" giver Nej
+Kandidater: 1

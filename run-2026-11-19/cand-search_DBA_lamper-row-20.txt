@@ -1,0 +1,6 @@
+Unit: search|DBA|lamper-row-20
+Status: færdig
+Dækning:
+- "Brylle Jacobsen": 16 af 16, 1 side (side 2 tom), slut nået: ja, før cutoff: 16, afvist: 0
+- "Brylle": 47 af 47, 1 side (side 2 tom), slut nået: ja, før cutoff: 47, afvist: 0
+Kandidater: ingen

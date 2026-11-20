@@ -1,0 +1,37 @@
+{
+  "active": true,
+  "category": "lamper",
+  "colorsAllowed": [],
+  "colorsRejected": [],
+  "designers": [
+    "Bent Karlby"
+  ],
+  "excludeKeywords": [],
+  "images": [],
+  "keywords": [],
+  "maxPrice": null,
+  "model": "Pan",
+  "platforms": {
+    "Bidstrup": false,
+    "Catawicki": false,
+    "DBA": true,
+    "Facebook Marketplace": true,
+    "Gul og Gratis": false,
+    "Klein Anzeigen": false,
+    "Lauritz": false,
+    "Palsgaard": false,
+    "Reshopper": false,
+    "Sikö": false,
+    "Tradera": false,
+    "Vinted": false,
+    "Woxholt": false
+  },
+  "producers": [
+    "Lyfa"
+  ],
+  "row": 31,
+  "type": "loftlampe",
+  "types": [
+    "loftlampe"
+  ]
+}

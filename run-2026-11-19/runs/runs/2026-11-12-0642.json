@@ -1,0 +1,40 @@
+{
+  "category": "lamper",
+  "date": "2026-11-12T06:42:00+01:00",
+  "platforms": [],
+  "searched": {},
+  "sections": [
+    {
+      "items": [
+        "Planlagt kørsel startet. Søgelisten læst fra targets: 36 rækker i tre kategorier (lamper 31 rækker, møbler 5, plakater 1 rækker med ingen platform sat til true).",
+        "Kategorier læst: lamper, mobler, plakater. Ingen dokumenter i targets/categories blev ændret.",
+        "Eksisterende fund læst fra finds for at afgøre, hvad der skal tjekkes (ikke tjekket i denne kørsel, se nedenfor)."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Der blev ikke søgt på nogen platform i denne kørsel. Der er ingen requests/search-bestilling i databasen (dokumentet findes ikke), og kørslen er startet af tidsplanen.",
+        "Ingen uafhængige verifikationsagenter blev startet, og ingen platformssøgning i browseren blev udført. Fund skal verificeres uafhængigt, før de lægges på siden, og det kunne ikke gøres i denne kørsel.",
+        "Tilgængelighedstjek af de eksisterende fund (SETUP afsnit 1a) blev ikke udført.",
+        "Tidsvinduet (cutoff) pr. række og platform kan ikke fastslås pålideligt ud fra runs-dokumenterne, fordi de fleste kørsler mangler searched-feltet. Søgningen kan derfor ikke køres korrekt endnu uden at risikere at springe annoncer over eller tælle dem to gange.",
+        "Facebook Marketplace: ikke søgt. Login-overlay og søgning i fremmed by er set i tidligere kørsler."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "Det er en hel søgekørsel med flere platforme og uafhængige agenter, og den er ikke gennemført i denne session. Ingen fund er ændret eller tilføjet.",
+        "Ingen prisændringer, reservationer eller solgt-status er registreret i denne kørsel, fordi ingen fund blev tjekket."
+      ],
+      "title": "Begrænsninger"
+    },
+    {
+      "items": [
+        "Bestil søgningen igen fra knappen på siden (Start søgning), eller bekræft at kørslen skal gentages uden bestilling, så den kan køres med fuld verifikation.",
+        "Afklar cutoff: hvilke runs der har searched-felt pr. række og platform."
+      ],
+      "title": "Næste skridt"
+    }
+  ]
+}

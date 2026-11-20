@@ -1,0 +1,38 @@
+{
+  "category": "lamper",
+  "colorsAllowed": [],
+  "colorsRejected": [],
+  "designers": [
+    "Verner Panton"
+  ],
+  "excludeKeywords": [],
+  "images": [],
+  "keywords": [
+    "Magasinholder, Bachelor"
+  ],
+  "maxPrice": 1500,
+  "model": "Magasinholder",
+  "platforms": {
+    "Bidstrup": true,
+    "Catawicki": false,
+    "DBA": true,
+    "Facebook Marketplace": true,
+    "Gul og Gratis": true,
+    "Klein Anzeigen": true,
+    "Lauritz": true,
+    "Palsgaard": true,
+    "Reshopper": true,
+    "Sikö": true,
+    "Tradera": true,
+    "Vinted": true,
+    "Woxholt": true
+  },
+  "producers": [
+    "Fritz Hansen"
+  ],
+  "row": 23,
+  "type": "magasinholder",
+  "types": [
+    "magasinholder"
+  ]
+}

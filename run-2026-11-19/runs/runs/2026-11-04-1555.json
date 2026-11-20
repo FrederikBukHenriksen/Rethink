@@ -1,0 +1,47 @@
+{
+  "category": "lamper",
+  "date": "2026-11-04T15:55:00+01:00",
+  "platforms": [
+    "DBA"
+  ],
+  "sections": [
+    {
+      "items": [
+        "Første kørsel, ingen tidsgrænse. Der fandtes ingen tidligere fund at tjekke.",
+        "DBA søgt for række 2 (PH 4/3), 3 (Hekla), 4 (PH Snowball) og 6 (AJ Royal), nyeste først.",
+        "15 fund tilføjet efter uafhængig verifikation: 1 på række 2, 1 på række 3, 2 på række 4 og 11 på række 6."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Marketplace er ikke søgt: der er ingen platformsfil for den, og søgningen er ikke startet.",
+        "Ikke kørt: 'PH4/3' og 'Poul Henningsen PH 4/3 loftlampe' (række 2), 'Hekla Fog Mørup' (række 3), 'PH Snowball Louis Poulsen' (række 4), 'royal pendel' og 'Arne Jacobsen AJ Royal loftlampe' (række 6)."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "Søgningerne er ikke udtømmende: kun første sideindlæsning pr. søgning (ca. 33-54 resultater). Række 2 har 397 treffere, og række 6 har mange flere end de gennemgåede.",
+        "DBA viser kun sidst redigeret, ikke oprettelsesdato; genopslåede annoncer kan se nye ud.",
+        "Søgeagenten åbnede ikke alle annoncer og vurderede mange ud fra søgekortet. Verifikationen læste annoncerne fra skærmbilleder og nåede ikke alle beskrivelser helt.",
+        "Kan købes direkte er Ja kun, hvor Fiks færdig-badge og 'Giv et bud' eller 'Køb nu' stod på annoncen."
+      ],
+      "title": "Begrænsninger"
+    },
+    {
+      "items": [
+        "Række 5 (Flowerpot), 7 (Jørgen Utzon), 8 (Jo Hammerborg), 9 (Nova) og 10 (Mogens Davidsen) har ingen flueben og er ikke søgt."
+      ],
+      "title": "Fravalgt"
+    },
+    {
+      "items": [
+        "Række 2: tre PH 4/3-annoncer over 900 kr., en i creme/grå og flere dele eller bordlamper.",
+        "Række 4: PH Snowball uden komplet lampe (26183705), stel (20987657) og alle annoncer fra 7.500 kr. og opefter (over maks 6.000).",
+        "Række 6: ni AJ Royal i grå eller sort eller brun, og én annonce (25112034) hvor modellen ikke er nævnt."
+      ],
+      "title": "Udeladt"
+    }
+  ]
+}

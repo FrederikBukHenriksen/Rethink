@@ -1,0 +1,47 @@
+{
+  "category": "lamper",
+  "date": "2026-11-14T09:45:00+01:00",
+  "platforms": [
+    "DBA",
+    "Klein Anzeigen",
+    "Tradera",
+    "Gul og Gratis",
+    "Lauritz",
+    "Palsgaard"
+  ],
+  "searched": {
+    "DBA": "2026-11-14T09:00:00+01:00",
+    "Gul og Gratis": "2026-11-14T09:00:00+01:00",
+    "Klein Anzeigen": "2026-11-14T09:00:00+01:00",
+    "Lauritz": "2026-11-14T09:00:00+01:00",
+    "Palsgaard": "2026-11-14T09:00:00+01:00",
+    "Tradera": "2026-11-14T09:00:00+01:00"
+  },
+  "sections": [
+    {
+      "items": [
+        "Lampe-kategorien er søgt på DBA, Klein Anzeigen, Tradera, Gul og Gratis, Lauritz og Palsgaard, og alle aktive rækker er søgt på de platforme, de er sat til.",
+        "Alle Klein Anzeigen-kandidater (batch 1-8, række 2, 19, 20, 21, 25 og 26) er verificeret af uafhængige agenter og skrevet til finds.",
+        "Alle nye fund har thumbnails (306 px) og er åbnet på siden. Placering og direkte køb er læst fra annoncen."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Facebook Marketplace er ikke søgt i dag, jf. brugerens instruks.",
+        "Vinted, Catawiki og Reshopper er ikke søgt. Siderne svarede med Cloudflare/Akamai-blokering, og det er ikke omgået.",
+        "Bidstrup, Sikö og Woxholt er ikke søgt i denne kørsel."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "Klein Anzeigen viser højst 50 sider pr. søgning, så brede søgninger kan være ufuldstændige. Rækker 19 og 25 er ikke fuldt dækket.",
+        "DBA, Tradera og Gul og Gratis har sidegrænser (ca. 50, 40 og 60 annoncer), så dækningen kan være ufuldstændig for brede søgninger.",
+        "Palsgaard-priserne i USD er endnu ikke omregnet til DKK. Det afventer brugerens kurs.",
+        "Annoncer uden forsendelse er udeladt (fx Klein 'Nur Abholung'). Annoncer med 'Ukendt' i direkte køb er ikke bekræftet fra købsknappen."
+      ],
+      "title": "Begrænsninger"
+    }
+  ]
+}

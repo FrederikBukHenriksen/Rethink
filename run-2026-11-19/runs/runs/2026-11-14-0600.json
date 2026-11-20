@@ -1,0 +1,13 @@
+{
+  "category": "alle",
+  "coverage": "INGEN MARKEDSPLADS-SØGNING UDFØRT I DENNE KØRSEL. Årsag: søgningen kræver browser-agenter pr. platform og uafhængig verifikation, og kørslen blev ikke gennemført. Ingen kandidater er skrevet til siden. Søgt: ingen. Ikke søgt: alle platforme for alle kategorier (lamper 36 rækker/ mobler/ plakater). Tilgængelighedstjek af de aktive fund (section 1a) er heller ikke udført i denne kørsel: der er ca. 200 fund i databasen, og listesider blev ikke åbnet. Kilde: targets og categories fra artefaktets database. Excel er ikke læst. Bemærk: branch main's SETUP.md beskriver stadig Excel som kilde; den lokale version (claude/loving-allen-hlr7jx) bruger databasen og er fulgt her. Kendte datafejl i finds, til manuel gennemgang: dba-10498689 pris 20002000; dba-11107464 pris 800081500; dba-14118457 pris 99979 (Køb nu/Fiks færdig); dba-15307757 pris 75005 (pris pr. stk. vs. søgning 7500); dba-14652471 status svagere end søgning; flere Karlby-lamper (række 21) og Space Age-Catawiki-lots er kun vurderet ud fra listetitel. Anbefaling: genstart kørsel når browser-agenter kan køres, begyndende med DBA for lamper.",
+  "finishedAt": "2026-11-14T06:20:00+01:00",
+  "platforms": [],
+  "progress": {
+    "lamper": "ikke startet",
+    "mobler": "ikke startet",
+    "plakater": "ikke startet"
+  },
+  "searched": {},
+  "startedAt": "2026-11-14T06:00:00+01:00"
+}

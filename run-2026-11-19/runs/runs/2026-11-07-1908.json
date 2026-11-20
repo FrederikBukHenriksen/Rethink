@@ -1,0 +1,47 @@
+{
+  "category": "lamper",
+  "date": "2026-11-07T19:08:00+01:00",
+  "platforms": [
+    "Facebook Marketplace"
+  ],
+  "sections": [
+    {
+      "items": [
+        "Facebook Marketplace søgt for alle 17 rækker (2-18), via søgeord fra arket, med København som lokation. Lokationen er nu sat til København V, 400 km.",
+        "Række 12 (Globe 50): Verner Panton Globen 50 cm, Aarhus C, 1.500 kr., tilføjet. Sælgeren skriver, at den mangler plastsamler.",
+        "Rækker 17 og 18 blev søgt uden tidsgrænse."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Facebook-annoncerne viser ikke altid dato. Kun få kort har 'Netop slået op', så de fleste datoer blev kontrolleret på annoncesiden. Annoncer uden læsbar dato er ikke medtaget.",
+        "Tidsvinduet for rækker 2-16 er 4. nov. kl. 19:56 (sidste Facebook-søgning på de rækker), og for rækker 17-18 ingen grænse.",
+        "Platforme uden flueben på rækkerne er ikke søgt, og Tradera, Vinted og de øvrige platforme med flueben i række 2 mangler stadig.",
+        "Ingen uafhængig verifikation: der blev ikke startet separate agenter."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "Række 2: PH 4/3 hvid, Bredballe, 750 kr., uden skærm. Hvid uden orange/blå og ufuldstændig. Ikke tilføjet.",
+        "Række 2: PH 4/3-annoncer over 900 kr. eller bordlampe.",
+        "Række 4: PH Snowball-annoncer over 6.000 kr., Harco Loor Snowball (2 uger gammel), kopier (PH kogle 48ø og Ø48 Odense) og Louis Poulsen-annoncer uden model.",
+        "Række 7: Carl Thore pendel, Sorø, 425 kr.: ingen dato, model ikke bekræftet. Carl Thore pendel og Hammerborg-pendel Kolding: dato ukendt.",
+        "Række 7: Trava pendel Hedensted, 800 kr.: 4 dage gammel, før tidsvinduet.",
+        "Række 8/12: Verner Panton Globe ø40 Kerteminde 1.500 kr., Hirtshals 1.000 kr. (replica).",
+        "Række 14: Verona-annoncer i Odense N, Odense C og Højby: før tidsvinduet eller over maks.",
+        "Række 13: VP-pendler Brande 2.200 kr.: ikke Spiral.",
+        "Række 15 (String) og række 16 (Schøiler): ingen annonce med model fundet."
+      ],
+      "title": "Udeladt"
+    },
+    {
+      "items": [
+        "Facebook viser ikke altid annonce-datoer på søgekortet. Datoer blev kontrolleret enkeltvis.",
+        "Facebook søger sorteret ikke altid nyeste først, så søgningerne er ikke udtømmende."
+      ],
+      "title": "Begrænsninger"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "categories": [
+    "lamper",
+    "mobler",
+    "plakater"
+  ],
+  "coverage": "Ikke søgt. Planlagt kørsel 2026-11-15. Der er ingen browser-værktøjer (Claude in Chrome) tilgængelige i denne session, og SETUP.md kræver søgning i brugerens Chrome. Ingen markedsplads blev derfor søgt på nogen række eller kategori. Alle aktive rækker (lamper, møbler, plakater) er ikke søgt. Eksisterende fund er ikke tjekket for tilgængelighed (agenter kan ikke startes uden browser). Ingen 'ingen fund' skrives, da intet blev søgt. Ingen sider, priser eller targets er ændret. Næste kørsel skal have adgang til Chrome-værktøjerne.",
+  "finds": 0,
+  "finishedAt": "2026-11-15T05:42:00+00:00",
+  "platformsRun": [],
+  "progress": {
+    "lamper": "ikke startet",
+    "mobler": "ikke startet",
+    "plakater": "ikke startet"
+  },
+  "scope": "alle",
+  "searched": {},
+  "startedAt": "2026-11-15T05:41:16+00:00",
+  "summary": "Kørsel afbrudt: ingen browseradgang. Ingen fund skrevet.",
+  "trigger": "planlagt"
+}

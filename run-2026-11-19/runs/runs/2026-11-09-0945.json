@@ -1,0 +1,67 @@
+{
+  "category": "lamper",
+  "date": "2026-11-09T09:45:00+01:00",
+  "platforms": [
+    "DBA",
+    "Facebook Marketplace",
+    "Tradera",
+    "Vinted",
+    "Klein Anzeigen",
+    "Catawiki",
+    "Reshopper",
+    "Guld og gratis",
+    "Lauritz"
+  ],
+  "sections": [
+    {
+      "items": [
+        "Søgevindue: annoncer nyere end forrige kørsel (8.11 kl. 15:15). DBA er søgt for alle rækker 2-18 med alle søgeord; række 2 er søgt på Tradera, Vinted, Catawiki, Reshopper, Guld og gratis, Lauritz og Klein Anzeigen; række 19 (Kaiser Idell) på Klein Anzeigen.",
+        "5 nye fund: DBA PH Snowball, København K, 4.500 kr., Fiks færdig/Køb nu (sandsynlig med forbehold: en skærm er skæv); DBA Nova pendel i messing, Valby, 1.500 kr. (bekræftet, præcis på maks); Klein Anzeigen 'Kaiser Idell' 55 EUR, Swisttal (uklar: beskrivelsen siger Escolux og Bastlerobjekt); Facebook AJ Royal Ø370, Harlev, 1.000 kr. og Facebook Nova pendel messing, København, 1.500 kr. (begge IKKE verificeret, kun læst på søgekortet).",
+        "DBA-fundene er verificeret af en separat agent. Facebook-fundene og Kleinanzeigen-fundet er ikke.",
+        "Række 2 (PH 4/3): ingen nye kandidater inden for pris og farve på DBA, Tradera, Vinted, Catawiki, Reshopper, Guld og gratis, Lauritz eller Klein Anzeigen."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Du har markeret 205 fund som skrald og ét som 'nej'. Dem har jeg ikke tjekket igen, og jeg har ikke vist dem igen.",
+        "Tjekket: DBA 26558665 (PH 4/3, 750 kr.), 1669629 (Studio gulvlampe, 1.795 kr.) og 26419812 (jo Hammers Borg, 1.200 kr.): alle stadig til salg, priser uændrede. 26419812 har nu Fiks færdig-badge med 'Giv et bud', så direkte køb er sat til Ja."
+      ],
+      "title": "Tilgængelighed"
+    },
+    {
+      "items": [
+        "Ingen prisændringer på de tre tjekkede fund."
+      ],
+      "title": "Prisændringer"
+    },
+    {
+      "items": [
+        "Facebook Marketplace er kun delvist søgt: Chrome-forbindelsen faldt midt i kørslen. Gennemført for række 3 (Hekla), 5 (AJ Royal) og 9 (Mogens Davidsen). Delvist: række 2 ('PH 4/3' og 'ph4/3'; 'Poul Henningsen PH 4/3' gav tom liste to gange), række 4, 6, 7 og 8 (nogle ord tomme og ikke gentaget). Slet ikke søgt: række 10-18. Et andet forsøg bagefter fandt heller ingen forbundet browser. Disse rækker skal køres igen.",
+        "Facebook-kandidaterne er ikke åbnet, så opslagstidspunkt er ikke læst.",
+        "Woxholt (woxholt.dk kunne ikke åbnes sidst) er ikke søgt denne gang, og Palsgaard, Bistrup og Sikø: ingen kendt webadresse. Række 20-27 har ingen platforme afkrydset.",
+        "Tradera: søgelisten er læst via fetch, ikke visuelt side for side. Vinted: kun første resultatside. Klein Anzeigen: kun side 1-2 pr. søgning."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "Facebook, sat til side uden at åbne: 'Jo Hammerborg for Fog & Mørup', Haderslev, 900 kr. (model ukendt: https://www.facebook.com/marketplace/item/1298885725717151/) og 'PH lamper, 3 stk, giv et bud', Ringkøbing, 123 kr. (sandsynligvis en pladsholderpris: https://www.facebook.com/marketplace/item/1430323956829679/).",
+        "DBA række 2: tre 'Poul Henningsen PH 4/3' pendler à 999 kr. i Søborg (26592097, 26592099, 26592101) og PH Lampe 4/3 til 1.149 kr. (25660042): lige over maks 900 kr. Farve ikke tjekket.",
+        "Klein Anzeigen række 2: ægte PH 4/3, Hannover, 200 EUR VB (ca. 1.492 kr.): over maks (https://www.kleinanzeigen.de/s-anzeige/originale-louis-poulsen-ph-4-3-pendelleuchte/3565879224-82-3172).",
+        "Tradera: 'PH lampa', Stockholm, 339 kr., auktion til 15.11, men hvid med røde detaljer og model ikke angivet (https://www.tradera.com/item/302529/760159477/ph-lampa); PH 4/3 Ø40 til 1.355 kr. (over maks).",
+        "Vinted: 'Super fed PH 4/3 nyere model med lukket top', 1.150 kr.: over maks.",
+        "Catawiki: ingen nye PH 4/3-lots; nye er alle PH5 eller grå/hvide."
+      ],
+      "title": "Udeladt"
+    },
+    {
+      "items": [
+        "Platformfiler findes kun for DBA, Tradera og Vinted; for de øvrige 10 platforme findes ingen.",
+        "DBA viser kun sidst redigeret, ikke oprettelsesdato. Reshopper, Catawiki og Lauritz viser ingen oprettelsesdato; Reshopper-datoer er afledt af annonce-id'et.",
+        "Kleinanzeigen-fundet og Facebook-fundene er ikke verificeret af en uafhængig agent."
+      ],
+      "title": "Begrænsninger"
+    }
+  ]
+}

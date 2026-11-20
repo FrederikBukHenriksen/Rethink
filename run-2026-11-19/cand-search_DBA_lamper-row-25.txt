@@ -1,0 +1,6 @@
+Unit: search|DBA|lamper-row-25
+Status: færdig
+Dækning:
+- "Space Age bordlampe": 89 af 89 (total var 116 ved første visning, ustabil), 3 sider, slut nået: ja, før cutoff: 86, afvist: 3
+- "Space Age": 1.249 af 1.249 (anslået optælling, over 1.000 resultater, ikke opdelt), 24 sider (side 25 tom), slut nået: ja, før cutoff: ca. 1.231, afvist: ca. 17
+Kandidater: ingen

@@ -1,0 +1,17 @@
+Scriptkørsel 2026-11-20 (tools/dba_scan.js), DBA rækker 29, 32, 33, mobler 2/3/5, plakater 2.
+Alle søgninger læst til ende. Titelfilter; kandidater skal verificeres ved at åbne annoncen.
+
+lamper-32 (Optima, maks 2.500, farver hvid/orange/gul/brun):
+26853304|2000|Optima Standerlampe|Dronninglund|2 dage
+lamper-33: ingen.
+lamper-29: 26910523|1200|Kina pendel lampe|Skjern|23 t. (allerede i artefaktet)
+mobler-2 (magasinholder; et udvalg):
+26849251|750|Fritz Hansen Basket Kurv (Magasin Holder)|København Ø|3 dage
+26934233|2200|Sidebord / magasinholder - dansk design|Valby|2 t.
+26900048|300|Magasinholder|Frederiksberg C|1 dag; 24080612|600|Magasinholder|Værløse|3 dage; 11593155|850|Magasinholder|Værløse|11. nov.
+(øvrige ca. 12 titler uden designernavn; genkør scriptet for hele listen)
+mobler-5:
+26749566|5490|Verner Panton - System 1-2-3 Lounge Chair deluxe|København N|5 dage
+26856396|3144|Verner Panton loungestol|Svendborg|2 dage (model ikke angivet)
+26622042|6200|Verner Panton lounge stol|Ballerup|10. nov. (model ikke angivet)
+mobler-3: 41 titel-match; plakater-2: 181 med plakat/poster. Listerne blev ikke gemt; genkør scriptet.

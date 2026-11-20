@@ -1,0 +1,63 @@
+{
+  "category": "lamper",
+  "date": "2026-11-07T18:40:00+01:00",
+  "platforms": [
+    "DBA"
+  ],
+  "sections": [
+    {
+      "items": [
+        "Ny søgning 7. nov. kl. 18:37. Tidsvindue: annoncer nyere end forrige DBA-søgning kl. 19:12 den 6. nov. (ca. 23 timer).",
+        "DBA søgt for alle 17 rækker (2-18), nyeste først. Fem nye kandidater: dba-26522828 (række 2), dba-26527709 (række 4), dba-24058035, dba-26530774 og dba-21404773 (række 8).",
+        "Tilgængelighed: alle 21 fund (20 DBA, 1 Facebook Marketplace) åbnede og er stadig online. lastChecked er sat."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Facebook Marketplace er ikke søgt. Søgningen står stadig på San Francisco, og byen kan ikke ændres i browserpanelet.",
+        "Pris, reserveret-status og 'Kan købes direkte' er ikke tjekket på de eksisterende fund, fordi annoncernes tekst ikke kan læses i browserpanelet.",
+        "Sælgerens Mogens Davidsen-annonce 26525199 (Søborg, 'Sjælden Type 240 Pendel lampe', 8 t.) er ikke tilføjet, fordi prisen ikke kunne læses på annoncesiden.",
+        "Ingen uafhængig verifikation: der blev ikke startet separate agenter. Alle nye fund har derfor 'ikke uafhængigt verificeret' i noten."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "DBA viser kun øverste side pr. søgning, sorteret nyeste først. Annoncer ældre end ca. 23 timer er ikke med i vinduet.",
+        "DBA viser kun relativ alder. Alder på '23 t.' ligger på grænsen af vinduet."
+      ],
+      "title": "Begrænsninger"
+    },
+    {
+      "items": [
+        "Række 2: PH 4/3 i Svendborg, Hasselager, Roskilde, Holstebro og Rødding samt Aarhus N og 2 loftlamper i Brøndby: over maks 900 kr., eller bordlampe/pendel-typen er forkert.",
+        "Række 4: Snowball Pendel, Gilleleje, 8.500 kr., og Snowball, Holbæk, 9.595 kr.: over maks 6.000.",
+        "Række 5: AJ Royal-pendel og 'Arne Jacobsen pendel', Rødovre, 2.000 kr., 3 t.: over maks 1.000. AJ Royal 50 cm Rødding, 4.200 kr., 22 t.: over maks.",
+        "Række 6: Jørn Utzon pendel, København S, 1.750 kr., 37 min.: over maks 850.",
+        "Række 8: Lento bordlampe, 1.500 kr., 1 t.: bordlampe. Alfa væglamper, Juelsminde, 1.800 kr.: væglampe. Jo Hammerborg lampe, Glostrup, 1.600 kr.: over maks 1.500. Jo Hammerborg standerlampe, Odense C, 2.500 kr.: standerlampe. 'loftlampe', Viborg, 600 kr. og 400 kr., 20 t.: titlen siger kun 'loftlampe', og Jo Hammerborg kan ikke bekræftes.",
+        "Række 14: SÆTPRIS Verona 400, Juelsminde, 4.400 kr., 8 t.: over maks 2.000.",
+        "Kosta Boda snebolde, 299 kr., 1 t. (række 4): glas, ikke PH Snowball."
+      ],
+      "title": "Udeladt"
+    },
+    {
+      "items": [
+        "Tradera, Vinted og de øvrige platforme i arket har ingen flueben på nogen række og er ikke søgt."
+      ],
+      "title": "Fravalgt"
+    },
+    {
+      "items": [
+        "21 fund tjekket: alle online."
+      ],
+      "title": "Tilgængelighed"
+    },
+    {
+      "items": [
+        "Ingen prisændringer registreret, da priser ikke kunne læses."
+      ],
+      "title": "Prisændringer"
+    }
+  ]
+}

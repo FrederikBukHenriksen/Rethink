@@ -1,0 +1,9 @@
+Unit: search|DBA|lamper-row-14
+Status: færdig
+Dækning:
+- "Svend Middelboe loftlampe": 70 af 70 (side 1: 53 kort, side 2: 17 kort, side 3 tom), 2 sider med resultater, slut nået: ja, før cutoff: 67, afvist: 3 (over maks pris: 26167101, 16441204, 26874338). Total viste 109 på side 1 og 70 på side 2, derfor brugt 70.
+- "Lyfa loftlampe": 318 kort læst af total 312 (sider 1-6, side 7 tom), slut nået: ja, før cutoff: ca. 313, afvist: 4 (19504154 over maks pris; 26904795 Jo Hammerborg; 26915741 Fritz Schlegel; 26926152 Carl Fagerlund). Ældre kort uden standarddato (fx "2.6.25") er regnet som før cutoff.
+- "Verona loftlampe": 84 af 84 (side 1: 53 kort, side 2: 31 kort, side 3 tom), slut nået: ja, før cutoff: 81, afvist: 3 (over maks pris: 26167101, 16441204, 26874338). Total viste 86 på side 1 og 84 på side 2, derfor brugt 84.
+Bemærkning: Kortdatoer var nyere end annoncens "Sidst redigeret" i alle åbnede tilfælde (10634023 kort "11 t." / annonce 4.9.2026; 26055799 kort "1 dag" / annonce 21.10.2026; 26766588 kort "12 t." / annonce 14.11.2026). Kort med dato før cutoff er derfor udelukket uden at åbne annoncen. Kun kort med "t."/"1 dag" og pris under 2000 kr. er åbnet.
+Kandidater:
+- https://www.dba.dk/recommerce/forsale/item/26913687 | række 14 | Lyfa Space pendel, 2 stk. | 700 kr. (for to stk.) | dato: sidst redigeret 19.11.2026 kl. 14:05 | Sandsynlig med forbehold | direkte: Ja | farve: gennemsigtig akryl med blå ringe, sort kabel | type: loftlampe (pendel) | by: 6280 Højer | forbehold: producent Lyfa matcher, designer angivet som Bent Karlby (ikke Svend Middelboe), ikke Verona-model; 700 kr. gælder to stk.; Fiks færdig tilbudt på annoncen

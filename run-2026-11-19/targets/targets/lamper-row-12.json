@@ -1,0 +1,38 @@
+{
+  "category": "lamper",
+  "colorsAllowed": [],
+  "colorsRejected": [],
+  "designers": [
+    "Verner Panton"
+  ],
+  "excludeKeywords": [],
+  "images": [],
+  "keywords": [
+    "Globe 50"
+  ],
+  "maxPrice": 2000,
+  "model": "",
+  "platforms": {
+    "Bidstrup": false,
+    "Catawicki": false,
+    "DBA": true,
+    "Facebook Marketplace": true,
+    "Gul og Gratis": false,
+    "Klein Anzeigen": false,
+    "Lauritz": false,
+    "Palsgaard": false,
+    "Reshopper": false,
+    "Sikö": false,
+    "Tradera": false,
+    "Vinted": false,
+    "Woxholt": false
+  },
+  "producers": [
+    "Louis Poulsen"
+  ],
+  "row": 12,
+  "type": "loftlampe",
+  "types": [
+    "loftlampe"
+  ]
+}

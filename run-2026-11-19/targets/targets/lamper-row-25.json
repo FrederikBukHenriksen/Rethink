@@ -1,0 +1,34 @@
+{
+  "category": "lamper",
+  "colorsAllowed": [],
+  "colorsRejected": [],
+  "designers": [],
+  "excludeKeywords": [],
+  "images": [],
+  "keywords": [
+    "Space Age"
+  ],
+  "maxPrice": 2000,
+  "model": "Space Age bordlampe",
+  "platforms": {
+    "Bidstrup": true,
+    "Catawicki": true,
+    "DBA": true,
+    "Facebook Marketplace": true,
+    "Gul og Gratis": true,
+    "Klein Anzeigen": true,
+    "Lauritz": true,
+    "Palsgaard": true,
+    "Reshopper": true,
+    "Sikö": true,
+    "Tradera": true,
+    "Vinted": true,
+    "Woxholt": true
+  },
+  "producers": [],
+  "row": 25,
+  "type": "bordlampe",
+  "types": [
+    "bordlampe"
+  ]
+}

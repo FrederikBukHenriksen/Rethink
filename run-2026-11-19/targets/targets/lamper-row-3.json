@@ -1,0 +1,38 @@
+{
+  "category": "lamper",
+  "colorsAllowed": [],
+  "colorsRejected": [],
+  "designers": [],
+  "excludeKeywords": [],
+  "images": [
+    "https://paulinek.dk/smukke-hekla/"
+  ],
+  "keywords": [
+    "Hekla"
+  ],
+  "maxPrice": 2800,
+  "model": "Hekla",
+  "platforms": {
+    "Bidstrup": false,
+    "Catawicki": false,
+    "DBA": true,
+    "Facebook Marketplace": true,
+    "Gul og Gratis": false,
+    "Klein Anzeigen": false,
+    "Lauritz": false,
+    "Palsgaard": false,
+    "Reshopper": false,
+    "Sikö": false,
+    "Tradera": false,
+    "Vinted": false,
+    "Woxholt": false
+  },
+  "producers": [
+    "Fog Mørup"
+  ],
+  "row": 3,
+  "type": "loftlampe",
+  "types": [
+    "loftlampe"
+  ]
+}

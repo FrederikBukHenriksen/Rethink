@@ -1,0 +1,23 @@
+{
+  "category": "alle",
+  "date": "2026-11-18T00:00:00+00:00",
+  "platforms": [],
+  "searched": {},
+  "sections": [
+    {
+      "items": [
+        "Planlagt kørsel 2026-11-18 kunne ikke søge: Claude in Chrome-værktøjerne (mcp__claude-in-chrome__*) er ikke tilgængelige i den planlagte session, og ToolSearch finder dem ikke.",
+        "Ingen headless browser, curl, Playwright eller almindelig websøgning er brugt som erstatning, jf. SETUP.md afsnit 7.",
+        "Ingen fund er skrevet, og ingen eksisterende fund er tjekket for tilgængelighed.",
+        "requests/search er ikke ændret: der var ingen bestilling, og status var allerede færdig."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "Samme fejl som kørslen 2026-11-17. Søgningen kan kun køres, når browseren er koblet til sessionen."
+      ],
+      "title": "Begrænsninger"
+    }
+  ]
+}

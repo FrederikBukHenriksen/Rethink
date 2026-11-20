@@ -1,0 +1,16 @@
+{
+  "category": "alle",
+  "coverage": "DELVIS KØRSEL, kun DBA. Søgt: DBA-søgefelt pr. søgeord fra targets (lamper 28 rækker med DBA afkrydset, møbler 2 rækker, plakater 1 række). Kun første resultatside pr. søgning (ingen paging), så kørslen er IKKE komplet og 'searched' er ikke skrevet. Ikke søgt: Facebook Marketplace, Palsgaard, Bidstrup, Woxholt, Lauritz, Gul og Gratis, Tradera, Sikö, Catawiki, Klein Anzeigen, Reshopper, Vinted, og rækkerne lamper 19 og 28 (ikke afkrydset for DBA), møbler 4 og 5 (DBA-kombinationer). Tilgængelighedstjek af eksisterende fund er ikke udført. Filtrering: pris under rækkens maks pris og titel/kort matcher navnet i rækken. Resultat: 449 kandidatkort. De er IKKE verificeret (ingen åbning af annoncer, ingen uafhængig verifikation, ingen dublet-check mod finds) og er IKKE skrevet til siden. Liste: sendt som CSV. Kendte begrænsninger: korttekst kan indeholde sælger- og bynævne, der give falske match; datoer står kun som relativ alder på kortet; direkte køb (Fiks færdig) er ikke kontrolleret.",
+  "finishedAt": "2026-11-14T07:05:00+01:00",
+  "platforms": [
+    "DBA"
+  ],
+  "progress": {
+    "andre platforme": "ikke startet",
+    "lamper": "delvis (DBA, side 1 pr. søgning)",
+    "mobler": "delvis (DBA, side 1 pr. søgning)",
+    "plakater": "delvis (DBA, side 1 pr. søgning)"
+  },
+  "searched": {},
+  "startedAt": "2026-11-14T06:45:00+01:00"
+}

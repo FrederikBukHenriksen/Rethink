@@ -1,0 +1,41 @@
+{
+  "category": "lamper",
+  "date": "2026-11-07T21:15:00+01:00",
+  "platforms": [
+    "Klein Anzeigen"
+  ],
+  "sections": [
+    {
+      "items": [
+        "Række 19 (Studio / Kaiser Idell / bordlampe / maks 350 / søgeord Bauhaus) søgt igen på Klein Anzeigen, hele Tyskland, uden tidsgrænse, den eneste afkrydsede platform. Søgt på: Kaiser Idell, Kaiser Idell Studio, Kaiser Idell Bauhaus, Bauhaus Tischlampe, Bauhaus Lampe Studio, Studio Tischlampe Kaiser Idell, Kaiser Idell Schreibtischlampe, Christian Dell Lampe og Kaiser Studio Tischlampe (op til 4 sider pr. søgning).",
+        "2 nye fund tilføjet: Kaiser Idell 6786/111, Vreden (7.11), og Kaiser Idell 6775, Dormagen (14.10). Begge er komplette Kaiser Idell-bordlamper der virker ifølge sælger, men uden prisbeløb (kun 'VB'), så maks 350 kr. kan ikke afgøres. Ingen af dem er en 'Studio'-model. Begge er læst igen af en separat agent (Sandsynlig med forbehold).",
+        "Ingen annonce nævner modellen 'Studio'; 'Kaiser Idell Studio' og 'Studio Tischlampe Kaiser Idell' gav 0 resultater."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Chrome-udvidelsen mistede forbindelsen under verifikationen. Annonce 3561364083-82-9230 'Kaiser Idell grün' (Leingarten, 50 EUR, ca. 373 DKK, uden kabel, funktion ukendt) er kun delvist læst og kvalificerer ikke (over maks, ingen model eller type). Annonce 3385770297-82-8464 'Christian Dell große Tischleuchte', Kirchheim unter Teck, er IKKE verificeret og ikke tilføjet.",
+        "Fotos er ikke gennemgået for nogen annonce. Søgningerne 'Kaiser Idell Schreibtischlampe', 'Christian Dell Lampe' og 'Kaiser Studio Tischlampe' er kun delvist gennemgået (slået sammen i én resultatpulje). Kategori-søgning i Lampen & Licht med prisfilter er ikke kørt separat.",
+        "Der var ca. 40 yderligere Kaiser Idell-annoncer i prisområdet 51-150 EUR, som ikke er gennemgået enkeltvis."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "Kaiser Idell 6787, Rathenow (VB): den runde messingafdækning på foden mangler, så lampen er ikke komplet.",
+        "Komplette Kaiser Idell-bordlamper med pris over maks, men værd at se hvis maks-prisen i regnearket er i en anden valuta end DKK: 6751 'Bauhaus Klassiker' 125 EUR, Theuma (6.11); 'Kaiser Idell Lampe' 120 EUR, Krefeld (6.11); 6740 120 EUR, München, Direkt kaufen; 6556 110 EUR, Berlin; creme 110 EUR VB, Zolling, Direkt kaufen; 674x 95 EUR, Düsseldorf; grøn vintage 95 EUR VB, Leingarten; Hamburg Ottensen 80 EUR; to 'Original Kaiser Idell Schreibtischlampe' 150 EUR VB, Hamburg og Berlin.",
+        "Efterligninger og dele (Ulia, Helo, 'ähnlich', skærme, fatninger) og ca. 5 annoncer med flere lamper, kæmpe konvolutter eller klemmelamper."
+      ],
+      "title": "Udeladt"
+    },
+    {
+      "items": [
+        "Der findes ingen platformfil til Klein Anzeigen.",
+        "Maks 350 i regnearket har ingen valuta; behandlet som DKK (ca. EUR 47). Hvis det er EUR, ligger flere af de udeladte lamper under maks.",
+        "Linkene bruger kun annonce-ID og et forkortet slug; hvis et link ikke åbner, søg på annonce-ID'et."
+      ],
+      "title": "Begrænsninger"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "active": true,
+  "category": "mobler",
+  "colorsAllowed": [],
+  "colorsRejected": [],
+  "designers": [
+    "Severin Hansen"
+  ],
+  "excludeKeywords": [],
+  "images": [],
+  "keywords": [
+    "teak, palisander, eg, indskudsborde"
+  ],
+  "maxPrice": 3000,
+  "model": "indskudsbord, sofabord",
+  "platforms": {
+    "Bidstrup": false,
+    "Catawicki": false,
+    "DBA": true,
+    "Facebook Marketplace": true,
+    "Gul og Gratis": false,
+    "Klein Anzeigen": false,
+    "Lauritz": false,
+    "Palsgaard": false,
+    "Reshopper": false,
+    "Sikö": false,
+    "Tradera": false,
+    "Vinted": false,
+    "Woxholt": false
+  },
+  "producers": [
+    "Haslev Møbelsnedkeri"
+  ],
+  "row": 3,
+  "type": "bord",
+  "types": [
+    "bord"
+  ]
+}

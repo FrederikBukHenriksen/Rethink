@@ -1,0 +1,44 @@
+{
+  "active": true,
+  "category": "lamper",
+  "colorsAllowed": [
+    "hvid",
+    "orange",
+    "gul",
+    "brun"
+  ],
+  "colorsRejected": [],
+  "designers": [
+    "Hans Due"
+  ],
+  "excludeKeywords": [],
+  "images": [],
+  "keywords": [],
+  "maxPrice": 2500,
+  "model": "Optima",
+  "platforms": {
+    "Bidstrup": false,
+    "Catawicki": false,
+    "DBA": true,
+    "Facebook Marketplace": true,
+    "Gul og Gratis": false,
+    "Klein Anzeigen": false,
+    "Lauritz": false,
+    "Palsgaard": false,
+    "Reshopper": false,
+    "Sikö": false,
+    "Tradera": false,
+    "Vinted": true,
+    "Woxholt": false
+  },
+  "producers": [
+    "Fog & Mørup"
+  ],
+  "row": 32,
+  "type": "loftlampe; bordlampe; standerlampe",
+  "types": [
+    "loftlampe",
+    "bordlampe",
+    "standerlampe"
+  ]
+}

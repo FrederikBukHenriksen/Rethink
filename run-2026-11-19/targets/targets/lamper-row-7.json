@@ -1,0 +1,38 @@
+{
+  "category": "lamper",
+  "colorsAllowed": [],
+  "colorsRejected": [],
+  "designers": [
+    "Carl Thore"
+  ],
+  "excludeKeywords": [],
+  "images": [],
+  "keywords": [
+    "Trava"
+  ],
+  "maxPrice": 1000,
+  "model": "",
+  "platforms": {
+    "Bidstrup": false,
+    "Catawicki": false,
+    "DBA": true,
+    "Facebook Marketplace": true,
+    "Gul og Gratis": false,
+    "Klein Anzeigen": false,
+    "Lauritz": false,
+    "Palsgaard": false,
+    "Reshopper": false,
+    "Sikö": false,
+    "Tradera": false,
+    "Vinted": false,
+    "Woxholt": false
+  },
+  "producers": [
+    "Granhaga"
+  ],
+  "row": 7,
+  "type": "loftlampe",
+  "types": [
+    "loftlampe"
+  ]
+}

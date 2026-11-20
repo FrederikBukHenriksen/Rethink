@@ -1,0 +1,21 @@
+Unit: search|DBA|lamper-row-11
+Status: ikke færdig (resumeFrom: "Fog & Mørup loftlampe", side 2)
+Dækning:
+- "Confetti loftlampe": 37 af 37, 1 side, slut nået: ja, før cutoff: 37, afvist: 0
+- "Henning Rehhoff loftlampe": 53 af 53, 1 side, slut nået: ja, før cutoff: 49, afvist: 4 (26926116 glaskugle-lampe, 300 kr.; 26918422 rørklynge, 100 kr.; 26908921 70er-disk, 200 kr.; 10613105 orange pendel, 2.000 kr. over maks)
+- "Fog & Mørup loftlampe": 53 af 638 (side 1 af ca. 13), slut nået: nej, før cutoff: 49 (talt kun på side 1), afvist: 4 (11050958 5.000 kr.; 26909453 1.750 kr.; 26909414 2.200 kr.; 26904795 Jo Hammerborg "Life" pendel 1.500 kr., forkert model)
+Kandidater: ingen endnu (søgningen "Fog & Mørup loftlampe" er ikke færdig, se Dækning)
+Note: Søgning "Fog & Mørup loftlampe" skal læses videre fra side 2 (sorteret nyeste først, side 1 har kun annoncer fra 9 t. og opefter efter cutoff, resten er 2 dage eller ældre). Dato er "sidst redigeret" fra annoncen, relative tider omregnet til 19.11.2026 kl. 21:58.
+Note: Annoncer for Confetti (Fog & Mørup) i søgningerne nævner Claus Bonderup & Torsten Thorup, ikke Henning Rehhoff. Rækkens designer kan være forkert; bør tjekkes af brugeren.
+Ikke gennemført: Fog & Mørup loftlampe side 2-13 (ca. 585 kort) ikke læst pga. omfang. Ingen blokering.
+
+--- Genoptaget 2026-11-20 (fra "Fog & Mørup loftlampe", side 2) ---
+Unit: search|DBA|lamper-row-11
+Status: færdig
+Dækning:
+- "Fog & Mørup loftlampe" (fortsat fra side 2): side 2-13 læst 597 kort, side 14 tom, slut nået: ja, før cutoff: 597, afvist: 0. Samlet for søgningen: 650 kort læst (side 1 fra første kørsel: 53) mod platformens angivne 638 resultater. Forskellen skyldes sandsynligvis gentagne "Betalt placering"-kort, der vises på flere sider.
+- Samlet dækning for rækken: "Confetti loftlampe" 37 af 37, "Henning Rehhoff loftlampe" 53 af 53, "Fog & Mørup loftlampe" 650 af 638, alle slut nået.
+Kandidater: ingen
+Note: Alle kort på side 2-13 er sidst redigeret 8. nov. 2026 eller ældre, eller fra 2025, altså før cutoff 18.11.2026 13:00.
+Note: I første kørsel blev 26904795 (Jo Hammerborg "Life" pendel, Fog & Mørup, 1.500 kr.) afvist som forkert model. Fog & Mørup er producent for rækken, så afvisningen kan med fordel gennemgås.
+Ikke gennemført: intet.

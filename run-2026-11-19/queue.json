@@ -1,0 +1,1219 @@
+{
+ "runId": "2026-11-19-2135",
+ "status": "kører",
+ "heartbeat": "2026-11-20T12:00:00+01:00",
+ "platformOrder": [
+  "DBA",
+  "Tradera",
+  "Vinted",
+  "Klein Anzeigen",
+  "Lauritz",
+  "Palsgaard",
+  "Woxholt",
+  "Bidstrup",
+  "Sikö",
+  "Catawiki",
+  "Gul og Gratis",
+  "Reshopper",
+  "Facebook Marketplace"
+ ],
+ "progress": {
+  "DBA": "søgning færdig for alle rækker (scriptmetode); kandidater til verificering: lamper 32, mobler 2/3/5, plakater 2",
+  "Tradera": "ikke startet",
+  "Vinted": "ikke startet",
+  "Klein Anzeigen": "ikke startet",
+  "Lauritz": "ikke startet",
+  "Palsgaard": "ikke startet",
+  "Woxholt": "ikke startet",
+  "Bidstrup": "ikke startet",
+  "Sikö": "ikke startet",
+  "Catawiki": "ikke startet",
+  "Gul og Gratis": "ikke startet",
+  "Reshopper": "ikke startet",
+  "Facebook Marketplace": "ikke startet"
+ },
+ "units": {
+  "search|DBA|lamper-row-2": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "0 kandidater; PH 4/3 386/386, ph4/3 53/53, slut nået ja. 1 blå 4-stk-annonce afvist på pris (1.875 kr.), kan gennemses manuelt. Fane ikke lukket (væk fra gruppen)."
+  },
+  "search|DBA|lamper-row-3": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "0 kandidater; Hekla 72/72, Hekla Fog Mørup 5/5, Hekla loftlampe 53/53, slut nået ja"
+  },
+  "search|DBA|lamper-row-4": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "1 kandidat; PH Snowball 37/37, snebold 159/159, PH Snowball Poul Henningsen 53/53, slut nået ja"
+  },
+  "search|DBA|lamper-row-5": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "0 kandidater; AJ Royal 74/74, royal pendel 153/153, Arne Jacobsen AJ Royal 64/64; slut nået ja"
+  },
+  "search|DBA|lamper-row-6": {
+   "status": "færdig",
+   "attempts": 2,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "1 kandidat; Utzon 36/36, Louis Poulsen loftlampe total ustabil (756 vist, 1790 læst; slut nået ja), søværnspendel 41/41, Wopa 0. Søgning færdig."
+  },
+  "search|DBA|lamper-row-7": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "1 kandidat; Trava 21/21, Carl Thore loftlampe 71 læst (totalen varierede 104/69, slut nået ja), Granhaga loftlampe 53/53"
+  },
+  "search|DBA|lamper-row-8": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "0 kandidater; Nova Jo Hammerborg 42/42, Nova loftlampe 53/53, Zenith loftlampe 53/53, Zenith Jo Hammerborg 24/24; slut nået ja"
+  },
+  "search|DBA|lamper-row-9": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "3 kandidater (Uklar identitet); Mogens Davidsen loftlampe 53/53, Mogens Davidsen 50 cm 9/9; slut nået ja"
+  },
+  "search|DBA|lamper-row-10": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "2 kandidater; Space Copenhagen loftlampe 53/53, &Tradition loftlampe 425/425, Space Copenhagen Ø 60 cm 53/53, &Tradition Ø 60 cm 53/53; slut nået ja"
+  },
+  "search|DBA|lamper-row-11": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "Komplet. Confetti 37/37, Henning Rehhoff loftlampe 53/53, Fog & Mørup loftlampe 650 af 638 (overskud fra gentagne \"Betalt placering\"-kort), slut nået. 0 kandidater. Tab 473869515 ikke bekræftet lukket."
+  },
+  "search|DBA|lamper-row-12": {
+   "status": "færdig",
+   "attempts": 2,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "Globe 50 færdig; Verner Panton loftlampe 262 af 289 (slut nået); Louis Poulsen loftlampe 1 side af 1755: DBA-grænse ca. 50 sider, så søgningen kan ikke læses til ende. Producent-søgningen skal splittes eller have smallere søgeord (beslutning). Ingen searched-værdi skrevet for række 12. || Scriptkørsel 2026-11-20 (tools/dba_scan.js, hele sider via fetch i Windows-Chrome): \"Louis Poulsen loftlampe\" læst 1756 af 1756, 34 sider, slut ja; 44 efter cutoff, 0 titel-match på Panton/Globe/Spiral/Topan/Flowerpot. DBA-grænsen var fejltolket: siden viser ca. 53 kort, grænsen er ca. 2650 kort. Alle delsøgninger komplette, 0 kandidater."
+  },
+  "search|DBA|lamper-row-13": {
+   "status": "færdig",
+   "attempts": 2,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "Verner Panton loftlampe 289/289, Louis Poulsen Verner Panton 192/192, Topan 35/35, Flowerpot 53/53, Spiral 53/53 færdige. Louis Poulsen loftlampe 54 af 1755: DBA-grænse ca. 50 sider, kan ikke læses til ende. Ingen searched-værdi skrevet for række 13. || Scriptkørsel 2026-11-20 (tools/dba_scan.js, hele sider via fetch i Windows-Chrome): Samme \"Louis Poulsen loftlampe\" 1756/1756 komplet, 0 titel-match. Alle delsøgninger komplette, 0 kandidater."
+  },
+  "search|DBA|lamper-row-14": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "1 kandidat; Svend Middelboe 70/70, Lyfa 318 læst (total 312), Verona 84/84; slut nået ja. Kort med dato før cutoff ikke åbnet (kortdatoer nyere end reel dato)."
+  },
+  "search|DBA|lamper-row-15": {
+   "status": "færdig",
+   "attempts": 2,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "Brylle 53/53, Jacobsen 165/165, Quality System 53/53, String 53/53 færdige (slut nået). Ikea loftlampe 54 af 2094: DBA-grænse, kan ikke læses til ende. Ingen searched-værdi for række 15. Arne Jacobsen-annoncer må ikke skrives (afventer brugerens afgørelse). || Scriptkørsel 2026-11-20 (tools/dba_scan.js, hele sider via fetch i Windows-Chrome): \"Ikea loftlampe\" læst 2088 af 2088, 40 sider, slut ja; 48 efter cutoff, 0 titel-match på String/Brylle/Jacobsen/Quality. Alle delsøgninger komplette, 0 nye kandidater."
+  },
+  "search|DBA|lamper-row-16": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "1 kandidat; Lars Schøiler, Høyrup, Butterfly, Symfoni, Pearl 53/53 hver; slut nået ja. Bemærk: underagenten lukkede ved en fejl en tom fane der ikke var dens egen."
+  },
+  "search|DBA|lamper-row-17": {
+   "status": "færdig",
+   "attempts": 2,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "0 kandidater (med forbehold). Lyfa side 11 læst (43 kort), side 12 tom, slut nået ja, total 572. Sider 1-10 talt ca. 543 mod 572: forskel ikke afklaret. RA/Piet Hein-søgningerne komplette. Ikke rapporteret uden modelnavn (manuel vurdering): 14583351 (Lyfa loftslampe kobber 1.500 kr.), 6771135 (Lyfa 175 kr.), 10567863 (Lyfa pendel 800 kr.). Alle før cutoff."
+  },
+  "search|DBA|lamper-row-18": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "1 kandidat; Hans Følsgaard loftlampe 53/53, Følsgaard elektro loftlampe 53/53; slut nået ja"
+  },
+  "search|DBA|lamper-row-20": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "0 kandidater; Brylle Jacobsen 16/16, Brylle 47/47; slut nået ja"
+  },
+  "search|DBA|lamper-row-21": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "4 kandidater; Bent Karlby 282/282, slut nået ja, 3 afvist før verifikation"
+  },
+  "search|DBA|lamper-row-22": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "Komplet. Stelton Paul Smith 21/21, Paul Smith 887/887 (17 sider, side 18 tom), ingen lamper, 0 kandidater. Tab 473869513 ikke lukket (Chrome-forbindelse tabt)."
+  },
+  "search|DBA|lamper-row-23": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "0 kandidater; Magasinholder 746/746, Bachelor 307/307, Verner Panton magasinholder 53/53; slut nået ja"
+  },
+  "search|DBA|lamper-row-24": {
+   "status": "færdig",
+   "attempts": 0,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "0 kandidater; Kartell ur 45/45; slut nået ja"
+  },
+  "search|DBA|lamper-row-25": {
+   "status": "færdig",
+   "attempts": 0,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "0 kandidater; Space Age bordlampe 89/89, Space Age 1249/1249 (24 sider); slut nået ja"
+  },
+  "search|DBA|lamper-row-27": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "0 kandidater; Panum 46/46, Koppel ur 86/86; slut nået ja"
+  },
+  "search|DBA|lamper-row-29": {
+   "status": "færdig",
+   "attempts": 2,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "Kina glaspendel 53/53, Kina pendel 42/42, Kina loftlampe 53/53, Kina hængelampe 39/39, Bent Karlby Kina 38/38, Kina Lyfa 15/15, Kina lampe 110 af 140 (slut nået ja). Generisk \"Kina\" 54 af 3989: DBA-grænse, kan ikke læses til ende. Ingen searched-værdi for række 29. || Scriptkørsel 2026-11-20: generisk \"Kina\" læst 2650 af 3972 (50 sider, grænsen ca. 2650 kort), STADIG ufuldstændig; de smallere søgninger er komplette. Ingen Karlby/Lyfa-titler efter cutoff i de læste 2650. || Scriptkørsel 2026-11-20 (tools/dba_scan.js). Delt i komplette delsøgninger: Bent Karlby 280/280, Lyfa 572/572, Kina Lyfa 15/15, Kina hængelampe 39/39 (plus tidligere Kina glaspendel/pendel/loftlampe/lampe). Generisk \"Kina\" kan ikke læses til ende (2650 af 3972), men er dækket af delsøgningerne. Eneste kandidat 26910523 findes allerede i artefaktet."
+  },
+  "search|DBA|lamper-row-30": {
+   "status": "færdig",
+   "attempts": 2,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "Barcelona 215 af 2197, slut nået nej. Øvrige 5 komplet (Barcelona lampe 36/36, pendel 53/53, loftlampe 50/50, Bent Karlby Barcelona 10/10, Lyfa Barcelona 14/14), ingen kandidater efter cutoff 2026-11-18T13:00. Ingen endelig \"ingen fund\". || Scriptkørsel 2026-11-20 (tools/dba_scan.js, hele sider via fetch i Windows-Chrome): \"Barcelona\" læst 2187 af 2187, 42 sider, slut ja; 47 efter cutoff, ingen Karlby/Lyfa i titel (træffere var fodboldtrøjer m.m.). Alle delsøgninger komplette, 0 kandidater."
+  },
+  "search|DBA|lamper-row-31": {
+   "status": "færdig",
+   "attempts": 2,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "Pan 50 af 2646 læst (DBA-cap, side 51 tom), slut nej. Pan pendel, Pan loftlampe, Lyfa Pan, Bent Karlby Pan 53/53 hver komplet. 1 kandidat. || Scriptkørsel 2026-11-20 (tools/dba_scan.js, hele sider via fetch i Windows-Chrome): \"Pan\" læst 2644 af 2644, 50 sider, slut ja; 46 efter cutoff, ingen Karlby/Lyfa i titel. Kandidaten dba-10533430 (skrald) uændret."
+  },
+  "search|DBA|lamper-row-32": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "Scriptkørsel 2026-11-20 (tools/dba_scan.js). Optima Hans Due 19/19, Hans Due Optima 18/18, Optima Fog & Mørup 34/34, Fog & Mørup Optima 19/19, Optima loftlampe 53/53, Optima bordlampe 53/53, Optima standerlampe 53/53, Hans Due lampe 75/75; alle slut ja. 1 kandidat efter cutoff: 26853304 \"Optima Standerlampe\" 2.000 kr., Dronninglund, 2 dage (skal verificeres)."
+  },
+  "search|DBA|lamper-row-33": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "2026-11-18T13:00:00+01:00",
+   "resumeFrom": null,
+   "note": "Scriptkørsel 2026-11-20 (tools/dba_scan.js). Le Klint 308 53/53, Le Klint model 308 53/53, Le Klint 308 bordlampe 53/53, Aage Petersen Le Klint 53/53, Aage Petersen 308 19/19, Le Klint bordlampe 455/455; alle slut ja. 0 titel-match på 308/Aage Petersen efter cutoff."
+  },
+  "search|DBA|mobler-row-2": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "2026-11-10T08:50:00+01:00",
+   "resumeFrom": null,
+   "note": "Scriptkørsel 2026-11-20 (tools/dba_scan.js). Panton magasinholder 53/53, Verner Panton magasinholder 53/53, Fritz Hansen magasinholder 53/53, magasinholder 745/745 (15 sider); alle slut ja. Efter cutoff 2026-11-10: 41 titler med magasin/Panton; ca. 17 egentlige magasinholdere (fx 26849251 Fritz Hansen Basket 750 kr., 26934233 sidebord/magasinholder 2.200 kr.); Panton Wire-hylder er ikke magasinholdere. Skal verificeres mod designer/producent."
+  },
+  "search|DBA|mobler-row-3": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "2026-11-10T08:50:00+01:00",
+   "resumeFrom": null,
+   "note": "Scriptkørsel 2026-11-20 (tools/dba_scan.js). Severin Hansen indskudsbord 53/53, Severin Hansen sofabord 157/157, Haslev indskudsbord 53/53, Haslev sofabord 413/413, Severin Hansen Haslev 128/128, Haslev Møbelsnedkeri 200/200, indskudsborde teak 126/126; alle slut ja. \"indskudsbord palisander\" læst 90 af 117, slut ja, forskel uafklaret. Ca. 41 titel-match på Severin/Haslev efter cutoff, skal gennemgås og verificeres (Haslev giver mange ikke-Severin-annoncer)."
+  },
+  "search|DBA|mobler-row-5": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "2026-11-10T08:50:00+01:00",
+   "resumeFrom": null,
+   "note": "Scriptkørsel 2026-11-20 (tools/dba_scan.js). 1 2 3 system 1724/1724 (33 sider), Panton 1-2-3 stol 44/44, Verner Panton 1-2-3 53/53, 1-2-3 stol 1261/1261, Panton 123 stol 53/53; alle slut ja. Efter cutoff: 12 Panton-stole, heriblandt 26749566 System 1-2-3 Lounge Chair deluxe 5.490 kr., København N, 5 dage (skal verificeres); øvrige er andre Panton-modeller (Cone, Panton Chair, gyngestol)."
+  },
+  "search|DBA|plakater-row-2": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": "Scriptkørsel 2026-11-20 (tools/dba_scan.js). Louisiana plakat 321/321, Louisiana poster og Louisiana læst til ende (slut ja). Ingen cutoff: 765 unikke Louisiana-titler til højst 750 kr., hvoraf 181 med plakat/poster i titlen; skal gennemgås og verificeres (mange er magasiner og bøger)."
+  },
+  "search|Tradera|lamper-row-20": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Tradera|lamper-row-21": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Tradera|lamper-row-23": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Tradera|lamper-row-24": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Tradera|lamper-row-25": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Tradera|lamper-row-27": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Tradera|lamper-row-30": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Tradera|mobler-row-2": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-10T08:50:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Vinted|lamper-row-2": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Vinted|lamper-row-20": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Vinted|lamper-row-21": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Vinted|lamper-row-22": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Vinted|lamper-row-23": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Vinted|lamper-row-24": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Vinted|lamper-row-25": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Vinted|lamper-row-27": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Vinted|lamper-row-29": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Vinted|lamper-row-30": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Vinted|lamper-row-32": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Vinted|lamper-row-33": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Vinted|mobler-row-2": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-10T08:50:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Klein Anzeigen|lamper-row-19": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Klein Anzeigen|lamper-row-20": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Klein Anzeigen|lamper-row-23": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Klein Anzeigen|lamper-row-24": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Klein Anzeigen|lamper-row-25": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Klein Anzeigen|lamper-row-27": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Lauritz|lamper-row-20": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Lauritz|lamper-row-23": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Lauritz|lamper-row-24": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Lauritz|lamper-row-25": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Lauritz|lamper-row-27": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Lauritz|lamper-row-29": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Lauritz|lamper-row-30": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Lauritz|mobler-row-5": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-10T08:50:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Palsgaard|lamper-row-20": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Palsgaard|lamper-row-23": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Palsgaard|lamper-row-24": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Palsgaard|lamper-row-25": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Palsgaard|lamper-row-27": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Palsgaard|lamper-row-29": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Palsgaard|lamper-row-30": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Palsgaard|mobler-row-5": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-10T08:50:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Woxholt|lamper-row-20": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Woxholt|lamper-row-21": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Woxholt|lamper-row-23": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Woxholt|lamper-row-24": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Woxholt|lamper-row-25": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Woxholt|lamper-row-27": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Woxholt|mobler-row-5": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Bidstrup|lamper-row-20": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Bidstrup|lamper-row-23": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Bidstrup|lamper-row-24": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Bidstrup|lamper-row-25": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Bidstrup|lamper-row-27": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Bidstrup|mobler-row-5": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-10T08:50:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Sikö|lamper-row-20": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Sikö|lamper-row-21": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Sikö|lamper-row-23": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Sikö|lamper-row-24": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Sikö|lamper-row-25": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Sikö|lamper-row-27": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Sikö|lamper-row-30": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Catawiki|lamper-row-25": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Catawiki|lamper-row-27": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Gul og Gratis|lamper-row-2": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Gul og Gratis|lamper-row-20": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Gul og Gratis|lamper-row-21": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Gul og Gratis|lamper-row-22": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Gul og Gratis|lamper-row-23": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Gul og Gratis|lamper-row-24": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Gul og Gratis|lamper-row-25": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Gul og Gratis|lamper-row-27": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Gul og Gratis|lamper-row-29": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Gul og Gratis|lamper-row-33": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-14T09:00:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Gul og Gratis|mobler-row-5": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "2026-11-10T08:50:00+01:00",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Reshopper|lamper-row-2": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Reshopper|lamper-row-20": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Reshopper|lamper-row-21": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Reshopper|lamper-row-22": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Reshopper|lamper-row-23": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Reshopper|lamper-row-24": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Reshopper|lamper-row-25": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Reshopper|lamper-row-27": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Reshopper|lamper-row-30": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-2": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-3": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-4": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-5": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-6": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-7": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-8": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-9": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-10": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-11": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-12": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-13": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-14": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-15": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-16": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-17": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-18": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-20": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-21": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-22": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-23": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-24": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-25": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-27": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-29": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-30": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-31": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-32": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|lamper-row-33": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|mobler-row-2": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|mobler-row-3": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|mobler-row-5": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "search|Facebook Marketplace|plakater-row-2": {
+   "status": "åben",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": ""
+  },
+  "verify|DBA|1": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": "1 bekræftet / 0 forbehold / 2 afvist"
+  },
+  "write|DBA|1": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": "1 nyt (dba-26928367), 2 udeladt (ikke et match)"
+  },
+  "verify|DBA|2": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": "0 bekræftet / 1 forbehold / 1 uklar / 3 ikke et match"
+  },
+  "write|DBA|2": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": "2 nye: dba-26908921 (række 9, Uklar identitet), dba-26894365 (række 10, Sandsynlig med forbehold); 3 udeladt"
+  },
+  "verify|DBA|3": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": "0 bekræftet / 0 forbehold / 7 afvist (alle Flowerpot)"
+  },
+  "write|DBA|3": {
+   "status": "færdig",
+   "attempts": 0,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": "intet at skrive: 7 udeladt (ikke et match)"
+  },
+  "verify|DBA|4": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": "0 bekræftet / 1 forbehold (26915934) / 14 afvist"
+  },
+  "write|DBA|4": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": "1 nyt: dba-26915934 (Uklar identitet, række 15); 14 udeladt (ikke et match); Arne Jacobsen 3 annoncer udeladt til afgørelse"
+  },
+  "verify|DBA|5": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": "0 bekræftet / 0 forbehold / 3 afvist (1 ikke et match, 2 uklar identitet)"
+  },
+  "write|DBA|5": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": "0 nye, 1 opdateret (dba-26908921 lastChecked), 1 udeladt (ikke et match)"
+  },
+  "verify|DBA|6": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": "3 bekræftet / 1 forbehold / 0 afvist"
+  },
+  "write|DBA|6": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": "2 nye (dba-26913687, dba-26910523); 2 skrald-fund opdateret mmod reglen (lastChecked, available=ja): dba-10533430, dba-26257534 — skal rettes"
+  },
+  "verify|DBA|7": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": "1 bekræftet (26910523, Bent Karlby Kina-pendel, 1.200 kr). 0 forbehold, 0 afvist. Fil verify-verify_DBA_7.md"
+  },
+  "write|DBA|7": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": "dba-26910523 Bekræftet, eksisterende find opdateret. Skrivelog skrivelog-write_DBA_7.md. Bemærk: find lå under row 21 før, nu row 29. Undersøg rækkenummer-konflikt."
+  },
+  "verify|DBA|31": {
+   "status": "færdig",
+   "attempts": 1,
+   "cutoff": "ingen",
+   "resumeFrom": null,
+   "note": "Ikke verificeret: eneste kandidat dba-10533430 har feedback-verdict skrald (regel: må ikke skrives igen). Ingen write-enhed oprettet."
+  }
+ },
+ "searched": {
+  "DBA|3": "2026-11-19T21:35:00+01:00",
+  "DBA|4": "2026-11-19T21:35:00+01:00",
+  "DBA|2": "2026-11-19T21:35:00+01:00",
+  "DBA|5": "2026-11-19T21:35:00+01:00",
+  "DBA|7": "2026-11-19T21:35:00+01:00",
+  "DBA|6": "2026-11-19T21:35:00+01:00",
+  "DBA|8": "2026-11-19T21:35:00+01:00",
+  "DBA|9": "2026-11-19T21:35:00+01:00",
+  "DBA|10": "2026-11-19T21:35:00+01:00",
+  "DBA|16": "2026-11-19T21:35:00+01:00",
+  "DBA|14": "2026-11-19T21:35:00+01:00",
+  "DBA|20": "2026-11-19T21:35:00+01:00",
+  "DBA|18": "2026-11-19T21:35:00+01:00",
+  "DBA|21": "2026-11-19T21:35:00+01:00",
+  "DBA|23": "2026-11-19T21:35:00+01:00",
+  "DBA|24": "2026-11-19T21:35:00+01:00",
+  "DBA|25": "2026-11-19T21:35:00+01:00",
+  "DBA|27": "2026-11-19T21:35:00+01:00"
+ }
+}

@@ -1,0 +1,44 @@
+{
+  "category": "lamper",
+  "date": "2026-11-07T19:05:00+01:00",
+  "platforms": [
+    "DBA"
+  ],
+  "sections": [
+    {
+      "items": [
+        "Hele DBA søgt for række 17 (Piet Hein RA) og række 18 (Følsgaard), uden tidsgrænse, da rækkerne aldrig er søgt fuldt ud på DBA.",
+        "Række 17: 'Piet Hein RA 400' i Aalborg SØ, 1.000 kr., tilføjet. Sælgeren kræver Fiks færdig, så den er ikke direkte købbar.",
+        "Række 18: Pyramidependel af Hans Følsgaard, Vordingborg, 2.000 kr., tilføjet som reserveret (available ukendt)."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Facebook Marketplace, Tradera, Vinted og de øvrige platforme i rækkerne 2 og 17–18 er ikke søgt i denne kørsel.",
+        "Rækkerne 2–16 på DBA er ikke gennemgået i denne kørsel. Deres tidsgrænse er 18:37 i dag.",
+        "Tilgængelighedstjek af de 21 eksisterende fund er ikke udført i denne kørsel."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "Piet Hein RA40, København V: 2.100 kr. på annoncen, over maks 2.000.",
+        "Piet Hein RA 400 Glostrup (2.900 kr.), Piet Hein Ra-40 Vintage Nærum (2.800 kr.): over maks.",
+        "Pendel, Piet Hein, Middelfart, 75 kr.: ikke tjekket; model ikke fastlagt.",
+        "Hans Følsgaard pendel, Juelsminde, 3.400 kr.: over maks.",
+        "Væglamper (Brande, Preben Dal): væglampe, og designer ikke Følsgaard.",
+        "Søgningen 'Følsgaard' gav mange DVD-annoncer uden relevans."
+      ],
+      "title": "Udeladt"
+    },
+    {
+      "items": [
+        "DBA viser kun første side (46 resultater for Piet Hein RA, 93 for Følsgaard).",
+        "Ingen uafhængig verifikation: der blev ikke startet separate agenter.",
+        "Kortets pris kan afvige fra annoncen: RA40 viste 1.100 kr. på kortet og 2.100 kr. på annoncen."
+      ],
+      "title": "Begrænsninger"
+    }
+  ]
+}

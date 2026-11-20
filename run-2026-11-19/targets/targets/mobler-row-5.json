@@ -1,0 +1,37 @@
+{
+  "active": true,
+  "category": "mobler",
+  "colorsAllowed": [],
+  "colorsRejected": [],
+  "designers": [
+    "Verner Panton"
+  ],
+  "excludeKeywords": [],
+  "images": [],
+  "keywords": [
+    "1 2 3 system"
+  ],
+  "maxPrice": 10000,
+  "model": "1-2-3 stol",
+  "platforms": {
+    "Bidstrup": true,
+    "Catawicki": false,
+    "DBA": true,
+    "Facebook Marketplace": true,
+    "Gul og Gratis": true,
+    "Klein Anzeigen": false,
+    "Lauritz": true,
+    "Palsgaard": true,
+    "Reshopper": false,
+    "Sikö": false,
+    "Tradera": false,
+    "Vinted": false,
+    "Woxholt": true
+  },
+  "producers": [],
+  "row": 5,
+  "type": "stol",
+  "types": [
+    "stol"
+  ]
+}

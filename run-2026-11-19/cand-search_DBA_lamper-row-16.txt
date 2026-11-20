@@ -1,0 +1,12 @@
+Unit: search|DBA|lamper-row-16
+Status: færdig
+Dækning:
+- "Lars Schøiler loftlampe": 53 af 53, 1 side, slut nået: ja, før cutoff: 52, afvist: 0
+- "Høyrup loftlampe": 53 af 53, 1 side, slut nået: ja, før cutoff: 52, afvist: 1 (24136138 lanterne fra 2000-tallet, Antik Pjot, 400 kr.)
+- "Butterfly loftlampe": 53 af 53, 1 side, slut nået: ja, før cutoff: 52, afvist: 1 (10613105 Kalvehave, 2.000 kr., over maks)
+- "Symfoni loftlampe": 53 af 53, 1 side, slut nået: ja, før cutoff: 52, afvist: 1 (26876295 IKEA, ikke target)
+- "Pearl loftlampe": 53 af 53, 1 side, slut nået: ja, før cutoff: 50, afvist: 3 (26923844 Solara, 2.599 kr.; 26899368 generisk loftlampe; 26873876 perlelampe, ikke target)
+Kandidater:
+- https://www.dba.dk/recommerce/forsale/item/26908921 | række 16 | Loftlampe (ingen model eller designer angivet) | 200 kr | dato: sidst redigeret 19.11.2026 kl. 11:11 | Uklar identitet | direkte: Nej | farve: ikke oplyst (foto: beige) | type: loftlampe | by: Vanløse | forbehold: annoncen siger kun "Loftlampe fra 70erne", ingen designer eller producent; foto viser en flad disklampe, ikke entydigt Høyrup/Schøiler. "Bed om Fiks færdig" alene giver Nej.
+Note: DBA viser kun én resultatside pr. søgning (pagineringen viser "1"); det samlede antal er ustabilt (page 2 viste "14 resultater" uden kort). Sider 2 er tomme, så søgningerne er slut.
+Note: Søgeordet "Butterfly / Symfoni / Pearl" er delt i tre søgninger. Symfoni-treffene er Preben Dal (HF Belysning) og er ikke defineret som target-designer, så de er ikke rapporteret.

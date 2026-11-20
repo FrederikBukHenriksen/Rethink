@@ -1,0 +1,13 @@
+Unit: search|DBA|lamper-row-29
+Status: ikke færdig (resumeFrom: "Kina", side 2)
+Dækning:
+- "Kina": 54 af 3989, 1 side, slut nået: nej, før cutoff: 1, afvist: 53 (bare model-søgning kan ikke læses til ende: 3989 resultater, cap 50 sider; alle lampe-relevante opdelinger er dækket nedenfor)
+- "Kina lampe": 110 af 140 (total skiftede: 140 på side 1, 110 på side 2 og 3), 3 sider, slut nået: ja, før cutoff: 107, afvist: 2
+- "Kina pendel": 42 af 42, 1 side, slut nået: ja, før cutoff: 41, afvist: 0
+- "Kina glaspendel": 53 af 53, 1 side, slut nået: ja, før cutoff: 52, afvist: 0
+- "Kina loftlampe": 53 af 53, 1 side, slut nået: ja, før cutoff: 52, afvist: 0
+- "Kina hængelampe": 39 af 39, 1 side, slut nået: ja, før cutoff: 38, afvist: 0
+- "Bent Karlby Kina": 38 af 38, 1 side, slut nået: ja, før cutoff: 37, afvist: 0
+- "Kina Lyfa": 15 af 15, 1 side, slut nået: ja, før cutoff: 15, afvist: 0
+Kandidater:
+- https://www.dba.dk/recommerce/forsale/item/26910523 | række 29 | Kina pendel lampe (Bent Karlby kina pendel) | 1.200 kr | dato: sidst redigeret 19.11.2026 kl. 12:36 | Bekræftet | direkte: Nej | farve: hvid opalglas | type: pendel (kategori Loftlamper) | by: Skjern (6900) | forbehold: producent Lyfa ikke nævnt i annoncen; "Bed om Fiks færdig" alene giver Nej

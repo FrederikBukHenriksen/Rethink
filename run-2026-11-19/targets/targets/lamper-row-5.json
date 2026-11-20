@@ -1,0 +1,39 @@
+{
+  "category": "lamper",
+  "colorsAllowed": [],
+  "colorsRejected": [],
+  "designers": [
+    "Arne Jakobsen"
+  ],
+  "excludeKeywords": [],
+  "images": [],
+  "keywords": [
+    "aj royal",
+    "royal pendel"
+  ],
+  "maxPrice": 1000,
+  "model": "AJ Royal",
+  "platforms": {
+    "Bidstrup": false,
+    "Catawicki": false,
+    "DBA": true,
+    "Facebook Marketplace": true,
+    "Gul og Gratis": false,
+    "Klein Anzeigen": false,
+    "Lauritz": false,
+    "Palsgaard": false,
+    "Reshopper": false,
+    "Sikö": false,
+    "Tradera": false,
+    "Vinted": false,
+    "Woxholt": false
+  },
+  "producers": [
+    "Louis Poulsen"
+  ],
+  "row": 5,
+  "type": "loftlampe",
+  "types": [
+    "loftlampe"
+  ]
+}

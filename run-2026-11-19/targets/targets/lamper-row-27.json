@@ -1,0 +1,41 @@
+{
+  "category": "lamper",
+  "colorsAllowed": [
+    "gult"
+  ],
+  "colorsRejected": [
+    "krom"
+  ],
+  "designers": [
+    "Nils Koppel",
+    "Eva Koppel"
+  ],
+  "excludeKeywords": [],
+  "images": [],
+  "keywords": [
+    "Koppel ur"
+  ],
+  "maxPrice": 1700,
+  "model": "Panum",
+  "platforms": {
+    "Bidstrup": true,
+    "Catawicki": true,
+    "DBA": true,
+    "Facebook Marketplace": true,
+    "Gul og Gratis": true,
+    "Klein Anzeigen": true,
+    "Lauritz": true,
+    "Palsgaard": true,
+    "Reshopper": true,
+    "Sikö": true,
+    "Tradera": true,
+    "Vinted": true,
+    "Woxholt": true
+  },
+  "producers": [],
+  "row": 27,
+  "type": "vægur",
+  "types": [
+    "vægur"
+  ]
+}

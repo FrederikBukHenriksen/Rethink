@@ -1,0 +1,34 @@
+{
+  "category": "lamper",
+  "date": "2026-11-09T16:25:00+01:00",
+  "platforms": [
+    "Bistrup",
+    "Sikø"
+  ],
+  "sections": [
+    {
+      "items": [
+        "Efter ejerens præcisering er Bistrup søgt som Bidstrup Auktioner i Køge (bidstrupauktioner.com, lots via Auctionet) og Sikø som Sikö Auktioner (sikoauktioner.se, svensk, priser i SEK). Begge er søgt for række 2, 20, 21, 23, 24, 25, 26 og 27 uden tidsgrænse, og 'Space Age' er stavet rigtigt.",
+        "1 nyt fund: PH 4/3 pendel, orange, Louis Poulsen, auktion hos Bidstrup, Køge (række 2). Højeste bud 500 kr., slutter ons 11.11 kl. 21:23. Bund-/blændskærm mangler, så den er ikke helt komplet; budprisen kan stige over maks 900 kr.",
+        "Bidstrup, ingen kandidater til række 20, 23, 24, 25 og 27. Sikø: ingen kandidater i nogen række."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Fundet hos Bidstrup er ikke uafhængigt verificeret (browseren deler kun én fane, så verificeringsagenter kører ikke parallelt).",
+        "Bidstrup: en række afsluttede auktioner (bl.a. 9 Bent Karlby-lots og en Space Age pendel) er ikke skrevet til siden, fordi de ikke længere kan købes. Én aktiv PH4/3 orange (lot 5526680) blev udeladt: højeste bud 911 kr. er over maks 900 kr., og bundskærmen mangler.",
+        "Sikø: søgningen er ordbaseret og meget bogstavelig, titlerne er på svensk, og kun første resultatside pr. generel søgning er gennemset. Umærkede lamper (fx 'Taklampa metall 1950-60-tal') kan ligne Space Age i stil, men ingen annonce nævner det, og billeder er ikke vurderet.",
+        "Woxholt er stadig ikke søgt (woxholt.dk kunne ikke åbnes)."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "Excel-cellen 'Spage Age' i række 26 er ikke rettet i regnearket, fordi filen er åben i Excel på ejerens computer. Agenterne har søgt på den rigtige stavning.",
+        "Platformsfiler findes ikke for Bidstrup og Sikø; direkte køb er Nej (auktioner). Annoncens startdato er ikke synlig på Auctionet, kun sluttidspunktet."
+      ],
+      "title": "Begrænsninger"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+Unit: search|DBA|lamper-row-9
+Status: færdig
+Dækning:
+- "Mogens Davidsen loftlampe": 53 af 53, 1 side (side 2 tom), slut nået: ja, før cutoff: 47, afvist: 3 (pris over 750 kr: 10613105, 26894806, 23466113)
+- "Mogens Davidsen 50 cm": 9 af 9, 1 side, slut nået: ja, før cutoff: 9, afvist: 0
+Kandidater:
+- https://www.dba.dk/recommerce/forsale/item/26926116 | række 9 | Loft Lampe med håndlavet glaskugle (ingen designer angivet) | 300 kr. | dato: sidst redigeret 19.11.2026 kl. 19:43 | Uklar identitet | direkte: Nej | farve: hvid | type: loftlampe | by: 4000 Roskilde | forbehold: annoncen nævner ikke Mogens Davidsen eller 50 cm; foto viser kugle-pendel; "Bed om Fiks færdig" er kun en anmodning
+- https://www.dba.dk/recommerce/forsale/item/26918422 | række 9 | Loftlampe (ingen designer angivet) | 100 kr. | dato: sidst redigeret 19.11.2026 kl. 15:04 | Uklar identitet | direkte: Nej | farve: ikke oplyst | type: loftlampe | by: 3400 Hillerød | forbehold: annoncen nævner ikke designer eller 50 cm; foto viser klynge af cylinderskærme, ikke entydigt Davidsen; "Bed om Fiks færdig" er kun en anmodning
+- https://www.dba.dk/recommerce/forsale/item/26908921 | række 9 | Loftlampe fra 70erne (intet mærke angivet) | 200 kr. | dato: sidst redigeret 19.11.2026 kl. 11:11 | Uklar identitet | direkte: Nej | farve: ikke oplyst (foto: beige skærm) | type: loftlampe | by: 2720 Vanløse | forbehold: annoncen nævner ikke Mogens Davidsen eller 50 cm; "Bed om Fiks færdig" er kun en anmodning

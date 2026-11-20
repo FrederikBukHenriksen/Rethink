@@ -1,0 +1,34 @@
+{
+  "category": "mobler",
+  "date": "2026-11-10T06:40:00+01:00",
+  "platforms": [],
+  "searched": {},
+  "sections": [
+    {
+      "items": [
+        "Planlagt kørsel startet 10.11.2026 kl. 06.40. Søgelisten (targets) er læst. Ingen rækker er ændret."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Ingen markedsplads er søgt i denne kørsel. Der blev ikke startet søgeagenter, og der er ingen nye fund eller verifikation.",
+        "Tilgængelighedstjek af eksisterende møbelfund (SETUP.md afsnit 1a) er ikke kørt.",
+        "Facebook Marketplace: ikke søgt (ingen login omgået). Vinted: blokeret af Cloudflare-udfordring, ikke søgt. Tradera, Lauritz, Gul og gratis m.fl.: ikke søgt."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "Delkørsel. Ingen 'ingen fund' skal læses som resultat af søgningen."
+      ],
+      "title": "Begrænsninger"
+    },
+    {
+      "items": [
+        "Ikke kørt. Sidst tjekket 09.11. kl. 21.30 (jf. runs/2026-11-09-1956)."
+      ],
+      "title": "Tilgængelighed"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+Unit: search|DBA|lamper-row-30
+Status: ikke færdig (resumeFrom: "Barcelona", side 5)
+Dækning:
+- "Barcelona": 215 af 2197, 4 sider læst (sider 3 og 1 gentog annoncer), slut nået: nej, før cutoff: ikke talt samlet (sorteret nyeste først, sider 2-4 ældre end cutoff), afvist: ca. 10 nyere (ikke lamper: fodbold, bøger, frimærker, Lita Cabellut mv.)
+- "Barcelona lampe": 36 af 36, 1 side, slut nået: ja, før cutoff: 35, afvist: 1 (svømmebassin, nyere)
+- "Barcelona pendel": 53 af 53, 1 side, slut nået: ja, før cutoff: 53, afvist: 0
+- "Barcelona loftlampe": 50 af 50, 1 side, slut nået: ja, før cutoff: 50, afvist: 0
+- "Bent Karlby Barcelona": 10 af 10, 1 side, slut nået: ja, før cutoff: 10, afvist: 0
+- "Lyfa Barcelona": 14 af 14, 1 side, slut nået: ja, før cutoff: 14, afvist: 0
+Kandidater: 0 fundet i de læste resultater. Søgningen "Barcelona" er ikke komplet, så dette er ikke en endelig "ingen fund".
+Noter:
+- Cutoff 2026-11-18T13:00 brugt som angivet. Ingen annonce efter cutoff har et Barcelona-lampe-match. Den nyeste lampe-relevante annonce er Bent Karlby "Rigtig flot Barcelona Pendel" 26283417 (30. okt., 3.500 kr., over maks pris og før cutoff).
+- Søgningen "Barcelona" har 2197 resultater, over DBA-grænsen på ca. 1000. Den blev ikke læst til ende. Lampe-relevante opdelinger er dækket ovenfor. Resten skal læses fra side 5, eller bekræftes af en ny søgning.
+- Sider 1 og 3 viste annoncer, der også stod på side 4 (sorteringen gentages). Det er en grund til at søgningen er ufuldstændig.
+- Ved en fejl blev DBA-fanen 473869440 (ikke min fane) navigeret til søgningen. Den er gendannet til https://www.dba.dk/recommerce/forsale/item/26910523. Min egen fane er 473869471.
+- Sortering: sort=PUBLISHED_DESC er brugt. Søgefeltet viser "Mest relevante", så sorteringen kan være ufuldstændig.
+- Ingen annoncer blev åbnet, da der ikke var kandidater efter cutoff. Ingen kontakt eller køb.

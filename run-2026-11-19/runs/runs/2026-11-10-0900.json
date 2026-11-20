@@ -1,0 +1,147 @@
+{
+  "category": "mobler",
+  "criteria": {
+    "2": {
+      "colorsAllowed": [],
+      "colorsRejected": [],
+      "designers": [
+        "Verner panton"
+      ],
+      "excludeKeywords": [],
+      "images": [],
+      "keywords": [
+        "magasinholder,"
+      ],
+      "maxPrice": 4000,
+      "model": "",
+      "producers": [
+        "Fritz Hansen"
+      ],
+      "types": [
+        "magasinholder"
+      ]
+    },
+    "3": {
+      "colorsAllowed": [],
+      "colorsRejected": [],
+      "designers": [
+        "Severin Hansen"
+      ],
+      "excludeKeywords": [],
+      "images": [],
+      "keywords": [
+        "teak, palisander, eg, indskudsborde"
+      ],
+      "maxPrice": 3000,
+      "model": "indskudsbord, sofabord",
+      "producers": [
+        "Haslev Møbelsnedkeri"
+      ],
+      "types": [
+        "bord"
+      ]
+    },
+    "4": {
+      "colorsAllowed": [],
+      "colorsRejected": [],
+      "designers": [],
+      "excludeKeywords": [],
+      "images": [],
+      "keywords": [
+        "teak , palisander, eg"
+      ],
+      "maxPrice": 750,
+      "model": "spejl",
+      "producers": [],
+      "types": []
+    },
+    "5": {
+      "colorsAllowed": [],
+      "colorsRejected": [],
+      "designers": [
+        "Verner Panton"
+      ],
+      "excludeKeywords": [],
+      "images": [],
+      "keywords": [
+        "1 2 3 system"
+      ],
+      "maxPrice": 10000,
+      "model": "1-2-3 stol",
+      "producers": [],
+      "types": [
+        "stol"
+      ]
+    }
+  },
+  "date": "2026-11-10T09:00:00+01:00",
+  "platforms": [
+    "DBA",
+    "Facebook Marketplace",
+    "Tradera",
+    "Vinted",
+    "Bidstrup",
+    "Gul og Gratis",
+    "Lauritz",
+    "Palsgaard",
+    "Woxholt"
+  ],
+  "rows": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "searched": {
+    "Bidstrup|5": "2026-11-10T08:50:00+01:00",
+    "DBA|2": "2026-11-10T08:50:00+01:00",
+    "DBA|3": "2026-11-10T08:50:00+01:00",
+    "DBA|5": "2026-11-10T08:50:00+01:00",
+    "Gul og Gratis|5": "2026-11-10T08:50:00+01:00",
+    "Lauritz|5": "2026-11-10T08:50:00+01:00",
+    "Palsgaard|5": "2026-11-10T08:50:00+01:00",
+    "Tradera|2": "2026-11-10T08:50:00+01:00",
+    "Vinted|2": "2026-11-10T08:50:00+01:00"
+  },
+  "sections": [
+    {
+      "items": [
+        "Møbler, kørsel 10.11. Række 3, 5 (DBA), række 2 (Tradera, Vinted), række 5 (Bidstrup, Gul og Gratis, Lauritz, Palsgaard) er søgt uden cutoff og er komplette.",
+        "Række 3: 139 kandidater, verificeret: 61 bekræftet, 65 sandsynlig med forbehold, 12 uklar identitet, 1 ikke et match. 125 af de verificerede var allerede på siden og er opdateret (lastChecked, tilgængelighed). 13 nye fund er lagt på siden.",
+        "Række 5: 16 kandidater, verificeret. 14 var allerede på siden. 2 nye er lagt på siden. Bidstrup-lot 5336415 er solgt og er ikke lagt på siden."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Facebook Marketplace: ikke søgt. Siden sendes til login. Login er ikke omgået.",
+        "Woxholt: ikke søgt. Siden kan ikke nås fra agent-proxyen.",
+        "Række 2 på DBA: 0 kandidater, komplet. Række 2 på Facebook: ikke søgt.",
+        "Række 4 (spejl): ikke verificeret og ikke lagt på siden, efter brugerens beslutning. Søgningen er ikke gemt som cutoff, så næste kørsel søger igen."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "Række 4 (spejl): 274 kandidater er udeladt efter brugerens beslutning.",
+        "Ikke et match: 1 annonce på række 3 er afvist ved verifikation."
+      ],
+      "title": "Fravalgt"
+    },
+    {
+      "items": [
+        "Datoer på DBA er 'sidst redigeret', ikke oprettelsesdato.",
+        "Fiks færdig regnes kun 'Ja', hvor badge og tilbud er synligt på annoncen.",
+        "14 prisafvigelser mellem søgning og verifikation er ikke skrevet til fundene. De skal tjekkes manuelt.",
+        "Billeder er ikke hentet. Platform-agenterne læser annoncer via curl, fordi Playwright gav tomme sider."
+      ],
+      "title": "Begrænsninger"
+    },
+    {
+      "items": [
+        "De eksisterende DBA-fund på møbler (139) er tjekket i dag: stadig til salg."
+      ],
+      "title": "Tilgængelighed"
+    }
+  ]
+}

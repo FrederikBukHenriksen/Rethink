@@ -1,0 +1,48 @@
+{
+  "category": "alle",
+  "date": "2026-11-13T06:42:00+01:00",
+  "platforms": [],
+  "sections": [
+    {
+      "items": [
+        "Der blev ikke søgt på nogen platform i denne kørsel. Hele søgningen er ikke gennemført, og der er ingen nye fund fra denne kørsel. Ingen fund er tilføjet, fjernet eller ændret.",
+        "Tilgængelighedstjekket af de eksisterende fund i finds (SETUP.md afsnit 1a) er ikke gennemført. Der er ca. 200 fund i databasen, og tjekket kræver uafhængige platformsagenter, som ikke blev startet. Ingen lastChecked er opdateret.",
+        "Ingen verifikationsagenter blev startet, fordi der ikke var nogen søgeagenter og derfor ingen kandidater.",
+        "Facebook Marketplace er ikke søgt. Den skal forsøges én gang efter reglerne i projektinstruktionen."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "Kategorier læst: lamper, mobler, plakater (3 stk.).",
+        "Targets læst: 36 dokumenter. Ét er inaktivt (mobler-row-4). Øvrige 35 er aktive.",
+        "Række 28 (lamper) er aktiv, men har ingen platform sat til true. Den søges ikke nogen steder.",
+        "Række 19 (lamper) er kun sat til Klein Anzeigen. Den er ikke søgt, fordi Klein Anzeigen ikke er søgt i denne kørsel.",
+        "Række 4 (mobler) er inaktiv og er ikke søgt.",
+        "Plakater række 2 har kun DBA og Facebook Marketplace som true. Den er ikke søgt."
+      ],
+      "title": "Dækning af søgelisten"
+    },
+    {
+      "items": [
+        "requests/search fandtes ikke ved kørslens start, så der var ingen bestilling fra knappen. Kørslen er en planlagt kørsel. requests/search blev oprettet med status kører og afsluttes nu med status færdig."
+      ],
+      "title": "Forhold til bestilling"
+    },
+    {
+      "items": [
+        "Flere fund har prisfelter der tilsyneladende er forkert indlæst. Eksempler: dba-10498689 (20002000), dba-11107464 (800081500), dba-14118457 (99979), dba-15307757 (75005), dba-16764939 (60079). Det samme gælder dba-17605533 og dba-14652471, hvor check-teksten beskriver en anden pris. Prisfelterne bør tjekkes manuelt på siden.",
+        "Flere fund er markeret som Bekræftet uden at søgeagenten eller verifikationen har bekræftet det. Eksempler er mobler-fundene fra Haslev og Severin Hansen, hvor check siger at verifikationen er svagere. Statuser bør gennemgås.",
+        "Fund i lamper-kategorien fra DBA og Catawiki har ofte kun listetitel som grundlag og er ikke åbnet. Det står i deres check-felt."
+      ],
+      "title": "Dataadvarsel til siden"
+    },
+    {
+      "items": [
+        "Næste kørsel skal først tjekke tilgængeligheden af de eksisterende fund og derefter søge nye, jf. SETUP.md afsnit 1a og 1.",
+        "Der er ingen gyldige cutoffs endnu, fordi ingen søgning er gennemført. Næste kørsel søger derfor hele platformene for alle aktive rækker."
+      ],
+      "title": "Næste skridt"
+    }
+  ]
+}

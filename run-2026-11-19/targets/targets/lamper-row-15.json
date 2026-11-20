@@ -1,0 +1,40 @@
+{
+  "category": "lamper",
+  "colorsAllowed": [],
+  "colorsRejected": [],
+  "designers": [
+    "Brylle",
+    "Jacobsen"
+  ],
+  "excludeKeywords": [],
+  "images": [],
+  "keywords": [
+    "String"
+  ],
+  "maxPrice": 1500,
+  "model": "",
+  "platforms": {
+    "Bidstrup": false,
+    "Catawicki": false,
+    "DBA": true,
+    "Facebook Marketplace": true,
+    "Gul og Gratis": false,
+    "Klein Anzeigen": false,
+    "Lauritz": false,
+    "Palsgaard": false,
+    "Reshopper": false,
+    "Sikö": false,
+    "Tradera": false,
+    "Vinted": false,
+    "Woxholt": false
+  },
+  "producers": [
+    "Quality System",
+    "Ikea"
+  ],
+  "row": 15,
+  "type": "loftlampe",
+  "types": [
+    "loftlampe"
+  ]
+}

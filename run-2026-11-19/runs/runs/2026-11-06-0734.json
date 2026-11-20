@@ -1,0 +1,61 @@
+{
+  "category": "lamper",
+  "date": "2026-11-06T07:34:00+01:00",
+  "platforms": [
+    "DBA",
+    "Facebook Marketplace"
+  ],
+  "sections": [
+    {
+      "items": [
+        "Ny søgning 6. nov. kl. 07:33. Tidsvindue: annoncer nyere end forrige DBA-søgning kl. 19:12 den 5. nov. (ca. 12 timer).",
+        "DBA søgt for alle 15 rækker, nyeste først. Ingen nye kvalificerede kandidater.",
+        "Tilgængelighed: alle 17 fund (16 tidligere, 1 fra 5. nov.) åbnede og er stadig online. lastChecked er sat."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Facebook Marketplace er ikke søgt. Søgningen står stadig på San Francisco, og byen kan ikke ændres i browserpanelet.",
+        "Pris, reserveret-status og 'Kan købes direkte' er ikke tjekket på fundene, fordi annoncernes tekst ikke kan læses i browserpanelet. Kun at annoncen findes er tjekket."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "DBA: kun øverste side pr. søgning, sorteret nyeste først. Annoncer ældre end ca. 12 timer er ikke med i vinduet.",
+        "Ingen uafhængig verifikation: der blev ikke startet separate agenter."
+      ],
+      "title": "Begrænsninger"
+    },
+    {
+      "items": [
+        "Række 4: Snowball Pendel, Gilleleje, 8.500 kr., 11 t.: over maks 6.000.",
+        "Række 8: Nova i massiv kobber, Juelsminde, 2.500 kr., 10 t.: over maks 1.500. 'Rød Maxi Poker', Viby J, 750 kr.: ikke Nova.",
+        "Række 8: Par Jo Hammerborg standerlampe, Rødvig, 800 kr., 18 t.: standerlampe, ikke loftlampe.",
+        "Række 12/13: '2 flotte Pantone - Gastor pendant lamper', Brynde, 800 kr., 8 t.: hverken Globe eller Spiral nævnes, og 'Gastor' er ikke en kendt Panton-model. Annoncen er ikke tilføjet.",
+        "Række 13: En stor Smuk Panton, Aarhus N, 5.500 kr., 11 t.: over maks 2.900.",
+        "Række 2: PH 4/3 loftlampe Ringkøbing, 900 kr., nu 21 t. gammel: uden for vinduet. Linket er ikke tilføjet."
+      ],
+      "title": "Udeladt"
+    },
+    {
+      "items": [
+        "Tradera, Vinted og de øvrige platforme i arket har ingen flueben på nogen række og er ikke søgt."
+      ],
+      "title": "Fravalgt"
+    },
+    {
+      "items": [
+        "17 fund tjekket: alle online."
+      ],
+      "title": "Tilgængelighed"
+    },
+    {
+      "items": [
+        "Ingen prisændringer registreret, da priser ikke kunne læses."
+      ],
+      "title": "Prisændringer"
+    }
+  ]
+}

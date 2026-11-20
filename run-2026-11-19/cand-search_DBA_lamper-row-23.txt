@@ -1,0 +1,7 @@
+Unit: search|DBA|lamper-row-23
+Status: færdig
+Dækning:
+- "Magasinholder": 746 af 746, 15 sider (side 16 tom), slut nået: ja, før cutoff: 741, afvist: 5 (26925393, 26900048, 26884419: ingen designer/producent, efter cutoff; 26888162, 26896528: ikke lamper, 1 dag)
+- "Bachelor": 307 af 307, 6 sider (side 7 tom), slut nået: ja, før cutoff: 306, afvist: 1 (26912961 DVD, efter cutoff). Verner Panton Bachelor-stole og -sofabord (24271248 1.800 kr, 19265656 2.000 kr) er ikke magasinholdere og er før cutoff.
+- "Verner Panton magasinholder": 53 af 53, 1 side (side 2 tom), slut nået: ja, før cutoff: 50, afvist: 3 (26919761 1.600 kr, 26877748 1.600 kr: over maks pris, efter cutoff; 26900048: ingen designer)
+Kandidater: ingen

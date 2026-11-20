@@ -1,0 +1,7 @@
+Unit: search|DBA|lamper-row-27
+Status: færdig
+Dækning:
+- "Panum": 46 af 46, 1 side, slut nået: ja, før cutoff: 46, afvist: 0
+- "Panum Koppel": 0 af 0, 1 side, slut nået: ja, før cutoff: 0, afvist: 0
+- "Koppel ur": 86 af 86, 2 sider, slut nået: ja, før cutoff: 83, afvist: 3
+Kandidater: ingen

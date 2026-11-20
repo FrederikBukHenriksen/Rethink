@@ -1,0 +1,34 @@
+{
+  "category": "lamper",
+  "colorsAllowed": [],
+  "colorsRejected": [],
+  "designers": [
+    "Bent Karlby"
+  ],
+  "excludeKeywords": [],
+  "images": [],
+  "keywords": [
+    "Bent Karlby"
+  ],
+  "maxPrice": 4000,
+  "model": "",
+  "platforms": {
+    "Bidstrup": false,
+    "Catawicki": false,
+    "DBA": true,
+    "Facebook Marketplace": true,
+    "Gul og Gratis": true,
+    "Klein Anzeigen": false,
+    "Lauritz": false,
+    "Palsgaard": false,
+    "Reshopper": true,
+    "Sikö": true,
+    "Tradera": true,
+    "Vinted": true,
+    "Woxholt": true
+  },
+  "producers": [],
+  "row": 21,
+  "type": "",
+  "types": []
+}

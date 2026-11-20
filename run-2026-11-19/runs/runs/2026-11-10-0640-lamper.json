@@ -1,0 +1,36 @@
+{
+  "category": "lamper",
+  "date": "2026-11-10T06:40:00+01:00",
+  "platforms": [],
+  "searched": {},
+  "sections": [
+    {
+      "items": [
+        "Planlagt kørsel startet 10.11.2026 kl. 06.40. Søgelisten (targets) og kategorierne er læst fra databasen. Ingen rækker er ændret."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Ingen markedsplads er søgt i denne kørsel. Der blev ikke startet søgeagenter, og der er ingen nye fund, ingen verifikation og ingen tilgængelighedstjek.",
+        "Tilgængelighedstjek af eksisterende lampefund (SETUP.md afsnit 1a) er ikke kørt. Det er hele fundlisten (over 200 aktive fund).",
+        "Facebook Marketplace: ikke søgt (ingen login omgået).",
+        "Vinted: browseren mødtes af en Cloudflare-udfordring (403) og blev ikke søgt. Der blev ikke forsøgt at omgå den.",
+        "Woxholt, Palsgaard, Bidstrup, Sikø, Lauritz, Catawiki, Klein Anzeigen, Reshopper, Guld og gratis: ikke søgt i denne kørsel."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "Dette var en delkørsel, ikke en fuld søgning. Ingen 'ingen fund' skal læses som resultat af søgningen."
+      ],
+      "title": "Begrænsninger"
+    },
+    {
+      "items": [
+        "Ikke kørt. Sidst tjekket 09.11. kl. 15.50 (jf. runs/2026-11-09-1550)."
+      ],
+      "title": "Tilgængelighed"
+    }
+  ]
+}

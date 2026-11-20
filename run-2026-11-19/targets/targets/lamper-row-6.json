@@ -1,0 +1,39 @@
+{
+  "category": "lamper",
+  "colorsAllowed": [],
+  "colorsRejected": [],
+  "designers": [
+    "Jørgen Utzon"
+  ],
+  "excludeKeywords": [],
+  "images": [],
+  "keywords": [
+    "søværnspendel",
+    "Wopa"
+  ],
+  "maxPrice": 850,
+  "model": "",
+  "platforms": {
+    "Bidstrup": false,
+    "Catawicki": false,
+    "DBA": true,
+    "Facebook Marketplace": true,
+    "Gul og Gratis": false,
+    "Klein Anzeigen": false,
+    "Lauritz": false,
+    "Palsgaard": false,
+    "Reshopper": false,
+    "Sikö": false,
+    "Tradera": false,
+    "Vinted": false,
+    "Woxholt": false
+  },
+  "producers": [
+    "Louis Poulsen"
+  ],
+  "row": 6,
+  "type": "loftlampe",
+  "types": [
+    "loftlampe"
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "category": "lamper",
+  "date": "2026-11-09T15:50:00+01:00",
+  "platforms": [
+    "DBA",
+    "Facebook Marketplace",
+    "Palsgaard",
+    "Lauritz",
+    "Guld og gratis",
+    "Tradera",
+    "Catawiki",
+    "Klein Anzeigen",
+    "Reshopper",
+    "Vinted"
+  ],
+  "sections": [
+    {
+      "items": [
+        "Regnearket er ændret siden sidst: række 20-27 (Brylle, Bent Karlby, Stelton Paul Smith, Magasinholder, Kartell ur, Space Age bordlampe, Space Age pendel, Panum/Koppel ur) har nu platforme afkrydset. De er søgt i hele markedet uden tidsgrænse. Række 2-19 er søgt med deres cutoff fra tidligere kørsler.",
+        "Der er skrevet 463 nye fund: DBA 195, Vinted 69, Klein Anzeigen 95, Facebook 30, Catawiki 29, Guld og gratis 13, Tradera 20, Palsgaard 5, Reshopper 5, Lauritz 2. Fordelt på rækker: række 21 (Bent Karlby) er det største (ca. 245), derefter række 25 (ca. 90) og række 26 (ca. 83). Række 19, 20, 22, 23 og 24 har få.",
+        "Vigtigste enkeltfund: Kaiser Idell 6781, rød/messing, 165 EUR VB, Gelsenkirchen (række 19, Klein Anzeigen, bekræftet, opslået i dag). Desuden Panton-magasinholdere på DBA, Vinted, Facebook, Catawiki og Palsgaard (række 23), to Kartell Tic & Tac-vægure på Klein Anzeigen (række 24, 60 og 90 EUR) og tre Lars Schiøler-pendler på DBA, 850 kr. (række 16).",
+        "Ingen nye kandidater til række 2 (PH 4/3), 3, 5, 6, 9-15, 17, 18 og 27 på nogen platform. Der er heller ingen Panum/Koppel-ure (række 27). De PH 4/3 der blev set, var over maks 900 kr. eller i aluminium (Catawiki) uden orange/blå farve.",
+        "Tilgængelighed: DBA 26558665, 26577606, 1669629 og 26419812, Klein Anzeigen 3565957471 og Facebook 1813249699826032 er tjekket og stadig til salg; priserne er uændrede. De 205 skrald-markerede fund er ikke tjekket igen og ikke vist igen."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "INGEN af de nye fund er uafhængigt verificeret. Søgeagenterne kunne ikke køre parallelt: den indbyggede browser har kun én delt fane, så de første forsøg på Facebook, Klein Anzeigen og Lauritz mislykkedes og blev kørt om én ad gangen. Verificeringsagenter blev derfor ikke startet. Alle nye fund har 'Ikke uafhængigt verificeret' i feltet 'Skal tjekkes'.",
+        "Woxholt: woxholt.dk kunne ikke åbnes i browseren (navigation afvist) og blev ikke søgt. Bistrup og Sikø: der findes ingen entydig butik med de navne, og de blev ikke søgt. Palsgaard er søgt som Palsgaard Kunstauktioner via Auctionet, men det er et gæt på hvilken platform der menes.",
+        "Klein Anzeigen: søgeagenten fandt ca. 190 Space Age-bordlamper og ca. 103 Space Age-pendler, men skrev kun de 40 og 30 nyeste ud. Ca. 139 og 73 ældre opslag mangler.",
+        "De fleste søgninger dækker kun første resultatside. DBA række 21: ca. 125 af de ca. 159 fund er kun vurderet ud fra listetitlen. Facebook: ikke alle søgeformuleringer er kørt (fx 'ph4/3', 'Poul Henningsen PH 4/3 pendel', 'Piet Hein RA 50'), og ca. 6 opslag viser ingen alder ('På lager').",
+        "Billeder er ikke vurderet af nogen søgeagent, og feltet 'image' er ikke udfyldt på de nye fund."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "Række 25 og 26 har ingen model eller designer ('Space Age'), så fundene er vurderet på sælgerens egen betegnelse og står som 'Sandsynlig med forbehold' eller 'Uklar identitet'. Det er mange fund, og de fleste er stil, ikke bestemte modeller. Overvej at give rækkerne en model eller en designer.",
+        "Række 21 (Bent Karlby): rækken har hverken type eller model, så alle slags Karlby-genstande er med. Tre DBA-fund er ikke lamper (reol, skammel, Royal Copenhagen-plade) og er markeret i feltet 'Skal tjekkes'. Række 22 (Stelton Paul Smith) giver kander, skåle og kopper, ikke lamper. Række 23 og 24 er magasinholdere og ure.",
+        "Regnearket har tastefejl som agenterne har håndteret uden at ændre filen: søgeordet 'Spage Age' i række 26 (der er søgt på 'Space Age'), kolonnen 'Catawicki', og værdien 'S' i Vinted-kolonnen på række 22 (behandlet som ikke afkrydset, så række 22 er ikke søgt på Vinted).",
+        "Priser: Tradera (tradera.com) viser SEK; de er omregnet til DKK med cirka 0,68, som ikke stammer fra en kilde (priceNote viser SEK-beløbet). Catawiki er EUR x 7,46. Auktioner (Catawiki, Palsgaard, Lauritz, Tradera) viser nuværende eller mindste bud, ikke slutpris. Annoncedatoer er hovedsagelig relative eller afledte (Vinted, Facebook, Reshopper, auktioner) og står som omtrentlige.",
+        "Facebook: den indbyggede browser var allerede logget ind på Facebook i forvejen. Agenterne loggede ikke ind og klikkede ikke på noget der sender, gemmer eller deler, men læste med den eksisterende session.",
+        "Platformsfiler findes kun for DBA, Tradera og Vinted. Direkte køb er derfor 'Tjek' på de øvrige, medmindre annoncen selv viste købsbeskyttelse."
+      ],
+      "title": "Begrænsninger"
+    }
+  ]
+}
