@@ -58,7 +58,7 @@ Search every active row on every platform where the row is `true`.
 
 ## 3. Search in the user's Chrome, in parallel
 
-**Always run the searches in parallel with subagents.** Start one subagent per platform, and split a large platform into row groups (each row in exactly one group), all in one message. Do not run platforms one after another unless subagents cannot be started, and then say so in the coverage note. Each subagent verifies each find before recording it, one at a time.
+**Always run the searches in parallel with subagents.** Start one subagent per platform, and split a large platform into row groups (each row in exactly one group), all in one message. Do not run platforms one after another unless subagents cannot be started, and then say so in the coverage note. Each find is judged by the main agent from its listing page and recorded straight away. There is no separate verification agent.
 
 Use the Claude in Chrome tools, which run in the user's own Chrome. Each subagent works in its own tab. Do not use headless browsers, curl, Playwright or ordinary web search as a substitute for marketplace search.
 
