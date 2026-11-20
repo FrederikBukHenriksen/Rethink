@@ -29,6 +29,21 @@ Alle søgeparametre for Facebook Marketplace står i denne fil.
 - Søgningen på Facebook Marketplace skal bruge en radius på cirka **400 km** fra brugerens lokation. Sæt radius i Marketplace-filteret for afstand, før resultaterne gennemgås.
 - Hvis en tidligere Facebook-søgning er kørt med mindre radius, skal søgningen køres igen med 400 km, og de nye annoncer, der ikke allerede findes i `finds`, skal tjekkes og tilføjes.
 - Skriv radius i dækningsnoten for hver søgning, så det kan ses, hvilken radius der blev brugt.
+- Facebook tilbyder ikke 400 km som valg. Se "Scriptlæsning" nedenfor: brug `radius=500` i adressen, ellers falder søgningen tilbage til 20 km.
+
+## Scriptlæsning af søgeresultater (testet 2026-11-20)
+
+Facebook Marketplace kan læses hurtigt og med få tokens med `tools/fb_scan.js` i brugerens egen Chrome (logget ind). Testet: søgningerne tog 15-80 sekunder og returnerede kun en kort liste.
+
+- Navigér til `https://www.facebook.com/marketplace/copenhagen/search/?query=<søgeord>&radius=500&sortBy=creation_time_descend&exact=false`. Sider uden `copenhagen` i stien accepteres også, men by-stien giver stabile filtre.
+- **Radius:** Facebook tilbyder faste radier. En værdi som `400` gives ikke videre, selvom filteret viser "Within 400 km": siden søger så kun inden for 20 km og svarer "No listings found". Brug `radius=500` (nærmeste mulighed over 400 km), og skriv radius 500 km i dækningsnoten.
+- Scriptet ruller siden, til tre runder i træk ikke giver nye annoncer, og returnerer antal læste, antal runder og de annoncer, hvis titel passer til en streng regex for målet og ligger under maksprisen. Kør det i baggrunden og hent resultatet bagefter (grænse 45 sekunder pr. kald).
+- Kortene viser kun pris, titel og by. Ved nedsatte annoncer står den gamle pris som en ekstra linje (`DKK3,495`) mellem prisen og titlen. Scriptet fjerner den linje; ellers bliver den gamle pris læst som titel, og titelfilteret overser annoncen. **Datoen findes kun på selve annoncen**, så kandidater skal åbnes (`facebook.com/marketplace/item/<id>/`) for dato, stand, beskrivelse og tilgængelighed.
+- Facebook har ingen total og ingen slut-markering. Skriv derfor `læst <n>, stabil efter <runder> runder` og aldrig "komplet". Søgninger, der giver flere hundrede kort, er brede og kan indeholde mange urelaterede annoncer.
+- Facebooks søgning er streng for flere ord: "Piet Hein RA40" gav 0 resultater, mens "Piet Hein" gav 177. Søg på kort designer- eller modelnavn, og filtrér på titel.
+- Sammenlign annoncenumrene med `finds` (id `facebook-<id>`), og åbn kun dem, der ikke findes i forvejen.
+- **Privatliv:** Læs aldrig `document.body.innerText` ud over tjekket for "No listings found". Siden kan indeholde brugerens åbne Messenger-vindue med private beskeder. Læs kun annoncelinks og deres tekst.
+- Stop og skriv "ikke søgt" ved login-væg, checkpoint eller bot-tjek (scriptet returnerer `LOGIN/CHECKPOINT`).
 
 ## Dato
 
