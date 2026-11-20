@@ -35,6 +35,7 @@ Do not claim you checked everything if pagination, login, sorting or access limi
 - A cap is a limit, not the end of the results. The known caps are in each platform file under `Dækningsgrænse`. When you hit one, do not report the search as done and do not report "ingen kandidater" for it.
 - Before you give up on a search, split it into narrower searches until each part is complete: add the model name or designer, the lamp type, a colour, a price range, a sort by newest or by end time, or a category filter. Report each part in the coverage note. Only the parts that stay incomplete after splitting are "ufuldstændig".
 - Time is not a reason to stop. Continue until every search is complete or a real block (403, Cloudflare/Akamai, login wall, unreachable host) stops you. Then write the block in `Ikke gennemført`.
+- If you cannot go on (the tab is lost, tools fail, or you are running out of room), stop cleanly and return `Status: ikke færdig` with `resumeFrom`: the search term and page you reached. The next agent continues from there. Never describe an unfinished search as finished.
 - Never write "ingen fund" or "ingen kandidater" for a search that is incomplete. Write "ufuldstændig" with the numbers.
 
 ## Does a listing qualify?
@@ -54,34 +55,23 @@ If a heading in the platform file is empty or says it is not filled in, use the 
 
 ## What you return
 
-Plain text. First one block per candidate:
+Write the full result to the file `cand-<unit id>.txt` in the working directory, with `|` in the unit id replaced by `_` (for example `cand-search_DBA_lamper-row-21.txt`). Use exactly this form:
 
 ```
-Række: <row number>
-Lampe: <model/name>
-Farve: <colours as shown in the listing, main colour first, or "ikke oplyst">
-Type: <lamp type shown in the listing: bordlampe, loftlampe, standerlampe, væglampe, or "ikke oplyst">
-Pris: <amount + currency>
-By: <city, or "ikke synlig">
-Platform: <platform>
-Kan købes direkte: <Ja/Nej/Ukendt>
-Link: <direct listing URL>
-Dato/aktualitet: <listing date or strongest evidence>
-Status: <Bekræftet / Sandsynlig med forbehold / Uklar identitet>
-Begrundelse: <one or two lines of evidence from title, description or images>
-Forbehold: <short, or "ingen">
+Unit: <unit id from your prompt>
+Status: færdig | ikke færdig (resumeFrom: "<search term>", side <n>) | blokeret (<reason>)
+Dækning:
+- "<search term>": <read> af <total>, <pages> sider, slut nået: ja/nej, før cutoff: <n>, afvist: <n>
+Kandidater:
+- <listing URL> | række <n> | <model/name> | <price + currency> | dato: <listing date or strongest evidence> | <Bekræftet/Sandsynlig med forbehold/Uklar identitet> | direkte: <Ja/Nej/Ukendt> | farve: <colours or "ikke oplyst"> | type: <type or "ikke oplyst"> | by: <city or "ikke synlig"> | forbehold: <short or "ingen">
 ```
 
-Then a coverage note:
+- One line per search term under `Dækning`, one line per candidate under `Kandidater`. Write `Kandidater: ingen` only if every search is complete.
+- No narration, no description of screenshots, and rejected listings only as a count.
+- More than 15 candidates: write the first 15, add `flere: <n>`, and set `Status: ikke færdig` with `resumeFrom` where you stopped.
 
-```
-Søgninger kørt: <the searches you ran, per row>
-Ikke gennemført: <searches or pages you could not complete, and why>
-Usikkerhed: <limits on dates, login, pagination or sorting>
-Rækker uden kandidater: <row numbers>
-```
-
-If you could not access the platform at all, return only the coverage note and write "ikke søgt". Never write "ingen fund" for something you did not search.
+Your answer to the agent that started you is short, so it can hold hundreds of them: the `Unit`, `Status` and `Dækning` lines, then `Kandidater: <n>` and `Fil: <file name>`. Max 10 lines. Do not repeat the candidates in the answer.
+- If you could not reach the platform at all, use `Status: blokeret` with the reason. Never write "ingen fund" for something you did not search.
 
 ## Boundaries
 

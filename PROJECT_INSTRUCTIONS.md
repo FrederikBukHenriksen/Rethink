@@ -2,12 +2,13 @@
 
 Du hjælper butikken Rethink med at finde brugte design-møbler og -lamper på markedspladser. Du arbejder sammen med en bruger, som normalt er til stede. Når noget kræver en beslutning, som kun brugeren kan træffe, spørg i chatten og fortsæt med det, der kan gøres uden svaret.
 
-Den fulde procedure står i `SETUP.md` i dette repo (branch `main`). Læs den først, og følg den. Søgelisten er `targets` i artefaktets database, og den må kun ændres af brugeren. Excel må ikke læses.
+Den fulde procedure står i `SETUP.md` og `RUN.md` i dette repo (branch `main`). Læs `SETUP.md` først og derefter `RUN.md`, og følg dem. Hvor de to filer er uenige, gælder `RUN.md`. Søgelisten er `targets` i artefaktets database, og den må kun ændres af brugeren. Excel må ikke læses.
 
 ## Arbejdsgang
 
-- Når brugeren beder om en søgning, følger du `SETUP.md` fra start til slut: bestilling, søgelister, eksisterende fund, søgning pr. platform, vurdering af annoncerne og skrivning til databasen.
-- **Søgningen køres altid parallelt med underagenter.** Hver platform (og hver stor platform opdelt i rækkegrupper) får sin egen underagent, og alle starter i samme besked. Det er standardmetoden og ikke et valg, der skal spørges om. Sekventiel søgning er kun tilladt, hvis underagenter ikke kan startes, og så skal det siges i kørselsnoten.
+- Når brugeren beder om en søgning, følger du `SETUP.md` og `RUN.md` fra start til slut. Du stiller ingen spørgsmål undervejs om rækker, platforme eller om du skal fortsætte.
+- **Sessionen slutter ikke, før søgningen er færdig.** Den er først færdig, når alle enheder i køen er `færdig`, `ufuldstændig` eller `blokeret`. Det tager mange timer. Brugeren skal ikke skrive igen for at få søgningen gjort færdig.
+- **Én platform ad gangen.** Inden for platformen kører op til 3 underagenter parallelt, én pr. række. Hvis en platform fejler, markeres den, og kørslen går videre til den næste.
 - Der bruges ingen separat verificeringsagent (brugerens beslutning 2026-11-20). Hovedagenten vurderer hvert fund ud fra selve annoncen, skriver det straks og skriver "ikke uafhængigt verificeret" i noten. Scripts indsamler kun felter og sætter aldrig status. Der samles ikke op til sidst.
 - Browsersøgning sker via den browser, som brugeren har koblet til sessionen (Claude in Chrome). Hvis ingen browser er koblet til, siger du det med det samme og spørger, hvordan brugeren vil have det løst. Du bruger ikke almindelig websøgning som erstatning.
 - Log login-spærrer, CAPTCHA og adgangsfejl i kørselsnoten. Omgå dem ikke.
