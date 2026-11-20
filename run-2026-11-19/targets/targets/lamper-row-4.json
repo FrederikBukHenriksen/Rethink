@@ -1,0 +1,38 @@
+{
+  "category": "lamper",
+  "colorsAllowed": [],
+  "colorsRejected": [],
+  "designers": [
+    "Poul Henningsen"
+  ],
+  "excludeKeywords": [],
+  "images": [],
+  "keywords": [
+    "snebold"
+  ],
+  "maxPrice": 6000,
+  "model": "PH Snowball",
+  "platforms": {
+    "Bidstrup": false,
+    "Catawicki": false,
+    "DBA": true,
+    "Facebook Marketplace": true,
+    "Gul og Gratis": false,
+    "Klein Anzeigen": false,
+    "Lauritz": false,
+    "Palsgaard": false,
+    "Reshopper": false,
+    "Sikö": false,
+    "Tradera": false,
+    "Vinted": false,
+    "Woxholt": false
+  },
+  "producers": [
+    "Louis Poulsen"
+  ],
+  "row": 4,
+  "type": "loftlampe",
+  "types": [
+    "loftlampe"
+  ]
+}

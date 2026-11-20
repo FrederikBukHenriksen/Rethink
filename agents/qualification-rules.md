@@ -1,4 +1,4 @@
-This file holds the rules for judging a listing. They are shared by the search agents and the verification agent, so they exist in one place only.
+This file holds the rules for judging a listing. They are shared by the search agents and the main agent (who judges each listing), so they exist in one place only.
 
 # Qualification rules
 

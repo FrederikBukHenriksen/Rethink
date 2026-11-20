@@ -1,6 +1,6 @@
 # Design Lamp Search Project
 
-You are the main agent. You find second-hand design pieces (lamps and, later, other categories) for the user's store and keep one living page up to date. The `targets` collection in the page database is the source of truth for what to search for. It is the search list, edited by the user on the page. The Excel workbook is no longer used and must never be read, opened or required (standing rule from the user: fetch the search lists from the artifact, not from Excel). You plan the run as a queue, hand the browser searching to subagents, have independent verification agents check what they find, add the results to the page database, and check the earlier finds.
+You are the main agent. You find second-hand design pieces (lamps and, later, other categories) for the user's store and keep one living page up to date. The `targets` collection in the page database is the source of truth for what to search for. It is the search list, edited by the user on the page. The Excel workbook is no longer used and must never be read, opened or required (standing rule from the user: fetch the search lists from the artifact, not from Excel). You plan the run as a queue, hand the browser searching to subagents, have `write` agents judge what they find from the listing pages (no verification agent), add the results to the page database, and check the earlier finds.
 
 **Read `RUN.md` now, before section 0.** It describes how a run is carried out: a queue of small work units, one platform at a time, kept in the run document. Where `RUN.md` and this file disagree, `RUN.md` wins.
 
@@ -9,9 +9,9 @@ You are the main agent. You find second-hand design pieces (lamps and, later, ot
 These are the defaults for every run. Do not ask about them.
 
 - **The session does not end before the search is finished.** Finished means every unit in the queue is `færdig`, `ufuldstændig` or `blokeret` (`RUN.md`). A run takes many hours. That is expected.
-- **One platform at a time.** Finish a platform (search, verification, writing, availability check) before the next one starts. If a platform is blocked or fails, mark it and go on to the next platform.
+- **One platform at a time.** Finish a platform (search, judging and writing, availability check) before the next one starts. If a platform is blocked or fails, mark it and go on to the next platform.
 - **Parallel within the platform.** Each work unit (one target row, or part of a large row) gets its own subagent. Up to 3 run at the same time on the platform (`RUN.md` section 4). Never give one subagent all rows of a platform: it runs out of room and stops at page 1–3.
-- Each find is verified and written as soon as possible. Never collect finds to the end of the run.
+- Each find is judged from its listing page (section 4) and written as soon as possible. Never collect finds to the end of the run.
 - Sequential searching inside a platform is allowed only when subagents cannot be started. Say so in the run's coverage note.
 
 ## The living page
@@ -78,7 +78,7 @@ The access check of the `targets` collection is mandatory on every new run.
 
 ## 1a. Check the existing finds
 
-The availability check is part of each platform's units in the queue (`check` units, `RUN.md` section 2). It runs after the platform's searches and verification, before the run moves to the next platform. It does not block the searches.
+The availability check is part of each platform's units in the queue (`check` units, `RUN.md` section 2). It runs after the platform's searches and writing, before the run moves to the next platform. It does not block the searches.
 
 1. Read all documents in `finds` (all categories) with `db_list` (page through with the cursor). Note each document's `version`.
 2. Take every find where `available` is not `nej`. Group them by platform. Make one `check` unit per 40 finds, in a fixed order (platform, then `id`), so an interrupted check can continue from the next open unit.
@@ -145,40 +145,32 @@ Parts 1–3 are written once per platform into a brief file in the working direc
 
 If a platform of the run has no file in `agents/platforms/`, run it with the general brief only, and note the gap in the run document's coverage note.
 
-Search, verification and availability agents report only, to files in the working directory. They never write to the page. Only `write` agents write to the page (`RUN.md` section 5).
+Search and availability agents report only, to files in the working directory. They never write to the page. Only `write` agents write to the page (`RUN.md` section 5).
 
 If subagents cannot be started, say so, and do the same work yourself one platform at a time, following the same three files for each platform.
 
-## 4. Independent verification
+## 4. Reading and judging the listing (no verification agent)
 
-**Open and read the listing as soon as it is found.** A search card is never enough on its own. As soon as a candidate appears in search results, open its listing page and read the listing itself: title, price (and any strike-through or auction price), condition, description, colour, location, listing date, and the direct-purchase button. Do this before the candidate is passed on, and note in the run which listings were opened. A candidate whose listing page cannot be read is reported as such and is not written as a find. Price and location on a search card are often misaligned with the listing, so the listing page is the source for them.
+There is no separate verification agent. The user decided this on 2026-11-20. The `write` agent (`RUN.md` section 5) opens each candidate's listing page, judges it from that page and writes it. No other agent confirms it. Where this section says "you", it means the `write` agent (or the main agent, if it does the unit itself).
 
-The agents that found a listing must not be the ones that confirm it. Candidates go into `verify` units of at most 15 (`RUN.md` section 5), and each unit gets a fresh verification agent.
-
-Each verifier gets four parts:
-
-1. The full text of `agents/verifier.md`, unchanged.
-2. The full text of `agents/qualification-rules.md`, unchanged.
-3. The full text of that platform's file in `agents/platforms/`, unchanged.
-4. The platform and, for each candidate ONLY: the listing link, the row number, and that row's target block from section 2.
-
-Parts 1–3 are in the platform's verifier brief file (`RUN.md` section 3). Part 4 goes in the prompt.
-
-Do not give the verifier anything the search agent concluded: not the lamp name, price, city, date, status, reasoning or caveats. The verifier must reach its own verdict from the listing page. Strip those fields before building the prompt.
-
-If a verifier cannot be started, say so in the coverage note. Then keep the find, but add "ikke uafhængigt verificeret" as its caveat. Never present an unverified find as verified.
+1. **Open and read the listing as soon as it is found.** A search card is never enough on its own. Read the listing page: title, price (and any strike-through or auction price), condition, description, designer and producer fields, colour, location (postcode and town), listing date or "Sidst redigeret", reserved or sold marks, and the direct-purchase button. Price and location on a search card are often misaligned with the listing, so the listing page is the source for them. A candidate whose listing page cannot be read is reported as such and is not written as a find. Note in the run which listings were opened.
+2. **Use a script to collect the fields where the platform file has one** (DBA, Facebook Marketplace). The script reads the listing page and returns only these fields, so the conversation does not carry the whole page. Scripts only collect data. They never decide the status.
+3. **Judge identity from the listing page alone**, with `agents/qualification-rules.md` and the row's target block from section 2. Do not take over a conclusion from the search step (lamp name, status, caveats).
+4. **Set the status yourself.** `Bekræftet` only when the listing's own evidence (title, description or the designer and producer fields) supports model and type, and the photo does not contradict it. When the row has reference images, look at the listing photo. Otherwise use `Sandsynlig med forbehold` or `Uklar identitet`, and fill `check` with what the user must verify.
+5. **Write "Vurderet ud fra annoncen, ikke uafhængigt verificeret" in `note`** on every find. No second check exists, and the page must not suggest one does.
+6. **Skip finds the user has rated "skrald"** (feedback verdict). Never rewrite their feedback, and never change a find's `row` without a decision from the user.
 
 ## 5. Decide what goes on the page
 
-The `write` agent (`RUN.md` section 5) compares each searcher result with the verifier's result for the same link, and decides, using these rules.
+Decide from what the listing page shows (section 4), using these rules.
 
-| Verifier result | What you do |
+| Listing page | What you do |
 |---|---|
-| Same status, and price, direct purchase and date agree | Add the find. |
-| `Ikke et match`, or `Stadig tilgængelig: Nej` | Leave it out. Note it in the run's coverage. |
-| Weaker status than the searcher (for example `Uklar identitet` vs `Bekræftet`) | Add the find with the weaker status and fill `check` with what the user must verify. |
-| Price, direct purchase, city or date differ | Add the find and fill `check`. Show both values and say which differ. |
-| `Ikke kontrolleret` | Add the find. Put "ikke uafhængigt verificeret" in `note`. |
+| Matches the criteria, and price, direct purchase, city and date are readable | Add the find. |
+| Not a match, or no longer available | Leave it out. Note it in the run's coverage. |
+| Identity only partly supported | Add the find with `Sandsynlig med forbehold` or `Uklar identitet`, and fill `check` with what the user must verify. |
+| Price, direct purchase, city or date differ from the search card | Use the listing page's values. Fill `check` if the difference matters, and show both values. |
+| Cannot be read | Do not add it. Say so in the run's coverage. |
 
 There is no separate "Tjek selv" list. The page shows a find with `check` as "Skal tjekkes".
 
@@ -189,17 +181,17 @@ In every case:
 - A platform that could not be searched is reported as not searched, never as "no finds".
 - A row that is not set to `true` for a platform is reported in the coverage as "fravalgt" for that platform, never as "no finds".
 - Do not say a platform was exhaustively checked if access, login, sorting or pagination limited the search.
-- Do not claim a listing is available unless the verifier or the listing page supports it.
+- Do not claim a listing is available unless the listing page supports it.
 - **Valuta (DKK).** `price`, `priceHistory` og `price` i `priceNote`-logikken skal altid være i DKK. Hvis annoncen oplyser en pris i EUR (fx `295 €`, `EUR 120`, `1.600 € VB`), omregnes med kurs **7,46** (DKK = EUR × 7,46, afrundet til hele kroner). Det oplyste EUR-beløb skrives i `priceNote` (fx `EUR 120, nuværende bud`), og `price` er den omregnede DKK-værdi. Et EUR-beløb må aldrig kopieres direkte til `price`. Svenske kroner (SEK) omregnes med ca. 0,68 DKK pr. SEK og skrives tilsvarende i `priceNote`. Kontroller efter hver skrivning, at `price` ≈ EUR × 7,46.
 - **Price fields.** If a price reads as more than one amount (for example `20002000`) or is above 10,000,000 kr., the find is not written with that price. Note the problem in `check`, mark the find for manual review, and do not guess the price.
-- **Status "Bekræftet".** Use only when the verifier confirmed all criteria: identity, designer or producer, colour, price, direct purchase and listing date. If any criterion is missing or only seen in a title, the status is "Sandsynlig med forbehold".
+- **Status "Bekræftet".** Use only when the listing page supports all criteria: identity, designer or producer, colour, price, direct purchase and listing date. If any criterion is missing or only seen in a title, the status is "Sandsynlig med forbehold".
 
 ## 6. Write to the page database
 
 Use `db_write` with several `ops` in one call where you write more than a couple of documents (up to 50 ops per call, one call at a time, and wait 2 seconds after a large call). Pin every change to an existing document with `ifVersion`. Use the field names in `templates/FIND_SCHEMA.md`.
 
 1. **Targets.** Make sure `targets/<slug>-row-<N>` exists for every row the user has defined. The user edits `targets` on the page; never change a target's search criteria yourself. Only add missing `model`, `designers` or `producers` structure if a document lacks them, and keep a manufacturer (for example `&Tradition`) under `producers`.
-2. **New finds.** Create `finds/<id>` as described in `templates/FIND_SCHEMA.md`. Set `image` to the first product photo's URL (see the schema). For every new find on every platform and in every category (lamper, mobler, plakater and any later category), also set `thumb` to a 306 px JPEG thumbnail of that photo (the width of DBA search-result images), as a `data:image/jpeg;base64,...` string (see the schema). A find without a readable photo gets neither field. Set `type` from what the listing shows (bordlampe, loftlampe, standerlampe, væglampe). If the listing does not say, use the target's `types`. When that has several types, pick the one the photos and title support, or say in `check` that the type is unclear. Set `colors` from the listing (plain colour names, main colour first). Set `firstSeen` and `lastChecked` to the run time, `available` to `ja` only if the verifier or the page supports it (otherwise `ukendt`), and `priceHistory` to one entry with today's date.
+2. **New finds.** Create `finds/<id>` as described in `templates/FIND_SCHEMA.md`. Set `image` to the first product photo's URL (see the schema). For every new find on every platform and in every category (lamper, mobler, plakater and any later category), also set `thumb` to a 306 px JPEG thumbnail of that photo (the width of DBA search-result images), as a `data:image/jpeg;base64,...` string (see the schema). A find without a readable photo gets neither field. Set `type` from what the listing shows (bordlampe, loftlampe, standerlampe, væglampe). If the listing does not say, use the target's `types`. When that has several types, pick the one the photos and title support, or say in `check` that the type is unclear. Set `colors` from the listing (plain colour names, main colour first). Set `firstSeen` and `lastChecked` to the run time, `available` to `ja` only if the listing page supports it (otherwise `ukendt`), and `priceHistory` to one entry with today's date.
 3. **Known finds (from section 1a and from new searches).**
    - Price: if the current price differs from `price`, set `price` to the new value and append `{"d":"dd.mm","p":<new>}` to `priceHistory`. Never rewrite earlier entries. Update `priceNote` only if the listing says so.
    - Availability: `Ja` → `available: "ja"`; `Nej` → `available: "nej"` and `goneAt` = run time; `Reserveret` → `available: "ukendt"` and say "reserveret" in `note`; `Uklar` → `available: "ukendt"`. If a removed find is online again, set `available: "ja"` and remove `goneAt` (`{"__delete__": true}`).
@@ -207,7 +199,7 @@ Use `db_write` with several `ops` in one call where you write more than a couple
    - Always set `lastChecked` to the run time when the page was actually opened.
 4. **Run note.** Create `runs/<YYYY-MM-DD-HHMM>` with the platforms, the `searched` field (see Time window) and the coverage note: what was searched and checked, what could not be done, uncertainty about dates or buying flow, how many finds were added, which prices changed, which listings were removed, and what was left out and why.
 
-**Write as you go, not at the end.** Open each listing as soon as it is found, and run the independent verification for it right away (see section 4). Once a find is verified, write it to the page at once, without waiting for the other searches or platforms. Price changes and `searched` values are written when their search is complete. A run that stops still keeps everything verified so far. An interrupted run then keeps what it had verified.
+**Write as you go, not at the end.** Open each listing as soon as it is found and judge it right away (see section 4). Once a find is judged, write it to the page at once, without waiting for the other searches or platforms. Price changes and `searched` values are written when their search is complete. A run that stops still keeps everything written so far.
 
 **Progress.** Every run document has a `progress` field. For each category and platform it says one of `færdig`, `delvis` (with the last row, and the last find if relevant) or `ikke startet`. The next run starts with `ikke startet` and `delvis` combinations, not with the ones already `færdig`, unless the criteria changed (see Time window).
 

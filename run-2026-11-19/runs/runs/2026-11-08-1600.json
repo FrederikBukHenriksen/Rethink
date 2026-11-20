@@ -1,0 +1,67 @@
+{
+  "category": "lamper",
+  "date": "2026-11-08T16:00:00+01:00",
+  "platforms": [
+    "DBA",
+    "Facebook Marketplace",
+    "Tradera",
+    "Vinted",
+    "Klein Anzeigen",
+    "Catawiki",
+    "Reshopper",
+    "Guld og gratis",
+    "Lauritz"
+  ],
+  "sections": [
+    {
+      "items": [
+        "Alle afkrydsede rækker er søgt på de platforme, der kunne åbnes: DBA (række 2-18), Facebook Marketplace (række 2-18, alle søgeord for hver række), og række 2 på Tradera, Vinted, Catawiki, Reshopper, Guld og gratis, Lauritz og Klein Anzeigen. Række 19 (Kaiser Idell) er søgt på Klein Anzeigen.",
+        "Nye fund: 3 fra DBA (Søværnspendel Utzon, 650 kr.; &tradition SC8 Ø 60 cm, 650 kr.; PH 4/3 rød, 750 kr.), 1 svagt fund fra Facebook (PH-lampe, 400 kr., uklar identitet) og 7 Kaiser Idell-bordlamper fra Klein Anzeigen, som en separat agent har læst igen (3 sandsynlige, 4 uklare).",
+        "På din bestilling er yderligere 152 Kaiser Idell-annoncer fra Klein Anzeigen (maks 350 EUR) skrevet som fund UDEN verificering: 91 markeret 'Sandsynlig med forbehold' (modelnummer eller 'Original' + bordlampe i titlen) og 61 'Uklar identitet'. Kun titel, pris, by og dato er læst.",
+        "Række 2 (PH 4/3): ingen nye kandidater på Tradera, Vinted, Catawiki, Reshopper, Guld og gratis, Lauritz eller Klein Anzeigen."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "DBA 26530774 (Jo Hammerborg Orient, 300 kr.) er solgt, og DBA 26552003 (PH 4/3, 300 kr.) er slettet. Begge er markeret som ikke længere tilgængelige.",
+        "DBA 26469046 (Nova, 250 kr.): ingen direkte køb ('Nej'). DBA 22587983 (Følsgård) er stadig uafklaret: sælgerteksten siger reserveret (7.11), men en tilgængelighedstjek 8.11 så den som tilgængelig.",
+        "Tradera 758161155 (orange PH 4/3, 610 kr.) er uændret og slutter i dag 8.11 kl. 20:19."
+      ],
+      "title": "Tilgængelighed"
+    },
+    {
+      "items": [
+        "Catawiki 108145389: bud nu EUR 120 (ca. 895 kr.), reserve nået (var EUR 1). Det ligger lige under din maksimumpris på 900 kr. før gebyrer (9 % + EUR 3) og fragt.",
+        "Catawiki 108306905: bud nu EUR 20 (ca. 149 kr.). Catawiki 108271602: uændret EUR 1.",
+        "Kærte fund, du har markeret som skrald, er ikke tjekket igen."
+      ],
+      "title": "Prisændringer"
+    },
+    {
+      "items": [
+        "Woxholt: woxholt.dk kunne ikke åbnes (browserfejl på alle fire adresser), så den er ikke søgt. Palsgaard, Bistrup og Sikø: ingen kendt webadresse, ikke søgt. Række 20-27 har ingen platforme afkrydset.",
+        "Kaiser Idell: kun søgeordet 'kaiser-idell' er gået igennem som fuld liste (side 1-10 og 4 kort fra side 11 af 25 pr. side; resten af side 11 og side 12+ er ikke læst). De øvrige søgeord (bauhaus, Schreibtischlampe, Tischlampe, Christian Dell m.fl.) er ikke kørt som fulde lister, så der kan være flere Kaiser Idell-annoncer end de 159 nu på siden, bl.a. billigere/ældre. Annoncerne i den første Kaiser Idell-gennemgang (ca. 145) er ikke nøjagtig de samme som disse.",
+        "Dato for DBA-fund er sidste redigering, ikke oprettelse. Catawiki, Lauritz, Reshopper og Guld og gratis viser ikke oprettelsesdato, så tidsgrænsen er erstattet af 'ikke i kendt-listen'."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "DBA 26575086 (Orient pendel P1, Jo Hammerborg, 1.200 kr.) er afvist: Orient er ikke Nova eller Zenith.",
+        "96 Kaiser Idell-annoncer fra listen er sorteret fra på nøgleord: efterligninger ('wie', 'Stil', 'ähnlich', 'kein Kaiser Idell'), dele/skærme/fatninger, saks-, klemme-, værksteds-, hænge-, stand- og væglamper, samlesæt og efterlysninger. Et par af dem kan være fejlsorteret.",
+        "Kleinanzeigen 3565240525 (6556 Herne): fatning mangler og rust. 3565169775 (Naila): Gebr. Kaiser, ikke Kaiser Idell. 3565434683 er skrevet som fund, men er en bundle-annonce.",
+        "Facebook: PH 4/3 bordlampe (2.700 kr.), PH 5 blå (4.000 kr.) og Utzon pendel i messing (1.750 kr.) er sorteret fra pga. type, model eller pris."
+      ],
+      "title": "Udeladt"
+    },
+    {
+      "items": [
+        "Platformfiler findes kun for DBA, Tradera og Vinted; for de øvrige 10 platforme findes ingen.",
+        "DBA-annoncernes tekst blev læst via skærmbilleder. PH 4/3-fundet fra Slangerup (26558665) er sandsynligvis rød, ikke orange (ca. 75 % sikker). Facebook-fundet er ikke verificeret af en separat agent.",
+        "De 152 uverificerede Kaiser Idell-fund kan indeholde efterligninger, defekte lamper, bøjelige lamper og annoncer uden lampetype. Ingen nævner modellen 'Studio'. Prisen er omregnet til kr. med 7,46."
+      ],
+      "title": "Begrænsninger"
+    }
+  ]
+}

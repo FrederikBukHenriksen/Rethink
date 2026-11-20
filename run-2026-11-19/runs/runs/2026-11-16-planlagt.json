@@ -1,0 +1,11 @@
+{
+  "coverage": "Ikke søgt på nogen platform. Årsag: Claude in Chrome-værktøjerne (mcp__claude-in-chrome__*) er ikke tilgængelige i den planlagte session. Søgning uden brugerens Chrome er ikke tilladt i SETUP.md, og almindelig websøgning må ikke bruges som erstatning. Fund-tjekket (SETUP.md afsnit 1a) er ikke kørt, så ingen tilgængelighed er opdateret. targets blev ikke læst af denne kørsel. Ingen fund skrevet, ingen priser ændret, ingen searched-værdier skrevet.",
+  "date": "2026-11-16",
+  "kind": "planlagt",
+  "note": "Ingen 'ingen fund': intet er søgt. Kræver, at en browser (Claude in Chrome) er koblet til sessionen, før næste kørsel kan køre.",
+  "platforms": [],
+  "progress": {
+    "alle": "ikke startet"
+  },
+  "status": "ikke kørt"
+}

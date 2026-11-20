@@ -1,0 +1,8 @@
+Unit: search|DBA|lamper-row-7
+Status: færdig
+Dækning:
+- "Trava": 21 af 21, 1 side, slut nået: ja, før cutoff: 20, afvist: 0
+- "Carl Thore loftlampe": 71 læst (side 1 viste 104, side 2 viste 69; totalen er ustabil), 2 sider, side 3 tom, slut nået: ja, før cutoff: 70, afvist: 0
+- "Granhaga loftlampe": 53 af 53, 1 side, slut nået: ja, før cutoff: 51, afvist: 2 (IKEA-loftlampe, ikke målet)
+Kandidater:
+- https://www.dba.dk/recommerce/forsale/item/26928367 | række 7 | Carl Thore Trava pendel i kobber | 1.000 kr. | dato: sidst redigeret 19.11.2026 kl. 21:06 (annoncesiden) | Bekræftet | direkte: Nej | farve: kobber | type: loftlampe | by: Fredericia | forbehold: lille bule og brugsmærker ifølge annoncen; Granhaga ikke nævnt i annoncen; "Bed om Fiks færdig" er kun en anmodning, ikke et tilbud

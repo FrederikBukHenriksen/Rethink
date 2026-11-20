@@ -1,0 +1,41 @@
+{
+  "active": true,
+  "category": "lamper",
+  "colorsAllowed": [
+    "orange",
+    "blå"
+  ],
+  "colorsRejected": [],
+  "designers": [
+    "Poul Henningsen"
+  ],
+  "excludeKeywords": [],
+  "images": [],
+  "keywords": [
+    "ph 4/3",
+    "ph4/3"
+  ],
+  "maxPrice": 900,
+  "model": "PH 4/3",
+  "platforms": {
+    "Bidstrup": false,
+    "Catawicki": false,
+    "DBA": true,
+    "Facebook Marketplace": true,
+    "Gul og Gratis": true,
+    "Klein Anzeigen": false,
+    "Lauritz": false,
+    "Palsgaard": false,
+    "Reshopper": true,
+    "Sikö": false,
+    "Tradera": false,
+    "Vinted": true,
+    "Woxholt": false
+  },
+  "producers": [],
+  "row": 2,
+  "type": "loftlampe",
+  "types": [
+    "loftlampe"
+  ]
+}

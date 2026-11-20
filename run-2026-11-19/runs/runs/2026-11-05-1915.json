@@ -1,0 +1,62 @@
+{
+  "category": "lamper",
+  "date": "2026-11-05T19:15:00+01:00",
+  "platforms": [
+    "DBA",
+    "Facebook Marketplace"
+  ],
+  "sections": [
+    {
+      "items": [
+        "Ny søgning 5. nov. kl. 19:12. Tidsvindue: annoncer nyere end forrige DBA-søgning kl. 20:21 den 4. nov. (ca. 23 timer).",
+        "DBA søgt for alle 15 rækker, nyeste først. Ét nyt fund: række 8, Jo Hammerborg Nova lampe, Søborg, 250 kr., ca. 9 timer gammel. Status 'Uklar identitet', fordi beskrivelse og type ikke kunne læses.",
+        "Tilgængelighed: alle 16 eksisterende fund (15 DBA, 1 Facebook Marketplace) åbnede og er stadig online. lastChecked er sat."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Facebook Marketplace er ikke søgt. Søgningen står stadig på San Francisco, og byen kan ikke ændres i browserpanelet.",
+        "Pris, reserveret-status og 'Kan købes direkte' er ikke tjekket på de eksisterende fund, fordi annoncernes tekst ikke kan læses i browserpanelet. Kun at annoncen findes er tjekket."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "DBA: kun øverste side pr. søgning, sorteret nyeste først. Den første annonce uden for vinduet afgør, om der er noget nyt.",
+        "Ét lead mangler på siden: 'Louis Poulsen PH 4/3 loftlampe', Ringkøbing, 900 kr., ca. 9 timer (række 2, maks 900). Annoncen ligger længere nede i resultaterne, og linket kunne ikke læses i browserpanelet, så den er ikke tilføjet. Den skal tjekkes manuelt.",
+        "Ingen uafhængig verifikation: der blev ikke startet separate agenter."
+      ],
+      "title": "Begrænsninger"
+    },
+    {
+      "items": [
+        "Række 2: 'To stk Louis Poulsen PH 4/3 pendler - til reservedele/renovering', Græsted, 450 kr., 12 min.: reservedele/renovering.",
+        "Række 2: PH loftlampe Vanløse 1.050 kr. og PH-lamper model 4/3 Ringkøbing 1.800 kr.: over maks 900.",
+        "Række 3: Hekla pendel Fog og Mørup, Fredericia, 6.800 kr.: over maks 2.800.",
+        "Række 8: Par Jo Hammerborg standerlampe, Rødvig, 800 kr.: standerlampe, ikke loftlampe. Væglamper, Vejle, 600 kr.: væglampe.",
+        "Række 8: 'Vintage pendel', Fog & Mørup, Aalborg, 450 kr.: ingen model eller designer nævnt i kortet.",
+        "Række 6: Louis Poulsen Doo-Wop pendel, Frederiksværk, 1.700 kr.: over maks 850."
+      ],
+      "title": "Udeladt"
+    },
+    {
+      "items": [
+        "Tradera, Vinted og de øvrige platforme i arket har ingen flueben på nogen række og er ikke søgt."
+      ],
+      "title": "Fravalgt"
+    },
+    {
+      "items": [
+        "16 fund tjekket: alle online."
+      ],
+      "title": "Tilgængelighed"
+    },
+    {
+      "items": [
+        "Ingen prisændringer registreret, da priser ikke kunne læses."
+      ],
+      "title": "Prisændringer"
+    }
+  ]
+}

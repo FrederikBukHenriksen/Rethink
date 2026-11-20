@@ -1,0 +1,39 @@
+{
+  "category": "lamper",
+  "colorsAllowed": [],
+  "colorsRejected": [
+    "sort",
+    "hvid"
+  ],
+  "designers": [],
+  "excludeKeywords": [],
+  "images": [],
+  "keywords": [
+    "Bauhaus"
+  ],
+  "maxPrice": null,
+  "model": "Studio",
+  "platforms": {
+    "Bidstrup": false,
+    "Catawicki": false,
+    "DBA": false,
+    "Facebook Marketplace": false,
+    "Gul og Gratis": false,
+    "Klein Anzeigen": true,
+    "Lauritz": false,
+    "Palsgaard": false,
+    "Reshopper": false,
+    "Sikö": false,
+    "Tradera": false,
+    "Vinted": false,
+    "Woxholt": false
+  },
+  "producers": [
+    "Kaiser Idell"
+  ],
+  "row": 19,
+  "type": "bordlampe",
+  "types": [
+    "bordlampe"
+  ]
+}

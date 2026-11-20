@@ -1,0 +1,14 @@
+Unit: search|DBA|lamper-row-13
+Status: ikke færdig (resumeFrom: "Louis Poulsen loftlampe", side 2)
+Dækning:
+- "Verner Panton loftlampe": 289 af 289, 6 sider (side 7 tom), slut nået: ja, før cutoff: 284, afvist: 1 (pris over 2900: 7869307)
+- "Louis Poulsen Verner Panton": 192 af 192 (4 sider med dubletter, side 5 tom), slut nået: ja, før cutoff: 190, afvist: 2 (gulvlampe: 26513890, 26882661 pris 9000)
+- "Louis Poulsen Topan": 35 af 35, 1 side, slut nået: ja, før cutoff: 35, afvist: 0
+- "Louis Poulsen Flowerpot": 53 af 53, 1 side (side 2 tom), slut nået: ja, før cutoff: 47, afvist: 3 (type bordlampe/portable: 26919130, 26902852, 26899589). Denne søgning fandt de nyeste annoncer (fx 26929228), som den første søgning ikke viste.
+- "Spiral loftlampe": 53 af 53, 1 side, slut nået: ja, før cutoff: 51, afvist: 2 (26925175 Murano, ikke Panton og over pris; 26894806 WOFI LED-lampe, ikke Panton)
+- "Louis Poulsen loftlampe": 54 af 1755, side 1 læst, slut nået: nej, ufuldstændig. Opdelt i Panton-, Topan- og Flowerpot-søgningerne ovenfor, som er komplette. Resten af søgningen er ikke-Panton produkter (fx PH-lamper) og er ikke læst.
+Kandidater:
+- https://www.dba.dk/recommerce/forsale/item/26901993 | række 13 | &Tradition Flowerpot VP1 pendel (to lamper) | 1.499 kr. | dato: sidst redigeret 19.11.2026 kl. 16:29 | Sandsynlig med forbehold | direkte: Ja | farve: hvid | type: loftlampe (pendel) | by: 7000 Fredericia | forbehold: prisen gælder for to lamper ("Prisen er for begge"); sælger oplyser Fiks færdig
+- https://www.dba.dk/recommerce/forsale/item/26892590 | række 13 | &Tradition Flowerpot VP1 pendel | 1.999 kr. | dato: sidst redigeret 18.11.2026 kl. 16:58 | Bekræftet | direkte: Nej | farve: hvid | type: loftlampe (pendel) | by: 1553 København V (sælger PANTSAT.DK SHOP, professionel) | forbehold: professionel sælger, annoncen kan være genoptaget; knappen er "Gå til varen" og webshop, ikke Fiks færdig
+- https://www.dba.dk/recommerce/forsale/item/26888913 | række 13 | Flowerpot VP7 pendel, &Tradition | 1.600 kr. | dato: sidst redigeret 18.11.2026 kl. 15:04 | Bekræftet | direkte: Ja | farve: mat sort | type: loftlampe (pendel) | by: 7800 Skive | forbehold: ingen
+- https://www.dba.dk/recommerce/forsale/item/26929228 | række 13 | Flower pot lamper, 2 stk. (Verner Panton, model ikke navngivet) | 700 kr. (pris for 2 stk) | dato: sidst redigeret 19.11.2026 kl. 21:46 | Sandsynlig med forbehold | direkte: Ja | farve: sort (oprindeligt blå, malet sort) | type: loftlampe (pendel, ud fra foto) | by: 4420 Regstrup | forbehold: model ikke angivet i annoncen, pris for to lamper, kan medbringes til København H; farve er malet sort

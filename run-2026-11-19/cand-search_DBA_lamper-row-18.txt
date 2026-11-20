@@ -1,0 +1,9 @@
+Unit: search|DBA|lamper-row-18
+Status: færdig
+Dækning:
+- "Hans Følsgaard loftlampe": 53 af 53, 1 side (side 2 tom), slut nået: ja, før cutoff: 47, afvist: 5 (24164940 Antik Pjot 550 kr, blyindfattet glas fra 1980erne, ingen designer; 26926116 Roskilde 300 kr, glaskugle, ingen designer; 26918422 Hillerød 100 kr, ingen designer; 26899368 Skanderborg 150 kr, hvid porcelænskugle, ingen designer; 10613105 Kalvehave 2.000 kr, orange "Loft lampe i orange", ingen designer)
+- "Følsgaard elektro loftlampe": 53 af 53, 1 side (side 2 tom), slut nået: ja, før cutoff: 49, afvist: 3 (26918422, 26899368, 26881080 Vejle Øst 50 kr, hvide glasloftlamper uden designer)
+Kandidater:
+- https://www.dba.dk/recommerce/forsale/item/26908921 | række 18 | Loftlampe (ingen model eller designer angivet) | 200 kr | dato: sidst redigeret 19.11.2026 kl. 11:11 | Uklar identitet | direkte: Nej | farve: ikke oplyst (foto: beige/sand) | type: loftlampe | by: 2720 Vanløse | forbehold: annoncen siger kun "Loftlampe fra 70erne", ingen designer eller producent; foto viser flad disklampe; "Bed om Fiks færdig" alene giver Nej. Samme annonce fundet under række 16.
+Note: Begge søgninger viser 53 kort på side 1 og tom side 2, så de er læst til ende. Følsgaard-titler i søgeresultaterne (26807056 2.975 kr, 10567056 2.975 kr, 11236450 3.400 kr, 22587983 2.000 kr, 2516626 2.800 kr) er før cutoff eller over maks pris og er ikke rapporteret.
+Note: Browserens tab-gruppe blev nulstillet to gange under kørslen, og en af mine faner (473869422) blev navigeret væk fra min søgning, så den blev ikke brugt videre. Annoncerne blev læst i egne faner. Fanen 473869423 kunne ikke lukkes, fordi gruppen var forsvundet. Den sidste egne fane (473869434) er lukket.

@@ -1,0 +1,33 @@
+{
+  "active": false,
+  "category": "mobler",
+  "colorsAllowed": [],
+  "colorsRejected": [],
+  "designers": [],
+  "excludeKeywords": [],
+  "images": [],
+  "keywords": [
+    "teak , palisander, eg"
+  ],
+  "maxPrice": 750,
+  "model": "spejl",
+  "platforms": {
+    "Bidstrup": false,
+    "Catawicki": false,
+    "DBA": true,
+    "Facebook Marketplace": true,
+    "Gul og Gratis": false,
+    "Klein Anzeigen": false,
+    "Lauritz": false,
+    "Palsgaard": false,
+    "Reshopper": false,
+    "Sikö": false,
+    "Tradera": false,
+    "Vinted": false,
+    "Woxholt": false
+  },
+  "producers": [],
+  "row": 4,
+  "type": "",
+  "types": []
+}

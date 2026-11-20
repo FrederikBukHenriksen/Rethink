@@ -1,0 +1,61 @@
+{
+  "category": "lamper",
+  "date": "2026-11-18T14:30:00+01:00",
+  "platforms": [
+    "Vinted"
+  ],
+  "searched": {},
+  "sections": [
+    {
+      "items": [
+        "Space Age (række 25): side 1-10 gennemgået. Side 10 var ikke tom, så bunden er ikke nået. Ca. 175 lampe-kandidater under 2000 kr. på titel.",
+        "Space Age bordlampe (række 25): side 1 gav 82 annoncer, side 2 var tom. Bunden er nået.",
+        "Paul Smith (række 22): side 1-2 gennemgået, ingen lampe-træf under 300 kr.",
+        "Stelton (række 22): side 1 gennemgået. Stelton-olielamper er producent-only og er ikke skrevet. Ingen Paul Smith-designede lamper fundet.",
+        "308 (række 33): side 1-2 gennemgået. Side 2 gav én bilkomponent (Citroen/Peugeot 308), ikke relevant.",
+        "Le Klint 308 og Aage Petersen 308 (række 33): side 1 tom, bunden nået.",
+        "Poul Henningsen PH 4/3 (række 2): side 1 gav 28 annoncer, side 2 var tom. Eneste under 900 kr. var en reservedel.",
+        "ph 4/3 (række 2): side 1-2 gennemgået. Ingen 4/3-annoncer under 900 kr. der ikke er reservedele.",
+        "Brylle (række 20): side 2 gennemgået, ingen lampe-træf under 2000 kr.",
+        "Bent Karlby (række 21): side 2 tom, bunden nået.",
+        "Magasinholder (række 23): side 2 gennemgået, 55 titel-match under 1500 kr.",
+        "Bachelor (række 23): side 2 gennemgået, 22 titel-match under 1500 kr.",
+        "Kartell ur (række 24): side 2 tom, bunden nået.",
+        "Koppel ur (række 27): side 2 gennemgået, 11 titel-match under 1700 kr.",
+        "Kina glaspendel (række 29): side 2 tom, bunden nået.",
+        "Barcelona (række 30): side 2 gennemgået, 113 titel-match under 2000 kr.",
+        "Optima (række 32): side 2 gennemgået, 72 titel-match under 2500 kr."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Ingen cutoff kan bekræftes, fordi Vinted-annoncer ikke viser en oprettelsesdato. Derfor er searched ikke skrevet for nogen række.",
+        "ph4/3 er ikke kørt som eget søgeord på Vinted.",
+        "Side 3 og frem er ikke kørt for: Paul Smith, Stelton, 308, Brylle, ph 4/3, Poul Henningsen PH 4/3, Magasinholder, Bachelor, Koppel ur, Barcelona og Optima.",
+        "Ingen fund er skrevet. Der er ingen annonce med synlig dato, så cutoff kan ikke kontrolleres."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "Vinted-annoncer viser ingen oprettelsesdato. I 9 annoncer var der kun 'Sidst set', ikke en listing-dato. Det gælder også Brylle 10688365304.",
+        "Sælgerens by vises ikke på annoncen. Derfor er by sat til 'by ukendt' ved alle eventuelle fund.",
+        "Søgefiltrene er kun brugt på titel, ikke på beskrivelse.",
+        "vinted.md indeholder ingen rate-limit-regler. Der blev holdt ca. 2,5-3 sekunder mellem forespørgsler. Ingen 403, Cloudflare-udfordring eller login-væg blev mødt under kørslen.",
+        "Ingen thumbnails er lavet. Ingen fund er skrevet."
+      ],
+      "title": "Begrænsninger"
+    },
+    {
+      "items": [
+        "10688365304 (Brylle, 650 kr.): ingen synlig dato. Annoncen er 'Flemming Brylle fra 1993'. Ikke skrevet.",
+        "Stelton-olielamper 10858224307 (150 kr.) og andre Stelton-olielamper: producent-only, ikke skrevet.",
+        "10843157852 (Louis Poulsen PH 4/3, 500 kr.): skærm og reservedele, ikke en komplet lampe.",
+        "10691673046 (Citroen/Peugeot 308, 60 kr.): bilkomponent, ikke en lampe."
+      ],
+      "title": "Udeladt"
+    }
+  ],
+  "trigger": "manuel kørsel, Vinted-huller"
+}

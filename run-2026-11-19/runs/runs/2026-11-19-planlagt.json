@@ -1,0 +1,34 @@
+{
+  "categoriesRequested": [
+    "lamper",
+    "mobler",
+    "plakater"
+  ],
+  "date": "2026-11-19",
+  "finds_added": 0,
+  "kind": "planlagt",
+  "note": "Kørsel 2026-11-19 kunne ikke søge. Årsag: Claude in Chrome-værktøjerne (mcp__claude-in-chrome__*) er ikke tilgængelige i den planlagte session; ToolSearch fandt ingen matchende værktøjer. Søgning må ikke erstattes af headless browser, curl, Playwright eller almindelig websøgning (SETUP.md afsnit 7). Læst: requests/search, categories (3), targets (37 dokumenter, aktive rækker læst). Ingen platforme søgt, ingen fund skrevet, ingen searched-felter skrevet, så cutoff er uændret. Søgelisten er ikke ændret. Kræver: Claude in Chrome forbundet til en session, så søgningen kan køres igen.",
+  "platformsPlanned": [
+    "DBA",
+    "Facebook Marketplace",
+    "Palsgaard",
+    "Bidstrup",
+    "Woxholt",
+    "Lauritz",
+    "Gul og Gratis",
+    "Tradera",
+    "Sikö",
+    "Catawicki",
+    "Klein Anzeigen",
+    "Reshopper",
+    "Vinted"
+  ],
+  "progress": {
+    "lamper": "ikke startet",
+    "mobler": "ikke startet",
+    "plakater": "ikke startet"
+  },
+  "searched": {},
+  "status": "ikke gennemført",
+  "targetsRead": 37
+}

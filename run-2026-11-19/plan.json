@@ -1,0 +1,801 @@
+{
+ "platformsInTargets": [
+  "Bidstrup",
+  "Catawiki",
+  "DBA",
+  "Facebook Marketplace",
+  "Gul og Gratis",
+  "Klein Anzeigen",
+  "Lauritz",
+  "Palsgaard",
+  "Reshopper",
+  "Sikö",
+  "Tradera",
+  "Vinted",
+  "Woxholt"
+ ],
+ "platforms": {
+  "DBA": [
+   {
+    "target": "lamper-row-2",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-3",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-4",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-5",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-6",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-7",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-8",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-9",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-10",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-11",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-12",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-13",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-14",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-15",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-16",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-17",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-18",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-20",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-21",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-22",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-23",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-24",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-25",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-27",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-29",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-30",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-31",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-32",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "lamper-row-33",
+    "cutoff": "2026-11-18T13:00:00+01:00",
+    "cutoffRun": "2026-11-18-1300"
+   },
+   {
+    "target": "mobler-row-2",
+    "cutoff": "2026-11-10T08:50:00+01:00",
+    "cutoffRun": "2026-11-10-0900"
+   },
+   {
+    "target": "mobler-row-3",
+    "cutoff": "2026-11-10T08:50:00+01:00",
+    "cutoffRun": "2026-11-10-0900"
+   },
+   {
+    "target": "mobler-row-5",
+    "cutoff": "2026-11-10T08:50:00+01:00",
+    "cutoffRun": "2026-11-10-0900"
+   },
+   {
+    "target": "plakater-row-2",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   }
+  ],
+  "Tradera": [
+   {
+    "target": "lamper-row-20",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-21",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-23",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-24",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-25",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-27",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-30",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "mobler-row-2",
+    "cutoff": "2026-11-10T08:50:00+01:00",
+    "cutoffRun": "2026-11-10-0900"
+   }
+  ],
+  "Vinted": [
+   {
+    "target": "lamper-row-2",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-20",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-21",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-22",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-23",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-24",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-25",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-27",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-29",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-30",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-32",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-33",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "mobler-row-2",
+    "cutoff": "2026-11-10T08:50:00+01:00",
+    "cutoffRun": "2026-11-10-0900"
+   }
+  ],
+  "Klein Anzeigen": [
+   {
+    "target": "lamper-row-19",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-20",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-23",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-24",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-25",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-27",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   }
+  ],
+  "Lauritz": [
+   {
+    "target": "lamper-row-20",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-23",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-24",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-25",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-27",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-29",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-30",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "mobler-row-5",
+    "cutoff": "2026-11-10T08:50:00+01:00",
+    "cutoffRun": "2026-11-10-0900"
+   }
+  ],
+  "Palsgaard": [
+   {
+    "target": "lamper-row-20",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-23",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-24",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-25",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-27",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-29",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-30",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "mobler-row-5",
+    "cutoff": "2026-11-10T08:50:00+01:00",
+    "cutoffRun": "2026-11-10-0900"
+   }
+  ],
+  "Woxholt": [
+   {
+    "target": "lamper-row-20",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-21",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-23",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-24",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-25",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-27",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "mobler-row-5",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   }
+  ],
+  "Bidstrup": [
+   {
+    "target": "lamper-row-20",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-23",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-24",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-25",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-27",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "mobler-row-5",
+    "cutoff": "2026-11-10T08:50:00+01:00",
+    "cutoffRun": "2026-11-10-0900"
+   }
+  ],
+  "Sikö": [
+   {
+    "target": "lamper-row-20",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-21",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-23",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-24",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-25",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-27",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-30",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   }
+  ],
+  "Catawiki": [
+   {
+    "target": "lamper-row-25",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-27",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   }
+  ],
+  "Gul og Gratis": [
+   {
+    "target": "lamper-row-2",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-20",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-21",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-22",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-23",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-24",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-25",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-27",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-29",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "lamper-row-33",
+    "cutoff": "2026-11-14T09:00:00+01:00",
+    "cutoffRun": "2026-11-14-0945"
+   },
+   {
+    "target": "mobler-row-5",
+    "cutoff": "2026-11-10T08:50:00+01:00",
+    "cutoffRun": "2026-11-10-0900"
+   }
+  ],
+  "Reshopper": [
+   {
+    "target": "lamper-row-2",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-20",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-21",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-22",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-23",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-24",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-25",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-27",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-30",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   }
+  ],
+  "Facebook Marketplace": [
+   {
+    "target": "lamper-row-2",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-3",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-4",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-5",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-6",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-7",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-8",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-9",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-10",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-11",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-12",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-13",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-14",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-15",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-16",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-17",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-18",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-20",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-21",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-22",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-23",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-24",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-25",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-27",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-29",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-30",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-31",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-32",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "lamper-row-33",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "mobler-row-2",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "mobler-row-3",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "mobler-row-5",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   },
+   {
+    "target": "plakater-row-2",
+    "cutoff": "ingen",
+    "cutoffRun": null
+   }
+  ]
+ },
+ "unknownPlatforms": []
+}

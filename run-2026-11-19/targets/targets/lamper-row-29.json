@@ -1,0 +1,39 @@
+{
+  "active": true,
+  "category": "lamper",
+  "colorsAllowed": [],
+  "colorsRejected": [],
+  "designers": [
+    "Bent Karlby"
+  ],
+  "excludeKeywords": [],
+  "images": [],
+  "keywords": [
+    "Kina glaspendel"
+  ],
+  "maxPrice": 1500,
+  "model": "Kina",
+  "platforms": {
+    "Bidstrup": false,
+    "Catawicki": false,
+    "DBA": true,
+    "Facebook Marketplace": true,
+    "Gul og Gratis": true,
+    "Klein Anzeigen": false,
+    "Lauritz": true,
+    "Palsgaard": true,
+    "Reshopper": false,
+    "Sikö": false,
+    "Tradera": false,
+    "Vinted": true,
+    "Woxholt": false
+  },
+  "producers": [
+    "Lyfa"
+  ],
+  "row": 29,
+  "type": "loftlampe",
+  "types": [
+    "loftlampe"
+  ]
+}

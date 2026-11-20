@@ -1,0 +1,35 @@
+{
+  "active": false,
+  "category": "lamper",
+  "colorsAllowed": [],
+  "colorsRejected": [],
+  "designers": [],
+  "excludeKeywords": [],
+  "images": [],
+  "keywords": [
+    "Spage Age"
+  ],
+  "maxPrice": 2000,
+  "model": "Space Age pendel",
+  "platforms": {
+    "Bidstrup": true,
+    "Catawicki": true,
+    "DBA": true,
+    "Facebook Marketplace": true,
+    "Gul og Gratis": true,
+    "Klein Anzeigen": true,
+    "Lauritz": true,
+    "Palsgaard": true,
+    "Reshopper": true,
+    "Sikö": true,
+    "Tradera": true,
+    "Vinted": true,
+    "Woxholt": true
+  },
+  "producers": [],
+  "row": 26,
+  "type": "pendel",
+  "types": [
+    "pendel"
+  ]
+}

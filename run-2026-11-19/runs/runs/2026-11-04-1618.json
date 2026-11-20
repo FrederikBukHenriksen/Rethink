@@ -1,0 +1,61 @@
+{
+  "category": "lamper",
+  "date": "2026-11-04T16:18:00+01:00",
+  "platforms": [
+    "DBA",
+    "Facebook Marketplace"
+  ],
+  "sections": [
+    {
+      "items": [
+        "Anden kørsel i dag. Tidsvindue: kun annoncer oprettet eller redigeret efter forrige kørsel kl. 15:55.",
+        "DBA søgt for rækkerne 2 (PH 4/3), 3 (Hekla), 4 (PH Snowball) og 6 (AJ Royal), nyeste først. Ingen nye kandidater.",
+        "Facebook Marketplace søgt for rækkerne 2, 3, 4 og 6 med den generelle brief, fordi der ikke findes en platformsfil. Ét muligt fund (række 4) er efter brugerens anmodning lagt på siden, selvom listingsdatoen ikke kunne læses.",
+        "Tilgængelighed: alle 15 eksisterende DBA-fund er stadig til salg, og ingen priser er ændret. lastChecked er sat til kørslens tidspunkt."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "DBA: kun første resultatside pr. søgning. Resultaterne er sorteret nyeste først, og efter ca. 12-15 annoncer var alt ældre end afskæringstidspunktet.",
+        "Facebook Marketplace: login-overlay på søgninger og annoncer. Der blev ikke logget ind, og de forududfyldte loginoplysninger blev ikke brugt. Søgeresultaterne indlæses lazy, så ca. 25 kort pr. søgning er gennemgået.",
+        "Facebook Marketplace har ingen platformsfil. Søgeord og direkte køb er vurderet efter de generelle regler."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "DBA viser kun 'sidst redigeret' med relativ tid, så tidsvinduet er vurderet ud fra disse angivelser.",
+        "Tilgængelighedstjekket for DBA blev aflæst fra skærmbilleder, fordi sidetekst ikke kunne udtrækkes. Pris og status er derfor aflæst fra skærmbilleder.",
+        "Kan købes direkte er ikke ændret i denne kørsel. Tilgængelighedsagenten angav Ja på flere annoncer, hvor der står 'Bed om Fiks færdig', mens den gemte værdi er Nej. Det skal afgøres, om knappen tæller som Fiks færdig, før værdierne ændres.",
+        "Facebook Marketplace er søgt omkring København (65 km)."
+      ],
+      "title": "Begrænsninger"
+    },
+    {
+      "items": [
+        "15 DBA-fund tjekket: alle Ja. Ingen reserverede eller solgte."
+      ],
+      "title": "Tilgængelighed"
+    },
+    {
+      "items": [
+        "Ingen prisændringer på de 15 DBA-fund."
+      ],
+      "title": "Prisændringer"
+    },
+    {
+      "items": [
+        "Række 5 (Flowerpot), 7 (Jørgen Utzon), 8 (Jo Hammerborg), 9 (Nova) og 10 (Mogens Davidsen) har ingen flueben og er ikke søgt.",
+        "Tradera, Vinted og de øvrige platforme i arket har ingen flueben på nogen række og er ikke søgt."
+      ],
+      "title": "Fravalgt"
+    },
+    {
+      "items": [
+        "Facebook Marketplace, række 4: PH Snowball / Louis Poulsen, 5.000 kr., Frederiksværk. Lagt på siden efter brugerens anmodning. Listingsdatoen kan ikke ses, og fundet er ikke uafhængigt verificeret."
+      ],
+      "title": "Manuelt tilføjet"
+    }
+  ]
+}

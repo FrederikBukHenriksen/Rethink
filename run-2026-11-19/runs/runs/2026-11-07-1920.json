@@ -1,0 +1,52 @@
+{
+  "category": "lamper",
+  "date": "2026-11-07T19:20:00+01:00",
+  "platforms": [
+    "DBA",
+    "Facebook Marketplace"
+  ],
+  "sections": [
+    {
+      "items": [
+        "Ny række 19 (Studio, Jo Hammerborg / Fog & Mørup, standerlampe, maks 2.000 kr.) søgt på DBA og Facebook Marketplace uden tidsgrænse, da rækken er ny.",
+        "DBA: 3 fund tilføjet: Studiolampe Jo Hammerborg, Roskilde, 2.000 kr. (bekræftet); Studio gulvlampe messing, Sabro, 1.795 kr. (bekræftet); Jo Hammerborg standerlampe, Otterup, 800 kr. (uklar identitet).",
+        "Facebook: ingen fund tilføjet for række 19."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "DBA: søgeordene Studio, Studie (ikke brugbar), studiolampe og Studio Hammerborg er søgt, men kun første side pr. søgning.",
+        "DBA-annoncer er ikke alle åbnet. Ikke åbnet: Jo Hammerborg-annonce i Brønshøj (plisseret skærm, 1.400 kr.), Oure (Jo Hammerborg lampe, 24. okt.), København V (Jo hammerborg, 1.250 kr.), Svendborg (pastel lampe, 295 kr.), Aalborg (Klassisk standerlampe Fog & Mørup, 450 kr.).",
+        "Facebook: kun tre søgninger (Studio Jo Hammerborg, Studio standerlampe, studiolampe Fog & Mørup). Facebook er ikke kørt for de øvrige søgeord.",
+        "Ingen uafhængig verifikation: der blev ikke startet separate agenter.",
+        "Tradera, Vinted og de øvrige platforme er ikke afkrydset for række 19 og er ikke søgt."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "DBA: Studio af Jo Hammerborg aluminium, København SV, 3.500 kr.: over maks 2.000.",
+        "DBA: Studio gulvlampe Jo Hammerborg / F&M, Juelsminde, 2.600 kr.: over maks.",
+        "DBA: Jo Hammerborg, Studio, gulvlampe, Sabro: vist som 2.600 kr. på kortet. Det rigtige pris er 1.795 kr., og den er tilføjet.",
+        "DBA: Jo Hammerborg standerlampe, Odense C, 2.500 kr.: Trombone-model, ikke Studio.",
+        "DBA: Jo Hammerborg standerlampe, Hvidovre, 1.800 kr.: Trombone-model, ikke Studio.",
+        "DBA: Hammerborg Trombone standerlampe, Frederiksberg, 250 kr.: Trombone-model.",
+        "DBA: Par Jo Hammerborg standerlampe, Rødvig, 800 kr.: orange skærme, ikke Studio-formen.",
+        "DBA: JO HAMMERSBORG, Holte, 800 kr.: lille messingdel, ikke en standerlampe.",
+        "DBA: Anden arkitekt, Studio, gulvlampe, Nykøbing F, 500 kr.: anden designer.",
+        "Facebook: Jo Hammerborg Life-pendel, Vojens, 500 kr.: pendel og model Life.",
+        "Facebook: Studio lamper, Kalundborg, 400 kr., og 2 Studio lamper Walimex: fotolamper på stativ, ikke Hammerborg.",
+        "Facebook: Væglampe Fog & Mørup designet af Jo Hammerborg, København, 400 kr.: væglampe."
+      ],
+      "title": "Udeladt"
+    },
+    {
+      "items": [
+        "DBA-kort viser prisen forskudt i nogle tilfælde. Pris og titel skal derfor altid kontrolleres på annoncesiden.",
+        "Facebook-kortene viser ikke altid annoncens dato, og rækken er ikke søgt udtømmende."
+      ],
+      "title": "Begrænsninger"
+    }
+  ]
+}

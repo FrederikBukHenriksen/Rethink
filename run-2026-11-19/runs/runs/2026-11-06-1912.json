@@ -1,0 +1,65 @@
+{
+  "category": "lamper",
+  "date": "2026-11-06T19:12:00+01:00",
+  "platforms": [
+    "DBA"
+  ],
+  "sections": [
+    {
+      "items": [
+        "Ny søgning 6. nov. kl. 19:12. Tidsvindue: annoncer nyere end forrige DBA-søgning kl. 07:33 i dag (ca. 11 timer).",
+        "DBA søgt for alle 17 rækker (2-18), nyeste først. Fire nye kandidater: dba-26502333 (række 5), dba-26419812 (række 8), dba-25005838 og dba-26055799 (række 14).",
+        "Tilgængelighed: alle 17 fund (16 DBA, 1 Facebook Marketplace) åbnede og er stadig online. lastChecked er sat.",
+        "Rækker 17 (Piet Hein RA) og 18 (Hans Følsgaard) er tilføjet som targets. Der fandtes ingen kvalificerede annoncer i vinduet for dem."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Facebook Marketplace er ikke søgt. Søgningen står stadig på San Francisco, og byen kan ikke ændres i browserpanelet.",
+        "Pris, reserveret-status og 'Kan købes direkte' er ikke tjekket på de eksisterende fund, fordi annoncernes tekst ikke kan læses i browserpanelet. Kun at annoncen findes er tjekket.",
+        "Ingen uafhængig verifikation: der blev ikke startet separate agenter. Alle nye fund har derfor 'ikke uafhængigt verificeret' i noten."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "DBA viser kun øverste side pr. søgning, sorteret nyeste først. Annoncer ældre end ca. 11 timer er ikke med i vinduet.",
+        "DBA viser kun relativ alder. Alder '10 t.' og '11 t.' ligger tæt på afskæringen."
+      ],
+      "title": "Begrænsninger"
+    },
+    {
+      "items": [
+        "Række 2: 'PH 4/3', Strandby, 150 kr., 1 min. (dba 26515210): kun titlen kan læses, og prisen tyder på en del eller skærm. Ikke med som fund; tjek selv hvis du vil.",
+        "Række 2: 'Louis Poulsen PH 4/3 loftlampe', Ringkøbing, 900 kr.: uden for vinduet nu (1 dag). Linket er ikke fundet.",
+        "Række 4: Snowball Pendel, Gilleleje, 8.500 kr.: 23 t., uden for vinduet og over maks.",
+        "Række 8: Nova i massiv kobber, Juelsminde, 2.500 kr.: 21 t., uden for vinduet og over maks.",
+        "Række 8: Par Jo Hammerborg standerlampe, Rødvig, 800 kr.: standerlampe, ikke loftlampe.",
+        "Række 13: '2 flotte Pantone - Gastor pendant lamper', Brøndby, 800 kr.: 20 t., uden for vinduet.",
+        "Række 14: Verona pendel, Kastrup, 900 kr.: 4 dage, uden for vinduet.",
+        "Række 17: 'Piet Hein RA 400', Aalborg SØ, 1.000 kr.: 3. okt., uden for vinduet.",
+        "Række 18: 'Væglampe Preben Dal', Ålsgårde, 250 kr.: anden designer end Hans Følsgaard."
+      ],
+      "title": "Udeladt"
+    },
+    {
+      "items": [
+        "Tradera, Vinted og de øvrige platforme i arket har ingen flueben på nogen række og er ikke søgt."
+      ],
+      "title": "Fravalgt"
+    },
+    {
+      "items": [
+        "17 fund tjekket: alle online."
+      ],
+      "title": "Tilgængelighed"
+    },
+    {
+      "items": [
+        "Ingen prisændringer registreret, da priser ikke kunne læses."
+      ],
+      "title": "Prisændringer"
+    }
+  ]
+}

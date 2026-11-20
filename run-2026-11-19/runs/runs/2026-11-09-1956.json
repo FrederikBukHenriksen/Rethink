@@ -1,0 +1,51 @@
+{
+  "category": "mobler",
+  "date": "2026-11-09T19:56:00+01:00",
+  "platforms": [
+    "DBA",
+    "Facebook Marketplace"
+  ],
+  "rows": [
+    3
+  ],
+  "searched": {
+    "DBA|3": "2026-11-09T19:56:00+01:00"
+  },
+  "sections": [
+    {
+      "items": [
+        "Række 3 (Severin Hansen / Haslev Møbelsnedkeri, bord og indskudsbord) er søgt på DBA for første gang uden tidsgrænse. 11 søgninger, alle resultatsider gennemgået nyeste først, 447 unikke annoncer åbnet og læst.",
+        "341 kandidater blev tjekket på annoncesiden af seks uafhængige verifikationsagenter. 337 er lagt på siden: 217 bekræftet, 112 sandsynlig med forbehold, 8 uklar identitet. 170 af dem har et 'Skal tjekkes'-felt."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Facebook Marketplace er IKKE søgt for række 3: browseren i dette miljø blev sendt til Facebooks loginside uden synlige resultater, og login er ikke omgået. Det må ikke læses som 'ingen fund'. Der findes heller ingen platformsfil for Facebook Marketplace."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "4 kandidater blev udeladt, fordi verifikationen afviste dem som match (bl.a. et TV-bord og et bord, der skal repareres).",
+        "Søgeagenten sorterede desuden fra ved gennemlæsning: stole, tillægsplader, bordplader, lamper, sofaer og skænke, samt 7 annoncer med defekt eller tvivlsom oprindelse."
+      ],
+      "title": "Fravalgt"
+    },
+    {
+      "items": [
+        "DBA viser ikke oprettelsesdato. Datoen på hvert fund er 'sidst redigeret', så mange annoncer kan være gamle eller genoptaget, især hos professionelle sælgere.",
+        "Mange fund er 'sandsynlig med forbehold', fordi annoncen kun siger 'Haslev' eller 'Haslev Møbelfabrik' og ikke Møbelsnedkeri eller Severin Hansen. Haslevs egne serier (Symphony, Klassik, Opus m.fl.) er med, fordi producenten er målet. Ægthed er ikke vurderet.",
+        "Fiks færdig er kun regnet som 'Ja', hvor det er tilbudt eksplicit. Hvor søgning og verifikation er uenige, står direkte køb som Tjek.",
+        "Billeder er ikke set eller hentet. Priser fra søgekort er kontrolleret mod annoncesiden."
+      ],
+      "title": "Begrænsninger"
+    },
+    {
+      "items": [
+        "Tjek af de eksisterende fund blev ikke kørt i denne kørsel."
+      ],
+      "title": "Tilgængelighed"
+    }
+  ]
+}

@@ -1,3 +1,5 @@
+> Not used from 2026-11-20. The user decided that no separate verification agent is used. The main agent judges each listing from its listing page (SETUP.md, section 4). This file is kept only as a reference.
+
 # Verification agent
 
 You independently check candidate listings that other agents found. You did not do the searching and you do not know what the searchers concluded. That is deliberate: your job is to reach your own conclusion from the listing itself. You have no access to the conversation that started you, and you do not need the Excel workbook.

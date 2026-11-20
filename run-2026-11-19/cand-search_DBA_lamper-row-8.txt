@@ -1,0 +1,10 @@
+Unit: search|DBA|lamper-row-8
+Status: færdig
+Dækning:
+- "Nova Jo Hammerborg": 42 af 42, 1 side, slut nået: ja, før cutoff: 42, afvist: 0 (17964386 har kortdato "1 dag", men annoncen viser sidst redigeret 25.1.2026; 26863456 viser sidst redigeret 17.11.2026; begge før cutoff)
+- "Nova loftlampe": 53 af 53, 1 side, slut nået: ja, før cutoff: 53, afvist: 0
+- "Zenith loftlampe": 53 af 53, 1 side, slut nået: ja, før cutoff: 51, afvist: 2 (26908921 "Loftlampe fra 70erne", sidst redigeret 19.11.2026, ingen designer- eller modelbelæg; 26876295 IKEA-loftlampe, ikke målet)
+- "Zenith Jo Hammerborg": 24 af 24, 1 side, slut nået: ja, før cutoff: 24, afvist: 0
+- Bemærkning: søgningen "Zenith" alene gav 350 resultater (bl.a. svømmebassiner og kikkerter) og blev ikke læst; den er opdelt i "Zenith loftlampe" og "Zenith Jo Hammerborg", som hver er læst til ende.
+- Bemærkning: kortdatoer er ikke altid lig annoncens dato (11513417 viser "10. nov." på kortet og sidst redigeret 4.11.2026 på annoncen). Ældre kort er ikke åbnet enkeltvis, kun de identitetsmæssige match.
+Kandidater: ingen

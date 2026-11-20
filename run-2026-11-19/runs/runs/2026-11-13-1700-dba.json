@@ -1,0 +1,39 @@
+{
+  "category": "alle",
+  "date": "2026-11-13T17:00:00+01:00",
+  "platforms": [
+    "DBA"
+  ],
+  "searched": {},
+  "sections": [
+    {
+      "items": [
+        "Alle søgninger for alle rækker med DBA sat til true er kørt. Cutoff er kontrolleret mod 'Sidst redigeret' på selve annoncen, ikke mod kortdatoen, fordi kortdatoen viste sig at være upålidelig.",
+        "Fuld dækning: de fleste rækker. Ikke fuld dækning (over 50 sider pr. søgning, DBA viser kun 50): række 3 (sofabord, teak, palisander, eg), række 29 (Kina), række 31 (Pan) og række 9 (50 cm). Der er kun tjekket titel-match på de synlige sider.",
+        "Der er fundet 75 kandidater efter cutoff. Ingen er skrevet til finds, fordi uafhængig verifikation ikke er kørt.",
+        "Metode: agenten hentede søgesider og annoncer med curl (rå HTML), ikke med Playwright. Det er i strid med instruktionen i briefen. Årsagen er, at agenten fik en tom side i Playwright, men min egen test samme dag gav status 200 på en DBA-søgeside. Det skal undersøges, før næste kørsel."
+      ],
+      "title": "DBA-søgning, status"
+    },
+    {
+      "items": [
+        "Række 3 mobler: 10 kandidater, heraf 2 Severin Hansen (bekræftet).",
+        "Række 13 Verner Panton: 25 kandidater (Flowerpot/VP1, Verpan, Onion m.fl.). Flere Flowerpot-annoncer er i sæt eller ufuldstændige.",
+        "Række 23 Magasinholder: 1 kandidat (Verner Panton magasinholder, Fritz Hansen, 5.500 kr.).",
+        "Række 2 PH 4/3: 2 kandidater. Række 2 plakater: 4 kandidater.",
+        "Række 29 Kina: 2 kandidater. Række 6: 2. Række 26 Space Age pendel: 2. Række 21 Bent Karlby: 13 kandidater, heraf flere dubletter og samme sælger.",
+        "Række 15: 1 (String). Række 5 AJ Royal: 2. Række 7 Carl Thore: 2. Række 25 Space Age bordlampe: 4. Række 14 Svend Middelboe: 8.",
+        "Dubletter på tværs af annoncer: 24597239/25141366, 371540/6282429 og 26111857/26353675/25907916."
+      ],
+      "title": "Kandidater pr. række (ikke skrevet til siden)"
+    },
+    {
+      "items": [
+        "Over maks. pris eller forkert type/designer afvist, fx Verona 400 (2.500 kr.), AJ Royal (1.250 og 1.400 kr.), PH 4/3 (1.250-1.400 kr.) og PH Snowball (8.500-12.500 kr.).",
+        "Direkte køb: 'Ja' kun ved 'Til salg | Fiks færdig' og 'Tryg handel med Fiks færdig' i annoncen. Mange private annoncer har 'Send besked' og er derfor 'Tjek'.",
+        "Ingen billeder er gennemgået. Identitet bygger på titel og beskrivelse."
+      ],
+      "title": "Afviste og begrænsninger"
+    }
+  ]
+}

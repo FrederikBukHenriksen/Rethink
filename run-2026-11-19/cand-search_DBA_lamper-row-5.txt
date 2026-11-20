@@ -1,0 +1,7 @@
+Unit: search|DBA|lamper-row-5
+Status: færdig
+Dækning:
+- "AJ Royal": 74 af 74, 2 sider, slut nået: ja, før cutoff: 72, afvist: 2
+- "royal pendel": 153 af 153, 3 sider, slut nået: ja, før cutoff: 151, afvist: 2
+- "Arne Jacobsen AJ Royal": 64 af 64, 2 sider (side 3 tom), slut nået: ja, før cutoff: 62, afvist: 2
+Kandidater: ingen

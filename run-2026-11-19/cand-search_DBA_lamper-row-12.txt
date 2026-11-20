@@ -1,0 +1,11 @@
+Unit: search|DBA|lamper-row-12
+Status: ikke færdig (resumeFrom: "Louis Poulsen loftlampe", side 2)
+Dækning:
+- "Globe 50": slut nået ja (fra tidligere del af kørslen), ingen kvalificerende efter cutoff
+- "Verner Panton loftlampe": 262 unikke kort læst af 289 vist, 7 sider, slut nået ja (side 7 tom), før cutoff: ikke fuldt opgjort, afvist: ikke fuldt opgjort (uoverensstemmelse 262/289 ikke løst)
+- "Louis Poulsen loftlampe": kun side 1 læst af 1755 (sider 2+ ikke læst), slut nået nej, før cutoff: ikke opgjort; ufuldstændig (over 1000-grænsen), Panton-del dækket af splitten nedenfor
+- "Louis Poulsen Verner Panton": 192 vist, 4 sider læst (ca. 95 unikke kort), side 5 tom, slut nået ja, før cutoff: ca. 90, afvist: 2 (gulvlampe 26513890, 26882661); uoverensstemmelse 192 vist vs ca. 95 læst ikke løst
+Kandidater:
+- https://www.dba.dk/recommerce/forsale/item/26901993 | række 12 | &Tradition Flowerpot VP1 pendel hvid (2 stk., pris for begge) | 1.499 DKK | dato: sidst redigeret 19.11.2026 kl. 16:29 | Sandsynlig med forbehold | direkte: Ja | farve: hvid | type: loftlampe | by: 7000 Fredericia | forbehold: designer Verner Panton, producent &Tradition (ikke Louis Poulsen), ikke Globe 50; to lamper for samlet pris
+- https://www.dba.dk/recommerce/forsale/item/26892590 | række 12 | &Tradition Flowerpot VP1 pendel hvid | 1.999 DKK | dato: sidst redigeret 18.11.2026 kl. 16:58 | Sandsynlig med forbehold | direkte: Nej | farve: hvid | type: loftlampe | by: København V | forbehold: designer Verner Panton, producent &Tradition (ikke Louis Poulsen), ikke Globe 50; professionel sælger (Pantsat.dk shop), kun "Fragt tilbydes", ingen Fiks færdig; pris tæt på maks
+- https://www.dba.dk/recommerce/forsale/item/26888913 | række 12 | &Tradition Flowerpot VP7 pendel | 1.600 DKK | dato: sidst redigeret 18.11.2026 kl. 15:04 | Sandsynlig med forbehold | direkte: Ja | farve: mat sort | type: loftlampe | by: 7800 Skive | forbehold: designer Verner Panton, producent &Tradition (ikke Louis Poulsen), model VP7 ikke Globe 50

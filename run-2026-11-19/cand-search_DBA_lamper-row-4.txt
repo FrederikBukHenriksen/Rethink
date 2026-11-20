@@ -1,0 +1,8 @@
+Unit: search|DBA|lamper-row-4
+Status: færdig
+Dækning:
+- "PH Snowball": 37 af 37, 1 side, slut nået: ja, før cutoff: 33, afvist: 4 (alle over maks pris 6000 kr.)
+- "snebold": 159 af 159, 3 sider (side 4 tom), slut nået: ja, før cutoff: 155, afvist: 4 (ikke lamper af målmodellen)
+- "PH Snowball Poul Henningsen": 53 af 53, 1 side, slut nået: ja, før cutoff: 47, afvist: 5 (4 over maks pris, 1 Kogle over maks pris)
+Kandidater:
+- https://www.dba.dk/recommerce/forsale/item/26926630 | række 4 | PH lampe (Louis Poulsen, designer Poul Henningsen, model ikke angivet) | 1.100 kr. | dato: 1 t. (relativ alder, sidst redigeret, dateApprox) | Uklar identitet | direkte: Nej | farve: hvid (fra foto) | type: loftlampe | by: Frederiksberg C (1967) | forbehold: model ikke angivet i annonce; foto viser en enkelt kuppel og ligner ikke Snowball entydigt; kun "Bed om Fiks færdig"; sælger beskriver stand som brugt med synlige brugsspor

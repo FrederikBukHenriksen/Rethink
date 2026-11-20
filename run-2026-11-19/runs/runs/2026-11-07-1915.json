@@ -1,0 +1,36 @@
+{
+  "category": "lamper",
+  "date": "2026-11-07T19:15:00+01:00",
+  "platforms": [
+    "Facebook Marketplace"
+  ],
+  "sections": [
+    {
+      "items": [
+        "Den første Facebook-kørsel (19:08) udelod gamle annoncer. Det var forkert, fordi Facebook for disse rækker aldrig er søgt fuldt ud. Gamle annoncer, der matcher, er nu tilføjet.",
+        "Tilføjet: Trava pendel Hedensted (række 7, 800 kr., ca. 4 dage), Verona Odense N (række 14, 1.800 kr. pr. stk., ca. 1 uge), Verona Ø48 Odense C (række 14, 1.500 kr., ca. 3 uger), Verona kobber Højby (række 14, 2.000 kr., ca. 19 uger), Jo Hammerborg kobberpendel Aalborg (række 8, 400 kr., ca. 2 uger, uklar model), Jo Hammerborg loftlampe Hvalsø (række 8, 300 kr., ca. 4 uger, uklar model), Jo Hammerborg pendel Kolding (række 8, 500 kr., dato ikke læst), Carl Thore pendel Sorø (række 7, 425 kr., dato ikke læst)."
+      ],
+      "title": "Rettelse"
+    },
+    {
+      "items": [
+        "Søgningen er ikke udtømmende. Flere søgeord pr. række og flere sider skal køres.",
+        "Tradera, Vinted og de øvrige platforme for række 2 er ikke kørt endnu.",
+        "Tilgængelighed af de eksisterende fund er ikke tjekket."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "Harco Loor Snowball, Nykøbing F, 2.500 kr. (række 4): designet af Harco Loor, ikke Poul Henningsen.",
+        "Loftslampe kogle ø48, Odense, 2.000 kr. (række 4): sælgeren skriver, at den ikke er original.",
+        "PH kogle 48ø, Aabenraa, 4.500 kr. (række 4): sælgeren skriver, at det er en kopi.",
+        "Verner Panton Globe Ø40 og Globe Hirtshals (række 12): replica, og Ø40 er ikke Globe 50.",
+        "Louis Poulsen Hornslet (række 4): Toldbod 400, ikke Snowball.",
+        "Verner Panton pendler Brande, 2.200 kr. (række 13): ikke Spiral.",
+        "Jo Hammerborg Life, Skanderborg, 1.000 kr. (række 8): modellen er Life, ikke Nova."
+      ],
+      "title": "Udeladt"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+Unit: search|DBA|lamper-row-22
+Status: ikke færdig (resumeFrom: "Stelton Paul Smith", side 1)
+Dækning:
+- "Paul Smith lampe": 53 af 53, 1 side, slut nået: ja, før cutoff: 53, afvist: 0
+- "Stelton lampe": 65 af 65, 2 sider, slut nået: ja, før cutoff: 63, afvist: 2 (1.000 kr. og 400 kr., over maks pris, begge efter cutoff). Samlet antal skiftede under søgningen (105 første gang, 65 ved side 2), så tallet er ustabilt.
+- "Stelton Paul Smith": ca. 17 af 21, 1 side, slut nået: nej, før cutoff: ca. 17 (nyeste 9. nov.), afvist: 0. Alle læste er skåle, krus og kander, ikke lamper. De sidste ca. 4 kort (ældre end 28. juli) er ikke læst.
+- "Paul Smith" (alene): ikke kørt. Søgningen giver 887 resultater, næsten kun tøj og bøger. Den er ikke dækket af de lampespecifikke søgninger.
+Kandidater:
+- ingen fundet i de læste resultater (søgningen er ikke færdig, se Dækning)
+Ikke gennemført: "Stelton Paul Smith" (ca. 4 kort), "Paul Smith" alene (ikke kørt). Ingen sælgerkontakt, ingen køb.
+
+--- Genoptaget (run 2026-11-19, række 22, DBA) ---
+Unit: search|DBA|lamper-row-22
+Status: færdig
+Dækning:
+- "Stelton Paul Smith" (genoptaget fra side 1): 21 af 21, 1 side, slut nået: ja, før cutoff: 21, afvist: 21 (ingen lamper)
+- "Paul Smith" (separat søgning): 887 af 887, 17 sider (side 18 tom), slut nået: ja, før cutoff: ikke talt (Chrome-forbindelsen blev tabt efter læsningen; alle 887 er læst), afvist: 887 (ingen lamper; eneste lampe "Paul Smith Anglepoise Bordlampe", 900 kr., over maks pris 300 og dateret 9. juli, afvist)
+Kandidater: ingen
+Note: Forbindelsen til Chrome (Browser 1) blev tabt efter side 17. Min fane 473869513 kunne ikke lukkes; den er stadig åben.

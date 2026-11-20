@@ -1,0 +1,40 @@
+{
+  "category": "mobler",
+  "date": "2026-11-09T17:28:00+01:00",
+  "platforms": [
+    "DBA"
+  ],
+  "sections": [
+    {
+      "items": [
+        "Første fulde søgning af række 2 (Verner Panton: stol, bord, magasinholder, kommode) på DBA uden tidsgrænse. 8 søgninger, alle sider gennemgået sorteret nyeste først, 1.190 unikke annoncer set.",
+        "222 kandidater blev udvalgt og derefter tjekket på annoncesiden af fire uafhængige verifikationsagenter. 209 er lagt på siden: 139 bekræftet, 62 sandsynlig med forbehold, 8 uklar identitet. 185 stole, 21 borde, 3 magasinholdere.",
+        "Ingen af de 8 uklare er kommoder: søgningen efter kommode gav ingen kandidater."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Alle andre platforme er fravalgt for række 2 i søgelisten (kun DBA er sat til).",
+        "12 kandidater blev udeladt, fordi verifikationen ikke kunne bekræfte et match (bl.a. ombetræksannoncer, en repareret PantoMove, en børnekontorstol). 1 var allerede registreret."
+      ],
+      "title": "Fravalgt"
+    },
+    {
+      "items": [
+        "DBA viser ikke oprettelsesdato. Datoen på hvert fund er 'sidst redigeret', og listedatoen er derfor usikker. Mange annoncer er gamle og kan være genoptaget.",
+        "Panton-angivelsen er taget fra annoncens egne ord. Ingen er verificeret som original, og kopier og 'Panton-stil' er markeret.",
+        "Søgningen 'Panton Chair' gav kun 80 af 118 kort (listen stoppede tidligt). Annoncerne findes sandsynligvis i de andre søgninger, men det er ikke dokumenteret.",
+        "Fiks færdig: verifikationsagenterne læste knappen 'Bed om Fiks færdig' forskelligt. Hvor søgning og verifikation er uenige, står direkte køb som Tjek og er nævnt i 'Skal tjekkes'.",
+        "Billeder af annoncerne er ikke hentet (ingen miniaturer)."
+      ],
+      "title": "Begrænsninger"
+    },
+    {
+      "items": [
+        "Tjek af de eksisterende lampefund blev ikke kørt i denne kørsel. Det blev sidst gjort den 09.11. kl. 15.50."
+      ],
+      "title": "Tilgængelighed"
+    }
+  ]
+}

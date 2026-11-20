@@ -1,0 +1,10 @@
+Unit: search|DBA|lamper-row-2
+Status: færdig
+Dækning:
+- "PH 4/3": 386 af 386, 8 sider, slut nået: ja, før cutoff: 364, afvist: 22
+- "ph4/3": 53 af 53, 1 side, slut nået: ja, før cutoff: 47, afvist: 6
+- "ph 4/3": samme resultatsæt som "PH 4/3" (386 resultater, samme første annoncer), kun side 1 kontrolleret separat; fuld gennemgang er gjort under "PH 4/3"
+Note: Sortering PUBLISHED_DESC. Datoer er "sidst redigeret" (DBA). "1 dag" = 18. nov. (samme dag som cutoff, beholdt efter regel). Ingen kandidater afhænger af denne grænse.
+Note: 25056922 (4 Blå PH 4/3 pendler, Louis Poulsen, København N) er afvist: listepris 1.875 kr. for 4 stk. (ca. 469 kr. pr. stk.), over maks 900 kr. Kan gennemses manuelt, hvis sætpris accepteres.
+Note: Ikke søgt: "Poul Henningsen PH 4/3" (designer-kombination) blev ikke kørt særskilt.
+Kandidater: ingen

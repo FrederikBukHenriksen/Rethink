@@ -1,0 +1,44 @@
+{
+  "category": "lamper",
+  "date": "2026-11-12T08:00:00+01:00",
+  "platforms": [
+    "DBA"
+  ],
+  "searched": {},
+  "sections": [
+    {
+      "items": [
+        "Komplet DBA-søgning på alle 32 aktive rækker med DBA sat til true (lamper 29, møbler 3), 84 søgninger, hele markedet uden cutoff.",
+        "Cirka 7.600 annoncer hentet fra søgeresultaterne. Efter pris-, søgeords- og typefilter blev 1.907 vurderet af søgningsagenter: 701 match, 297 uklare, 909 afvist.",
+        "De 701 matcher blev uafhængigt verificeret af otte agenter, der selv hentede hver annonce: 354 godkendt (296 Bekræftet, 58 Sandsynlig med forbehold), 283 afvist, 64 uklare.",
+        "159 nye fund er lagt på siden. Det drejer sig om de godkendte annoncer, som ikke allerede fandtes i finds. Alle har platform DBA, by ukendt og direkte køb Tjek."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "189 godkendte annoncer fandtes allerede på siden. Deres pris og tilgængelighed er ikke opdateret i denne kørsel.",
+        "De 297 uklare og 64 uklare fra verifikationen er ikke lagt på siden.",
+        "Tilgængeligheden af de 15 eksisterende DBA-fund er ikke tjekket (SETUP afsnit 1a).",
+        "Ikke søgt: Facebook Marketplace, Tradera, Vinted, Palsgaard, Bidstrup, Woxholt, Lauritz, Gul og Gratis, Sikö, Catawiki, Klein Anzeigen, Reshopper. Dem der har platformsfil (Tradera, Vinted) og dem uden kræver browser eller login.",
+        "Plakater: ingen platform sat til true, så ikke søgt. Møbler række 4 er inaktiv."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "Ingen cutoff er brugt: hele markedet er søgt, fordi du bad om en komplet søgning. Tidligere runs har ikke searched-felter, så en cutoff kunne ikke bestemmes.",
+        "Bynavn er ikke læst fra annoncerne, derfor står by ukendt. Direkte køb er ikke bekræftet, derfor står Tjek.",
+        "Datoer er kun 'sidst redigeret' fra annoncesiden. Dato uden klokkeslæt er sat til 00:00 Copenhagen-tid og markeret som tilnærmet.",
+        "Verifikationsagenterne fandt for lempelige matcher: række 12 (Globe 50) og række 13 (Spiral) har ingen annoncer med søgeordet. De er afvist i verifikationen. Ved række 11 og 3 er designer/producent-data uklar."
+      ],
+      "title": "Begrænsninger"
+    },
+    {
+      "items": [
+        "Ikke søgt: række 19 og 28 (DBA sat til false), møbler række 4 (inaktiv), plakater række 2 (ingen platform sat)."
+      ],
+      "title": "Fravalgt"
+    }
+  ]
+}

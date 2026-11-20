@@ -1,0 +1,68 @@
+{
+  "category": "lamper",
+  "date": "2026-11-10T07:30:00+01:00",
+  "platforms": [
+    "DBA"
+  ],
+  "searched": {
+    "DBA|10": "2026-11-09T09:45:00+01:00",
+    "DBA|11": "2026-11-09T09:45:00+01:00",
+    "DBA|12": "2026-11-09T09:45:00+01:00",
+    "DBA|13": "2026-11-09T09:45:00+01:00",
+    "DBA|14": "2026-11-09T09:45:00+01:00",
+    "DBA|15": "2026-11-09T09:45:00+01:00",
+    "DBA|16": "2026-11-09T09:45:00+01:00",
+    "DBA|17": "2026-11-09T09:45:00+01:00",
+    "DBA|18": "2026-11-09T09:45:00+01:00",
+    "DBA|2": "2026-11-09T09:45:00+01:00",
+    "DBA|20": "2026-11-09T15:50:00+01:00",
+    "DBA|21": "2026-11-09T15:50:00+01:00",
+    "DBA|22": "2026-11-09T15:50:00+01:00",
+    "DBA|23": "2026-11-09T15:50:00+01:00",
+    "DBA|24": "2026-11-09T15:50:00+01:00",
+    "DBA|25": "2026-11-09T15:50:00+01:00",
+    "DBA|26": "2026-11-09T15:50:00+01:00",
+    "DBA|27": "2026-11-09T15:50:00+01:00",
+    "DBA|29": "2026-11-10T07:00:00+01:00",
+    "DBA|3": "2026-11-09T09:45:00+01:00",
+    "DBA|30": "2026-11-10T07:00:00+01:00",
+    "DBA|31": "2026-11-10T07:00:00+01:00",
+    "DBA|32": "2026-11-10T07:00:00+01:00",
+    "DBA|4": "2026-11-09T09:45:00+01:00",
+    "DBA|5": "2026-11-09T09:45:00+01:00",
+    "DBA|6": "2026-11-09T09:45:00+01:00",
+    "DBA|7": "2026-11-09T09:45:00+01:00",
+    "DBA|8": "2026-11-09T09:45:00+01:00",
+    "DBA|9": "2026-11-09T09:45:00+01:00"
+  },
+  "sections": [
+    {
+      "items": [
+        "DBA søgt for rækkerne 2-18 (cutoff 9.11. kl. 09:45), 20-27 (cutoff 9.11. kl. 15:50) og 29-32 (ingen cutoff, fuld søgning). 71 søgninger, 289 resultatsider i alt. Alle sider læst til ende.",
+        "Uafhængig verifikation af 35 annoncer. Der blev skrevet 29 fund: 18 nye og 11 eksisterende opdateret (version-pinned). Ingen pristab i denne kørsel."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Ikke søgt: Tradera, Vinted, Catawiki, Klein Anzeigen, Lauritz, Reshopper, Guld og gratis, Palsgaard, Bidstrup, Sikø og Woxholt i denne kørsel. Vinted er søgt manuelt af mig for PH 4/3 (ikke i kørslen).",
+        "Facebook Marketplace: ikke søgt. Login-væg, ingen login omgået.",
+        "Tjek af de eksisterende lampefund (SETUP afsnit 1a) er ikke kørt i denne kørsel."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "Afviste annoncer (ikke skrevet): række 2 PH 4/3 hvid (26081552, identitet ok men farve ikke tilladt), række 8 og 15 og 25 og 29 'uklar identitet' (26617493, 26612588, 26614548, 26572932), række 21 Karlby bordlampe 425 kr. (26603169) og Trixel fra 8.30 på 9.11. (ligger før cutoff), og dublet 1051988 af 20687248.",
+        "Datoer er 'sidst redigeret' (DBA), så de er 00:00 på datoen og markeret som ca. Professionelle sælgere kan have genopslået annoncer."
+      ],
+      "title": "Udeladt"
+    },
+    {
+      "items": [
+        "Verifikation: 35 annoncer kontrolleret uafhængigt af en agent, der ikke kendte søgeagentens konklusion. Forbeholdene står i feltet 'check'."
+      ],
+      "title": "Begrænsninger"
+    }
+  ]
+}

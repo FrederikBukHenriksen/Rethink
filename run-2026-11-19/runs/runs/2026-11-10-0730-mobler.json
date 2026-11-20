@@ -1,0 +1,44 @@
+{
+  "category": "mobler",
+  "date": "2026-11-10T07:30:00+01:00",
+  "platforms": [
+    "DBA"
+  ],
+  "searched": {
+    "DBA|2": "2026-11-09T17:28:00+01:00",
+    "DBA|3": "2026-11-09T19:56:00+01:00",
+    "DBA|4": "2026-11-10T07:30:00+01:00",
+    "DBA|5": "2026-11-10T07:30:00+01:00"
+  },
+  "sections": [
+    {
+      "items": [
+        "DBA søgt for række 2 (cutoff 9.11. kl. 17:28), 3 (cutoff 9.11. kl. 19:56), 4 og 5 (ingen cutoff, fuld søgning). 11 resultatsider pr. søgning typisk, alle sider læst til ende, hvor DBA ikke stoppede tidligt.",
+        "Uafhængig verifikation af 20 annoncer. Der blev skrevet 18 fund: 13 nye (række 4, spejl) og 5 eksisterende flyttet fra række 2 til række 5 (System 1-2-3, mere specifik model)."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Ikke søgt: Tradera, Vinted, Lauritz, Gul og gratis, Palsgaard, Bidstrup, Sikø, Woxholt, Catawiki og Reshopper i denne kørsel.",
+        "Facebook Marketplace: ikke søgt. Login-væg.",
+        "Tjek af de eksisterende møbelfund (SETUP afsnit 1a) er ikke kørt i denne kørsel."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "Afviste annoncer (ikke skrevet): 25818872 og 17050182 (uklar identitet, række 5); spejle og annoncer uden træsort eller uden markærke-belæg; række 2-annoncer, der ikke er Panton (Fritz Hansen VIA57, AX-stole).",
+        "Spejl-søgningen række 4 blev afgrænset til teak, palisander og eg i titel, så spejle uden træsort i titel er ikke rapporteret.",
+        "Række 3: ingen kandidater i denne kørsel (alle Nej eller uklar identitet)."
+      ],
+      "title": "Udeladt"
+    },
+    {
+      "items": [
+        "Verifikation: 20 annoncer kontrolleret uafhængigt. Forbeholdene står i feltet 'check'. Pris for to stole og spejle er ikke altid klar, og det er markeret."
+      ],
+      "title": "Begrænsninger"
+    }
+  ]
+}

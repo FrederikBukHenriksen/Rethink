@@ -1,0 +1,58 @@
+{
+  "category": "lamper",
+  "date": "2026-11-04T20:13:00+01:00",
+  "platforms": [
+    "DBA",
+    "Facebook Marketplace"
+  ],
+  "sections": [
+    {
+      "items": [
+        "Ny søgning kl. 20:13. Tidsvindue: kun annoncer oprettet eller redigeret efter forrige kørsel kl. 19:56.",
+        "Arbejdsbladet er læst: én kategori (lamper), 15 rækker (2-16), alle afkrydset for DBA og Facebook Marketplace.",
+        "DBA søgt for alle 15 rækker, nyeste først. Søgninger: ph 4/3, ph4/3, hekla, ph snowball, snebold, aj royal, royal pendel, søværnspendel, wopa, trava, carl thore, zenith, jo hammerborg, mogens davidsen, space copenhagen, space copenhagen pendel, confetti, confetti pendel, globe 50, panton spiral, verona pendel, string pendel, butterfly lars schøiler, symfoni, pearl høyrup. Ingen nye kvalificerede kandidater.",
+        "Tilgængelighed: alle 16 eksisterende fund (15 DBA, 1 Facebook Marketplace) åbnede og er stadig online. lastChecked er sat."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Facebook Marketplace er ikke søgt. Søgningen i browserpanelet står på San Francisco, og byen kan ikke ændres herfra, så der kom ingen København-resultater. Der er ikke brugt almindelig websøgning i stedet.",
+        "Pris, reserveret-status og 'Kan købes direkte' er ikke tjekket på annoncesiderne, fordi annoncernes tekst ikke kan læses i browserpanelet. Der er kun tjekket, at annoncen findes."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "DBA: kun øverste side pr. søgning. Sorteret nyeste først, så den første annonce afgør, om der er noget nyt i vinduet.",
+        "DBA viser kun relativ alder. Den ene annonce med '20 min.' ligger tæt på afskæringen kl. 19:56.",
+        "Ingen uafhængig verifikation: der blev ikke startet separate agenter i denne kørsel."
+      ],
+      "title": "Begrænsninger"
+    },
+    {
+      "items": [
+        "Tradera, Vinted og de øvrige platforme i arket har ingen flueben og er ikke søgt."
+      ],
+      "title": "Fravalgt"
+    },
+    {
+      "items": [
+        "DBA 'Louis Poulsen Doo-Wop pendel', Frederiksværk, 1.700 kr., ca. kl. 19:52 (række 6, maks 850 kr.): over maks pris."
+      ],
+      "title": "Udeladt"
+    },
+    {
+      "items": [
+        "16 fund tjekket: alle online. Ingen reserverede eller solgte set i denne kørsel."
+      ],
+      "title": "Tilgængelighed"
+    },
+    {
+      "items": [
+        "Ingen prisændringer registreret, da priser ikke kunne læses."
+      ],
+      "title": "Prisændringer"
+    }
+  ]
+}

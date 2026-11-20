@@ -1,0 +1,19 @@
+{
+  "categories": [
+    "lamper",
+    "mobler",
+    "plakater"
+  ],
+  "coverage": "Ikke søgt. Claude in Chrome-værktøjerne (mcp__claude-in-chrome__*) er ikke tilgængelige i denne planlagte session: ToolSearch finder ingen browserværktøjer, og aktiveringsværktøjet findes ikke. Ifølge SETUP.md må søgningen ikke køre via headless browser, curl, Playwright eller almindelig websøgning. Derfor er ingen platform, række eller kategori søgt, og der er ingen fund at skrive. Søgelisten (targets) blev ikke læst i denne kørsel, fordi det ikke gav mening uden browser. Intet er markeret som 'ingen fund'. Kategorierne lamper, møbler og plakater er alle 'ikke søgt'. Eksisterende fund blev ikke tjekket for tilgængelighed, da der ingen availability-agenter kunne startes uden browser. Samme problem som kørslen 2026-11-16 (runs/2026-11-16-planlagt). Handling: aktivér Claude in Chrome for denne session, eller kør søgningen i en session med browseradgang.",
+  "finishedAt": "2026-11-17T00:00:00+00:00",
+  "platforms": [],
+  "progress": {
+    "lamper": "ikke startet",
+    "mobler": "ikke startet",
+    "plakater": "ikke startet"
+  },
+  "scope": "alle",
+  "searched": {},
+  "startedAt": "2026-11-17T00:00:00+00:00",
+  "summary": "Kørslen kunne ikke søge: browserværktøjerne mangler i den planlagte session. Ingen fund skrevet, ingen eksisterende fund kontrolleret."
+}

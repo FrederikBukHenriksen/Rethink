@@ -1,0 +1,36 @@
+{
+  "category": "lamper",
+  "date": "2026-11-18T13:00:00+01:00",
+  "platforms": [
+    "DBA"
+  ],
+  "searched": {
+    "DBA": "2026-11-18T13:00:00+01:00"
+  },
+  "sections": [
+    {
+      "items": [
+        "DBA er søgt for alle aktive lampe-rækker (2–33, uden 19, 26, 28) til cutoff eller udtømning. Rækkerne 2–11 og 12–22 og 23–33 er kørt i tre parallelle agenter. Hullerne er lukket for Nova, Ø 60 cm, Arne Jacobsen-stavning, Butterfly (splittet) og designer-only for række 5 og 8.",
+        "Designer-only fund er skrevet med status Uklar identitet. Model-match med Bekræftet. Producent-only er ikke skrevet."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Række 15 Arne Jacobsen: afventer brugerens afgørelse.",
+        "Række 16 Butterfly: ældre Schiøler-annoncer før cutoff (august–september) er ikke skrevet. Afventer brugerens afgørelse om backfill.",
+        "Radius: 500 km er brugt; platformfilen siger ca. 400 km. Afventer afgørelse.",
+        "Vinted, Facebook Marketplace og de øvrige platforme er ikke kørt i denne runde."
+      ],
+      "title": "Ikke gennemført / afventer"
+    },
+    {
+      "items": [
+        "DBA viser højst 50 sider pr. søgning. Søgningerne er delt op, hvor det var nødvendigt.",
+        "Kortdatoer er upålidelige. Datoen er læst fra selve annoncen (Sidst redigeret).",
+        "Thumbnails er ikke lavet. Alle nye fund har noten thumb mangler, laves senere."
+      ],
+      "title": "Begrænsninger"
+    }
+  ]
+}

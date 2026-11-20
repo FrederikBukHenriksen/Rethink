@@ -1,0 +1,61 @@
+{
+  "category": "alle",
+  "date": "2026-11-13T16:00:00+01:00",
+  "platforms": [
+    "DBA",
+    "Klein Anzeigen",
+    "Tradera",
+    "Gul og Gratis",
+    "Lauritz",
+    "Palsgaard",
+    "Vinted",
+    "Bidstrup",
+    "Catawiki",
+    "Reshopper",
+    "Sikö",
+    "Woxholt"
+  ],
+  "searched": {},
+  "sections": [
+    {
+      "items": [
+        "Delvist: Klein Anzeigen (alle rækker; Space Age, Studio og Bauhaus kun til side 50, ca. 1.250 annoncer pr. søgning). Tradera (alle rækker; stoppet på løse matches, datoer uden år). Gul og Gratis (alle rækker; ingen paginering, ca. 60 annoncer pr. søgning). Vinted (stoppet ved 403 på række 20, 2, 23 og flere; ikke færdig med nogen række). Lauritz (alle 11 rækker gennemført, men køb nu-varer ikke dækket). Palsgaard (via Auctionet, alle rækker gennemført; priser i USD, ikke omregnet). DBA: søgning ikke afsluttet ved dette notat.",
+        "Ikke søgt: Catawiki (Akamai 403, dokumenteret i platformsfilen). Reshopper (Cloudflare 403, dokumenteret i platformsfilen). Bidstrup (domænet kan ikke nås). Sikö (ingen markedspladsadresse i platformsfilen). Woxholt (proxy 502 mod woxholt.dk)."
+      ],
+      "title": "Dækning (delvis kørsel, Facebook udeladt efter anmodning)"
+    },
+    {
+      "items": [
+        "DBA: 50 af 979 aktive fund tjekket via rå HTML (49 Ja, 1 404). Resten af DBA-fund er ikke tjekket i denne kørsel og står til næste kørsel.",
+        "Klein Anzeigen, Gul og Gratis og Vinted: tjekket med WebFetch-opsummeringer, ikke i browseren. Resultaterne er ikke verificerede og er ikke skrevet til siden.",
+        "Tradera: 21 fund tjekket med WebFetch. Samme begrænsning.",
+        "Catawiki (32) og Reshopper (6): blokeret (403), ikke tjekket. Palsgaard (5): via Auctionet, budfelter ikke indlæst. Lauritz (2) og Bidstrup (1): ikke tjekket i denne kørsel.",
+        "Facebook Marketplace (43 aktive fund): ikke tjekket, udeladt efter anmodning."
+      ],
+      "title": "Tilgængelighed af eksisterende fund"
+    },
+    {
+      "items": [
+        "Der er fundet kandidater på Klein Anzeigen (ca. 360), Tradera (42), Gul og Gratis (ca. 14), Lauritz (3), Palsgaard (3) og Vinted (2). De er ikke uafhængigt verificeret, og de er ikke skrevet til finds. Der er ingen cutoffs, men mange annoncer mangler dato og tilhørende årstal.",
+        "Årsag til at de ikke er skrevet: SETUP-proceduren kræver uafhængig verifikation af hver kandidat, før de skrives. Den verifikation er ikke kørt."
+      ],
+      "title": "Kandidater, ikke skrevet til siden"
+    },
+    {
+      "items": [
+        "Vinted-agenten fortsatte med at sende forespørgsler i ca. 100 sekunder efter første 403, i strid med stopreglen. Resultaterne er ikke brugt, undtagen to kandidater som er noteret her.",
+        "Tradera-agenten har ved årstal uden årstal antaget 2026. Datoerne er derfor usikre.",
+        "Gul og Gratis og Klein Anzeigen: listerne er begrænset til ca. 60 hhv. 50 sider. Ingen af disse søgninger er gennemført til ende.",
+        "Subagenter har fået brief som fil, ikke som paste i prompt. Indholdet er verbatim fra repoet."
+      ],
+      "title": "Problemer i kørslen"
+    },
+    {
+      "items": [
+        "Afgør om de ufuldstændige søgninger skal køres igen med mere specifikke søgninger, fx 'Kaiser Idell' og 'Space Age bordlampe'.",
+        "Kør uafhængig verifikation af kandidaterne pr. platform, før der skrives til finds. Tilgængelighedstjek af resten af DBA-fundene og af Klein Anzeigen, Gul og Gratis og Vinted skal køres i browseren."
+      ],
+      "title": "Næste skridt"
+    }
+  ]
+}

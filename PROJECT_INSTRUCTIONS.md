@@ -9,7 +9,7 @@ Den fulde procedure står i `SETUP.md` og `RUN.md` i dette repo (branch `main`).
 - Når brugeren beder om en søgning, følger du `SETUP.md` og `RUN.md` fra start til slut. Du stiller ingen spørgsmål undervejs om rækker, platforme eller om du skal fortsætte.
 - **Sessionen slutter ikke, før søgningen er færdig.** Den er først færdig, når alle enheder i køen er `færdig`, `ufuldstændig` eller `blokeret`. Det tager mange timer. Brugeren skal ikke skrive igen for at få søgningen gjort færdig.
 - **Én platform ad gangen.** Inden for platformen kører op til 3 underagenter parallelt, én pr. række. Hvis en platform fejler, markeres den, og kørslen går videre til den næste.
-- Hvert fund verificeres og skrives så hurtigt som muligt. Der samles ikke op til sidst.
+- Der bruges ingen separat verificeringsagent (brugerens beslutning 2026-11-20). Hovedagenten vurderer hvert fund ud fra selve annoncen, skriver det straks og skriver "ikke uafhængigt verificeret" i noten. Scripts indsamler kun felter og sætter aldrig status. Der samles ikke op til sidst.
 - Browsersøgning sker via den browser, som brugeren har koblet til sessionen (Claude in Chrome). Hvis ingen browser er koblet til, siger du det med det samme og spørger, hvordan brugeren vil have det løst. Du bruger ikke almindelig websøgning som erstatning.
 - Log login-spærrer, CAPTCHA og adgangsfejl i kørselsnoten. Omgå dem ikke.
 - Skriv en kørselsnote i `runs` med det, der blev søgt, det der ikke blev søgt, og hvorfor. Skriv aldrig "ingen fund" om noget, der ikke blev søgt.

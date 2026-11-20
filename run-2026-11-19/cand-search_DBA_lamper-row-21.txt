@@ -1,0 +1,9 @@
+Unit: search|DBA|lamper-row-21
+Status: færdig
+Dækning:
+- "Bent Karlby": 282 af 282, 6 sider (side 7 tom), slut nået: ja, før cutoff: 280, afvist: 3
+Kandidater:
+- https://www.dba.dk/recommerce/forsale/item/10533430 | række 21 | Bent Karlby pendel med hejsemekanik (Lyfa) | 3.200 kr | dato: 4 t. (sidst redigeret ikke set, kun søgekort) | Bekræftet | direkte: Nej | farve: rød, opalglas | type: pendel | by: Rødding | forbehold: professionel sælger (Design Classique); dato kun som relativ alder
+- https://www.dba.dk/recommerce/forsale/item/26913687 | række 21 | Lyfa Space pendel, 2 stk. (designer: Bent Karlby) | 700 kr (for 2 stk.) | dato: 8 t. | Sandsynlig med forbehold | direkte: Ja (Fiks færdig, Tryg handel) | farve: klar akryl, sort | type: loftlampe | by: Højer | forbehold: 2 stk. til samlet 700 kr; model "Space" ikke angivet i target; designerfelt Bent Karlby
+- https://www.dba.dk/recommerce/forsale/item/26910523 | række 21 | Kina pendel lampe (Bent Karlby kina pendel) | 1.200 kr | dato: 10 t. | Bekræftet | direkte: Nej | farve: hvid opalglas | type: pendel | by: Skjern | forbehold: ingen
+- https://www.dba.dk/recommerce/forsale/item/26257534 | række 21 | Bent Karlby - Lyfa - væglampe | 1.200 kr | dato: 1 dag (= 18. nov., klokkeslæt ukendt; samme dag som cutoff) | Sandsynlig med forbehold | direkte: Nej | farve: hvid, kobber | type: væglampe | by: Hinnerup | forbehold: annoncen siger væglampe, foto viser lampe på fod; dato samme dag som cutoff, tidspunkt ukendt

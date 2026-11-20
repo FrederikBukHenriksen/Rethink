@@ -5,7 +5,7 @@ Read this file right after the first section of `SETUP.md`. Where this file and 
 ## The three rules of a run
 
 1. **Do not end the session before the search is finished.** Finished means every work unit in the queue is `færdig`, `ufuldstændig` or `blokeret`. Not "most of it", not "a good part of it". A run takes many hours, and that is expected. Do not write a final answer, summary or "next steps" while units are open. Your turn ends only when section 9 is done.
-2. **One platform at a time.** Finish a platform (search, verify, write, availability check) before you start the next one. If a platform fails, mark it `blokeret` and go on to the next platform. Never stop the run because of one platform.
+2. **One platform at a time.** Finish a platform (search, judge and write, availability check) before you start the next one. If a platform fails, mark it `blokeret` and go on to the next platform. Never stop the run because of one platform.
 3. **Everything goes through the queue.** The queue is the truth about how far the run is. Anyone reading it, including you after a lost thread, can see exactly what is done and what is left.
 
 ## Why it is built this way
@@ -52,14 +52,13 @@ DBA, Tradera, Vinted, Klein Anzeigen, Lauritz, Palsgaard, Woxholt, Bidstrup, Sik
 
 Facebook Marketplace is last because it is the most likely to hit a login wall.
 
-**Units.** Each platform covers the rows of every category. At the start of a platform, create its `search` and `check` units. `verify` and `write` units are created as results come in.
+**Units.** Each platform covers the rows of every category. At the start of a platform, create its `search` and `check` units. `write` units are created as results come in. There are no `verify` units: no separate agent verifies finds (the user's decision, 2026-11-20).
 
 | Unit id | Agent | Work | Size |
 |---|---|---|---|
 | `search|<platform>|<targetId>` | search agent | One target row: all its search strings, every page to the end | 1 row |
 | `search|<platform>|<targetId>|<k>` | search agent | Part k of a large row (more than 6 search strings, or a search known to hit a page cap) | Some search strings |
-| `verify|<platform>|<n>` | verifier | Independent verification (`SETUP.md` section 4) | Max 15 candidates |
-| `write|<platform>|<n>` | writer | Decide and write the finds of one verify unit, thumbnails included (`SETUP.md` sections 5–6) | 1 verify unit |
+| `write|<platform>|<n>` | writer | Open each candidate's listing page, judge it (`SETUP.md` section 4), and write the finds, thumbnails included (`SETUP.md` sections 5–6) | Max 15 candidates |
 | `check|<platform>|<n>` | availability agent | Check active finds, in fixed order by `id` | Max 40 links |
 | `write|<platform>|check-<n>` | writer | Apply the result of one check unit (`SETUP.md` section 6, "Known finds") | 1 check unit |
 
@@ -80,9 +79,8 @@ Before the first unit of a platform, write these files in the working directory.
 | File | Contents |
 |---|---|
 | `brief-search-<platform>.md` | `agents/platform-searcher.md`, `agents/qualification-rules.md`, the platform file |
-| `brief-verify-<platform>.md` | `agents/verifier.md`, `agents/qualification-rules.md`, the platform file |
 | `brief-check-<platform>.md` | `agents/availability-checker.md`, the platform file |
-| `brief-write.md` | `SETUP.md` sections 5 and 6, `templates/FIND_SCHEMA.md`, and section 7 of this file |
+| `brief-write-<platform>.md` | `SETUP.md` sections 4, 5 and 6, `agents/qualification-rules.md`, the platform file, `templates/FIND_SCHEMA.md`, and section 7 of this file |
 
 In file names, replace `|` in a unit id with `_`, for example `cand-search_DBA_lamper-row-21.txt`.
 
@@ -98,10 +96,9 @@ Set the model on every subagent you start (the `model` field of the Agent tool).
 
 | Agent | Model | Why |
 |---|---|---|
-| search (`search` units) | `haiku` | Runs the searches, pages through results, and notes candidates. The verifier checks its work. |
+| search (`search` units) | `haiku` | Runs the searches, pages through results, and notes candidates. The writer judges them from the listing pages. |
 | availability (`check` units) | `haiku` | Opens links and reads whether the listing is still for sale. |
-| writer (`write` units) | `haiku` | Follows fixed rules and writes to the database. |
-| verifier (`verify` units) | `sonnet` | Decides identity, colour, price and date. It is the safeguard against the search agent's mistakes. |
+| writer (`write` units) | `sonnet` | Judges identity, colour, price and date from the listing page, then writes. No one checks it afterwards, so it uses the stronger model. |
 
 **Escalation.** If a Haiku unit comes back unusable, start it again once with `sonnet` and say so in the unit's `note`. Unusable means one of these:
 - The answer is not in the format in section 6.
@@ -115,10 +112,9 @@ Set the model on every subagent you start (the `model` field of the Agent tool).
 3. **Start a round's subagents in one message, and wait for them there.** Do not start them in the background. If your turn ends while subagents run in the background, an unattended session can end with them, and the work is lost.
 4. Order within the platform:
    1. `search` units.
-   2. A `verify` unit as soon as it holds 15 candidates.
-   3. The `write` unit for it right after.
-   4. When the searches are done: the remaining `verify` and `write` units.
-   5. The `check` units, each followed by its `write` unit.
+   2. A `write` unit as soon as it holds 15 candidates.
+   3. When the searches are done: the remaining `write` unit.
+   4. The `check` units, each followed by its `write` unit.
 5. **After each round:** update `queue.json`, and write the units' status, `progress` and `heartbeat` to the run document. Pin each write with `if_version`.
 6. The platform is done when none of its units is `åben` or `kører`. Write one line for it in `progress`, for example: `DBA: færdig. 31/31 rækker, 4 nye fund, 212 fund tjekket.` Then go to the next platform.
 
@@ -127,18 +123,14 @@ Set the model on every subagent you start (the `model` field of the Agent tool).
 **Search unit**
 
 - **Complete:** every search string has been read to the end, after splitting where needed. Set the unit to `færdig`, and **write `searched["<platform>|<row>"]` with the unit's start time at once.** This moves the cutoff, so the next run is small.
-- **Candidates:** the search agent writes its candidate lines to `cand-<unit>.txt` and returns only the count. Add the candidates (URL + row) to the platform's open `verify` unit. At 15, start a new `verify` unit.
+- **Candidates:** the search agent writes its candidate lines to `cand-<unit>.txt` and returns only the count. Add the candidates (URL + row) to the platform's open `write` unit. At 15, start a new `write` unit.
 - **Not finished** (lost the tab, ran out of room): save `resumeFrom`, add 1 to `attempts`, and set the status back to `åben`. After 3 attempts, set `ufuldstændig` with the reason. An unfinished unit never writes `searched`.
 - **Page cap even after splitting:** set `ufuldstændig` with the numbers (`read af total`).
-- **Blocked:** set `blokeret` with the reason. If the block applies to the whole platform (a login wall, or a 403 on the search page), set every open `search` and `check` unit of the platform to `blokeret` with the same reason. Then finish its `verify` and `write` units if they can still run, and go to the next platform.
-
-**Verify unit**
-
-The verifier writes its full blocks to `verify-<unit>.md` and returns only `<n> bekræftet / <n> forbehold / <n> afvist`. Create the `write` unit for it.
+- **Blocked:** set `blokeret` with the reason. If the block applies to the whole platform (a login wall, or a 403 on the search page), set every open `search` and `check` unit of the platform to `blokeret` with the same reason. Then finish its `write` units if they can still run, and go to the next platform.
 
 **Write unit**
 
-The writer reads `cand-*.txt` and `verify-<unit>.md` for the candidates, decides per `SETUP.md` section 5, and writes the finds per `SETUP.md` section 6, thumbnails included. It returns `skrevet: <n> nye, <n> opdateret, <n> udeladt`. Thumbnails and listing details never pass through you.
+The writer reads `cand-*.txt`, opens each listing page, judges it per `SETUP.md` section 4, decides per section 5, and writes the finds per section 6, thumbnails included, with "Vurderet ud fra annoncen, ikke uafhængigt verificeret" in `note`. It returns `skrevet: <n> nye, <n> opdateret, <n> udeladt`. Thumbnails and listing details never pass through you.
 
 **Check unit**
 
@@ -172,7 +164,7 @@ These rules replace the date requirement in `SETUP.md` section 5, for these plat
 
 ## 8. Your own context
 
-- Never read the content of `cand-*`, `verify-*` or `check-*` files yourself. The subagents read them.
+- Never read the content of `cand-*` or `check-*` files yourself. The subagents read them.
 - Do not repeat results in your messages. Write them to `queue.json` and the run document.
 - If you notice that you have lost track, read `RUN.md` and `queue.json` and continue with the first open unit.
 

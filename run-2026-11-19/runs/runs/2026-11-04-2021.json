@@ -1,0 +1,49 @@
+{
+  "category": "lamper",
+  "date": "2026-11-04T20:21:00+01:00",
+  "platforms": [
+    "DBA",
+    "Facebook Marketplace"
+  ],
+  "sections": [
+    {
+      "items": [
+        "Ny søgning kl. 20:21. Tidsvindue: kun annoncer nyere end forrige DBA-søgning kl. 20:13.",
+        "DBA søgt for alle 15 rækker, nyeste først. Ingen nye kvalificerede kandidater.",
+        "Tilgængelighed: alle 16 eksisterende fund (15 DBA, 1 Facebook Marketplace) åbnede og er stadig online. lastChecked er sat."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Facebook Marketplace er ikke søgt. Søgningen står stadig på San Francisco, og byen kan ikke ændres i browserpanelet."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "Pris, reserveret-status og 'Kan købes direkte' er ikke tjekket, fordi annoncernes tekst ikke kan læses i browserpanelet. Kun at annoncen findes er tjekket.",
+        "Ingen uafhængig verifikation: der blev ikke startet separate agenter."
+      ],
+      "title": "Begrænsninger"
+    },
+    {
+      "items": [
+        "DBA 'Louis Poulsen Doo-Wop pendel', Frederiksværk, 1.700 kr., ca. kl. 19:55 (række 6, maks 850 kr.): over maks pris og før vinduet."
+      ],
+      "title": "Udeladt"
+    },
+    {
+      "items": [
+        "16 fund tjekket: alle online."
+      ],
+      "title": "Tilgængelighed"
+    },
+    {
+      "items": [
+        "Ingen prisændringer registreret, da priser ikke kunne læses."
+      ],
+      "title": "Prisændringer"
+    }
+  ]
+}

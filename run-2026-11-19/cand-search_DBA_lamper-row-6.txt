@@ -1,0 +1,9 @@
+Unit: search|DBA|lamper-row-6
+Status: færdig
+Dækning:
+- "Jørgen Utzon loftlampe": 36 af 36, 1 side, slut nået: ja, før cutoff: 7 (åbnet, sidst redigeret før 18.11.), afvist: 28 (pris over 850 kr.)
+- "Louis Poulsen loftlampe": 1790 kort læst over 34 sider (side 35 tom), total vist 756 (ustabil), slut nået: ja, før cutoff: ikke optalt pr. annonce (kortdato upålidelig), afvist: ikke optalt pr. annonce; 1 Utzon-træf (24551861) åbnet: sidst redigeret 6.10.2026, for dyr/før cutoff
+- "søværnspendel": 41 af 41, 1 side, slut nået: ja, før cutoff: 7 (åbnet), afvist: 34 (heraf ca. 20 generiske "Pendel"-annoncer under 850 kr. uden Utzon/søværn i titel, ikke åbnet)
+- "Wopa": 0 af 0, 0 sider, slut nået: ja, før cutoff: 0, afvist: 0
+Kandidater:
+- https://www.dba.dk/recommerce/forsale/item/26826594 | række 6 | Tivoli pendel (Jørn Utzon) | 795 kr. | dato: sidst redigeret 19.11.2026 kl. 19:34 | Sandsynlig med forbehold | direkte: Ja | farve: orange | type: loftlampe | by: 8240 Risskov | forbehold: designer Jørn Utzon i annoncen, producent ikke oplyst; søgekort viste "3 dage", annoncen viser 19.11.2026, annoncens dato er brugt

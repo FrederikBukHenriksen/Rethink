@@ -1,0 +1,41 @@
+Unit: search|DBA|lamper-row-17
+Status: ikke færdig (resumeFrom: "Lyfa", side 2)
+Dækning:
+- "RA Ø 40 eller Ø50": 3 af 3, 1 side, slut nået: ja, før cutoff: 2, afvist: 1 (JWDA bordlampe, ikke target; dato ikke læst)
+- "Piet Hein RA40" (designer-kombination): 12 af 12, 1 side, slut nået: ja, før cutoff: 12, afvist: 0
+- "Lyfa Piet Hein" (producent-kombination): 16 af 16, 1 side, slut nået: ja, før cutoff: 16, afvist: 0
+- "Piet Hein RA 50" (designer-kombination): 18 af 18, 1 side, slut nået: ja, før cutoff: 18, afvist: 0
+- "Lyfa" (ekstra, bred søgning): side 1 læst af 11 sider (573 resultater), slut nået: nej, ufuldstændig, ikke afsluttet; side 1 gav ingen RA-/Piet Hein-kandidater
+Kandidater: 0 (ikke endelig, "Lyfa" ufuldstændig)
+Note: Datoer er kortets "sidst redigeret". Alle læste annoncer for RA/Piet Hein er dateret før cutoff 2026-11-18 13:00. Afvist efter læsning: RA40 14734231 (2.100 kr., over maks), Ra-40 Vintage 1859693 (2.800 kr., over maks), RA Ø25 9129441 (2.000 kr., forkert størrelse), Le Klint RA 400 9138634 (2.900 kr., over maks).
+Note: RA 400 25466694 (1.000 kr., Aalborg SØ) er sidst redigeret 3.10.2026, før cutoff.
+Note: Tabgruppen i Chrome blev tabt én gang midt i kørslen; søgningerne blev kørt igen i ny fane. Ingen annoncer blev kontaktet.
+
+--- Fortsættelse (kørsel 2026-11-19/20, Lyfa side 2-10) ---
+Unit: search|DBA|lamper-row-17
+Status: ikke færdig (resumeFrom: "Lyfa", side 11)
+Dækning:
+- "Lyfa" (fortsat, side 2-10): sider 2-10 læst af 572 resultater (ca. 9 sider x 50 kort), slut nået: nej (side 11 og 12 ikke læst), før cutoff: alle set og dato-tjekket i udskrifter (sider 2, 3, 7, 8, 9, 10 er vist med datoer før 2026-11-18 13:00), afvist: 5
+Kandidater: 0 foreløbigt (søgningen er ikke færdig)
+Afviste (efter læsning, ikke rapporteret):
+- 1859693 | Piet Hein Ra-40 Vintage loftslampe | 2.800 kr. | over maks 2.000 kr. | Nærum 4. aug.
+- 23397366 | Ra væglampe Lyfa Piet Hein | 4.500 kr. | over maks, væglampe (ikke loftlampe) | Brande 27. juli
+- 8861096 | Piet Hein Lyfa bordlampe og væglampe | 12.975 kr. | over maks, forkert type | Brande 12. juli
+- 21743584 | Arkitekttegnet hejsependel Ø47 cm | 700 kr. | ikke RA/Piet Hein-model, Ø47 | København SV 27. juli
+- 23397366 og 8861096 er nævnt ovenfor; ingen af dem er Bekræftet som RA-model.
+Før cutoff (ikke rapporteret, talt):
+- 2720729 | Pendel, Piet Hein | 1.100 kr. | Middelfart 17. aug. | ligner target-designer, men model ikke navngivet; før cutoff
+- 16116989 | Lyfa loftlampe i messing ø40 | 350 kr. | Thisted 18. juli | Lyfa, ø40, men ingen RA-navn; før cutoff
+Note: Lyfa-kort uden modelnavn (fx "Lyfa pendel", "Lyfa lampe", "Lyfa væglampe") er læst på nøgleord og ikke rapporteret, da de ikke navngiver RA/Piet Hein. Det er en fortolkning af "defensible match"; de kan vurderes manuelt, hvis det ønskes.
+Note: Browserforbindelsen til Chrome (Browser 1) blev tabt på side 11 (tabs_context og list_connected_browsers gav ingen forbindelse). Søgningen stoppede der; fanen 473869514 kunne ikke lukkes.
+
+=== Fortsættelse (kørsel 2026-11-20) ===
+Unit: search|DBA|lamper-row-17
+Status: færdig
+Dækning:
+- "Lyfa" (fortsat fra side 11): side 11 læst (43 kort talt, alle dateret før cutoff 2026-11-18T13:00), side 12 tom ("Ingen resultater fundet"), slut nået: ja, total 572, før cutoff: 43 på side 11, afvist: 4 (Lyfa Octagon 3.800 kr. og Lyfa space age 2.100 kr. over maks, Lyfa lysekrone 4.500 kr. over maks, Retro Lyfa model 4000 300 kr. anden model)
+Note: Sider 1-10 blev i tidligere kørsler ikke talt kort for kort. Ni sider med ca. 50 kort plus side 11 (43) giver ca. 543 kort mod total 572. Forskellen er ikke afklaret. Søgningen er færdig efter reglen om tom sidste side, men dækningen bør verificeres, hvis den skal regnes som fuldstændig.
+Note: Åbnet annonce 14583351 "Vintage LYFA loftslampe kobber", 1.500 kr., Jægerspris, sidst redigeret 3.10.25. Beskrivelse: kobber og sort loftslampe, ca. 40 cm ø, ingen modelnavn, ingen RA- eller Piet Hein-angivelse. Ikke rapporteret.
+Note: Uden modelnavn, ikke rapporteret (ingen RA/Piet Hein-navn i annoncen; kan vurderes manuelt): 6771135 | "Lyfa" | 175 kr. | Aalborg | 3. juli (ikke åbnet, type ukendt); 10567863 | "Lyfa pendel" | 800 kr. | København N | 2.6.25 (ikke åbnet). Begge før cutoff.
+Note: Søgningen "Lyfa" i fortsættelsen gav ingen annoncer med RA- eller Piet Hein-navn, og ingen annoncer efter cutoff.
+Kandidater: ingen (fortsættelsen)

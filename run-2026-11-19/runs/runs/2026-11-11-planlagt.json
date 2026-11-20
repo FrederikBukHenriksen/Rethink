@@ -1,0 +1,37 @@
+{
+  "category": "lamper",
+  "date": "2026-11-11T00:00:00+01:00",
+  "platforms": [],
+  "sections": [
+    {
+      "items": [
+        "Kørslen startede og læste kategorier (lamper, møbler, plakater), søgelisten (targets, 35 rækker) og eksisterende fund (200+ dokumenter, første side læst).",
+        "Ingen fund er tilføjet, ændret eller fjernet i denne kørsel."
+      ],
+      "title": "Gennemført"
+    },
+    {
+      "items": [
+        "Ingen marketplace er søgt. Kørslen har ikke adgang til en browser: der er ingen browser-værktøjer i sessionen (Claude Browser / Chrome er ikke tilgængelige). Almindelig websøgning bruges ikke som erstatning, jf. SETUP.md.",
+        "Tilgængelighedstjek af eksisterende fund (SETUP.md 1a) er ikke udført. Ingen 'available', 'lastChecked' eller 'goneAt' er ændret.",
+        "Uafhængige søge- og verifikationsagenter er ikke startet, fordi der ikke er noget at søge med.",
+        "Bestillingsdokumentet requests/search findes ikke i databasen. Der er derfor ikke sat status 'kører' eller 'færdig' på den.",
+        "Arbejdsbogen i Excel er ikke læst (kilden er targets i databasen, jf. kørselsinstruktionen)."
+      ],
+      "title": "Ikke gennemført"
+    },
+    {
+      "items": [
+        "Der er ikke konstateret nogen ændring på markedet. Alt, der står ovenfor, er 'ikke søgt', ikke 'ingen fund'."
+      ],
+      "title": "Begrænsninger"
+    },
+    {
+      "items": [
+        "Kør igen i en session med browser-adgang (Claude Browser eller Chrome-udvidelsen). Kørslen skal bruge samme procedure og tidsvinduer som før."
+      ],
+      "title": "Næste skridt"
+    }
+  ],
+  "trigger": "planlagt kørsel"
+}

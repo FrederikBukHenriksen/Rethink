@@ -1,0 +1,12 @@
+Unit: search|DBA|lamper-row-10
+Status: færdig
+Dækning:
+- "Space Copenhagen loftlampe": 53 af 53, 1 side (side 2 tom), slut nået: ja, før cutoff: 51, afvist: 2 (23846512 sort; 25366273 pris 2.100 kr., Mater)
+- "&Tradition loftlampe": 425 af 425, 9 sider (side 10 tom), slut nået: ja, før cutoff: 415, afvist: 8, kandidater: 2 (afvist efter tjek i annonce:26920096 brun, 26896552 guld, 26892590 pris 1.999 kr., 26888913 sort og pris 1.600 kr., 13026030 sidst redigeret 24.8.2025 (kort viste "1 dag"), 26881928 sort og sidst redigeret 18.11 kl. 12:48, 26880312 bordeaux men sidst redigeret 18.11 kl. 11:43, 26876385 hvid men sidst redigeret 18.11 kl. 09:20)
+- "Space Copenhagen Ø 60 cm": 53 af 53, 1 side (side 2 tom), slut nået: ja, før cutoff: 52, afvist: 1 (25366273)
+- "&Tradition Ø 60 cm": 53 af 53, 1 side (side 2 tom), slut nået: ja, før cutoff: 51, afvist: 2 (26910515 potteskjuler, ikke lampe; 26881928 se ovenfor)
+Kandidater:
+- https://www.dba.dk/recommerce/forsale/item/26901993 | række 10 | &Tradition Flowerpot VP1 hvid pendel (Verner Panton) | 1.499 kr. | dato: sidst redigeret 19.11.2026 kl. 16:29 | Sandsynlig med forbehold | direkte: Ja | farve: hvid | type: loftlampe | by: 7000 Fredericia | forbehold: designer Verner Panton, ikke Space Copenhagen (matcher kun &Tradition); annoncen siger "prisen er for begge" (to lamper); farve hvid ifølge titel, foto lysebeige; Fiks færdig og Køb nu vist på annoncen
+- https://www.dba.dk/recommerce/forsale/item/26894365 | række 10 | Loftlampe "Spinning Suspension" (Benjamin Hubert, &Tradition, BH2) | 800 kr. | dato: sidst redigeret 18.11.2026 kl. 18:11 | Sandsynlig med forbehold | direkte: Nej | farve: hvid | type: loftlampe | by: 8660 Skanderborg | forbehold: designer Benjamin Hubert, ikke Space Copenhagen (matcher kun &Tradition); kun "Send besked" og "Bed om Fiks færdig", ingen Fiks færdig-tilbud
+Note: Søgekortenes datoer (relative) blev brugt til før/efter-sortering; alle annoncer i vinduet og den ene annonce med tvivlsom dato blev åbnet og læst fra annoncesiden. Kortdato for 13026030 ("1 dag") viste sig at være forkert (annonce: 24.8.2025), så kortdatoer er ikke fuldt pålidelige.
+Ikke gennemført: intet blokeret.
